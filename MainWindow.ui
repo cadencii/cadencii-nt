@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1205</width>
+    <height>758</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">Cadencii</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Cadencii.qrc">
+    <normaloff>:/icons/resources/icon.ico</normaloff>:/icons/resources/icon.ico</iconset>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="QSplitter" name="splitter_3">
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+   <widget class="QSplitter" name="splitter">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <horstretch>1</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QWidget" name="widget_2" native="true"/>
+      </item>
+      <item>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1094</width>
+           <height>485</height>
+          </rect>
+         </property>
+         <widget class="QWidget" name="widget_3" native="true">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>30</y>
+            <width>511</width>
+            <height>141</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QScrollArea" name="scrollArea_2">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1096</width>
+        <height>76</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="widget_4" native="true">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>10</y>
+         <width>451</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QScrollArea" name="scrollArea_3">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1096</width>
+        <height>76</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="widget_5" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>531</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1205</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen_2"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpen_VSQ_Vocaloid_MIDI"/>
+    <addaction name="actionOpen_UTAU_project_file"/>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpenRecent"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
+    <addaction name="actionDelete"/>
+    <addaction name="separator"/>
+    <addaction name="actionAutoNormalizeMode"/>
+    <addaction name="separator"/>
+    <addaction name="actionSelectAll"/>
+    <addaction name="actionSelectAllEvents"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionControlTrack"/>
+    <addaction name="actionMixer"/>
+    <addaction name="actionWaveform"/>
+    <addaction name="actionIconPalette"/>
+    <addaction name="actionPropertyWindow"/>
+    <addaction name="actionNavigation"/>
+    <addaction name="separator"/>
+    <addaction name="actionGridLine"/>
+    <addaction name="separator"/>
+    <addaction name="actionStartMarker"/>
+    <addaction name="actionEndMarker"/>
+    <addaction name="separator"/>
+    <addaction name="actionLyricsPhoneme"/>
+    <addaction name="actionNoteExpressionVibrato"/>
+    <addaction name="actionPitchLine"/>
+   </widget>
+   <widget class="QMenu" name="menuJob">
+    <property name="title">
+     <string>Job</string>
+    </property>
+    <addaction name="actionNormalizeNotes"/>
+    <addaction name="actionInsertBars"/>
+    <addaction name="actionDeleteBars"/>
+    <addaction name="actionRandomize"/>
+    <addaction name="actionConnectNotes"/>
+    <addaction name="actionInsertLyrics"/>
+   </widget>
+   <widget class="QMenu" name="menuTrack">
+    <property name="title">
+     <string>Track</string>
+    </property>
+    <widget class="QMenu" name="menuRenderer">
+     <property name="title">
+      <string>Renderer</string>
+     </property>
+     <addaction name="actionVOCALOID1"/>
+     <addaction name="actionVOCALOID2"/>
+     <addaction name="actionUTAU"/>
+     <addaction name="actionVConnect_STAND"/>
+    </widget>
+    <addaction name="actionTrackOn"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddTrack"/>
+    <addaction name="actionCopyTrack"/>
+    <addaction name="actionRenameTrack"/>
+    <addaction name="actionDeleteTrack"/>
+    <addaction name="separator"/>
+    <addaction name="actionRenderCurrentTrack"/>
+    <addaction name="actionRenderAllTracks"/>
+    <addaction name="separator"/>
+    <addaction name="actionOverlay"/>
+    <addaction name="menuRenderer"/>
+    <addaction name="separator"/>
+    <addaction name="actionBGM"/>
+   </widget>
+   <widget class="QMenu" name="menuLyrics">
+    <property name="title">
+     <string>Lyrics</string>
+    </property>
+    <addaction name="actionNote_expression_property"/>
+    <addaction name="actionNote_vibrato_property"/>
+    <addaction name="actionApply_UTAU_parameters"/>
+    <addaction name="actionPhoneme_transformation"/>
+    <addaction name="actionUser_word_dictionary"/>
+    <addaction name="actionCopy_vibrato_config_to_preset"/>
+   </widget>
+   <widget class="QMenu" name="menuSetting">
+    <property name="title">
+     <string>Setting</string>
+    </property>
+    <widget class="QMenu" name="menuQuantize">
+     <property name="title">
+      <string>Quantize</string>
+     </property>
+     <addaction name="action1_4"/>
+     <addaction name="action1_8"/>
+     <addaction name="action1_16"/>
+     <addaction name="action1_32"/>
+     <addaction name="action1_64"/>
+     <addaction name="action1_128"/>
+     <addaction name="actionOff"/>
+     <addaction name="separator"/>
+     <addaction name="actionTriplet"/>
+    </widget>
+    <addaction name="actionSequence_config"/>
+    <addaction name="menuQuantize"/>
+    <addaction name="separator"/>
+    <addaction name="actionShortcut_key"/>
+    <addaction name="actionVibrato_preset"/>
+    <addaction name="separator"/>
+    <addaction name="actionSinging_style_defaults"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionMinimize"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionManual_PDF"/>
+    <addaction name="actionLog"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuJob"/>
+   <addaction name="menuTrack"/>
+   <addaction name="menuLyrics"/>
+   <addaction name="menuSetting"/>
+   <addaction name="menuWindow"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_16"/>
+   <addaction name="action_17"/>
+   <addaction name="action_18"/>
+   <addaction name="action_19"/>
+   <addaction name="action_20"/>
+   <addaction name="action_21"/>
+   <addaction name="action_22"/>
+   <addaction name="action_23"/>
+   <addaction name="separator"/>
+   <addaction name="action_24"/>
+   <addaction name="action_25"/>
+   <addaction name="action_26"/>
+   <addaction name="toolActionToEnd"/>
+   <addaction name="toolActionPlay"/>
+   <addaction name="action_27"/>
+   <addaction name="action_28"/>
+   <addaction name="separator"/>
+   <addaction name="toolActionPointer"/>
+   <addaction name="toolActionPencil"/>
+   <addaction name="toolActionLine"/>
+   <addaction name="toolActionEraser"/>
+   <addaction name="action_29"/>
+   <addaction name="action_30"/>
+   <addaction name="action_31"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="action_16">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/disk__plus.png</normaloff>:/icons/resources/disk__plus.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionOpen_2">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="actionOpen_VSQ_Vocaloid_MIDI">
+   <property name="text">
+    <string>Open VSQ/Vocaloid MIDI</string>
+   </property>
+  </action>
+  <action name="actionOpen_UTAU_project_file">
+   <property name="text">
+    <string>Open UTAU project file</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionOpenRecent">
+   <property name="text">
+    <string>Open Recent</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionAutoNormalizeMode">
+   <property name="text">
+    <string>Auto normalize mode</string>
+   </property>
+  </action>
+  <action name="actionSelectAll">
+   <property name="text">
+    <string>Select all</string>
+   </property>
+  </action>
+  <action name="actionSelectAllEvents">
+   <property name="text">
+    <string>Select all events</string>
+   </property>
+  </action>
+  <action name="actionControlTrack">
+   <property name="text">
+    <string>Control track</string>
+   </property>
+  </action>
+  <action name="actionMixer">
+   <property name="text">
+    <string>Mixer</string>
+   </property>
+  </action>
+  <action name="actionWaveform">
+   <property name="text">
+    <string>Waveform</string>
+   </property>
+  </action>
+  <action name="actionIconPalette">
+   <property name="text">
+    <string>Icon palette</string>
+   </property>
+  </action>
+  <action name="actionPropertyWindow">
+   <property name="text">
+    <string>Property window</string>
+   </property>
+  </action>
+  <action name="actionNavigation">
+   <property name="text">
+    <string>Navigation</string>
+   </property>
+  </action>
+  <action name="actionGridLine">
+   <property name="text">
+    <string>Grid line</string>
+   </property>
+  </action>
+  <action name="actionStartMarker">
+   <property name="text">
+    <string>Start marker</string>
+   </property>
+  </action>
+  <action name="actionEndMarker">
+   <property name="text">
+    <string>End marker</string>
+   </property>
+  </action>
+  <action name="actionLyricsPhoneme">
+   <property name="text">
+    <string>Lyrics/Phoneme</string>
+   </property>
+  </action>
+  <action name="actionNoteExpressionVibrato">
+   <property name="text">
+    <string>Note expression/Vibrato</string>
+   </property>
+  </action>
+  <action name="actionPitchLine">
+   <property name="text">
+    <string>Pitch line</string>
+   </property>
+  </action>
+  <action name="actionNormalizeNotes">
+   <property name="text">
+    <string>Normalize notes</string>
+   </property>
+  </action>
+  <action name="actionInsertBars">
+   <property name="text">
+    <string>Insert bars</string>
+   </property>
+  </action>
+  <action name="actionDeleteBars">
+   <property name="text">
+    <string>Delete bars</string>
+   </property>
+  </action>
+  <action name="actionRandomize">
+   <property name="text">
+    <string>Randomize</string>
+   </property>
+  </action>
+  <action name="actionConnectNotes">
+   <property name="text">
+    <string>Connect notes</string>
+   </property>
+  </action>
+  <action name="actionInsertLyrics">
+   <property name="text">
+    <string>Insert lyrics</string>
+   </property>
+  </action>
+  <action name="actionTrackOn">
+   <property name="text">
+    <string>Track on</string>
+   </property>
+  </action>
+  <action name="actionAddTrack">
+   <property name="text">
+    <string>Add track</string>
+   </property>
+  </action>
+  <action name="actionCopyTrack">
+   <property name="text">
+    <string>Copy track</string>
+   </property>
+  </action>
+  <action name="actionRenameTrack">
+   <property name="text">
+    <string>Rename track</string>
+   </property>
+  </action>
+  <action name="actionDeleteTrack">
+   <property name="text">
+    <string>Delete track</string>
+   </property>
+  </action>
+  <action name="actionRenderCurrentTrack">
+   <property name="text">
+    <string>Render current track</string>
+   </property>
+  </action>
+  <action name="actionRenderAllTracks">
+   <property name="text">
+    <string>Render all tracks</string>
+   </property>
+  </action>
+  <action name="actionOverlay">
+   <property name="text">
+    <string>Overlay</string>
+   </property>
+  </action>
+  <action name="actionBGM">
+   <property name="text">
+    <string>BGM</string>
+   </property>
+  </action>
+  <action name="actionVOCALOID1">
+   <property name="text">
+    <string>VOCALOID1</string>
+   </property>
+  </action>
+  <action name="actionVOCALOID2">
+   <property name="text">
+    <string>VOCALOID2</string>
+   </property>
+  </action>
+  <action name="actionUTAU">
+   <property name="text">
+    <string>UTAU</string>
+   </property>
+  </action>
+  <action name="actionVConnect_STAND">
+   <property name="text">
+    <string>vConnect-STAND</string>
+   </property>
+  </action>
+  <action name="actionNote_expression_property">
+   <property name="text">
+    <string>Note expression property</string>
+   </property>
+  </action>
+  <action name="actionNote_vibrato_property">
+   <property name="text">
+    <string>Note vibrato property</string>
+   </property>
+  </action>
+  <action name="actionApply_UTAU_parameters">
+   <property name="text">
+    <string>Apply UTAU parameters</string>
+   </property>
+  </action>
+  <action name="actionPhoneme_transformation">
+   <property name="text">
+    <string>Phoneme transformation</string>
+   </property>
+  </action>
+  <action name="actionUser_word_dictionary">
+   <property name="text">
+    <string>User word dictionary</string>
+   </property>
+  </action>
+  <action name="actionCopy_vibrato_config_to_preset">
+   <property name="text">
+    <string>Copy vibrato config to preset</string>
+   </property>
+  </action>
+  <action name="actionSequence_config">
+   <property name="text">
+    <string>Sequence config</string>
+   </property>
+  </action>
+  <action name="actionShortcut_key">
+   <property name="text">
+    <string>Shortcut key</string>
+   </property>
+  </action>
+  <action name="actionVibrato_preset">
+   <property name="text">
+    <string>Vibrato preset</string>
+   </property>
+  </action>
+  <action name="actionSinging_style_defaults">
+   <property name="text">
+    <string>Singing style defaults</string>
+   </property>
+  </action>
+  <action name="action1_4">
+   <property name="text">
+    <string>1/4</string>
+   </property>
+  </action>
+  <action name="action1_8">
+   <property name="text">
+    <string>1/8</string>
+   </property>
+  </action>
+  <action name="action1_16">
+   <property name="text">
+    <string>1/16</string>
+   </property>
+  </action>
+  <action name="action1_32">
+   <property name="text">
+    <string>1/32</string>
+   </property>
+  </action>
+  <action name="action1_64">
+   <property name="text">
+    <string>1/64</string>
+   </property>
+  </action>
+  <action name="action1_128">
+   <property name="text">
+    <string>1/128</string>
+   </property>
+  </action>
+  <action name="actionOff">
+   <property name="text">
+    <string>Off</string>
+   </property>
+  </action>
+  <action name="actionTriplet">
+   <property name="text">
+    <string>Triplet</string>
+   </property>
+  </action>
+  <action name="actionMinimize">
+   <property name="text">
+    <string>Minimize</string>
+   </property>
+  </action>
+  <action name="actionManual_PDF">
+   <property name="text">
+    <string>Manual (PDF)</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="text">
+    <string>Log</string>
+   </property>
+  </action>
+  <action name="action_17">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/folder_horizontal_open.png</normaloff>:/icons/resources/folder_horizontal_open.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_18">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/disk.png</normaloff>:/icons/resources/disk.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_19">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/scissors.png</normaloff>:/icons/resources/scissors.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_20">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/documents.png</normaloff>:/icons/resources/documents.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_21">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/clipboard_paste.png</normaloff>:/icons/resources/clipboard_paste.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_22">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/arrow_skip_180.png</normaloff>:/icons/resources/arrow_skip_180.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_23">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/arrow_skip.png</normaloff>:/icons/resources/arrow_skip.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_24">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/control_stop_180.png</normaloff>:/icons/resources/control_stop_180.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_25">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/control_double_180.png</normaloff>:/icons/resources/control_double_180.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_26">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/control_double.png</normaloff>:/icons/resources/control_double.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="toolActionPlay">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/control.png</normaloff>:/icons/resources/control.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="action_27">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/arrow_circle_double.png</normaloff>:/icons/resources/arrow_circle_double.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_28">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/arrow_return.png</normaloff>:/icons/resources/arrow_return.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="toolActionPointer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/arrow_135.png</normaloff>:/icons/resources/arrow_135.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pointer</string>
+   </property>
+  </action>
+  <action name="toolActionPencil">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/pencil.png</normaloff>:/icons/resources/pencil.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pencil</string>
+   </property>
+  </action>
+  <action name="toolActionLine">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/layer_shape_line.png</normaloff>:/icons/resources/layer_shape_line.png</iconset>
+   </property>
+   <property name="text">
+    <string>Line</string>
+   </property>
+  </action>
+  <action name="toolActionEraser">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/eraser.png</normaloff>:/icons/resources/eraser.png</iconset>
+   </property>
+   <property name="text">
+    <string>Eraser</string>
+   </property>
+  </action>
+  <action name="action_29">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/ruler_crop.png</normaloff>:/icons/resources/ruler_crop.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_30">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/layer_shape_curve.png</normaloff>:/icons/resources/layer_shape_curve.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="action_31">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/piano.png</normaloff>:/icons/resources/piano.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="toolActionToEnd">
+   <property name="icon">
+    <iconset resource="Cadencii.qrc">
+     <normaloff>:/icons/resources/control_stop.png</normaloff>:/icons/resources/control_stop.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Cadencii.qrc"/>
+ </resources>
+ <connections/>
+</ui>
