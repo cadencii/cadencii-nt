@@ -18,7 +18,7 @@
 #include "ui_PianorollTrackView.h"
 
 using namespace std;
-using namespace cadencii::vsq;
+using namespace VSQ_NS;
 
 PianorollTrackView::PianorollTrackView( QWidget *parent ) :
     QWidget( parent ),

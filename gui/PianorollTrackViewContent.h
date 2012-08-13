@@ -73,7 +73,7 @@ private:
     /**
      * @brief ソングポジション
      */
-    cadencii::vsq::tick_t songPosition;
+    VSQ_NS::tick_t songPosition;
 
     /**
      * @brief 描画アイテムのリストをロックするための Mutex
@@ -166,12 +166,12 @@ public:
     /**
      * @brief ソングポジションを設定する
      */
-    void setSongPosition( cadencii::vsq::tick_t songPosition );
+    void setSongPosition( VSQ_NS::tick_t songPosition );
 
     /**
      * @brief ソングポジションを取得する
      */
-    cadencii::vsq::tick_t getSongPosition();
+    VSQ_NS::tick_t getSongPosition();
 
     /**
      * @brief ミューテックスを設定する
@@ -184,7 +184,7 @@ public:
      * @param tick 時刻
      * @return x 座標
      */
-    int getXFromTick( cadencii::vsq::tick_t tick );
+    int getXFromTick( VSQ_NS::tick_t tick );
 
     /**
      * @brief 曲頭から Musical Part までのオフセットを設定する
