@@ -25,7 +25,7 @@ using namespace VSQ_NS;
 PianorollContent::PianorollContent(QWidget *parent) :
     QWidget(parent)
 {
-    this->items = NULL;
+    this->track = NULL;
     this->trackHeight = DEFAULT_TRACK_HEIGHT;
     this->pixelPerTick = 0.2;
     mutex = NULL;
@@ -172,10 +172,11 @@ void PianorollContent::paintEvent( QPaintEvent * ){
 }
 
 void PianorollContent::paintItems( QPainter *g, QRect visibleArea ){
-    if( items == NULL ){
+    if( track == NULL ){
         return;
     }
-    int count = this->items->size();
+    Event::List *list = this->track->getEvents();
+    int count = list->size();
     int height = trackHeight - 1;
 
     QColor fillColor = QColor( 181, 220, 86 );
@@ -186,23 +187,24 @@ void PianorollContent::paintItems( QPainter *g, QRect visibleArea ){
     int visibleMinY = visibleArea.top();
     int visibleMaxY = visibleArea.bottom();
 
-    map<tick_t, PianorollItem *>::iterator i = items->begin();
-    for( ; i != items->end(); i++ ){
-        PianorollItem *item = i->second;
-        tick_t tick = i->first;
+    for( int i = 0; i < count; i++ ){
+        Event item = list->get( i );
+        if( item.type != EventType::NOTE ) continue;
+        tick_t tick = item.clock;
         int x = getXFromTick( tick );
-        int width = getXFromTick( tick + item->length ) - x;
+        int width = getXFromTick( tick + item.getLength() ) - x;
 
         if( visibleMinX <= x + width && x <= visibleMaxX ){
-            int y = getYFromNoteNumber( item->noteNumber, trackHeight ) + 1;
+            int y = getYFromNoteNumber( item.note, trackHeight ) + 1;
             if( visibleMinY <= y + height && y <= visibleMaxY ){
                 g->fillRect( x, y, width, height, fillColor );
                 g->setPen( borderColor );
                 g->drawRect( x, y, width, height );
 
+                Lyric lyric = item.lyricHandle.getLyricAt( 0 );
                 g->setPen( QColor( 0, 0, 0 ) );
                 g->drawText( x + 1, y + trackHeight - 2,
-                             QString::fromUtf8( (item->phrase + " [" + item->symbols + "]").c_str() ) );
+                             QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
             }
         }
     }
@@ -247,8 +249,8 @@ void PianorollContent::paintSongPosition( QPainter *g, QRect visibleArea )
     g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
 }
 
-void PianorollContent::setItems( map<tick_t, PianorollItem *> *items ){
-    this->items = items;
+void PianorollContent::setTrack( Track *track ){
+    this->track = track;
 }
 
 void PianorollContent::setMusicalPartOffset( tick_t musicalPartOffset )

@@ -19,7 +19,7 @@
 #include <QMutex>
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
-#include "PianorollItem.h"
+#include "vsq/Track.hpp"
 #include "PianorollContentScroller.h"
 #include "PianorollKeyboard.h"
 
@@ -60,10 +60,10 @@ public:
     void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
     /**
-     * @brief 描画対象のアイテムリストを設定する
-     * @param items 描画対象のアイテム
+     * @brief 描画対象のトラックを設定する
+     * @param items 描画対象のトラック
      */
-    void setItems( std::map<VSQ_NS::tick_t, PianorollItem *> *items );
+    void setTrack( VSQ_NS::Track *track );
 
     /**
      * @brief オーバーライドする。ピアノロール本体と、鍵盤部分を repaint する処理を追加している。

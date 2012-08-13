@@ -92,9 +92,8 @@ void Pianoroll::repaint()
     QWidget::repaint();
 }
 
-void Pianoroll::setItems( map<tick_t, PianorollItem *> *items )
-{
-    ui->content->setItems( items );
+void Pianoroll::setTrack( Track *track ){
+    ui->content->setTrack( track );
 }
 
 void Pianoroll::setMusicalPartOffset( tick_t musicalPartOffset )

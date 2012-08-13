@@ -19,7 +19,7 @@
 #include <QMutex>
 #include "vsq/TimesigList.hpp"
 #include "vsq/MeasureLineIterator.hpp"
-#include "PianorollItem.h"
+#include "vsq/Track.hpp"
 
 class Pianoroll;
 
@@ -43,22 +43,22 @@ private:
     /**
      * @brief 描画されるアイテムの一覧
      */
-    std::map<VSQ_NS::tick_t, PianorollItem *> *items;
+    VSQ_NS::Track *track;
 
     /**
      * 拍ごとの線を描画するための、拍子変更情報
      */
-    cadencii::vsq::TimesigList *timesigList;
+    VSQ_NS::TimesigList *timesigList;
 
     /**
      * @brief デフォルトの拍子変更情報
      */
-    cadencii::vsq::TimesigList defaultTimesigList;
+    VSQ_NS::TimesigList defaultTimesigList;
 
     /**
      * @brief 拍ごとの線を描画するために、timesigList から作成した反復子
      */
-    cadencii::vsq::MeasureLineIterator *measureLineIterator;
+    VSQ_NS::MeasureLineIterator *measureLineIterator;
 
     /**
      * @brief ノートの描画高さ
@@ -119,10 +119,10 @@ public:
     ~PianorollContent();
 
     /**
-     * @brief 描画対象のアイテムリストを設定する
-     * @param items 描画対象のアイテム
+     * @brief 描画対象のトラックを設定する
+     * @param items 描画対象のトラック
      */
-    void setItems( std::map<VSQ_NS::tick_t, PianorollItem *> *items );
+    void setTrack( VSQ_NS::Track *track );
 
     /**
      * @brief テンポ変更リストを設定する
