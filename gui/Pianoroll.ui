@@ -74,17 +74,17 @@
   <customwidget>
    <class>PianorollContent</class>
    <extends>QWidget</extends>
-   <header>pianorollcontent.h</header>
+   <header>gui/pianorollcontent.h</header>
   </customwidget>
   <customwidget>
    <class>PianorollKeyboard</class>
    <extends>QWidget</extends>
-   <header>pianorollkeyboard.h</header>
+   <header>gui/pianorollkeyboard.h</header>
   </customwidget>
   <customwidget>
    <class>PianorollContentScroller</class>
    <extends>QScrollArea</extends>
-   <header>pianorollcontentscroller.h</header>
+   <header>gui/pianorollcontentscroller.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

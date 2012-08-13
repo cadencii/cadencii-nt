@@ -11,25 +11,25 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp \
-    PianorollKeyboard.cpp \
-    PianorollContent.cpp \
-    Pianoroll.cpp \
-    PianorollContentScroller.cpp
+        gui/MainWindow.cpp \
+    gui/PianorollKeyboard.cpp \
+    gui/PianorollContent.cpp \
+    gui/Pianoroll.cpp \
+    gui/PianorollContentScroller.cpp
 
-HEADERS  += MainWindow.h \
-    Pianoroll.h \
-    PianorollContent.h \
-    PianorollItem.h \
-    PianorollContentScroller.h \
-    PianorollKeyboard.h
+HEADERS  += gui/MainWindow.h \
+    gui/Pianoroll.h \
+    gui/PianorollContent.h \
+    gui/PianorollItem.h \
+    gui/PianorollContentScroller.h \
+    gui/PianorollKeyboard.h
 
-FORMS    += MainWindow.ui \
-    Pianoroll.ui
+FORMS    += gui/MainWindow.ui \
+    gui/Pianoroll.ui
 
 OTHER_FILES +=
 
 RESOURCES += \
     Cadencii.qrc
 
-LIBS += -I"./"
+LIBS += -I"./gui/"

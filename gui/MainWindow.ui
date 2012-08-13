@@ -14,7 +14,7 @@
    <string notr="true">Cadencii</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Cadencii.qrc">
+   <iconset resource="../Cadencii.qrc">
     <normaloff>:/icons/resources/icon.ico</normaloff>:/icons/resources/icon.ico</iconset>
   </property>
   <property name="toolButtonStyle">
@@ -27,39 +27,71 @@
    <bool>true</bool>
   </property>
   <widget class="QSplitter" name="splitter_3">
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
+   <property name="handleWidth">
+    <number>1</number>
+   </property>
    <widget class="QWidget" name="widget" native="true">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
       <horstretch>0</horstretch>
       <verstretch>1</verstretch>
      </sizepolicy>
     </property>
+    <property name="maximumSize">
+     <size>
+      <width>0</width>
+      <height>16777215</height>
+     </size>
+    </property>
    </widget>
    <widget class="QSplitter" name="splitter">
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
       <horstretch>1</horstretch>
       <verstretch>1</verstretch>
      </sizepolicy>
     </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
+    <property name="opaqueResize">
+     <bool>true</bool>
+    </property>
+    <property name="handleWidth">
+     <number>1</number>
+    </property>
     <widget class="QWidget" name="layoutWidget">
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QWidget" name="widget_2" native="true"/>
-      </item>
-      <item>
-       <widget class="Pianoroll" name="pianoRoll">
-       </widget>
+       <widget class="Pianoroll" name="pianoRoll" native="true"/>
       </item>
      </layout>
     </widget>
     <widget class="QScrollArea" name="scrollArea_2">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -68,8 +100,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1096</width>
-        <height>76</height>
+        <width>1187</width>
+        <height>16</height>
        </rect>
       </property>
       <widget class="QWidget" name="widget_4" native="true">
@@ -85,6 +117,15 @@
      </widget>
     </widget>
     <widget class="QScrollArea" name="scrollArea_3">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -93,8 +134,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1096</width>
-        <height>76</height>
+        <width>1187</width>
+        <height>16</height>
        </rect>
       </property>
       <widget class="QWidget" name="widget_5" native="true">
@@ -333,7 +374,7 @@
   </action>
   <action name="action_16">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/disk__plus.png</normaloff>:/icons/resources/disk__plus.png</iconset>
    </property>
    <property name="text">
@@ -692,7 +733,7 @@
   </action>
   <action name="action_17">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/folder_horizontal_open.png</normaloff>:/icons/resources/folder_horizontal_open.png</iconset>
    </property>
    <property name="text">
@@ -701,7 +742,7 @@
   </action>
   <action name="action_18">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/disk.png</normaloff>:/icons/resources/disk.png</iconset>
    </property>
    <property name="text">
@@ -710,7 +751,7 @@
   </action>
   <action name="action_19">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/scissors.png</normaloff>:/icons/resources/scissors.png</iconset>
    </property>
    <property name="text">
@@ -719,7 +760,7 @@
   </action>
   <action name="action_20">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/documents.png</normaloff>:/icons/resources/documents.png</iconset>
    </property>
    <property name="text">
@@ -728,7 +769,7 @@
   </action>
   <action name="action_21">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/clipboard_paste.png</normaloff>:/icons/resources/clipboard_paste.png</iconset>
    </property>
    <property name="text">
@@ -737,7 +778,7 @@
   </action>
   <action name="action_22">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/arrow_skip_180.png</normaloff>:/icons/resources/arrow_skip_180.png</iconset>
    </property>
    <property name="text">
@@ -746,7 +787,7 @@
   </action>
   <action name="action_23">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/arrow_skip.png</normaloff>:/icons/resources/arrow_skip.png</iconset>
    </property>
    <property name="text">
@@ -755,7 +796,7 @@
   </action>
   <action name="action_24">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_stop_180.png</normaloff>:/icons/resources/control_stop_180.png</iconset>
    </property>
    <property name="text">
@@ -764,7 +805,7 @@
   </action>
   <action name="action_25">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double_180.png</normaloff>:/icons/resources/control_double_180.png</iconset>
    </property>
    <property name="text">
@@ -773,7 +814,7 @@
   </action>
   <action name="action_26">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double.png</normaloff>:/icons/resources/control_double.png</iconset>
    </property>
    <property name="text">
@@ -782,7 +823,7 @@
   </action>
   <action name="toolActionPlay">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control.png</normaloff>:/icons/resources/control.png</iconset>
    </property>
    <property name="text">
@@ -797,7 +838,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/arrow_circle_double.png</normaloff>:/icons/resources/arrow_circle_double.png</iconset>
    </property>
    <property name="text">
@@ -809,7 +850,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/arrow_return.png</normaloff>:/icons/resources/arrow_return.png</iconset>
    </property>
    <property name="text">
@@ -821,7 +862,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/arrow_135.png</normaloff>:/icons/resources/arrow_135.png</iconset>
    </property>
    <property name="text">
@@ -833,7 +874,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/pencil.png</normaloff>:/icons/resources/pencil.png</iconset>
    </property>
    <property name="text">
@@ -845,7 +886,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/layer_shape_line.png</normaloff>:/icons/resources/layer_shape_line.png</iconset>
    </property>
    <property name="text">
@@ -857,7 +898,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/eraser.png</normaloff>:/icons/resources/eraser.png</iconset>
    </property>
    <property name="text">
@@ -869,7 +910,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/ruler_crop.png</normaloff>:/icons/resources/ruler_crop.png</iconset>
    </property>
    <property name="text">
@@ -881,7 +922,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/layer_shape_curve.png</normaloff>:/icons/resources/layer_shape_curve.png</iconset>
    </property>
    <property name="text">
@@ -893,7 +934,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/piano.png</normaloff>:/icons/resources/piano.png</iconset>
    </property>
    <property name="text">
@@ -902,7 +943,7 @@
   </action>
   <action name="toolActionToEnd">
    <property name="icon">
-    <iconset resource="Cadencii.qrc">
+    <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_stop.png</normaloff>:/icons/resources/control_stop.png</iconset>
    </property>
    <property name="text">
@@ -911,8 +952,15 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Pianoroll</class>
+   <extends>QWidget</extends>
+   <header>gui/pianoroll.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="Cadencii.qrc"/>
+  <include location="../Cadencii.qrc"/>
  </resources>
  <connections/>
 </ui>

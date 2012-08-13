@@ -103,5 +103,4 @@ private:
     void notifyVerticalScroll();
 };
 
-
 #endif // PIANOROLL_H
