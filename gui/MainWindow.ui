@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
+ <class>cadencii::MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
@@ -78,7 +78,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="PianorollTrackView" name="pianoRoll" native="true"/>
+       <widget class="cadencii::PianorollTrackView" name="pianoRoll" native="true"/>
       </item>
      </layout>
     </widget>
@@ -954,7 +954,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>PianorollTrackView</class>
+   <class>cadencii::PianorollTrackView</class>
    <extends>QWidget</extends>
    <header>gui/pianorolltrackview.h</header>
   </customwidget>

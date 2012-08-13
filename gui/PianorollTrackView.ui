@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PianorollTrackView</class>
+ <class>cadencii::PianorollTrackView</class>
  <widget class="QWidget" name="PianorollTrackView">
   <property name="geometry">
    <rect>
@@ -24,7 +24,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="PianorollTrackViewKeyboard" name="keyboard" native="true">
+    <widget class="cadencii::PianorollTrackViewKeyboard" name="keyboard" native="true">
      <property name="minimumSize">
       <size>
        <width>68</width>
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="PianorollTrackViewContentScroller" name="scrollArea">
+    <widget class="cadencii::PianorollTrackViewContentScroller" name="scrollArea">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
@@ -56,7 +56,7 @@
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
-     <widget class="PianorollTrackViewContent" name="content">
+     <widget class="cadencii::PianorollTrackViewContent" name="content">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -72,17 +72,17 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PianorollTrackViewContent</class>
+   <class>cadencii::PianorollTrackViewContent</class>
    <extends>QWidget</extends>
    <header>gui/pianorolltrackviewcontent.h</header>
   </customwidget>
   <customwidget>
-   <class>PianorollTrackViewKeyboard</class>
+   <class>cadencii::PianorollTrackViewKeyboard</class>
    <extends>QWidget</extends>
    <header>gui/pianorolltrackviewkeyboard.h</header>
   </customwidget>
   <customwidget>
-   <class>PianorollTrackViewContentScroller</class>
+   <class>cadencii::PianorollTrackViewContentScroller</class>
    <extends>QScrollArea</extends>
    <header>gui/pianorolltrackviewcontentscroller.h</header>
    <container>1</container>

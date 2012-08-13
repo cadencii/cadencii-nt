@@ -15,20 +15,20 @@
 #include "PianorollTrackView.h"
 #include <sstream>
 
-PianorollTrackViewContentScroller::PianorollTrackViewContentScroller( QWidget *parent ) :
-    QScrollArea( parent )
-{
-}
-
-void PianorollTrackViewContentScroller::scrollContentsBy( int dx, int dy )
-{
-    QScrollArea::scrollContentsBy( dx, dy );
-    if( dy ){
-        this->pianoroll->notifyVerticalScroll();
+namespace cadencii{
+    PianorollTrackViewContentScroller::PianorollTrackViewContentScroller( QWidget *parent ) :
+        QScrollArea( parent )
+    {
     }
-}
 
-void PianorollTrackViewContentScroller::setPianoroll( PianorollTrackView *pianoroll )
-{
-    this->pianoroll = pianoroll;
+    void PianorollTrackViewContentScroller::scrollContentsBy( int dx, int dy ){
+        QScrollArea::scrollContentsBy( dx, dy );
+        if( dy ){
+            this->pianoroll->notifyVerticalScroll();
+        }
+    }
+
+    void PianorollTrackViewContentScroller::setPianoroll( PianorollTrackView *pianoroll ){
+        this->pianoroll = pianoroll;
+    }
 }

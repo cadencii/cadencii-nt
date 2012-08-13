@@ -16,18 +16,21 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-    class MainWindow;
+namespace cadencii{
+    namespace Ui {
+        class MainWindow;
+    }
+
+    class MainWindow : public QMainWindow{
+        Q_OBJECT
+
+    public:
+        explicit MainWindow( QWidget *parent = 0 );
+        ~MainWindow();
+
+    private:
+        cadencii::Ui::MainWindow *ui;
+    };
+
 }
-
-class MainWindow : public QMainWindow{
-    Q_OBJECT
-
-public:
-    explicit MainWindow( QWidget *parent = 0 );
-    ~MainWindow();
-
-private:
-    Ui::MainWindow *ui;
-};
-#endif // MAINWINDOW_H
+#endif // __MainWindow_h__

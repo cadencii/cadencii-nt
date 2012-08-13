@@ -16,57 +16,59 @@
 
 #include <QWidget>
 
-class PianorollTrackView;
+namespace cadencii{
 
-class PianorollTrackViewKeyboard : public QWidget
-{
-    friend class PianorollTrackView;
+    class PianorollTrackView;
 
-    Q_OBJECT
+    class PianorollTrackViewKeyboard : public QWidget{
+        friend class PianorollTrackView;
 
-private:
-    PianorollTrackView *pianoroll;
+        Q_OBJECT
 
-    /**
-     * @brief スクロールが現在どの位置にあるか。親からの notifyVerticalScroll の呼び出しで更新される
-     */
-    int top;
+    private:
+        PianorollTrackView *pianoroll;
 
-    /**
-     * @brief 鍵盤の音の名前(C4など)
-     */
-    QString *keyNames;
+        /**
+         * @brief スクロールが現在どの位置にあるか。親からの notifyVerticalScroll の呼び出しで更新される
+         */
+        int top;
 
-    /**
-     * @brief ノートの描画高さ
-     */
-    int trackHeight;
+        /**
+         * @brief 鍵盤の音の名前(C4など)
+         */
+        QString *keyNames;
 
-public:
-    explicit PianorollTrackViewKeyboard( QWidget *parent = 0 );
+        /**
+         * @brief ノートの描画高さ
+         */
+        int trackHeight;
 
-    ~PianorollTrackViewKeyboard();
+    public:
+        explicit PianorollTrackViewKeyboard( QWidget *parent = 0 );
 
-    void paintEvent( QPaintEvent *e );
+        ~PianorollTrackViewKeyboard();
 
-    /**
-     * @brief このインスタンスを持っているピアノロールを設定する
-     * @param pianoroll ピアノロール
-     */
-    void setPianoroll( PianorollTrackView *pianoroll );
+        void paintEvent( QPaintEvent *e );
 
-    void setTrackHeight( int trackHeight );
+        /**
+         * @brief このインスタンスを持っているピアノロールを設定する
+         * @param pianoroll ピアノロール
+         */
+        void setPianoroll( PianorollTrackView *pianoroll );
 
-private:
-    /**
-     * @brief 鍵盤を描画する
-     */
-    void paintKeyboard( QPainter *g );
+        void setTrackHeight( int trackHeight );
 
-    /**
-     * @brief スクロール領域が縦方向にスクロールしたことを Pianoroll -> PianorollKeyboard に通知する
-     */
-    void notifyVerticalScroll( int y );
-};
+    private:
+        /**
+         * @brief 鍵盤を描画する
+         */
+        void paintKeyboard( QPainter *g );
 
+        /**
+         * @brief スクロール領域が縦方向にスクロールしたことを Pianoroll -> PianorollKeyboard に通知する
+         */
+        void notifyVerticalScroll( int y );
+    };
+
+}
 #endif

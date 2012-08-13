@@ -16,25 +16,27 @@
 
 #include <QScrollArea>
 
-class PianorollTrackView;
+namespace cadencii{
 
-class PianorollTrackViewContentScroller : public QScrollArea
-{
-    Q_OBJECT
+    class PianorollTrackView;
 
-private:
-    PianorollTrackView *pianoroll;
+    class PianorollTrackViewContentScroller : public QScrollArea{
+        Q_OBJECT
 
-public:
-    explicit PianorollTrackViewContentScroller( QWidget *parent = 0 );
+    private:
+        PianorollTrackView *pianoroll;
 
-    /**
-     * @brief このインスタンスを持っているピアノロールを設定する
-     * @param pianoroll ピアノロール
-     */
-    void setPianoroll( PianorollTrackView *pianoroll );
+    public:
+        explicit PianorollTrackViewContentScroller( QWidget *parent = 0 );
 
-    void scrollContentsBy( int dx, int dy );
-};
+        /**
+         * @brief このインスタンスを持っているピアノロールを設定する
+         * @param pianoroll ピアノロール
+         */
+        void setPianoroll( PianorollTrackView *pianoroll );
 
+        void scrollContentsBy( int dx, int dy );
+    };
+
+}
 #endif
