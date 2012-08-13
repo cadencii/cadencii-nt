@@ -29,6 +29,8 @@ namespace cadencii{
         this->track = NULL;
         this->trackHeight = DEFAULT_TRACK_HEIGHT;
         this->pixelPerTick = 0.2;
+        this->musicalPartOffset = 0;
+        this->songPosition = 0;
         mutex = NULL;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );

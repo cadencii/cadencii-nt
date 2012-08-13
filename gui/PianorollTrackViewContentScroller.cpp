@@ -19,11 +19,12 @@ namespace cadencii{
     PianorollTrackViewContentScroller::PianorollTrackViewContentScroller( QWidget *parent ) :
         QScrollArea( parent )
     {
+        this->pianoroll = NULL;
     }
 
     void PianorollTrackViewContentScroller::scrollContentsBy( int dx, int dy ){
         QScrollArea::scrollContentsBy( dx, dy );
-        if( dy ){
+        if( dy && this->pianoroll ){
             this->pianoroll->notifyVerticalScroll();
         }
     }
