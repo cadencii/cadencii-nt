@@ -13,9 +13,9 @@
  */
 #include <QPainter>
 #include <sstream>
-#include "PianorollTrackView.h"
-#include "PianorollTrackViewContent.h"
-#include "PianorollTrackViewKeyboard.h"
+#include "gui/PianorollTrackView.h"
+#include "gui/PianorollTrackViewContent.h"
+#include "gui/PianorollTrackViewKeyboard.h"
 
 namespace cadencii{
     using namespace std;

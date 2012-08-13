@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "PianorollTrackViewContentScroller.h"
-#include "PianorollTrackView.h"
+#include "gui/PianorollTrackViewContentScroller.h"
+#include "gui/PianorollTrackView.h"
 #include <sstream>
 
 namespace cadencii{

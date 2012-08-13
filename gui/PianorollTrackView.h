@@ -20,8 +20,8 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
-#include "PianorollTrackViewContentScroller.h"
-#include "PianorollTrackViewKeyboard.h"
+#include "gui/PianorollTrackViewContentScroller.h"
+#include "gui/PianorollTrackViewKeyboard.h"
 
 namespace cadencii{
     namespace Ui{

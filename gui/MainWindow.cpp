@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "MainWindow.h"
+#include "gui/MainWindow.h"
 #include "ui_MainWindow.h"
 
 namespace cadencii{

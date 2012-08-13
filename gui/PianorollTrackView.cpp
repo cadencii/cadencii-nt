@@ -13,8 +13,8 @@
  */
 #include <sstream>
 #include <QScrollBar>
-#include "PianorollTrackView.h"
-#include "PianorollTrackViewContent.h"
+#include "gui/PianorollTrackView.h"
+#include "gui/PianorollTrackViewContent.h"
 #include "ui_PianorollTrackView.h"
 
 namespace cadencii{

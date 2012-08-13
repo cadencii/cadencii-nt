@@ -16,8 +16,8 @@
 #include <QScrollArea>
 #include <QPainter>
 #include "vsq/Timesig.hpp"
-#include "PianorollTrackView.h"
-#include "PianorollTrackViewContent.h"
+#include "gui/PianorollTrackView.h"
+#include "gui/PianorollTrackViewContent.h"
 
 namespace cadencii{
     using namespace std;
