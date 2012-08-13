@@ -22,13 +22,14 @@
 #include "vsq/Track.hpp"
 #include "gui/PianorollTrackViewContentScroller.h"
 #include "gui/PianorollTrackViewKeyboard.h"
+#include "TrackView.hpp"
 
 namespace cadencii{
     namespace Ui{
         class PianorollTrackView;
     }
 
-    class PianorollTrackView : public QWidget{
+    class PianorollTrackView : public QWidget, public TrackView{
         friend class PianorollTrackViewContentScroller;
 
         Q_OBJECT
@@ -38,32 +39,25 @@ namespace cadencii{
 
         explicit PianorollTrackView( QWidget *parent = 0 );
 
-        void setTrackHeight( int trackHeight );
+        void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll );
+
+        void setTimesigList( VSQ_NS::TimesigList *timesigList );
+
+        void setTrack( VSQ_NS::Track *track );
+
+        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 
         /**
-         * @brief ソングポジションを設定する
-         * @param songPosition ソングポジション
-         * @param autoScroll 自動でスクロールするかどうか
+         * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
+         * @param trackHeight レーンの高さ(ピクセル単位)
          */
-        void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll );
+        void setTrackHeight( int trackHeight );
 
         /**
          * @brief ソングポジションを取得する
          * @return ソングポジション
          */
         VSQ_NS::tick_t getSongPosition();
-
-        /**
-         * @brief テンポ変更リストを設定する
-         * @param timesigList テンポ変更リスト
-         */
-        void setTimesigList( VSQ_NS::TimesigList *timesigList );
-
-        /**
-         * @brief 描画対象のトラックを設定する
-         * @param items 描画対象のトラック
-         */
-        void setTrack( VSQ_NS::Track *track );
 
         /**
          * @brief オーバーライドする。ピアノロール本体と、鍵盤部分を repaint する処理を追加している。
@@ -81,14 +75,6 @@ namespace cadencii{
          * @return 自動スクロールする場合は true を返す
          */
         bool isAutoScroll();
-
-        /**
-         * @brief 指定した位置の音符が可視となるようスクロールする
-         * @param tick 時刻
-         * @param length 音符の長さ
-         * @param noteNumber ノート番号
-         */
-        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 
         /**
          * @brief 曲頭から Musical Part 開始位置のオフセット

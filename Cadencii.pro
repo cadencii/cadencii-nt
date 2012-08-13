@@ -21,7 +21,8 @@ HEADERS  += gui/MainWindow.h \
     gui/PianorollTrackViewKeyboard.h \
     gui/PianorollTrackViewContentScroller.h \
     gui/PianorollTrackViewContent.h \
-    gui/PianorollTrackView.h
+    gui/PianorollTrackView.h \
+    TrackView.hpp
 
 FORMS    += gui/MainWindow.ui \
     gui/PianorollTrackView.ui
