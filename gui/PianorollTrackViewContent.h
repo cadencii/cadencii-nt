@@ -1,5 +1,5 @@
 /**
- * PianorollContent.h
+ * PianorollTrackViewContent.h
  * Copyright © 2012 kbinani
  *
  * This file is part of `MIDIInput UG Job Plugin'.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollContent_h__
-#define __PianorollContent_h__
+#ifndef __PianorollTrackViewContent_h__
+#define __PianorollTrackViewContent_h__
 
 #include <map>
 #include <QWidget>
@@ -21,9 +21,9 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/Track.hpp"
 
-class Pianoroll;
+class PianorollTrackView;
 
-class PianorollContent : public QWidget
+class PianorollTrackViewContent : public QWidget
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ public:
     static const int NOTE_MAX = 127;
 
 private:
-    Pianoroll *pianoroll;
+    PianorollTrackView *pianoroll;
 
     /**
      * @brief 描画されるアイテムの一覧
@@ -114,9 +114,9 @@ public:
      */
     static int getNoteNumberFromY( int y, int trackHeight );
 
-    explicit PianorollContent( QWidget *parent = 0 );
+    explicit PianorollTrackViewContent( QWidget *parent = 0 );
 
-    ~PianorollContent();
+    ~PianorollTrackViewContent();
 
     /**
      * @brief 描画対象のトラックを設定する
@@ -156,7 +156,7 @@ public:
      * @brief このインスタンスを持っているピアノロールを設定する
      * @param pianoroll ピアノロール
      */
-    void setPianoroll( Pianoroll *pianoroll );
+    void setPianoroll( PianorollTrackView *pianoroll );
 
     /**
      * スクロールされた結果、可視状態となっている領域を取得する

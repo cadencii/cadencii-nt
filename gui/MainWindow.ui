@@ -78,7 +78,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="Pianoroll" name="pianoRoll" native="true"/>
+       <widget class="PianorollTrackView" name="pianoRoll" native="true"/>
       </item>
      </layout>
     </widget>
@@ -954,9 +954,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Pianoroll</class>
+   <class>PianorollTrackView</class>
    <extends>QWidget</extends>
-   <header>gui/pianoroll.h</header>
+   <header>gui/pianorolltrackview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

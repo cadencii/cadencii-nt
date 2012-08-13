@@ -13,16 +13,16 @@
  */
 #include <sstream>
 #include <QScrollBar>
-#include "Pianoroll.h"
-#include "PianorollContent.h"
-#include "ui_Pianoroll.h"
+#include "PianorollTrackView.h"
+#include "PianorollTrackViewContent.h"
+#include "ui_PianorollTrackView.h"
 
 using namespace std;
 using namespace cadencii::vsq;
 
-Pianoroll::Pianoroll( QWidget *parent ) :
+PianorollTrackView::PianorollTrackView( QWidget *parent ) :
     QWidget( parent ),
-    ui( new Ui::Pianoroll )
+    ui( new Ui::PianorollTrackView )
 {
     ui->setupUi( this );
     ui->scrollArea->setBackgroundRole( QPalette::Dark );
@@ -32,7 +32,7 @@ Pianoroll::Pianoroll( QWidget *parent ) :
     ui->keyboard->notifyVerticalScroll( 0 );
 }
 
-void Pianoroll::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber )
+void PianorollTrackView::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber )
 {
     int left = ui->content->getXFromTick( tick );
     int right = ui->content->getXFromTick( tick + length );
@@ -74,39 +74,39 @@ void Pianoroll::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber )
     }
 }
 
-tick_t Pianoroll::getSongPosition()
+tick_t PianorollTrackView::getSongPosition()
 {
     return ui->content->getSongPosition();
 }
 
-void Pianoroll::notifyVerticalScroll()
+void PianorollTrackView::notifyVerticalScroll()
 {
     QRect rect = ui->content->getVisibleArea();
     ui->keyboard->notifyVerticalScroll( rect.y() );
 }
 
-void Pianoroll::repaint()
+void PianorollTrackView::repaint()
 {
     ui->content->repaint();
     ui->keyboard->repaint();
     QWidget::repaint();
 }
 
-void Pianoroll::setTrack( Track *track ){
+void PianorollTrackView::setTrack( Track *track ){
     ui->content->setTrack( track );
 }
 
-void Pianoroll::setMusicalPartOffset( tick_t musicalPartOffset )
+void PianorollTrackView::setMusicalPartOffset( tick_t musicalPartOffset )
 {
     ui->content->setMusicalPartOffset( musicalPartOffset );
 }
 
-void Pianoroll::setMutex( QMutex *mutex )
+void PianorollTrackView::setMutex( QMutex *mutex )
 {
     ui->content->setMutex( mutex );
 }
 
-void Pianoroll::setSongPosition( tick_t songPosition, bool autoScroll )
+void PianorollTrackView::setSongPosition( tick_t songPosition, bool autoScroll )
 {
     tick_t lastSongPosition = ui->content->getSongPosition();
     ui->content->setSongPosition( songPosition );
@@ -139,12 +139,12 @@ void Pianoroll::setSongPosition( tick_t songPosition, bool autoScroll )
     }
 }
 
-void Pianoroll::setTimesigList( TimesigList *timesigList )
+void PianorollTrackView::setTimesigList( TimesigList *timesigList )
 {
     ui->content->setTimesigList( timesigList );
 }
 
-void Pianoroll::setTrackHeight( int trackHeight )
+void PianorollTrackView::setTrackHeight( int trackHeight )
 {
     ui->content->setTrackHeight( trackHeight );
     ui->keyboard->setTrackHeight( trackHeight );

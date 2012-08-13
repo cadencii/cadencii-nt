@@ -1,5 +1,5 @@
 /**
- * PianorollContentScroller.cpp
+ * PianorollTrackViewContentScroller.cpp
  * Copyright © 2012 kbinani
  *
  * This file is part of `MIDIInput UG Job Plugin'.
@@ -11,16 +11,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "PianorollContentScroller.h"
-#include "Pianoroll.h"
+#include "PianorollTrackViewContentScroller.h"
+#include "PianorollTrackView.h"
 #include <sstream>
 
-PianorollContentScroller::PianorollContentScroller( QWidget *parent ) :
+PianorollTrackViewContentScroller::PianorollTrackViewContentScroller( QWidget *parent ) :
     QScrollArea( parent )
 {
 }
 
-void PianorollContentScroller::scrollContentsBy( int dx, int dy )
+void PianorollTrackViewContentScroller::scrollContentsBy( int dx, int dy )
 {
     QScrollArea::scrollContentsBy( dx, dy );
     if( dy ){
@@ -28,7 +28,7 @@ void PianorollContentScroller::scrollContentsBy( int dx, int dy )
     }
 }
 
-void PianorollContentScroller::setPianoroll( Pianoroll *pianoroll )
+void PianorollTrackViewContentScroller::setPianoroll( PianorollTrackView *pianoroll )
 {
     this->pianoroll = pianoroll;
 }

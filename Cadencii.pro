@@ -11,21 +11,20 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        gui/MainWindow.cpp \
-    gui/PianorollKeyboard.cpp \
-    gui/PianorollContent.cpp \
-    gui/Pianoroll.cpp \
-    gui/PianorollContentScroller.cpp
+    gui/MainWindow.cpp \
+    gui/PianorollTrackViewKeyboard.cpp \
+    gui/PianorollTrackViewContentScroller.cpp \
+    gui/PianorollTrackViewContent.cpp \
+    gui/PianorollTrackView.cpp
 
 HEADERS  += gui/MainWindow.h \
-    gui/Pianoroll.h \
-    gui/PianorollContent.h \
-    gui/PianorollItem.h \
-    gui/PianorollContentScroller.h \
-    gui/PianorollKeyboard.h
+    gui/PianorollTrackViewKeyboard.h \
+    gui/PianorollTrackViewContentScroller.h \
+    gui/PianorollTrackViewContent.h \
+    gui/PianorollTrackView.h
 
 FORMS    += gui/MainWindow.ui \
-    gui/Pianoroll.ui
+    gui/PianorollTrackView.ui
 
 OTHER_FILES +=
 

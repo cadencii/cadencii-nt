@@ -16,16 +16,16 @@
 
 #include <QWidget>
 
-class Pianoroll;
+class PianorollTrackView;
 
-class PianorollKeyboard : public QWidget
+class PianorollTrackViewKeyboard : public QWidget
 {
-    friend class Pianoroll;
+    friend class PianorollTrackView;
 
     Q_OBJECT
 
 private:
-    Pianoroll *pianoroll;
+    PianorollTrackView *pianoroll;
 
     /**
      * @brief スクロールが現在どの位置にあるか。親からの notifyVerticalScroll の呼び出しで更新される
@@ -43,9 +43,9 @@ private:
     int trackHeight;
 
 public:
-    explicit PianorollKeyboard( QWidget *parent = 0 );
+    explicit PianorollTrackViewKeyboard( QWidget *parent = 0 );
 
-    ~PianorollKeyboard();
+    ~PianorollTrackViewKeyboard();
 
     void paintEvent( QPaintEvent *e );
 
@@ -53,7 +53,7 @@ public:
      * @brief このインスタンスを持っているピアノロールを設定する
      * @param pianoroll ピアノロール
      */
-    void setPianoroll( Pianoroll *pianoroll );
+    void setPianoroll( PianorollTrackView *pianoroll );
 
     void setTrackHeight( int trackHeight );
 

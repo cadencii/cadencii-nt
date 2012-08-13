@@ -1,5 +1,5 @@
 /**
- * PianorollKeyboard.cpp
+ * PianorollTrackViewKeyboard.cpp
  * Copyright © 2012 kbinani
  *
  * This file is part of `MIDIInput UG Job Plugin'.
@@ -13,66 +13,66 @@
  */
 #include <QPainter>
 #include <sstream>
-#include "Pianoroll.h"
-#include "PianorollContent.h"
-#include "PianorollKeyboard.h"
+#include "PianorollTrackView.h"
+#include "PianorollTrackViewContent.h"
+#include "PianorollTrackViewKeyboard.h"
 
 using namespace std;
 
-PianorollKeyboard::PianorollKeyboard( QWidget *parent ) :
+PianorollTrackViewKeyboard::PianorollTrackViewKeyboard( QWidget *parent ) :
     QWidget( parent )
 {
     // キーボードのキーの音名を作成
-    keyNames = new QString[PianorollContent::NOTE_MAX - PianorollContent::NOTE_MIN + 1];
+    keyNames = new QString[PianorollTrackViewContent::NOTE_MAX - PianorollTrackViewContent::NOTE_MIN + 1];
     char *names[] = { "C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B" };
-    for( int noteNumber = PianorollContent::NOTE_MIN; noteNumber <= PianorollContent::NOTE_MAX; noteNumber++ ){
-        int modura = PianorollContent::getNoteModuration( noteNumber );
-        int order = PianorollContent::getNoteOctave( noteNumber );
+    for( int noteNumber = PianorollTrackViewContent::NOTE_MIN; noteNumber <= PianorollTrackViewContent::NOTE_MAX; noteNumber++ ){
+        int modura = PianorollTrackViewContent::getNoteModuration( noteNumber );
+        int order = PianorollTrackViewContent::getNoteOctave( noteNumber );
         char *name = names[modura];
         ostringstream oss;
         oss << name << order;
-        keyNames[noteNumber - PianorollContent::NOTE_MIN] = QString( oss.str().c_str() );
+        keyNames[noteNumber - PianorollTrackViewContent::NOTE_MIN] = QString( oss.str().c_str() );
     }
 
-    trackHeight = PianorollContent::DEFAULT_TRACK_HEIGHT;
+    trackHeight = PianorollTrackViewContent::DEFAULT_TRACK_HEIGHT;
 }
 
-PianorollKeyboard::~PianorollKeyboard()
+PianorollTrackViewKeyboard::~PianorollTrackViewKeyboard()
 {
     delete [] keyNames;
 }
 
-void PianorollKeyboard::notifyVerticalScroll( int y )
+void PianorollTrackViewKeyboard::notifyVerticalScroll( int y )
 {
     this->top = -y;
     this->repaint();
 }
 
-void PianorollKeyboard::paintEvent( QPaintEvent *e )
+void PianorollTrackViewKeyboard::paintEvent( QPaintEvent *e )
 {
     QPainter p( this );
     this->paintKeyboard( &p );
 }
 
-void PianorollKeyboard::paintKeyboard( QPainter *g ){
+void PianorollTrackViewKeyboard::paintKeyboard( QPainter *g ){
     // カーソル位置でのノート番号を取得する
     QPoint cursor = QCursor::pos();
     QPoint pianoroll = mapToGlobal( QPoint( 0, 0 ) );
-    int noteAtCursor = PianorollContent::getNoteNumberFromY( cursor.y() - pianoroll.y() - top, trackHeight );
+    int noteAtCursor = PianorollTrackViewContent::getNoteNumberFromY( cursor.y() - pianoroll.y() - top, trackHeight );
 
     g->fillRect( 0, 0, width(), height(),
                  QColor( 240, 240, 240 ) );
     QColor keyNameColor = QColor( 72, 77, 98 );
     QColor blackKeyColor = QColor( 125, 123, 124 );
-    for( int noteNumber = PianorollContent::NOTE_MIN - 1; noteNumber <= PianorollContent::NOTE_MAX; noteNumber++ ){
-        int y = PianorollContent::getYFromNoteNumber( noteNumber, trackHeight ) + top;
-        int modura = PianorollContent::getNoteModuration( noteNumber );
+    for( int noteNumber = PianorollTrackViewContent::NOTE_MIN - 1; noteNumber <= PianorollTrackViewContent::NOTE_MAX; noteNumber++ ){
+        int y = PianorollTrackViewContent::getYFromNoteNumber( noteNumber, trackHeight ) + top;
+        int modura = PianorollTrackViewContent::getNoteModuration( noteNumber );
 
         // C4 などの表示を描画
         if( modura == 0 || noteAtCursor == noteNumber ){
             g->setPen( keyNameColor );
             g->drawText( 0, y, width() - 2, trackHeight,
-                         Qt::AlignRight | Qt::AlignVCenter, keyNames[noteNumber - PianorollContent::NOTE_MIN] );
+                         Qt::AlignRight | Qt::AlignVCenter, keyNames[noteNumber - PianorollTrackViewContent::NOTE_MIN] );
         }
 
         // 鍵盤ごとの横線
@@ -90,12 +90,12 @@ void PianorollKeyboard::paintKeyboard( QPainter *g ){
     g->drawLine( width() - 1, 0, width() - 1, height() );
 }
 
-void PianorollKeyboard::setPianoroll( Pianoroll *pianoroll )
+void PianorollTrackViewKeyboard::setPianoroll( PianorollTrackView *pianoroll )
 {
     this->pianoroll = pianoroll;
 }
 
-void PianorollKeyboard::setTrackHeight( int trackHeight )
+void PianorollTrackViewKeyboard::setTrackHeight( int trackHeight )
 {
     this->trackHeight = trackHeight;
 }

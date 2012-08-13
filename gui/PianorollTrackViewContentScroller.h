@@ -1,5 +1,5 @@
 /**
- * PianorollContentScroller.h
+ * PianorollTrackViewContentScroller.h
  * Copyright © 2012 kbinani
  *
  * This file is part of `MIDIInput UG Job Plugin'.
@@ -11,28 +11,28 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollContentScroller_h__
-#define __PianorollContentScroller_h__
+#ifndef __PianorollTrackViewContentScroller_h__
+#define __PianorollTrackViewContentScroller_h__
 
 #include <QScrollArea>
 
-class Pianoroll;
+class PianorollTrackView;
 
-class PianorollContentScroller : public QScrollArea
+class PianorollTrackViewContentScroller : public QScrollArea
 {
     Q_OBJECT
 
 private:
-    Pianoroll *pianoroll;
+    PianorollTrackView *pianoroll;
 
 public:
-    explicit PianorollContentScroller( QWidget *parent = 0 );
+    explicit PianorollTrackViewContentScroller( QWidget *parent = 0 );
 
     /**
      * @brief このインスタンスを持っているピアノロールを設定する
      * @param pianoroll ピアノロール
      */
-    void setPianoroll( Pianoroll *pianoroll );
+    void setPianoroll( PianorollTrackView *pianoroll );
 
     void scrollContentsBy( int dx, int dy );
 };

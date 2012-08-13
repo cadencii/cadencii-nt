@@ -20,23 +20,23 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
-#include "PianorollContentScroller.h"
-#include "PianorollKeyboard.h"
+#include "PianorollTrackViewContentScroller.h"
+#include "PianorollTrackViewKeyboard.h"
 
 namespace Ui{
-    class Pianoroll;
+    class PianorollTrackView;
 }
 
-class Pianoroll : public QWidget
+class PianorollTrackView : public QWidget
 {
-    friend class PianorollContentScroller;
+    friend class PianorollTrackViewContentScroller;
 
     Q_OBJECT
 
 public:
-    Ui::Pianoroll *ui;
+    Ui::PianorollTrackView *ui;
 
-    explicit Pianoroll( QWidget *parent = 0 );
+    explicit PianorollTrackView( QWidget *parent = 0 );
 
     void setTrackHeight( int trackHeight );
 
