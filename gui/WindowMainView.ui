@@ -78,7 +78,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="cadencii::PianorollTrackView" name="pianoRoll" native="true"/>
+       <widget class="QWidget" name="pianoRoll" native="true"/>
       </item>
      </layout>
     </widget>
@@ -952,13 +952,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>cadencii::PianorollTrackView</class>
-   <extends>QWidget</extends>
-   <header>gui/pianorolltrackview.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../Cadencii.qrc"/>
  </resources>

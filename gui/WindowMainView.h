@@ -15,6 +15,7 @@
 #define __WindowMainView_h__
 
 #include <QMainWindow>
+#include "MainView.hpp"
 
 namespace Ui {
     class WindowMainView;
@@ -22,12 +23,14 @@ namespace Ui {
 
 namespace cadencii{
 
-    class WindowMainView : public QMainWindow{
+    class WindowMainView : public QMainWindow, public MainView{
         Q_OBJECT
 
     public:
         explicit WindowMainView( QWidget *parent = 0 );
         ~WindowMainView();
+
+        void setTrackView( TrackView *trackView );
 
     private:
         Ui::WindowMainView *ui;

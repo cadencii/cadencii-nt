@@ -141,4 +141,8 @@ namespace cadencii{
         ui->content->setTrackHeight( trackHeight );
         ui->keyboard->setTrackHeight( trackHeight );
     }
+
+    QWidget *PianorollTrackView::getActualWidget(){
+        return (QWidget *)this;
+    }
 }

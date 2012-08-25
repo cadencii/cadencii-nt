@@ -1,5 +1,5 @@
 /**
- * main.cpp
+ * MainView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,17 +11,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <QtGui/QApplication>
-#include "gui/WindowMainView.h"
-#include "gui/PianorollTrackView.h"
+#ifndef __MainView_hpp__
+#define __MainView_hpp__
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    cadencii::WindowMainView w;
-    cadencii::PianorollTrackView p;
-    w.setTrackView( &p );
-    w.show();
-    
-    return a.exec();
+#include "TrackView.hpp"
+
+namespace cadencii{
+
+    class MainView{
+    public:
+        virtual void setTrackView( TrackView *trackView ) = 0;
+    };
+
 }
+
+#endif

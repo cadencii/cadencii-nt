@@ -27,4 +27,12 @@ namespace cadencii{
         delete ui;
     }
 
+    void WindowMainView::setTrackView( TrackView *trackView ){
+        QWidget *actualWidget = trackView->getActualWidget();
+        actualWidget->setParent( ui->layoutWidget );
+        ui->verticalLayout->removeWidget( ui->pianoRoll );
+        ui->pianoRoll = actualWidget;
+        ui->verticalLayout->addWidget( actualWidget );
+    }
+
 }

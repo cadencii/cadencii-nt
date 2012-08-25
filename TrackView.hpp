@@ -14,6 +14,7 @@
 #ifndef __TrackView_hpp__
 #define __TrackView_hpp__
 
+#include <QWidget>
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
 
@@ -50,6 +51,12 @@ namespace cadencii{
          * @param noteNumber ノート番号
          */
         virtual void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber ) = 0;
+
+        /**
+         * @brief ウィジェットの実体を返す
+         * @return ウィジェットの実体
+         */
+        virtual QWidget *getActualWidget() = 0;
     };
 
 }
