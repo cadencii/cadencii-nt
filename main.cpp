@@ -14,13 +14,16 @@
 #include <QtGui/QApplication>
 #include "gui/WindowMainView.h"
 #include "gui/PianorollTrackView.h"
+#include "Controller.hpp"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     cadencii::WindowMainView w;
     cadencii::PianorollTrackView p;
-    w.setTrackView( &p );
+    cadencii::Controller c;
+    c.setMainView( &w );
+    c.setTrackView( &p );
     w.show();
     
     return a.exec();
