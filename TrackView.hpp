@@ -14,7 +14,6 @@
 #ifndef __TrackView_hpp__
 #define __TrackView_hpp__
 
-#include <QWidget>
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
 
@@ -56,7 +55,7 @@ namespace cadencii{
          * @brief ウィジェットの実体を返す
          * @return ウィジェットの実体
          */
-        virtual QWidget *getActualWidget() = 0;
+        virtual void *getWidget() = 0;
     };
 
 }

@@ -47,7 +47,7 @@ namespace cadencii{
 
         void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 
-        QWidget *getActualWidget();
+        void *getWidget();
 
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
