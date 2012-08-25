@@ -1,5 +1,5 @@
 /**
- * MainWindow.cpp
+ * WindowMainView.h
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,20 +11,27 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "gui/MainWindow.h"
-#include "ui_MainWindow.h"
+#ifndef __WindowMainView_h__
+#define __WindowMainView_h__
+
+#include <QMainWindow>
+
+namespace Ui {
+    class WindowMainView;
+}
 
 namespace cadencii{
 
-    MainWindow::MainWindow( QWidget *parent )
-        : QMainWindow( parent ),
-        ui( new Ui::MainWindow )
-    {
-        ui->setupUi( this );
-    }
+    class WindowMainView : public QMainWindow{
+        Q_OBJECT
 
-    MainWindow::~MainWindow(){
-        delete ui;
-    }
+    public:
+        explicit WindowMainView( QWidget *parent = 0 );
+        ~WindowMainView();
+
+    private:
+        Ui::WindowMainView *ui;
+    };
 
 }
+#endif // __WindowMainView_h__

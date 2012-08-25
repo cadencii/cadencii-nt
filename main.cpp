@@ -12,12 +12,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <QtGui/QApplication>
-#include "gui/MainWindow.h"
+#include "gui/WindowMainView.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    cadencii::MainWindow w;
+    cadencii::WindowMainView w;
     w.show();
     
     return a.exec();
