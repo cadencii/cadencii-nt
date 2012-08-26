@@ -25,7 +25,7 @@ namespace cadencii{
     void Controller::setTrackView( TrackView *trackView )throw(){
         this->trackView = trackView;
         if( this->trackView ){
-            this->trackView->setupController( this );
+            this->trackView->setControllerAdapter( this );
         }
 
         if( mainView ){
@@ -36,7 +36,7 @@ namespace cadencii{
     void Controller::setMainView( MainView *mainView )throw(){
         this->mainView = mainView;
         if( this->mainView ){
-            this->mainView->setupController( this );
+            this->mainView->setControllerAdapter( this );
         }
 
         if( this->mainView && this->trackView ){
@@ -52,5 +52,4 @@ namespace cadencii{
 
         trackView->setTrack( &sequence.track[1] );
     }
-
 }

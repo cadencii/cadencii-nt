@@ -16,11 +16,12 @@
 
 #include "MainView.hpp"
 #include "TrackView.hpp"
+#include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
-    class Controller{
+    class Controller : public ControllerAdapter{
     private:
         TrackView *trackView;
         MainView *mainView;
@@ -28,6 +29,12 @@ namespace cadencii{
 
     public:
         explicit Controller();
+
+        /**
+         * @brief VSQ ファイルを開く
+         * @param[in] 開くVSQのパス
+         */
+        void openVSQFile( const string &filePath )throw();
 
         /**
          * @brief トラックのビューを設定する
@@ -40,12 +47,6 @@ namespace cadencii{
          * @param[in] mainView ビュー
          */
         void setMainView( MainView *mainView )throw();
-
-        /**
-         * @brief VSQ ファイルを開く
-         * @param[in] 開くVSQのパス
-         */
-        void openVSQFile( const string &filePath )throw();
     };
 
 }

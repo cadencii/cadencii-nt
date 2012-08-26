@@ -1,5 +1,5 @@
 /**
- * MainView.hpp
+ * ControllerAdapter.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,25 +11,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __MainView_hpp__
-#define __MainView_hpp__
-
-#include "TrackView.hpp"
+#ifndef __ControllerAdapter_hpp__
+#define __ControllerAdapter_hpp__
 
 namespace cadencii{
 
-    class ControllerAdapter;
-
-    class MainView{
-    protected:
-        ControllerAdapter *controllerAdapter;
-
+    class ControllerAdapter{
     public:
-        virtual void setTrackView( TrackView *trackView ) = 0;
-
-        void setControllerAdapter( ControllerAdapter *controllerAdapter ){
-            this->controllerAdapter = controllerAdapter;
-        }
+        /**
+         * @brief VSQ ファイルを開く
+         * @param[in] 開くVSQのパス
+         */
+        virtual void openVSQFile( const string &filePath )throw() = 0;
     };
 
 }

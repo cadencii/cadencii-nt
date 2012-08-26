@@ -19,14 +19,14 @@
 
 namespace cadencii{
 
-    class Controller;
+    class ControllerAdapter;
 
     /**
      * @brief 画面へのトラック描画を担当するviewとの仲立ちを行うための抽象クラス
      */
     class TrackView{
     protected:
-        Controller *controller;
+        ControllerAdapter *controllerAdapter;
 
     public:
         /**
@@ -62,8 +62,8 @@ namespace cadencii{
          */
         virtual void *getWidget() = 0;
 
-        void setupController( Controller *controller ){
-            this->controller = controller;
+        void setControllerAdapter( ControllerAdapter *controllerAdapter ){
+            this->controllerAdapter = controllerAdapter;
         }
     };
 

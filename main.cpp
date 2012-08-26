@@ -25,6 +25,6 @@ int main(int argc, char *argv[])
     c.setMainView( &w );
     c.setTrackView( &p );
     w.show();
-    
+
     return a.exec();
 }
