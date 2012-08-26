@@ -24,11 +24,11 @@
 #include "gui/PianorollTrackViewKeyboard.h"
 #include "TrackView.hpp"
 
-namespace cadencii{
-    namespace Ui{
-        class PianorollTrackView;
-    }
+namespace Ui{
+    class PianorollTrackView;
+}
 
+namespace cadencii{
     class PianorollTrackView : public QWidget, public TrackView{
         friend class PianorollTrackViewContentScroller;
 

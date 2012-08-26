@@ -18,9 +18,18 @@
 
 namespace cadencii{
 
+    class Controller;
+
     class MainView{
+    protected:
+        Controller *controller;
+
     public:
         virtual void setTrackView( TrackView *trackView ) = 0;
+
+        void setupController( Controller *controller ){
+            this->controller = controller;
+        }
     };
 
 }

@@ -15,7 +15,8 @@ SOURCES += main.cpp\
     gui/PianorollTrackViewContentScroller.cpp \
     gui/PianorollTrackViewContent.cpp \
     gui/PianorollTrackView.cpp \
-    gui/WindowMainView.cpp
+    gui/WindowMainView.cpp \
+    Controller.cpp
 
 HEADERS  += \
     gui/PianorollTrackViewKeyboard.h \

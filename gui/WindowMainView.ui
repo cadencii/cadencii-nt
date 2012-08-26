@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>WindowMainView</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QMainWindow" name="WindowMainView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -170,7 +170,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="separator"/>
-    <addaction name="actionOpen_VSQ_Vocaloid_MIDI"/>
+    <addaction name="action_open_vsq_vocaloid_midi"/>
     <addaction name="actionOpen_UTAU_project_file"/>
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
@@ -401,7 +401,7 @@
     <string>Save as</string>
    </property>
   </action>
-  <action name="actionOpen_VSQ_Vocaloid_MIDI">
+  <action name="action_open_vsq_vocaloid_midi">
    <property name="text">
     <string>Open VSQ/Vocaloid MIDI</string>
    </property>

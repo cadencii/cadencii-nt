@@ -17,12 +17,11 @@
 #include <QMainWindow>
 #include "MainView.hpp"
 
-namespace Ui {
+namespace Ui{
     class WindowMainView;
 }
 
 namespace cadencii{
-
     class WindowMainView : public QMainWindow, public MainView{
         Q_OBJECT
 
@@ -31,6 +30,9 @@ namespace cadencii{
         ~WindowMainView();
 
         void setTrackView( TrackView *trackView );
+
+    private slots:
+        void on_action_open_vsq_vocaloid_midi_triggered();
 
     private:
         Ui::WindowMainView *ui;

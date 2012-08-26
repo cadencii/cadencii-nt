@@ -13,12 +13,14 @@
  */
 #include "gui/WindowMainView.h"
 #include "ui_WindowMainView.h"
+#include "Controller.hpp"
+#include <QFileDialog>
 
 namespace cadencii{
 
     WindowMainView::WindowMainView( QWidget *parent )
         : QMainWindow( parent ),
-        ui( new ::Ui::WindowMainView )
+        ui( new Ui::WindowMainView )
     {
         ui->setupUi( this );
     }
@@ -34,5 +36,13 @@ namespace cadencii{
         ui->pianoRoll = widget;
         ui->verticalLayout->addWidget( widget );
     }
+}
 
+void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
+    QString filePath = QFileDialog::getOpenFileName( this );
+    QFile file( filePath );
+    if( file.exists() ){
+        this->controller->openVSQFile( filePath.toStdString() );
+    }
+    this->activateWindow();
 }

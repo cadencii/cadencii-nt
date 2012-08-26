@@ -16,6 +16,7 @@
 
 #include "MainView.hpp"
 #include "TrackView.hpp"
+#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
@@ -23,26 +24,28 @@ namespace cadencii{
     private:
         TrackView *trackView;
         MainView *mainView;
+        VSQ_NS::Sequence sequence;
 
     public:
-        Controller()
-            : trackView( 0 ), mainView( 0 )
-        {
-        }
+        explicit Controller();
 
-        void setTrackView( TrackView *trackView ){
-            this->trackView = trackView;
-            if( mainView ){
-                mainView->setTrackView( trackView );
-            }
-        }
+        /**
+         * @brief トラックのビューを設定する
+         * @param[in] trackView ビュー
+         */
+        void setTrackView( TrackView *trackView )throw();
 
-        void setMainView( MainView *mainView ){
-            this->mainView = mainView;
-            if( this->mainView && this->trackView ){
-                this->mainView->setTrackView( this->trackView );
-            }
-        }
+        /**
+         * @brief メインのビューを設定する
+         * @param[in] mainView ビュー
+         */
+        void setMainView( MainView *mainView )throw();
+
+        /**
+         * @brief VSQ ファイルを開く
+         * @param[in] 開くVSQのパス
+         */
+        void openVSQFile( const string &filePath )throw();
     };
 
 }
