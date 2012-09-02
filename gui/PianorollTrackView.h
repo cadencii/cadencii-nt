@@ -20,6 +20,7 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
+#include "gui/CurveControlChangeViewContent.h"
 #include "gui/PianorollTrackViewContentScroller.h"
 #include "gui/PianorollTrackViewKeyboard.h"
 #include "TrackView.hpp"
@@ -31,6 +32,7 @@ namespace Ui{
 namespace cadencii{
     class PianorollTrackView : public QWidget, public TrackView{
         friend class PianorollTrackViewContentScroller;
+        friend class PianorollTrackViewContent;
 
         Q_OBJECT
 
@@ -40,8 +42,6 @@ namespace cadencii{
         explicit PianorollTrackView( QWidget *parent = 0 );
 
         ~PianorollTrackView();
-
-        void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll );
 
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 

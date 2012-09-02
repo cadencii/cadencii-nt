@@ -52,11 +52,6 @@ namespace cadencii{
         VSQ_NS::MeasureLineIterator *measureLineIterator;
 
         /**
-         * @brief ソングポジション
-         */
-        VSQ_NS::tick_t songPosition;
-
-        /**
          * @brief 描画アイテムのリストをロックするための Mutex
          */
         QMutex *mutex;
@@ -103,16 +98,6 @@ namespace cadencii{
          * @brief スクロールされた結果、可視状態となっている領域を取得する
          */
         QRect getVisibleArea();
-
-        /**
-         * @brief ソングポジションを設定する
-         */
-        void setSongPosition( VSQ_NS::tick_t songPosition );
-
-        /**
-         * @brief ソングポジションを取得する
-         */
-        VSQ_NS::tick_t getSongPosition();
 
         /**
          * @brief ミューテックスを設定する

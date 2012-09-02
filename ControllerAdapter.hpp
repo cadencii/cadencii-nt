@@ -33,6 +33,12 @@ namespace cadencii{
          * @param offset tick 単位の描画オフセット
          */
         virtual void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw() = 0;
+
+        /**
+         * @brief 現在のソングポジションを取得する
+         * @param ソングポジション
+         */
+        virtual VSQ_NS::tick_t getSongPosition()throw() = 0;
     };
 
 }

@@ -18,7 +18,7 @@
 namespace cadencii{
 
     Controller::Controller()
-        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 )
+        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 )
     {
     }
 
@@ -74,4 +74,9 @@ namespace cadencii{
             trackView->setDrawOffset( offset );
         }
     }
+
+    VSQ_NS::tick_t Controller::getSongPosition()throw(){
+        return songPosition;
+    }
+
 }

@@ -28,6 +28,7 @@ namespace cadencii{
         MainView *mainView;
         ControlChangeView *controlChangeView;
         VSQ_NS::Sequence sequence;
+        VSQ_NS::tick_t songPosition;
 
     public:
         explicit Controller();
@@ -35,6 +36,8 @@ namespace cadencii{
         void openVSQFile( const string &filePath )throw();
 
         void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw();
+
+        VSQ_NS::tick_t getSongPosition()throw();
 
         /**
          * @brief トラックのビューを設定する

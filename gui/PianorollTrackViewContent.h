@@ -72,11 +72,6 @@ namespace cadencii{
         double pixelPerTick;
 
         /**
-         * @brief ソングポジション
-         */
-        VSQ_NS::tick_t songPosition;
-
-        /**
          * @brief 描画アイテムのリストをロックするための Mutex
          */
         QMutex *mutex;

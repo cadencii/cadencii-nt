@@ -27,7 +27,6 @@ namespace cadencii{
         QWidget(parent)
     {
         this->track = NULL;
-        this->songPosition = 0;
         this->pixelPerTick = 0.2;
         mutex = NULL;
 
@@ -54,10 +53,6 @@ namespace cadencii{
         }else{
             return QRect( -1, -1, this->width() + 2, this->height() + 2 );
         }
-    }
-
-    tick_t CurveControlChangeViewContent::getSongPosition(){
-        return songPosition;
     }
 
     double CurveControlChangeViewContent::getTickFromX( int x ){
@@ -130,6 +125,7 @@ namespace cadencii{
     }
 
     void CurveControlChangeViewContent::paintSongPosition( QPainter *g, QRect visibleArea ){
+        tick_t songPosition = controlChangeView->controllerAdapter->getSongPosition();
         int x = getXFromTick( songPosition );
         g->setPen( QColor( 0, 0, 0 ) );
         g->drawLine( x, visibleArea.top(), x, visibleArea.bottom() );
@@ -159,10 +155,4 @@ namespace cadencii{
         this->controlChangeView = controlChangeView;
     }
 
-    void CurveControlChangeViewContent::setSongPosition( tick_t songPosition ){
-        int x = getXFromTick( songPosition );
-        if( 0 <= x && x < width() ){
-            this->songPosition = songPosition;
-        }
-    }
 }

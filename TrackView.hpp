@@ -29,13 +29,6 @@ namespace cadencii{
 
     public:
         /**
-         * @brief ソングポジションを設定する
-         * @param songPosition ソングポジション
-         * @param autoScroll 自動でスクロールするかどうか
-         */
-        virtual void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll ) = 0;
-
-        /**
          * @brief テンポ変更リストを設定する
          * @param timesigList テンポ変更リスト
          */

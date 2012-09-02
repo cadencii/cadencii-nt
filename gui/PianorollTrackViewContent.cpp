@@ -29,7 +29,6 @@ namespace cadencii{
         this->track = NULL;
         this->trackHeight = DEFAULT_TRACK_HEIGHT;
         this->pixelPerTick = 0.2;
-        this->songPosition = 0;
         mutex = NULL;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
@@ -73,10 +72,6 @@ namespace cadencii{
         }else{
             return QRect( -1, -1, this->width() + 2, this->height() + 2 );
         }
-    }
-
-    tick_t PianorollTrackViewContent::getSongPosition(){
-        return songPosition;
     }
 
     double PianorollTrackViewContent::getTickFromX( int x ){
@@ -230,6 +225,7 @@ namespace cadencii{
     }
 
     void PianorollTrackViewContent::paintSongPosition( QPainter *g, QRect visibleArea ){
+        tick_t songPosition = pianoroll->controllerAdapter->getSongPosition();
         int x = getXFromTick( songPosition );
         g->setPen( QColor( 0, 0, 0 ) );
         g->drawLine( x, visibleArea.top(), x, visibleArea.bottom() );
@@ -264,10 +260,4 @@ namespace cadencii{
         this->pianoroll = pianoroll;
     }
 
-    void PianorollTrackViewContent::setSongPosition( tick_t songPosition ){
-        int x = getXFromTick( songPosition );
-        if( 0 <= x && x < width() ){
-            this->songPosition = songPosition;
-        }
-    }
 }

@@ -20,6 +20,7 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
+#include "gui/CurveControlChangeViewContent.h"
 #include "gui/CurveControlChangeViewContentScroller.h"
 #include "gui/CurveControlChangeViewSelector.h"
 #include "ControlChangeView.hpp"
@@ -31,6 +32,7 @@ namespace Ui{
 namespace cadencii{
     class CurveControlChangeView : public QWidget, public ControlChangeView{
         friend class CurveControlChangeViewContentScroller;
+        friend class CurveControlChangeViewContent;
 
         Q_OBJECT
 
@@ -40,8 +42,6 @@ namespace cadencii{
         explicit CurveControlChangeView( QWidget *parent = 0 );
 
         ~CurveControlChangeView();
-
-        void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll );
 
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
