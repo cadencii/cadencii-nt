@@ -1,5 +1,5 @@
 /**
- * TrackView.hpp
+ * ControlChangeView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __TrackView_hpp__
-#define __TrackView_hpp__
+#ifndef __ControlChangeView_hpp__
+#define __ControlChangeView_hpp__
 
 #include "ControllerAdapter.hpp"
 #include "vsq/TimesigList.hpp"
@@ -21,9 +21,9 @@
 namespace cadencii{
 
     /**
-     * @brief 画面へのトラック描画を担当するviewとの仲立ちを行うための抽象クラス
+     * @brief 画面へのコントロールチェンジの描画を担当するviewとの仲立ちを行うための抽象クラス
      */
-    class TrackView{
+    class ControlChangeView{
     protected:
         ControllerAdapter *controllerAdapter;
 
@@ -46,14 +46,6 @@ namespace cadencii{
          * @param items 描画対象のトラック
          */
         virtual void setTrack( VSQ_NS::Track *track ) = 0;
-
-        /**
-         * @brief 指定した位置の音符が可視となるようスクロールする
-         * @param tick 時刻
-         * @param length 音符の長さ
-         * @param noteNumber ノート番号
-         */
-        virtual void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber ) = 0;
 
         /**
          * @brief ウィジェットの実体を返す

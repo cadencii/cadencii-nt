@@ -31,6 +31,8 @@ namespace cadencii{
 
         void setTrackView( TrackView *trackView );
 
+        void setControlChangeView( ControlChangeView *controlChangeView );
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
 

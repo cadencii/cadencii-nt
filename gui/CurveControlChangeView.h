@@ -1,5 +1,5 @@
 /**
- * PianorollTrackView.h
+ * CurveControlChangeView.h
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollTrackView_h__
-#define __PianorollTrackView_h__
+#ifndef __CurveControlChangeView_h__
+#define __CurveControlChangeView_h__
 
 #include <map>
 #include <QScrollArea>
@@ -20,26 +20,26 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
-#include "gui/PianorollTrackViewContentScroller.h"
-#include "gui/PianorollTrackViewKeyboard.h"
-#include "TrackView.hpp"
+#include "gui/CurveControlChangeViewContentScroller.h"
+#include "gui/CurveControlChangeViewSelector.h"
+#include "ControlChangeView.hpp"
 
 namespace Ui{
-    class PianorollTrackView;
+    class CurveControlChangeView;
 }
 
 namespace cadencii{
-    class PianorollTrackView : public QWidget, public TrackView{
-        friend class PianorollTrackViewContentScroller;
+    class CurveControlChangeView : public QWidget, public ControlChangeView{
+        friend class CurveControlChangeViewContentScroller;
 
         Q_OBJECT
 
     public:
-        Ui::PianorollTrackView *ui;
+        Ui::CurveControlChangeView *ui;
 
-        explicit PianorollTrackView( QWidget *parent = 0 );
+        explicit CurveControlChangeView( QWidget *parent = 0 );
 
-        ~PianorollTrackView();
+        ~CurveControlChangeView();
 
         void setSongPosition( VSQ_NS::tick_t songPosition, bool autoScroll );
 
@@ -47,17 +47,9 @@ namespace cadencii{
 
         void setTrack( VSQ_NS::Track *track );
 
-        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
-
         void *getWidget();
 
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
-
-        /**
-         * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
-         * @param trackHeight レーンの高さ(ピクセル単位)
-         */
-        void setTrackHeight( int trackHeight );
 
         /**
          * @brief オーバーライドする。ピアノロール本体と、鍵盤部分を repaint する処理を追加している。
@@ -78,15 +70,10 @@ namespace cadencii{
 
     private:
         /**
-         * @brief スクロール領域が縦方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する
-         */
-        void notifyVerticalScroll();
-
-        /**
-         * @brief スクロール領域が横方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する
+         * @brief スクロール領域が横方向にスクロールしたことを CurveControlChangeViewContentScroller -> CurveControlChangeView に通知する
          */
         void notifyHorizontalScroll();
     };
 
 }
-#endif // __PianorollTrackView_h__
+#endif // __CurveControlChangeView_h__

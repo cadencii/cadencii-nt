@@ -29,7 +29,6 @@ namespace cadencii{
         this->track = NULL;
         this->trackHeight = DEFAULT_TRACK_HEIGHT;
         this->pixelPerTick = 0.2;
-        this->musicalPartOffset = 0;
         this->songPosition = 0;
         mutex = NULL;
 
@@ -207,14 +206,14 @@ namespace cadencii{
         int bottom = getYFromNoteNumber( NOTE_MIN - 1, trackHeight );
         int left = visibleArea.x();
         int right = left + visibleArea.width();
-        tick_t tickAtScreenRight = (tick_t)getTickFromX( right ) + musicalPartOffset;
+        tick_t tickAtScreenRight = (tick_t)getTickFromX( right );
         measureLineIterator->reset( tickAtScreenRight );
 
         QColor barColor( 161, 157, 136 );
         QColor beatColor( 209, 204, 172 );
         while( measureLineIterator->hasNext() ){
             MeasureLine line = measureLineIterator->next();
-            int x = getXFromTick( line.tick - musicalPartOffset );
+            int x = getXFromTick( line.tick );
             if( x < left ){
                 continue;
             }else if( right < x ){
@@ -241,10 +240,6 @@ namespace cadencii{
 
     void PianorollTrackViewContent::setTrack( Track *track ){
         this->track = track;
-    }
-
-    void PianorollTrackViewContent::setMusicalPartOffset( tick_t musicalPartOffset ){
-        this->musicalPartOffset = musicalPartOffset;
     }
 
     void PianorollTrackViewContent::setMutex( QMutex *mutex ){

@@ -23,6 +23,7 @@ namespace cadencii{
         ui( new Ui::WindowMainView )
     {
         ui->setupUi( this );
+        controllerAdapter = 0;
     }
 
     WindowMainView::~WindowMainView(){
@@ -31,17 +32,26 @@ namespace cadencii{
 
     void WindowMainView::setTrackView( TrackView *trackView ){
         QWidget *widget = (QWidget *)trackView->getWidget();
-        widget->setParent( ui->layoutWidget );
-        ui->verticalLayout->removeWidget( ui->pianoRoll );
+        widget->setParent( ui->layoutWidget1 );
+        ui->verticalLayout1->removeWidget( ui->pianoRoll );
         ui->pianoRoll = widget;
-        ui->verticalLayout->addWidget( widget );
+        ui->verticalLayout1->addWidget( widget );
     }
+
+    void WindowMainView::setControlChangeView( ControlChangeView *controlChangeView ){
+        QWidget *widget = (QWidget *)controlChangeView->getWidget();
+        widget->setParent( ui->layoutWidget3 );
+        ui->verticalLayout3->removeWidget( ui->curveView );
+        ui->curveView = widget;
+        ui->verticalLayout3->addWidget( widget );
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
     QString filePath = QFileDialog::getOpenFileName( this );
     QFile file( filePath );
-    if( file.exists() ){
+    if( file.exists() && this->controllerAdapter ){
         this->controllerAdapter->openVSQFile( filePath.toStdString() );
     }
     this->activateWindow();

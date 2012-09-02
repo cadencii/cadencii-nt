@@ -14,6 +14,7 @@
 #include "gui/PianorollTrackViewContentScroller.h"
 #include "gui/PianorollTrackView.h"
 #include <sstream>
+#include <QDebug>
 
 namespace cadencii{
     PianorollTrackViewContentScroller::PianorollTrackViewContentScroller( QWidget *parent ) :
@@ -24,8 +25,11 @@ namespace cadencii{
 
     void PianorollTrackViewContentScroller::scrollContentsBy( int dx, int dy ){
         QScrollArea::scrollContentsBy( dx, dy );
-        if( dy && this->pianoroll ){
-            this->pianoroll->notifyVerticalScroll();
+        if( dy && pianoroll ){
+            pianoroll->notifyVerticalScroll();
+        }
+        if( dx && pianoroll ){
+            pianoroll->notifyHorizontalScroll();
         }
     }
 

@@ -1,5 +1,5 @@
 /**
- * PianorollTrackViewContent.h
+ * CurveControlChangeViewContent.h
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollTrackViewContent_h__
-#define __PianorollTrackViewContent_h__
+#ifndef __CurveControlChangeViewContent_h__
+#define __CurveControlChangeViewContent_h__
 
 #include <map>
 #include <QWidget>
@@ -23,23 +23,13 @@
 
 namespace cadencii{
 
-    class PianorollTrackView;
+    class CurveControlChangeView;
 
-    class PianorollTrackViewContent : public QWidget{
+    class CurveControlChangeViewContent : public QWidget{
         Q_OBJECT
 
-    public:
-        /**
-         * ノート描画高さのデフォルト値(ピクセル単位)
-         */
-        static const int DEFAULT_TRACK_HEIGHT = 14;
-
-        static const int NOTE_MIN = 0;
-
-        static const int NOTE_MAX = 127;
-
     private:
-        PianorollTrackView *pianoroll;
+        CurveControlChangeView *controlChangeView;
 
         /**
          * @brief 描画されるアイテムの一覧
@@ -62,16 +52,6 @@ namespace cadencii{
         VSQ_NS::MeasureLineIterator *measureLineIterator;
 
         /**
-         * @brief ノートの描画高さ
-         */
-        int trackHeight;
-
-        /**
-         * @brief 1 tick 時刻を何ピクセルで描画するか
-         */
-        double pixelPerTick;
-
-        /**
          * @brief ソングポジション
          */
         VSQ_NS::tick_t songPosition;
@@ -81,38 +61,15 @@ namespace cadencii{
          */
         QMutex *mutex;
 
+        /**
+         * @brief 1 tick 時刻を何ピクセルで描画するか
+         */
+        double pixelPerTick;
+
     public:
-        /**
-         * @brief ノート番号から、音名を表す番号を取得する。Cであれば0, C#であれば1など
-         * @param noteNumber ノート番号
-         * @return 音名を表す番号
-         */
-        static int getNoteModuration( int noteNumber );
+        explicit CurveControlChangeViewContent( QWidget *parent = 0 );
 
-        /**
-         * @brief ノート番号から、その音高が何オクターブめかを取得する。
-         * @param noteNumber ノート番号
-         * @return 何オクターブめかを表す番号
-         */
-        static int getNoteOctave( int noteNumber );
-
-        /**
-         * @brief ノート番号から、描画時の y 座標を取得する
-         * @param noteNumber ノート番号
-         * @param trackHeight ノートの描画高さ
-         */
-        static int getYFromNoteNumber( int noteNumber, int trackHeight );
-
-        /**
-         * @brief y 座標からノート番号を取得する
-         * @param y 座標
-         * @return ノート番号
-         */
-        static int getNoteNumberFromY( int y, int trackHeight );
-
-        explicit PianorollTrackViewContent( QWidget *parent = 0 );
-
-        ~PianorollTrackViewContent();
+        ~CurveControlChangeViewContent();
 
         /**
          * @brief 描画対象のトラックを設定する
@@ -127,7 +84,7 @@ namespace cadencii{
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
         /**
-         * オーバーライドする。ピアノロールの描画処理が追加される
+         * @brief オーバーライドする。描画処理が追加される
          */
         void paintEvent( QPaintEvent *e );
 
@@ -137,25 +94,13 @@ namespace cadencii{
         void mouseMoveEvent( QMouseEvent *e );
 
         /**
-         * @brief ノートの描画高さを設定する
-         * @param trackHeight ノートの描画高さ
+         * @brief このインスタンスを持っているコントロールチェンジビューワを設定する
+         * @param controlChangeView コントロールチェンジビューワ
          */
-        void setTrackHeight( int trackHeight );
+        void setControlChangeView( CurveControlChangeView *controlChangeView );
 
         /**
-         * @brief ノートの描画高さを取得する
-         * @return ノートの描画高さ
-         */
-        int getTrackHeight();
-
-        /**
-         * @brief このインスタンスを持っているピアノロールを設定する
-         * @param pianoroll ピアノロール
-         */
-        void setPianoroll( PianorollTrackView *pianoroll );
-
-        /**
-         * スクロールされた結果、可視状態となっている領域を取得する
+         * @brief スクロールされた結果、可視状態となっている領域を取得する
          */
         QRect getVisibleArea();
 
@@ -207,11 +152,6 @@ namespace cadencii{
          * @brief ソングポジションを描画する
          */
         void paintSongPosition( QPainter *g, QRect visibleArea );
-
-        /**
-         * @brief 最小高さを取得する
-         */
-        inline int getMinimumHeight();
 
         QRect getPaintArea();
     };

@@ -16,6 +16,7 @@
 
 #include "MainView.hpp"
 #include "TrackView.hpp"
+#include "ControlChangeView.hpp"
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 
@@ -25,22 +26,27 @@ namespace cadencii{
     private:
         TrackView *trackView;
         MainView *mainView;
+        ControlChangeView *controlChangeView;
         VSQ_NS::Sequence sequence;
 
     public:
         explicit Controller();
 
-        /**
-         * @brief VSQ ファイルを開く
-         * @param[in] 開くVSQのパス
-         */
         void openVSQFile( const string &filePath )throw();
+
+        void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw();
 
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー
          */
         void setTrackView( TrackView *trackView )throw();
+
+        /**
+         * @brief コントロールチェンジのビューを設定する
+         * @param [in] controlChangeView ビュー
+         */
+        void setControlChangeView( ControlChangeView *controlChangeView )throw();
 
         /**
          * @brief メインのビューを設定する

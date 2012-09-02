@@ -15,6 +15,7 @@
 #define __PianorollTrackViewContentScroller_h__
 
 #include <QScrollArea>
+#include "vsq/vsqglobal.hpp"
 
 namespace cadencii{
 
@@ -29,13 +30,15 @@ namespace cadencii{
     public:
         explicit PianorollTrackViewContentScroller( QWidget *parent = 0 );
 
+        void scrollContentsBy( int dx, int dy );
+
         /**
          * @brief このインスタンスを持っているピアノロールを設定する
          * @param pianoroll ピアノロール
          */
         void setPianoroll( PianorollTrackView *pianoroll );
 
-        void scrollContentsBy( int dx, int dy );
+        void setDrawOffset( VSQ_NS::tick_t drawOffset );
     };
 
 }

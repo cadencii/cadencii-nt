@@ -31,6 +31,11 @@ namespace cadencii{
         ui->content->setPianoroll( this );
         ui->keyboard->setPianoroll( this );
         ui->keyboard->notifyVerticalScroll( 0 );
+        controllerAdapter = 0;
+    }
+
+    PianorollTrackView::~PianorollTrackView(){
+        delete ui;
     }
 
     void PianorollTrackView::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber ){
@@ -74,13 +79,15 @@ namespace cadencii{
         }
     }
 
-    tick_t PianorollTrackView::getSongPosition(){
-        return ui->content->getSongPosition();
-    }
-
     void PianorollTrackView::notifyVerticalScroll(){
         QRect rect = ui->content->getVisibleArea();
         ui->keyboard->notifyVerticalScroll( rect.y() );
+    }
+
+    void PianorollTrackView::notifyHorizontalScroll(){
+        QRect visibleRect = ui->content->getVisibleArea();
+        tick_t drawOffset = (tick_t)ui->content->getTickFromX( visibleRect.x() );
+        controllerAdapter->drawOffsetChanged( (TrackView *)this, drawOffset );
     }
 
     void PianorollTrackView::repaint(){
@@ -91,10 +98,6 @@ namespace cadencii{
 
     void PianorollTrackView::setTrack( Track *track ){
         ui->content->setTrack( track );
-    }
-
-    void PianorollTrackView::setMusicalPartOffset( tick_t musicalPartOffset ){
-        ui->content->setMusicalPartOffset( musicalPartOffset );
     }
 
     void PianorollTrackView::setMutex( QMutex *mutex ){
@@ -144,5 +147,14 @@ namespace cadencii{
 
     void *PianorollTrackView::getWidget(){
         return (void *)this;
+    }
+
+    void PianorollTrackView::setDrawOffset( tick_t drawOffset ){
+        int xScrollTo = -ui->content->getXFromTick( drawOffset );
+        QWidget *viewport = ui->scrollArea->viewport();
+        QRect currentChildRect = viewport->childrenRect();
+        int dx = xScrollTo - currentChildRect.x();
+        int dy = 0;
+        viewport->scroll( dx, dy );
     }
 }

@@ -18,7 +18,7 @@
 namespace cadencii{
 
     Controller::Controller()
-        : trackView( 0 ), mainView( 0 ), sequence( "Miku", 1, 4, 4, 500000 )
+        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 )
     {
     }
 
@@ -29,7 +29,17 @@ namespace cadencii{
         }
 
         if( mainView ){
-            mainView->setTrackView( trackView );
+            mainView->setTrackView( this->trackView );
+        }
+    }
+
+    void Controller::setControlChangeView( ControlChangeView *controlChangeView )throw(){
+        this->controlChangeView = controlChangeView;
+        if( this->controlChangeView ){
+            this->controlChangeView->setControllerAdapter( this );
+        }
+        if( mainView ){
+            mainView->setControlChangeView( this->controlChangeView );
         }
     }
 
@@ -42,6 +52,9 @@ namespace cadencii{
         if( this->mainView && this->trackView ){
             this->mainView->setTrackView( this->trackView );
         }
+        if( this->mainView && this->controlChangeView ){
+            this->mainView->setControlChangeView( this->controlChangeView );
+        }
     }
 
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
@@ -51,5 +64,14 @@ namespace cadencii{
         stream.close();
 
         trackView->setTrack( &sequence.track[1] );
+        controlChangeView->setTrack( &sequence.track[1] );
+    }
+
+    void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
+        if( sender == (void *)trackView && controlChangeView ){
+            controlChangeView->setDrawOffset( offset );
+        }else if( sender == (void *)controlChangeView && trackView ){
+            trackView->setDrawOffset( offset );
+        }
     }
 }
