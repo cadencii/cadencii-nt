@@ -124,5 +124,12 @@ namespace cadencii{
         int dx = xScrollTo - currentChildRect.x();
         int dy = 0;
         viewport->scroll( dx, dy );
+
+        QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
+        int maxValue = scrollBar->maximum() + scrollBar->pageStep();
+        int minValue = scrollBar->minimum();
+        int contentWidth = ui->content->width();
+        int value = minValue + (minValue - maxValue) * xScrollTo / contentWidth;
+        scrollBar->setValue( value );
     }
 }
