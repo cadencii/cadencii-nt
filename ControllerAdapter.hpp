@@ -39,6 +39,18 @@ namespace cadencii{
          * @param ソングポジション
          */
         virtual VSQ_NS::tick_t getSongPosition()throw() = 0;
+
+        /**
+         * @brief tick 単位の時刻から、描画時の x 座標を取得する
+         * @param tick 時刻
+         * @return x 座標
+         */
+        virtual int getXFromTick( VSQ_NS::tick_t tick )throw() = 0;
+
+        /**
+         * @brief x 座標から、tick 単位の時刻を取得する
+         */
+        virtual double getTickFromX( int x )throw() = 0;
     };
 
 }

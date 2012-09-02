@@ -27,7 +27,6 @@ namespace cadencii{
         QWidget(parent)
     {
         this->track = NULL;
-        this->pixelPerTick = 0.2;
         mutex = NULL;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
@@ -55,17 +54,9 @@ namespace cadencii{
         }
     }
 
-    double CurveControlChangeViewContent::getTickFromX( int x ){
-        return (x - 5) / pixelPerTick;
-    }
-
     QRect CurveControlChangeViewContent::getVisibleArea(){
         QRect rect = this->getPaintArea();
         return QRect( rect.x() + 1, rect.y() + 1, rect.width() - 2, rect.height() - 2 );
-    }
-
-    int CurveControlChangeViewContent::getXFromTick( tick_t tick ){
-        return (int)(tick * pixelPerTick) + 5;
     }
 
     void CurveControlChangeViewContent::mouseMoveEvent( QMouseEvent *e ){
@@ -102,14 +93,14 @@ namespace cadencii{
         int bottom = controlChangeView->geometry().bottom();
         int left = visibleArea.x();
         int right = left + visibleArea.width();
-        tick_t tickAtScreenRight = (tick_t)getTickFromX( right );
+        tick_t tickAtScreenRight = (tick_t)controlChangeView->controllerAdapter->getTickFromX( right );
         measureLineIterator->reset( tickAtScreenRight );
 
         QColor barColor( 161, 157, 136 );
         QColor beatColor( 209, 204, 172 );
         while( measureLineIterator->hasNext() ){
             MeasureLine line = measureLineIterator->next();
-            int x = getXFromTick( line.tick );
+            int x = controlChangeView->controllerAdapter->getXFromTick( line.tick );
             if( x < left ){
                 continue;
             }else if( right < x ){
@@ -126,7 +117,7 @@ namespace cadencii{
 
     void CurveControlChangeViewContent::paintSongPosition( QPainter *g, QRect visibleArea ){
         tick_t songPosition = controlChangeView->controllerAdapter->getSongPosition();
-        int x = getXFromTick( songPosition );
+        int x = controlChangeView->controllerAdapter->getXFromTick( songPosition );
         g->setPen( QColor( 0, 0, 0 ) );
         g->drawLine( x, visibleArea.top(), x, visibleArea.bottom() );
         g->setPen( QColor( 0, 0, 0, 40 ) );

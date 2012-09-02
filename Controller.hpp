@@ -30,6 +30,11 @@ namespace cadencii{
         VSQ_NS::Sequence sequence;
         VSQ_NS::tick_t songPosition;
 
+        /**
+         * @brief 1 tick 時刻を何ピクセルで描画するか
+         */
+        double pixelPerTick;
+
     public:
         explicit Controller();
 
@@ -38,6 +43,10 @@ namespace cadencii{
         void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw();
 
         VSQ_NS::tick_t getSongPosition()throw();
+
+        int getXFromTick( VSQ_NS::tick_t tick )throw();
+
+        double getTickFromX( int x )throw();
 
         /**
          * @brief トラックのビューを設定する

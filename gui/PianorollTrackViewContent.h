@@ -67,11 +67,6 @@ namespace cadencii{
         int trackHeight;
 
         /**
-         * @brief 1 tick 時刻を何ピクセルで描画するか
-         */
-        double pixelPerTick;
-
-        /**
          * @brief 描画アイテムのリストをロックするための Mutex
          */
         QMutex *mutex;
@@ -169,18 +164,6 @@ namespace cadencii{
          * @param mutex ミューテックス
          */
         void setMutex( QMutex *mutex );
-
-        /**
-         * @brief tick 単位の時刻から、描画時の x 座標を取得する
-         * @param tick 時刻
-         * @return x 座標
-         */
-        int getXFromTick( VSQ_NS::tick_t tick );
-
-        /**
-         * @brief x 座標から、tick 単位の時刻を取得する
-         */
-        double getTickFromX( int x );
 
     private:
         /**

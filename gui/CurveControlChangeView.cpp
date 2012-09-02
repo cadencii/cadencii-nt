@@ -61,7 +61,7 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::setDrawOffset( tick_t drawOffset ){
-        int xScrollTo = -ui->content->getXFromTick( drawOffset );
+        int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
         QWidget *viewport = ui->scrollArea->viewport();
         QRect currentChildRect = viewport->childrenRect();
         int dx = xScrollTo - currentChildRect.x();
@@ -71,7 +71,7 @@ namespace cadencii{
 
     void CurveControlChangeView::notifyHorizontalScroll(){
         QRect visibleRect = ui->content->getVisibleArea();
-        tick_t drawOffset = (tick_t)ui->content->getTickFromX( visibleRect.x() );
+        tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
         controllerAdapter->drawOffsetChanged( (ControlChangeView *)this, drawOffset );
     }
 

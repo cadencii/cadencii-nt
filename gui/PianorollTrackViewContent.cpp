@@ -28,7 +28,6 @@ namespace cadencii{
     {
         this->track = NULL;
         this->trackHeight = DEFAULT_TRACK_HEIGHT;
-        this->pixelPerTick = 0.2;
         mutex = NULL;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
@@ -74,10 +73,6 @@ namespace cadencii{
         }
     }
 
-    double PianorollTrackViewContent::getTickFromX( int x ){
-        return (x - 5) / pixelPerTick;
-    }
-
     int PianorollTrackViewContent::getTrackHeight(){
         return trackHeight;
     }
@@ -85,10 +80,6 @@ namespace cadencii{
     QRect PianorollTrackViewContent::getVisibleArea(){
         QRect rect = this->getPaintArea();
         return QRect( rect.x() + 1, rect.y() + 1, rect.width() - 2, rect.height() - 2 );
-    }
-
-    int PianorollTrackViewContent::getXFromTick( tick_t tick ){
-        return (int)(tick * pixelPerTick) + 5;
     }
 
     int PianorollTrackViewContent::getYFromNoteNumber( int noteNumber, int trackHeight ){
@@ -177,8 +168,8 @@ namespace cadencii{
             Event item = list->get( i );
             if( item.type != EventType::NOTE ) continue;
             tick_t tick = item.clock;
-            int x = getXFromTick( tick );
-            int width = getXFromTick( tick + item.getLength() ) - x;
+            int x = pianoroll->controllerAdapter->getXFromTick( tick );
+            int width = pianoroll->controllerAdapter->getXFromTick( tick + item.getLength() ) - x;
 
             if( visibleMinX <= x + width && x <= visibleMaxX ){
                 int y = getYFromNoteNumber( item.note, trackHeight ) + 1;
@@ -201,14 +192,14 @@ namespace cadencii{
         int bottom = getYFromNoteNumber( NOTE_MIN - 1, trackHeight );
         int left = visibleArea.x();
         int right = left + visibleArea.width();
-        tick_t tickAtScreenRight = (tick_t)getTickFromX( right );
+        tick_t tickAtScreenRight = (tick_t)pianoroll->controllerAdapter->getTickFromX( right );
         measureLineIterator->reset( tickAtScreenRight );
 
         QColor barColor( 161, 157, 136 );
         QColor beatColor( 209, 204, 172 );
         while( measureLineIterator->hasNext() ){
             MeasureLine line = measureLineIterator->next();
-            int x = getXFromTick( line.tick );
+            int x = pianoroll->controllerAdapter->getXFromTick( line.tick );
             if( x < left ){
                 continue;
             }else if( right < x ){
@@ -226,7 +217,7 @@ namespace cadencii{
 
     void PianorollTrackViewContent::paintSongPosition( QPainter *g, QRect visibleArea ){
         tick_t songPosition = pianoroll->controllerAdapter->getSongPosition();
-        int x = getXFromTick( songPosition );
+        int x = pianoroll->controllerAdapter->getXFromTick( songPosition );
         g->setPen( QColor( 0, 0, 0 ) );
         g->drawLine( x, visibleArea.top(), x, visibleArea.bottom() );
         g->setPen( QColor( 0, 0, 0, 40 ) );

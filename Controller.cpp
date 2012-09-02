@@ -18,7 +18,8 @@
 namespace cadencii{
 
     Controller::Controller()
-        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 )
+        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 ),
+          songPosition( 0 ), pixelPerTick( 0.2 )
     {
     }
 
@@ -77,6 +78,14 @@ namespace cadencii{
 
     VSQ_NS::tick_t Controller::getSongPosition()throw(){
         return songPosition;
+    }
+
+    int Controller::getXFromTick( VSQ_NS::tick_t tick )throw(){
+        return (int)(tick * pixelPerTick) + 5;
+    }
+
+    double Controller::getTickFromX( int x )throw(){
+        return (x - 5) / pixelPerTick;
     }
 
 }

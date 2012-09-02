@@ -39,8 +39,8 @@ namespace cadencii{
     }
 
     void PianorollTrackView::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber ){
-        int left = ui->content->getXFromTick( tick );
-        int right = ui->content->getXFromTick( tick + length );
+        int left = controllerAdapter->getXFromTick( tick );
+        int right = controllerAdapter->getXFromTick( tick + length );
         int trackHeight = ui->content->getTrackHeight();
         int top = ui->content->getYFromNoteNumber( noteNumber, trackHeight );
         int bottom = top + trackHeight;
@@ -86,7 +86,7 @@ namespace cadencii{
 
     void PianorollTrackView::notifyHorizontalScroll(){
         QRect visibleRect = ui->content->getVisibleArea();
-        tick_t drawOffset = (tick_t)ui->content->getTickFromX( visibleRect.x() );
+        tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
         controllerAdapter->drawOffsetChanged( (TrackView *)this, drawOffset );
     }
 
@@ -118,7 +118,7 @@ namespace cadencii{
     }
 
     void PianorollTrackView::setDrawOffset( tick_t drawOffset ){
-        int xScrollTo = -ui->content->getXFromTick( drawOffset );
+        int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
         QWidget *viewport = ui->scrollArea->viewport();
         QRect currentChildRect = viewport->childrenRect();
         int dx = xScrollTo - currentChildRect.x();
