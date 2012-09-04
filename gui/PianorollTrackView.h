@@ -19,9 +19,8 @@
 #include <QMutex>
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
-#include "vsq/Track.hpp"
+#include "vsq/Sequence.hpp"
 #include "gui/CurveControlChangeViewContent.h"
-#include "gui/PianorollTrackViewContentScroller.h"
 #include "gui/PianorollTrackViewKeyboard.h"
 #include "TrackView.hpp"
 
@@ -39,13 +38,14 @@ namespace cadencii{
     public:
         Ui::PianorollTrackView *ui;
 
+    public:
         explicit PianorollTrackView( QWidget *parent = 0 );
 
         ~PianorollTrackView();
 
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
-        void setTrack( VSQ_NS::Track *track );
+        void setSequence( VSQ_NS::Sequence *sequence );
 
         void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 

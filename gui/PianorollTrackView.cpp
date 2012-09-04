@@ -28,7 +28,6 @@ namespace cadencii{
         ui->setupUi( this );
         ui->scrollArea->setBackgroundRole( QPalette::Dark );
         ui->scrollArea->setPianoroll( this );
-        ui->content->setPianoroll( this );
         ui->keyboard->setPianoroll( this );
         ui->keyboard->notifyVerticalScroll( 0 );
         controllerAdapter = 0;
@@ -41,11 +40,11 @@ namespace cadencii{
     void PianorollTrackView::ensureNoteVisible( tick_t tick, tick_t length, int noteNumber ){
         int left = controllerAdapter->getXFromTick( tick );
         int right = controllerAdapter->getXFromTick( tick + length );
-        int trackHeight = ui->content->getTrackHeight();
-        int top = ui->content->getYFromNoteNumber( noteNumber, trackHeight );
+        int trackHeight = ui->scrollArea->getTrackHeight();
+        int top = ui->scrollArea->getYFromNoteNumber( noteNumber, trackHeight );
         int bottom = top + trackHeight;
 
-        QRect visibleArea = ui->content->getVisibleArea();
+        QRect visibleArea = ui->scrollArea->getVisibleArea();
         QScrollBar *horizontalScrollBar = ui->scrollArea->horizontalScrollBar();
         QScrollBar *verticalScrollBar = ui->scrollArea->verticalScrollBar();
         int dx = 0;
@@ -80,36 +79,36 @@ namespace cadencii{
     }
 
     void PianorollTrackView::notifyVerticalScroll(){
-        QRect rect = ui->content->getVisibleArea();
+        QRect rect = ui->scrollArea->getVisibleArea();
         ui->keyboard->notifyVerticalScroll( rect.y() );
     }
 
     void PianorollTrackView::notifyHorizontalScroll(){
-        QRect visibleRect = ui->content->getVisibleArea();
+        QRect visibleRect = ui->scrollArea->getVisibleArea();
         tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
         controllerAdapter->drawOffsetChanged( (TrackView *)this, drawOffset );
     }
 
     void PianorollTrackView::repaint(){
-        ui->content->repaint();
+        ui->scrollArea->repaint();
         ui->keyboard->repaint();
         QWidget::repaint();
     }
 
-    void PianorollTrackView::setTrack( Track *track ){
-        ui->content->setTrack( track );
+    void PianorollTrackView::setSequence( Sequence *sequence ){
+        ui->scrollArea->setSequence( sequence );
     }
 
     void PianorollTrackView::setMutex( QMutex *mutex ){
-        ui->content->setMutex( mutex );
+        ui->scrollArea->setMutex( mutex );
     }
 
     void PianorollTrackView::setTimesigList( TimesigList *timesigList ){
-        ui->content->setTimesigList( timesigList );
+        ui->scrollArea->setTimesigList( timesigList );
     }
 
     void PianorollTrackView::setTrackHeight( int trackHeight ){
-        ui->content->setTrackHeight( trackHeight );
+        ui->scrollArea->setTrackHeight( trackHeight );
         ui->keyboard->setTrackHeight( trackHeight );
     }
 
@@ -119,16 +118,10 @@ namespace cadencii{
 
     void PianorollTrackView::setDrawOffset( tick_t drawOffset ){
         int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
-        QWidget *viewport = ui->scrollArea->viewport();
-        QRect currentChildRect = viewport->childrenRect();
-        int dx = xScrollTo - currentChildRect.x();
-        int dy = 0;
-        viewport->scroll( dx, dy );
-
         QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
         int maxValue = scrollBar->maximum() + scrollBar->pageStep();
         int minValue = scrollBar->minimum();
-        int contentWidth = ui->content->width();
+        int contentWidth = (int)ui->scrollArea->getSceneWidth();
         int value = minValue + (minValue - maxValue) * xScrollTo / contentWidth;
         scrollBar->setValue( value );
     }

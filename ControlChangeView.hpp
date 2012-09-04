@@ -16,7 +16,7 @@
 
 #include "ControllerAdapter.hpp"
 #include "vsq/TimesigList.hpp"
-#include "vsq/Track.hpp"
+#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
@@ -35,10 +35,10 @@ namespace cadencii{
         virtual void setTimesigList( VSQ_NS::TimesigList *timesigList ) = 0;
 
         /**
-         * @brief 描画対象のトラックを設定する
-         * @param items 描画対象のトラック
+         * @brief 描画対象のシーケンスを設定する
+         * @param items 描画対象のシーケンス
          */
-        virtual void setTrack( VSQ_NS::Track *track ) = 0;
+        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
 
         /**
          * @brief ウィジェットの実体を返す

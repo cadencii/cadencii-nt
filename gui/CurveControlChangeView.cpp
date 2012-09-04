@@ -44,8 +44,8 @@ namespace cadencii{
         QWidget::repaint();
     }
 
-    void CurveControlChangeView::setTrack( Track *track ){
-        ui->content->setTrack( track );
+    void CurveControlChangeView::setSequence( Sequence *sequence ){
+        ui->content->setSequence( sequence );
     }
 
     void CurveControlChangeView::setMutex( QMutex *mutex ){
@@ -62,12 +62,6 @@ namespace cadencii{
 
     void CurveControlChangeView::setDrawOffset( tick_t drawOffset ){
         int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
-        QWidget *viewport = ui->scrollArea->viewport();
-        QRect currentChildRect = viewport->childrenRect();
-        int dx = xScrollTo - currentChildRect.x();
-        int dy = 0;
-        viewport->scroll( dx, dy );
-
         QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
         int maxValue = scrollBar->maximum() + scrollBar->pageStep();
         int minValue = scrollBar->minimum();

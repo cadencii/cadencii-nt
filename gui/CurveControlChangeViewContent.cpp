@@ -26,8 +26,8 @@ namespace cadencii{
     CurveControlChangeViewContent::CurveControlChangeViewContent(QWidget *parent) :
         QWidget(parent)
     {
-        this->track = NULL;
-        mutex = NULL;
+        sequence = 0;
+        mutex = 0;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
         this->measureLineIterator = new MeasureLineIterator( &defaultTimesigList );
@@ -67,8 +67,12 @@ namespace cadencii{
     void CurveControlChangeViewContent::paintBackground( QPainter *g, QRect visibleArea ){
     }
 
-    void CurveControlChangeViewContent::paintEvent( QPaintEvent * ){
+    void CurveControlChangeViewContent::paintEvent( QPaintEvent *event ){
+        QWidget::paintEvent( event );
+        if( ! sequence ) return;
         setMinimumHeight( controlChangeView->height() );
+        tick_t totalClocks = sequence->getTotalClocks();
+        setMinimumWidth( controlChangeView->controllerAdapter->getXFromTick( totalClocks) );
         QPainter p( this );
 
         QRect visibleArea = this->getPaintArea();
@@ -125,8 +129,8 @@ namespace cadencii{
         g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
     }
 
-    void CurveControlChangeViewContent::setTrack( Track *track ){
-        this->track = track;
+    void CurveControlChangeViewContent::setSequence( Sequence *sequence ){
+        this->sequence = sequence;
     }
 
     void CurveControlChangeViewContent::setMutex( QMutex *mutex ){

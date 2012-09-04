@@ -19,7 +19,7 @@
 #include <QMutex>
 #include "vsq/TimesigList.hpp"
 #include "vsq/MeasureLineIterator.hpp"
-#include "vsq/Track.hpp"
+#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
@@ -32,9 +32,9 @@ namespace cadencii{
         CurveControlChangeView *controlChangeView;
 
         /**
-         * @brief 描画されるアイテムの一覧
+         * @brief 描画されるシーケンス
          */
-        VSQ_NS::Track *track;
+        VSQ_NS::Sequence *sequence;
 
         /**
          * 拍ごとの線を描画するための、拍子変更情報
@@ -62,10 +62,10 @@ namespace cadencii{
         ~CurveControlChangeViewContent();
 
         /**
-         * @brief 描画対象のトラックを設定する
-         * @param items 描画対象のトラック
+         * @brief 描画対象のシーケンスを設定する
+         * @param items 描画対象のシーケンス
          */
-        void setTrack( VSQ_NS::Track *track );
+        void setSequence( VSQ_NS::Sequence *sequence );
 
         /**
          * @brief テンポ変更リストを設定する

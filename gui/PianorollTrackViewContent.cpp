@@ -15,6 +15,7 @@
 #include <math.h>
 #include <QScrollArea>
 #include <QPainter>
+#include <QScrollBar>
 #include "vsq/Timesig.hpp"
 #include "gui/PianorollTrackView.h"
 #include "gui/PianorollTrackViewContent.h"
@@ -24,22 +25,27 @@ namespace cadencii{
     using namespace VSQ_NS;
 
     PianorollTrackViewContent::PianorollTrackViewContent(QWidget *parent) :
-        QWidget(parent)
+        QGraphicsView(parent)
     {
-        this->track = NULL;
+        deconstructStarted = false;
+        scene = new QGraphicsScene();
+        setScene( scene );
+        this->sequence = NULL;
         this->trackHeight = DEFAULT_TRACK_HEIGHT;
         mutex = NULL;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
         this->measureLineIterator = new MeasureLineIterator( &defaultTimesigList );
         this->setMouseTracking( true );
+        this->setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
-        this->setMinimumWidth( 5000 );
-        this->setMinimumHeight( this->getMinimumHeight() );
+        scene->setSceneRect( 0, 0, 5000, getMinimumHeight() );
     }
 
     PianorollTrackViewContent::~PianorollTrackViewContent(){
+        deconstructStarted = true;
         delete measureLineIterator;
+        delete scene;
     }
 
     int PianorollTrackViewContent::getMinimumHeight(){
@@ -59,27 +65,29 @@ namespace cadencii{
         return (noteNumber - modura) / 12 - 2;
     }
 
-    QRect PianorollTrackViewContent::getPaintArea(){
-        QScrollArea *scroll = (QScrollArea *)this->parent();
-        if( scroll ){
-            QRect rect = scroll->childrenRect();
-            int x = -rect.x() - 1;
-            int y = -rect.y() - 1;
-            int width = scroll->width() + 2;
-            int height = scroll->height() + 2;
-            return QRect( x, y, width, height );
-        }else{
-            return QRect( -1, -1, this->width() + 2, this->height() + 2 );
-        }
-    }
-
     int PianorollTrackViewContent::getTrackHeight(){
         return trackHeight;
     }
 
     QRect PianorollTrackViewContent::getVisibleArea(){
-        QRect rect = this->getPaintArea();
-        return QRect( rect.x() + 1, rect.y() + 1, rect.width() - 2, rect.height() - 2 );
+        QRect result;
+        QScrollBar *horizontalScroll = horizontalScrollBar();
+        QScrollBar *verticalScroll = verticalScrollBar();
+        if( sequence ){
+            tick_t totalClocks = sequence->getTotalClocks();
+            int virtualScreenWidth = pianoroll->controllerAdapter->getXFromTick( totalClocks );
+            int x = (horizontalScroll->value() - horizontalScroll->minimum()) * virtualScreenWidth / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum());
+
+            int virtualScreenHeight = getMinimumHeight();
+            int y = (verticalScroll->value() - verticalScroll->minimum()) * virtualScreenHeight / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum());
+
+            int width = horizontalScroll->width();
+            int height = verticalScroll->height();
+            result = QRect( x, y, width, height );
+        }else{
+            result = QRect( 0, 0, horizontalScroll->width(), verticalScroll->height() );
+        }
+        return result;
     }
 
     int PianorollTrackViewContent::getYFromNoteNumber( int noteNumber, int trackHeight ){
@@ -127,32 +135,35 @@ namespace cadencii{
         }
     }
 
-    void PianorollTrackViewContent::paintEvent( QPaintEvent * ){
+    void PianorollTrackViewContent::drawForeground( QPainter *painter, const QRectF &rect ){
         int minimumHeight = this->getMinimumHeight();
-        if( this->minimumHeight() != minimumHeight ){
-            this->setMinimumHeight( minimumHeight );
+        QRectF currentSceneRect = sceneRect();
+        if( currentSceneRect.height() != minimumHeight ){
+            scene->setSceneRect( currentSceneRect.x(), currentSceneRect.y(),currentSceneRect.width(), minimumHeight );
         }
-        QPainter p( this );
+        tick_t totalClocks = sequence->getTotalClocks();
+        int width = pianoroll->controllerAdapter->getXFromTick( totalClocks );
+        scene->setSceneRect( currentSceneRect.x(), currentSceneRect.y(), width, currentSceneRect.height() );
 
-        QRect visibleArea = this->getPaintArea();
+        QRect visibleArea( (int)rect.x(), (int)rect.y(), (int)rect.width(), (int)rect.height() );
 
-        paintBackground( &p, visibleArea );
-        paintMeasureLines( &p, visibleArea );
+        paintBackground( painter, visibleArea );
+        paintMeasureLines( painter, visibleArea );
         if( mutex ){
             mutex->lock();
-            paintItems( &p, visibleArea );
+            paintItems( painter, visibleArea );
             mutex->unlock();
         }else{
-            paintItems( &p, visibleArea );
+            paintItems( painter, visibleArea );
         }
-        paintSongPosition( &p, visibleArea );
+        paintSongPosition( painter, visibleArea );
     }
 
     void PianorollTrackViewContent::paintItems( QPainter *g, QRect visibleArea ){
-        if( track == NULL ){
+        if( sequence == NULL ){
             return;
         }
-        Event::List *list = this->track->getEvents();
+        Event::List *list = sequence->track[1].getEvents();//TODO:1以外を選べるように
         int count = list->size();
         int height = trackHeight - 1;
 
@@ -225,8 +236,8 @@ namespace cadencii{
         g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
     }
 
-    void PianorollTrackViewContent::setTrack( Track *track ){
-        this->track = track;
+    void PianorollTrackViewContent::setSequence( Sequence *sequence ){
+        this->sequence = sequence;
     }
 
     void PianorollTrackViewContent::setMutex( QMutex *mutex ){
@@ -244,11 +255,27 @@ namespace cadencii{
 
     void PianorollTrackViewContent::setTrackHeight( int trackHeight ){
         this->trackHeight = trackHeight;
-        this->setMinimumHeight( this->getMinimumHeight() );
+        QRectF rect = sceneRect();
+        scene->setSceneRect( rect.x(), rect.y(), rect.width(), getMinimumHeight() );
     }
 
     void PianorollTrackViewContent::setPianoroll( PianorollTrackView *pianoroll ){
         this->pianoroll = pianoroll;
+    }
+
+    void PianorollTrackViewContent::scrollContentsBy( int dx, int dy ){
+        QGraphicsView::scrollContentsBy( dx, dy );
+        if( deconstructStarted ) return;
+        if( dy && pianoroll ){
+            pianoroll->notifyVerticalScroll();
+        }
+        if( dx && pianoroll ){
+            pianoroll->notifyHorizontalScroll();
+        }
+    }
+
+    int PianorollTrackViewContent::getSceneWidth(){
+        return (int)scene->sceneRect().width();
     }
 
 }

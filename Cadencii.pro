@@ -12,7 +12,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     gui/PianorollTrackViewKeyboard.cpp \
-    gui/PianorollTrackViewContentScroller.cpp \
     gui/PianorollTrackViewContent.cpp \
     gui/PianorollTrackView.cpp \
     gui/WindowMainView.cpp \
@@ -24,7 +23,6 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     gui/PianorollTrackViewKeyboard.h \
-    gui/PianorollTrackViewContentScroller.h \
     gui/PianorollTrackViewContent.h \
     gui/PianorollTrackView.h \
     TrackView.hpp \

@@ -17,15 +17,16 @@
 #include <map>
 #include <QWidget>
 #include <QMutex>
+#include <QGraphicsView>
 #include "vsq/TimesigList.hpp"
 #include "vsq/MeasureLineIterator.hpp"
-#include "vsq/Track.hpp"
+#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
     class PianorollTrackView;
 
-    class PianorollTrackViewContent : public QWidget{
+    class PianorollTrackViewContent : public QGraphicsView{
         Q_OBJECT
 
     public:
@@ -42,9 +43,9 @@ namespace cadencii{
         PianorollTrackView *pianoroll;
 
         /**
-         * @brief 描画されるアイテムの一覧
+         * @brief 描画されるシーケンス
          */
-        VSQ_NS::Track *track;
+        VSQ_NS::Sequence *sequence;
 
         /**
          * 拍ごとの線を描画するための、拍子変更情報
@@ -70,6 +71,10 @@ namespace cadencii{
          * @brief 描画アイテムのリストをロックするための Mutex
          */
         QMutex *mutex;
+
+        QGraphicsScene *scene;
+
+        bool deconstructStarted;
 
     public:
         /**
@@ -105,10 +110,10 @@ namespace cadencii{
         ~PianorollTrackViewContent();
 
         /**
-         * @brief 描画対象のトラックを設定する
-         * @param items 描画対象のトラック
+         * @brief 描画対象のシーケンスを設定する
+         * @param items 描画対象のシーケンス
          */
-        void setTrack( VSQ_NS::Track *track );
+        void setSequence( VSQ_NS::Sequence *sequence );
 
         /**
          * @brief テンポ変更リストを設定する
@@ -117,14 +122,11 @@ namespace cadencii{
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
         /**
-         * オーバーライドする。ピアノロールの描画処理が追加される
-         */
-        void paintEvent( QPaintEvent *e );
-
-        /**
          * オーバーライドする。再描画処理が追加される
          */
         void mouseMoveEvent( QMouseEvent *e );
+
+        void drawForeground( QPainter *painter, const QRectF &rect );
 
         /**
          * @brief ノートの描画高さを設定する
@@ -165,6 +167,10 @@ namespace cadencii{
          */
         void setMutex( QMutex *mutex );
 
+        void scrollContentsBy( int dx, int dy );
+
+        int getSceneWidth();
+
     private:
         /**
          * ピアノロールのバックグラウンドを描画する
@@ -190,8 +196,6 @@ namespace cadencii{
          * @brief 最小高さを取得する
          */
         inline int getMinimumHeight();
-
-        QRect getPaintArea();
     };
 
 }

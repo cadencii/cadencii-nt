@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="cadencii::PianorollTrackViewContentScroller" name="scrollArea">
+    <widget class="cadencii::PianorollTrackViewContent" name="scrollArea">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
@@ -53,19 +53,6 @@
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOn</enum>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="cadencii::PianorollTrackViewContent" name="content">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>688</width>
-        <height>481</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
    </item>
   </layout>
@@ -80,12 +67,6 @@
    <class>cadencii::PianorollTrackViewKeyboard</class>
    <extends>QWidget</extends>
    <header>gui/pianorolltrackviewkeyboard.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cadencii::PianorollTrackViewContentScroller</class>
-   <extends>QScrollArea</extends>
-   <header>gui/pianorolltrackviewcontentscroller.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

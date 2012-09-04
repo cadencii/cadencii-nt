@@ -27,6 +27,7 @@ namespace cadencii{
         this->trackView = trackView;
         if( this->trackView ){
             this->trackView->setControllerAdapter( this );
+            this->trackView->setSequence( &sequence );
         }
 
         if( mainView ){
@@ -38,6 +39,7 @@ namespace cadencii{
         this->controlChangeView = controlChangeView;
         if( this->controlChangeView ){
             this->controlChangeView->setControllerAdapter( this );
+            this->controlChangeView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setControlChangeView( this->controlChangeView );
@@ -64,8 +66,8 @@ namespace cadencii{
         reader.read( sequence, &stream, "Shift_JIS" );
         stream.close();
 
-        trackView->setTrack( &sequence.track[1] );
-        controlChangeView->setTrack( &sequence.track[1] );
+        trackView->setSequence( &sequence );
+        controlChangeView->setSequence( &sequence );
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
