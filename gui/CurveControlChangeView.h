@@ -21,7 +21,6 @@
 #include "vsq/TimesigList.hpp"
 #include "vsq/Track.hpp"
 #include "gui/CurveControlChangeViewContent.h"
-#include "gui/CurveControlChangeViewContentScroller.h"
 #include "gui/CurveControlChangeViewSelector.h"
 #include "ControlChangeView.hpp"
 

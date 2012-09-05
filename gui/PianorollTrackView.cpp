@@ -122,7 +122,8 @@ namespace cadencii{
         int maxValue = scrollBar->maximum() + scrollBar->pageStep();
         int minValue = scrollBar->minimum();
         int contentWidth = (int)ui->scrollArea->getSceneWidth();
-        int value = minValue + (minValue - maxValue) * xScrollTo / contentWidth;
+        int value = (int)(minValue + (minValue - maxValue) * (double)xScrollTo / contentWidth);
         scrollBar->setValue( value );
     }
+
 }

@@ -15,8 +15,8 @@
 #define __CurveControlChangeViewContent_h__
 
 #include <map>
-#include <QWidget>
 #include <QMutex>
+#include <QGraphicsView>
 #include "vsq/TimesigList.hpp"
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/Sequence.hpp"
@@ -25,7 +25,7 @@ namespace cadencii{
 
     class CurveControlChangeView;
 
-    class CurveControlChangeViewContent : public QWidget{
+    class CurveControlChangeViewContent : public QGraphicsView{
         Q_OBJECT
 
     private:
@@ -56,6 +56,10 @@ namespace cadencii{
          */
         QMutex *mutex;
 
+        QGraphicsScene *scene;
+
+        bool deconstructStarted;
+
     public:
         explicit CurveControlChangeViewContent( QWidget *parent = 0 );
 
@@ -73,15 +77,14 @@ namespace cadencii{
          */
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
-        /**
-         * @brief オーバーライドする。描画処理が追加される
-         */
-        void paintEvent( QPaintEvent *e );
+        void drawForeground( QPainter *painter, const QRectF &rect );
 
         /**
          * オーバーライドする。再描画処理が追加される
          */
         void mouseMoveEvent( QMouseEvent *e );
+
+        void scrollContentsBy( int dx, int dy );
 
         /**
          * @brief このインスタンスを持っているコントロールチェンジビューワを設定する
@@ -99,6 +102,8 @@ namespace cadencii{
          * @param mutex ミューテックス
          */
         void setMutex( QMutex *mutex );
+
+        int getSceneWidth();
 
     private:
         /**
@@ -120,8 +125,6 @@ namespace cadencii{
          * @brief ソングポジションを描画する
          */
         void paintSongPosition( QPainter *g, QRect visibleArea );
-
-        QRect getPaintArea();
     };
 
 }

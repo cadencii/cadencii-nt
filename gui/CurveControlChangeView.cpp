@@ -29,7 +29,6 @@ namespace cadencii{
         ui->setupUi( this );
         ui->scrollArea->setBackgroundRole( QPalette::Dark );
         ui->scrollArea->setControlChangeView( this );
-        ui->content->setControlChangeView( this );
         ui->keyboard->setControlChangeView( this );
         controllerAdapter = 0;
     }
@@ -39,25 +38,30 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::repaint(){
-        ui->content->repaint();
         ui->keyboard->repaint();
         QWidget::repaint();
     }
 
     void CurveControlChangeView::setSequence( Sequence *sequence ){
-        ui->content->setSequence( sequence );
+        ui->scrollArea->setSequence( sequence );
     }
 
     void CurveControlChangeView::setMutex( QMutex *mutex ){
-        ui->content->setMutex( mutex );
+        ui->scrollArea->setMutex( mutex );
     }
 
     void CurveControlChangeView::setTimesigList( TimesigList *timesigList ){
-        ui->content->setTimesigList( timesigList );
+        ui->scrollArea->setTimesigList( timesigList );
     }
 
     void *CurveControlChangeView::getWidget(){
         return (void *)this;
+    }
+
+    void CurveControlChangeView::notifyHorizontalScroll(){
+        QRect visibleRect = ui->scrollArea->getVisibleArea();
+        tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
+        controllerAdapter->drawOffsetChanged( (ControlChangeView *)this, drawOffset );
     }
 
     void CurveControlChangeView::setDrawOffset( tick_t drawOffset ){
@@ -65,15 +69,9 @@ namespace cadencii{
         QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
         int maxValue = scrollBar->maximum() + scrollBar->pageStep();
         int minValue = scrollBar->minimum();
-        int contentWidth = ui->content->width();
-        int value = minValue + (minValue - maxValue) * xScrollTo / contentWidth;
+        int contentWidth = ui->scrollArea->getSceneWidth();
+        int value = (int)(minValue + (minValue - maxValue) * (double)xScrollTo / contentWidth);
         scrollBar->setValue( value );
-    }
-
-    void CurveControlChangeView::notifyHorizontalScroll(){
-        QRect visibleRect = ui->content->getVisibleArea();
-        tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
-        controllerAdapter->drawOffsetChanged( (ControlChangeView *)this, drawOffset );
     }
 
 }

@@ -13,8 +13,8 @@
  */
 #include <sstream>
 #include <math.h>
-#include <QScrollArea>
 #include <QPainter>
+#include <QScrollBar>
 #include "vsq/Timesig.hpp"
 #include "gui/CurveControlChangeView.h"
 #include "gui/CurveControlChangeViewContent.h"
@@ -23,40 +23,48 @@ namespace cadencii{
     using namespace std;
     using namespace VSQ_NS;
 
-    CurveControlChangeViewContent::CurveControlChangeViewContent(QWidget *parent) :
-        QWidget(parent)
+    CurveControlChangeViewContent::CurveControlChangeViewContent( QWidget *parent ) :
+        QGraphicsView( parent )
     {
+        deconstructStarted = false;
+        scene = new QGraphicsScene();
+        setScene( scene );
         sequence = 0;
         mutex = 0;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
         this->measureLineIterator = new MeasureLineIterator( &defaultTimesigList );
         this->setMouseTracking( true );
+        this->setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
-        this->setMinimumWidth( 5000 );
+        scene->setSceneRect( 0, 0, 5000, height() );
     }
 
     CurveControlChangeViewContent::~CurveControlChangeViewContent(){
+        deconstructStarted = true;
         delete measureLineIterator;
-    }
-
-    QRect CurveControlChangeViewContent::getPaintArea(){
-        QScrollArea *scroll = (QScrollArea *)this->parent();
-        if( scroll ){
-            QRect rect = scroll->childrenRect();
-            int x = -rect.x() - 1;
-            int y = -rect.y() - 1;
-            int width = scroll->width() + 2;
-            int height = scroll->height() + 2;
-            return QRect( x, y, width, height );
-        }else{
-            return QRect( -1, -1, this->width() + 2, this->height() + 2 );
-        }
+        delete scene;
     }
 
     QRect CurveControlChangeViewContent::getVisibleArea(){
-        QRect rect = this->getPaintArea();
-        return QRect( rect.x() + 1, rect.y() + 1, rect.width() - 2, rect.height() - 2 );
+        QRect result;
+        QScrollBar *horizontalScroll = horizontalScrollBar();
+        QScrollBar *verticalScroll = verticalScrollBar();
+        if( sequence ){
+            tick_t totalClocks = sequence->getTotalClocks();
+            double virtualScreenWidth = controlChangeView->controllerAdapter->getXFromTick( totalClocks );
+            int x = (int)((horizontalScroll->value() - horizontalScroll->minimum()) * virtualScreenWidth / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum()));
+
+            double virtualScreenHeight = height();
+            int y = (int)((verticalScroll->value() - verticalScroll->minimum()) * virtualScreenHeight / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum()));
+
+            int width = horizontalScroll->width();
+            int height = verticalScroll->height();
+            result = QRect( x, y, width, height );
+        }else{
+            result = QRect( 0, 0, horizontalScroll->width(), verticalScroll->height() );
+        }
+        return result;
     }
 
     void CurveControlChangeViewContent::mouseMoveEvent( QMouseEvent *e ){
@@ -64,29 +72,29 @@ namespace cadencii{
         QWidget::mouseMoveEvent( e );
     }
 
-    void CurveControlChangeViewContent::paintBackground( QPainter *g, QRect visibleArea ){
-    }
-
-    void CurveControlChangeViewContent::paintEvent( QPaintEvent *event ){
-        QWidget::paintEvent( event );
-        if( ! sequence ) return;
-        setMinimumHeight( controlChangeView->height() );
+    void CurveControlChangeViewContent::drawForeground( QPainter *painter, const QRectF &rect ){
+        if( !sequence || !scene ) return;
         tick_t totalClocks = sequence->getTotalClocks();
-        setMinimumWidth( controlChangeView->controllerAdapter->getXFromTick( totalClocks) );
-        QPainter p( this );
+        int sceneWidth = controlChangeView->controllerAdapter->getXFromTick( totalClocks );
+        int sceneHeight = controlChangeView->height();
+        scene->setSceneRect( 0, 0, sceneWidth, sceneHeight );
 
-        QRect visibleArea = this->getPaintArea();
+        QRect visibleArea( (int)rect.x(), (int)rect.y(), (int)rect.width(), (int)rect.height() );
 
-        paintBackground( &p, visibleArea );
-        paintMeasureLines( &p, visibleArea );
+        paintBackground( painter, visibleArea );
+        paintMeasureLines( painter, visibleArea );
         if( mutex ){
             mutex->lock();
-            paintItems( &p, visibleArea );
+            paintItems( painter, visibleArea );
             mutex->unlock();
         }else{
-            paintItems( &p, visibleArea );
+            paintItems( painter, visibleArea );
         }
-        paintSongPosition( &p, visibleArea );
+        paintSongPosition( painter, visibleArea );
+    }
+
+    void CurveControlChangeViewContent::paintBackground( QPainter *g, QRect visibleArea ){
+
     }
 
     void CurveControlChangeViewContent::paintItems( QPainter *g, QRect visibleArea ){
@@ -148,6 +156,18 @@ namespace cadencii{
 
     void CurveControlChangeViewContent::setControlChangeView( CurveControlChangeView *controlChangeView ){
         this->controlChangeView = controlChangeView;
+    }
+
+    int CurveControlChangeViewContent::getSceneWidth(){
+        return (int)scene->sceneRect().width();
+    }
+
+    void CurveControlChangeViewContent::scrollContentsBy( int dx, int dy ){
+        QGraphicsView::scrollContentsBy( dx, dy );
+        if( deconstructStarted ) return;
+        if( dx && controlChangeView ){
+            controlChangeView->notifyHorizontalScroll();
+        }
     }
 
 }

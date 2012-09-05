@@ -75,11 +75,11 @@ namespace cadencii{
         QScrollBar *verticalScroll = verticalScrollBar();
         if( sequence ){
             tick_t totalClocks = sequence->getTotalClocks();
-            int virtualScreenWidth = pianoroll->controllerAdapter->getXFromTick( totalClocks );
-            int x = (horizontalScroll->value() - horizontalScroll->minimum()) * virtualScreenWidth / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum());
+            double virtualScreenWidth = pianoroll->controllerAdapter->getXFromTick( totalClocks );
+            int x = (int)((horizontalScroll->value() - horizontalScroll->minimum()) * virtualScreenWidth / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum()));
 
-            int virtualScreenHeight = getMinimumHeight();
-            int y = (verticalScroll->value() - verticalScroll->minimum()) * virtualScreenHeight / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum());
+            double virtualScreenHeight = getMinimumHeight();
+            int y = (int)((verticalScroll->value() - verticalScroll->minimum()) * virtualScreenHeight / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum()));
 
             int width = horizontalScroll->width();
             int height = verticalScroll->height();
@@ -136,14 +136,12 @@ namespace cadencii{
     }
 
     void PianorollTrackViewContent::drawForeground( QPainter *painter, const QRectF &rect ){
-        int minimumHeight = this->getMinimumHeight();
-        QRectF currentSceneRect = sceneRect();
-        if( currentSceneRect.height() != minimumHeight ){
-            scene->setSceneRect( currentSceneRect.x(), currentSceneRect.y(),currentSceneRect.width(), minimumHeight );
-        }
+        int height = this->getMinimumHeight();
         tick_t totalClocks = sequence->getTotalClocks();
         int width = pianoroll->controllerAdapter->getXFromTick( totalClocks );
-        scene->setSceneRect( currentSceneRect.x(), currentSceneRect.y(), width, currentSceneRect.height() );
+
+        QRectF currentSceneRect = sceneRect();
+        scene->setSceneRect( currentSceneRect.x(), currentSceneRect.y(), width, height );
 
         QRect visibleArea( (int)rect.x(), (int)rect.y(), (int)rect.width(), (int)rect.height() );
 

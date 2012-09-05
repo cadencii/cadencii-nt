@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     Controller.cpp \
     gui/CurveControlChangeView.cpp \
     gui/CurveControlChangeViewSelector.cpp \
-    gui/CurveControlChangeViewContentScroller.cpp \
     gui/CurveControlChangeViewContent.cpp
 
 HEADERS  += \
@@ -33,7 +32,6 @@ HEADERS  += \
     ControlChangeView.hpp \
     gui/CurveControlChangeView.h \
     gui/CurveControlChangeViewSelector.h \
-    gui/CurveControlChangeViewContentScroller.h \
     gui/CurveControlChangeViewContent.h
 
 FORMS    += \

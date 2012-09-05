@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="cadencii::CurveControlChangeViewContentScroller" name="scrollArea">
+    <widget class="cadencii::CurveControlChangeViewContent" name="scrollArea">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
@@ -53,19 +53,6 @@
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="cadencii::CurveControlChangeViewContent" name="content">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>703</width>
-        <height>496</height>
-       </rect>
-      </property>
-     </widget>
     </widget>
    </item>
   </layout>
@@ -73,14 +60,8 @@
  <customwidgets>
   <customwidget>
    <class>cadencii::CurveControlChangeViewContent</class>
-   <extends>QWidget</extends>
+   <extends>QGraphicsView</extends>
    <header>gui/curvecontrolchangeviewcontent.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cadencii::CurveControlChangeViewContentScroller</class>
-   <extends>QScrollArea</extends>
-   <header>gui/curvecontrolchangeviewcontentscroller.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>cadencii::CurveControlChangeViewSelector</class>
