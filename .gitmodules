@@ -1,3 +1,3 @@
 [submodule "vsq"]
 	path = vsq
-	url = git://github.com/kbinani/libvsq.git
+	url = git@github.com:kbinani/libvsq.git
