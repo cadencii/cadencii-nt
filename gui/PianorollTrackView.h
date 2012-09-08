@@ -20,7 +20,7 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Sequence.hpp"
-#include "gui/CurveControlChangeViewContent.h"
+#include "gui/CurveControlChangeView.h"
 #include "gui/PianorollTrackViewKeyboard.h"
 #include "TrackView.hpp"
 

@@ -16,9 +16,9 @@ SOURCES += main.cpp\
     gui/PianorollTrackView.cpp \
     gui/WindowMainView.cpp \
     Controller.cpp \
-    gui/CurveControlChangeView.cpp \
-    gui/CurveControlChangeViewSelector.cpp \
-    gui/CurveControlChangeViewContent.cpp
+    gui/EditorWidgetBase.cpp \
+    gui/EditorWidgetBaseMainContent.cpp \
+    gui/CurveControlChangeView.cpp
 
 HEADERS  += \
     gui/PianorollTrackViewKeyboard.h \
@@ -30,14 +30,15 @@ HEADERS  += \
     Controller.hpp \
     ControllerAdapter.hpp \
     ControlChangeView.hpp \
-    gui/CurveControlChangeView.h \
-    gui/CurveControlChangeViewSelector.h \
-    gui/CurveControlChangeViewContent.h
+    gui/EditorWidgetBaseContent.h \
+    gui/EditorWidgetBase.h \
+    gui/EditorWidgetBaseMainContent.h \
+    gui/CurveControlChangeView.h
 
 FORMS    += \
     gui/PianorollTrackView.ui \
     gui/WindowMainView.ui \
-    gui/CurveControlChangeView.ui
+    gui/EditorWidgetBase.ui
 
 OTHER_FILES +=
 

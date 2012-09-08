@@ -1,5 +1,5 @@
 /**
- * CurveControlChangeViewContent.h
+ * EditorWidgetBaseMainContent.h
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,30 +11,32 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __CurveControlChangeViewContent_h__
-#define __CurveControlChangeViewContent_h__
+#ifndef __EditorWidgetBaseMainContent_h__
+#define __EditorWidgetBaseMainContent_h__
 
 #include <map>
+#include <QWidget>
 #include <QMutex>
 #include <QGraphicsView>
+#include "ControllerAdapter.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
-    class CurveControlChangeView;
+    class EditorWidgetBase;
 
-    class CurveControlChangeViewContent : public QGraphicsView{
+    class EditorWidgetBaseMainContent : public QGraphicsView{
+        friend class EditorWidgetBase;
+
         Q_OBJECT
 
-    private:
-        CurveControlChangeView *controlChangeView;
+    protected:
+        ControllerAdapter *controllerAdapter;
 
-        /**
-         * @brief 描画されるシーケンス
-         */
-        VSQ_NS::Sequence *sequence;
+    private:
+        EditorWidgetBase *parentWidget;
 
         /**
          * 拍ごとの線を描画するための、拍子変更情報
@@ -51,25 +53,14 @@ namespace cadencii{
          */
         VSQ_NS::MeasureLineIterator *measureLineIterator;
 
-        /**
-         * @brief 描画アイテムのリストをロックするための Mutex
-         */
-        QMutex *mutex;
-
         QGraphicsScene *scene;
 
         bool deconstructStarted;
 
     public:
-        explicit CurveControlChangeViewContent( QWidget *parent = 0 );
+        explicit EditorWidgetBaseMainContent( QWidget *parent = 0 );
 
-        ~CurveControlChangeViewContent();
-
-        /**
-         * @brief 描画対象のシーケンスを設定する
-         * @param items 描画対象のシーケンス
-         */
-        void setSequence( VSQ_NS::Sequence *sequence );
+        ~EditorWidgetBaseMainContent();
 
         /**
          * @brief テンポ変更リストを設定する
@@ -77,25 +68,31 @@ namespace cadencii{
          */
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
-        void drawForeground( QPainter *painter, const QRectF &rect );
+        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+
+        void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
 
         /**
          * オーバーライドする。再描画処理が追加される
          */
         void mouseMoveEvent( QMouseEvent *e );
 
-        void scrollContentsBy( int dx, int dy );
+        void drawForeground( QPainter *painter, const QRectF &rect );
 
         /**
-         * @brief このインスタンスを持っているコントロールチェンジビューワを設定する
-         * @param controlChangeView コントロールチェンジビューワ
-         */
-        void setControlChangeView( CurveControlChangeView *controlChangeView );
-
-        /**
-         * @brief スクロールされた結果、可視状態となっている領域を取得する
+         * スクロールされた結果、可視状態となっている領域を取得する
          */
         QRect getVisibleArea();
+
+        /**
+         * @brief ソングポジションを設定する
+         */
+        void setSongPosition( VSQ_NS::tick_t songPosition );
+
+        /**
+         * @brief ソングポジションを取得する
+         */
+        VSQ_NS::tick_t getSongPosition();
 
         /**
          * @brief ミューテックスを設定する
@@ -103,27 +100,12 @@ namespace cadencii{
          */
         void setMutex( QMutex *mutex );
 
+        void scrollContentsBy( int dx, int dy );
+
         int getSceneWidth();
 
-    private:
-        /**
-         * ピアノロールのバックグラウンドを描画する
-         */
-        void paintBackground( QPainter *g, QRect visibleArea );
-
-        /**
-         * アイテムを描画する
-         */
-        void paintItems( QPainter *g, QRect visibleArea );
-
-        /**
-         * 1拍ごとの線を描画する
-         */
         void paintMeasureLines( QPainter *g, QRect visibleArea );
 
-        /**
-         * @brief ソングポジションを描画する
-         */
         void paintSongPosition( QPainter *g, QRect visibleArea );
     };
 
