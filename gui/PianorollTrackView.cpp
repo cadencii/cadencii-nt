@@ -23,6 +23,7 @@ namespace cadencii{
     {
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
+        trackIndex = 0;
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -208,7 +209,7 @@ namespace cadencii{
         if( sequence == NULL ){
             return;
         }
-        VSQ_NS::Event::List *list = sequence->track[1].getEvents();//TODO:1以外を選べるように
+        VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
         int count = list->size();
         int height = trackHeight - 1;
 
@@ -258,6 +259,10 @@ namespace cadencii{
     int PianorollTrackView::getNoteOctave( int noteNumber ){
         int modura = getNoteModuration( noteNumber );
         return (noteNumber - modura) / 12 - 2;
+    }
+
+    void PianorollTrackView::setTrackIndex( int index ){
+        trackIndex = index;
     }
 
 }

@@ -52,6 +52,12 @@ namespace cadencii{
          */
         virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
 
+        /**
+         * @brief 表示するトラックの番号を指定する
+         * @param index トラックの番号
+         */
+        virtual void setTrackIndex( int index ) = 0;
+
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ){
             this->controllerAdapter = controllerAdapter;
         }

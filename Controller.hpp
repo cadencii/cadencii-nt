@@ -65,6 +65,13 @@ namespace cadencii{
          * @param[in] mainView ビュー
          */
         void setMainView( MainView *mainView )throw();
+
+    private:
+        /**
+         * @brief 表示するトラックのインデックスを設定する
+         * @param トラックのインデックス
+         */
+        void setTrackIndex( int index )throw();
     };
 
 }

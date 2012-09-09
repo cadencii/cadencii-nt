@@ -68,6 +68,7 @@ namespace cadencii{
 
         trackView->setSequence( &sequence );
         controlChangeView->setSequence( &sequence );
+        setTrackIndex( 0 );
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
@@ -88,6 +89,12 @@ namespace cadencii{
 
     double Controller::getTickFromX( int x )throw(){
         return (x - 5) / pixelPerTick;
+    }
+
+    void Controller::setTrackIndex( int index )throw(){
+        //TODO:trackIndexをフィールドで持っておくべき
+        trackView->setTrackIndex( index );
+        controlChangeView->setTrackIndex( index );
     }
 
 }

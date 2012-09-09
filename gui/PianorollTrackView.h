@@ -40,6 +40,7 @@ namespace cadencii{
          * @brief 鍵盤の音の名前(C4など)
          */
         QString *keyNames;
+        int trackIndex;
 
     public:
         PianorollTrackView( QWidget *parent = 0 );
@@ -65,6 +66,8 @@ namespace cadencii{
         QSizeF getPreferedSceneSize();
 
         void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
+
+        void setTrackIndex( int index );
 
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する

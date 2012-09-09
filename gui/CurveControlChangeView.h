@@ -23,6 +23,7 @@ namespace cadencii{
     class CurveControlChangeView : public EditorWidgetBase, public ControlChangeView{
     private:
         VSQ_NS::Sequence *sequence;
+        int trackIndex;
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );
@@ -42,6 +43,8 @@ namespace cadencii{
         void *getScrollEventSender();
 
         QSizeF getPreferedSceneSize();
+
+        void setTrackIndex( int index );
     };
 
 }
