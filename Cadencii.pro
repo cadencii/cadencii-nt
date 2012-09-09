@@ -11,32 +11,28 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    gui/PianorollTrackViewKeyboard.cpp \
-    gui/PianorollTrackViewContent.cpp \
-    gui/PianorollTrackView.cpp \
     gui/WindowMainView.cpp \
     Controller.cpp \
     gui/EditorWidgetBase.cpp \
     gui/EditorWidgetBaseMainContent.cpp \
-    gui/CurveControlChangeView.cpp
+    gui/EditorWidgetBaseSubContent.cpp \
+    gui/CurveControlChangeView.cpp \
+    gui/PianorollTrackView.cpp
 
 HEADERS  += \
-    gui/PianorollTrackViewKeyboard.h \
-    gui/PianorollTrackViewContent.h \
-    gui/PianorollTrackView.h \
     TrackView.hpp \
     gui/WindowMainView.h \
     MainView.hpp \
     Controller.hpp \
     ControllerAdapter.hpp \
     ControlChangeView.hpp \
-    gui/EditorWidgetBaseContent.h \
     gui/EditorWidgetBase.h \
     gui/EditorWidgetBaseMainContent.h \
-    gui/CurveControlChangeView.h
+    gui/EditorWidgetBaseSubContent.h \
+    gui/CurveControlChangeView.h \
+    gui/PianorollTrackView.h
 
 FORMS    += \
-    gui/PianorollTrackView.ui \
     gui/WindowMainView.ui \
     gui/EditorWidgetBase.ui
 

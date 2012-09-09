@@ -30,6 +30,7 @@ namespace Ui{
 namespace cadencii{
     class EditorWidgetBase : public QWidget{
         friend class EditorWidgetBaseMainContent;
+        friend class EditorWidgetBaseSubContent;
 
         Q_OBJECT
 

@@ -60,7 +60,7 @@ namespace cadencii{
          */
         virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter ){
+        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ){
             this->controllerAdapter = controllerAdapter;
         }
     };

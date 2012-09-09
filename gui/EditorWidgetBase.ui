@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>EditorWidgetBase</class>
- <widget class="QWidget" name="PianorollTrackView">
+ <widget class="QWidget" name="EditorWidgetBase">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,7 +24,13 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QWidget" name="keyboard" native="true">
+    <widget class="cadencii::EditorWidgetBaseSubContent" name="keyboard" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>68</width>
@@ -35,23 +41,20 @@
    </item>
    <item>
     <widget class="cadencii::EditorWidgetBaseMainContent" name="scrollArea">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>1</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
      <property name="lineWidth">
       <number>0</number>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
      </property>
     </widget>
    </item>
@@ -60,8 +63,13 @@
  <customwidgets>
   <customwidget>
    <class>cadencii::EditorWidgetBaseMainContent</class>
-   <extends>QWidget</extends>
+   <extends>QGraphicsView</extends>
    <header>gui/editorwidgetbasemaincontent.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::EditorWidgetBaseSubContent</class>
+   <extends>QWidget</extends>
+   <header>gui/editorwidgetbasesubcontent.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

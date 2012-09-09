@@ -28,6 +28,7 @@ namespace cadencii{
         ui->setupUi( this );
         ui->scrollArea->setBackgroundRole( QPalette::Dark );
         ui->scrollArea->setEditorWidgetBase( this );
+        ui->keyboard->setEditorWidgetBase( this );
     }
 
     EditorWidgetBase::~EditorWidgetBase(){
@@ -36,7 +37,7 @@ namespace cadencii{
 
     void EditorWidgetBase::notifyVerticalScroll(){
         QRect rect = ui->scrollArea->getVisibleArea();
-        //TODO:ui->keyboard->notifyVerticalScroll( rect.y() );
+        ui->keyboard->update();
     }
 
     void EditorWidgetBase::notifyHorizontalScroll(){

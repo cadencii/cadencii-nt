@@ -31,6 +31,7 @@ namespace cadencii{
         scene = new QGraphicsScene();
         setScene( scene );
         controllerAdapter = 0;
+        parentWidget = 0;
 
         this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
         this->measureLineIterator = new MeasureLineIterator( &defaultTimesigList );

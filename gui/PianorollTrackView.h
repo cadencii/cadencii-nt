@@ -14,32 +14,35 @@
 #ifndef __PianorollTrackView_h__
 #define __PianorollTrackView_h__
 
-#include <map>
-#include <QScrollArea>
-#include <QMutex>
-#include "vsq/MeasureLineIterator.hpp"
-#include "vsq/TimesigList.hpp"
-#include "vsq/Sequence.hpp"
-#include "gui/CurveControlChangeView.h"
-#include "gui/PianorollTrackViewKeyboard.h"
-#include "TrackView.hpp"
-
-namespace Ui{
-    class PianorollTrackView;
-}
+#include "EditorWidgetBase.h"
+#include "../TrackView.hpp"
+#include <QGraphicsScene>
 
 namespace cadencii{
-    class PianorollTrackView : public QWidget, public TrackView{
-        friend class PianorollTrackViewContentScroller;
-        friend class PianorollTrackViewContent;
 
-        Q_OBJECT
+    class PianorollTrackView : public EditorWidgetBase, public TrackView{
+    public:
+        int trackHeight;
+
+    private:
+        VSQ_NS::Sequence *sequence;
+        /**
+         * ノート描画高さのデフォルト値(ピクセル単位)
+         */
+        static const int DEFAULT_TRACK_HEIGHT = 14;
+        static const int NOTE_MAX = 127;
+        static const int NOTE_MIN = 0;
+        /**
+         * @brief 描画アイテムのリストをロックするための Mutex
+         */
+        QMutex *mutex;
+        /**
+         * @brief 鍵盤の音の名前(C4など)
+         */
+        QString *keyNames;
 
     public:
-        Ui::PianorollTrackView *ui;
-
-    public:
-        explicit PianorollTrackView( QWidget *parent = 0 );
+        PianorollTrackView( QWidget *parent = 0 );
 
         ~PianorollTrackView();
 
@@ -47,11 +50,21 @@ namespace cadencii{
 
         void setSequence( VSQ_NS::Sequence *sequence );
 
-        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
-
         void *getWidget();
 
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
+
+        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+
+        void paintMainContent( QPainter *painter, const QRect &rect );
+
+        void paintSubContent( QPainter *painter, const QRect &rect );
+
+        void *getScrollEventSender();
+
+        QSizeF getPreferedSceneSize();
+
+        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
@@ -60,33 +73,51 @@ namespace cadencii{
         void setTrackHeight( int trackHeight );
 
         /**
-         * @brief オーバーライドする。ピアノロール本体と、鍵盤部分を repaint する処理を追加している。
-         */
-        void repaint();
-
-        /**
          * @brief ミューテックスを設定する
          * @param mutex ミューテックス
          */
         void setMutex( QMutex *mutex );
 
-        /**
-         * @brief ソングポジションの移動に伴って自動スクロールするかどうかを取得する
-         * @return 自動スクロールする場合は true を返す
-         */
-        bool isAutoScroll();
-
     private:
         /**
-         * @brief スクロール領域が縦方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する
+         * ピアノロールのバックグラウンドを描画する
          */
-        void notifyVerticalScroll();
+        void paintBackground( QPainter *g, QRect visibleArea );
 
         /**
-         * @brief スクロール領域が横方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する
+         * アイテムを描画する
          */
-        void notifyHorizontalScroll();
+        void paintItems( QPainter *g, QRect visibleArea );
+
+        /**
+         * @brief y 座標からノート番号を取得する
+         * @param y 座標
+         * @return ノート番号
+         */
+        static int getNoteNumberFromY( int y, int trackHeight );
+
+        /**
+         * @brief ノート番号から、描画時の y 座標を取得する
+         * @param noteNumber ノート番号
+         * @param trackHeight ノートの描画高さ
+         */
+        static int getYFromNoteNumber( int noteNumber, int trackHeight );
+
+        /**
+         * @brief ノート番号から、音名を表す番号を取得する。Cであれば0, C#であれば1など
+         * @param noteNumber ノート番号
+         * @return 音名を表す番号
+         */
+        static int getNoteModuration( int noteNumber );
+
+        /**
+         * @brief ノート番号から、その音高が何オクターブめかを取得する。
+         * @param noteNumber ノート番号
+         * @return 何オクターブめかを表す番号
+         */
+        static int getNoteOctave( int noteNumber );
     };
 
 }
-#endif // __PianorollTrackView_h__
+
+#endif
