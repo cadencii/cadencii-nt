@@ -69,6 +69,7 @@ namespace cadencii{
         trackView->setSequence( &sequence );
         controlChangeView->setSequence( &sequence );
         setTrackIndex( 0 );
+        controlChangeView->setControlChangeName( "pit" );
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){

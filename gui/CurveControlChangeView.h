@@ -24,6 +24,18 @@ namespace cadencii{
     private:
         VSQ_NS::Sequence *sequence;
         int trackIndex;
+        /**
+         * @brief 手前に表示している BPList
+         */
+        VSQ_NS::BPList *front;
+        /**
+         * @brief コンポーネントの上端と、グラフの最大値の位置の距離
+         */
+        static const int MARGIN_TOP = 10;
+        /**
+         * @brief コンポーネントの下端と、グラフの最小の位置の距離
+         */
+        static const int MARGIN_BOTTOM = 10;
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );
@@ -45,6 +57,11 @@ namespace cadencii{
         QSizeF getPreferedSceneSize();
 
         void setTrackIndex( int index );
+
+        void setControlChangeName( const std::string &name );
+
+    private:
+        void paintBPList( QPainter *painter, VSQ_NS::BPList *list, const QRect &rect );
     };
 
 }

@@ -58,6 +58,11 @@ namespace cadencii{
          */
         virtual void setTrackIndex( int index ) = 0;
 
+        /**
+         * @brief 表示するコントロールチェンジの名前を取得する
+         */
+        virtual void setControlChangeName( const std::string &name ) = 0;
+
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ){
             this->controllerAdapter = controllerAdapter;
         }
