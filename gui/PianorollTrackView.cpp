@@ -24,6 +24,7 @@ namespace cadencii{
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
         trackIndex = 0;
+        sequence = 0;
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -64,7 +65,7 @@ namespace cadencii{
     }
 
     void *PianorollTrackView::getScrollEventSender(){
-        return (TrackView *)this;
+        return static_cast<TrackView *>( this );
     }
 
     QSizeF PianorollTrackView::getPreferedSceneSize(){

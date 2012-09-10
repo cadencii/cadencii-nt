@@ -52,7 +52,7 @@ namespace cadencii{
     }
 
     void *CurveControlChangeView::getScrollEventSender(){
-        return (ControlChangeView *)this;
+        return static_cast<ControlChangeView *>( this );
     }
 
     QSizeF CurveControlChangeView::getPreferedSceneSize(){

@@ -111,8 +111,6 @@ namespace cadencii{
     }
 
     void EditorWidgetBaseMainContent::paintMeasureLines( QPainter *g, QRect visibleArea ){
-        int top = visibleArea.top();
-        int bottom = visibleArea.bottom();
         int left = visibleArea.left();
         int right = visibleArea.right();
         tick_t tickAtScreenRight = (tick_t)controllerAdapter->getTickFromX( right );
