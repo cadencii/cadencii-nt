@@ -118,8 +118,6 @@ namespace cadencii{
         tick_t tickAtScreenRight = (tick_t)controllerAdapter->getTickFromX( right );
         measureLineIterator->reset( tickAtScreenRight );
 
-        QColor barColor( 161, 157, 136 );
-        QColor beatColor( 209, 204, 172 );
         while( measureLineIterator->hasNext() ){
             MeasureLine line = measureLineIterator->next();
             int x = controllerAdapter->getXFromTick( line.tick );
@@ -128,12 +126,7 @@ namespace cadencii{
             }else if( right < x ){
                 break;
             }
-            if( line.isBorder ){
-                g->setPen( barColor );
-            }else{
-                g->setPen( beatColor );
-            }
-            g->drawLine( x, top, x, bottom );
+            drawMeasureLine( g, visibleArea, x, line.isBorder );
         }
     }
 
@@ -147,4 +140,14 @@ namespace cadencii{
         g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
     }
 
+    void EditorWidgetBaseMainContent::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
+        static QColor barColor( 161, 157, 136 );
+        static QColor beatColor( 209, 204, 172 );
+        if( isBorder ){
+            painter->setPen( barColor );
+        }else{
+            painter->setPen( beatColor );
+        }
+        painter->drawLine( x, rect.top(), x, rect.bottom() );
+    }
 }
