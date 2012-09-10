@@ -36,6 +36,14 @@ namespace cadencii{
          * @brief コンポーネントの下端と、グラフの最小の位置の距離
          */
         static const int MARGIN_BOTTOM = 10;
+        /**
+         * @brief デフォルトで描画するシーケンス
+         */
+        VSQ_NS::Sequence defaultSequence;
+        /**
+         * @brief 表示中のコントロールチェンジの名前
+         */
+        std::string controlChangeName;
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );

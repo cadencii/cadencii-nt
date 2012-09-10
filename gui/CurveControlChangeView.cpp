@@ -14,6 +14,7 @@
 #include "CurveControlChangeView.h"
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
+#include <algorithm>
 
 namespace cadencii{
 
@@ -21,7 +22,9 @@ namespace cadencii{
         EditorWidgetBase( parent )
     {
         trackIndex = 0;
-        front = 0;
+        sequence = &defaultSequence;
+        controlChangeName = "dyn";
+        front = sequence->track[0].getCurve( controlChangeName );
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     }
@@ -32,12 +35,7 @@ namespace cadencii{
 
     void CurveControlChangeView::setSequence( VSQ_NS::Sequence *sequence ){
         this->sequence = sequence;
-        if( front ){
-            std::string name = front->getName();
-            setControlChangeName( name );
-        }else{
-            front = 0;
-        }
+        setControlChangeName( controlChangeName );
     }
 
     void *CurveControlChangeView::getWidget(){
@@ -82,28 +80,30 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::setControlChangeName( const std::string &name ){
+        controlChangeName = name;
         if( sequence ){
             if( 0 <= trackIndex && trackIndex < sequence->track.size() ){
-                front = sequence->track[trackIndex].getCurve( name );
+                front = sequence->track[trackIndex].getCurve( controlChangeName );
+            }else{
+                front = 0;
             }
+        }else{
+            front = 0;
         }
     }
 
     //TODO:効率よく描画するようリファクタする
     void CurveControlChangeView::paintBPList( QPainter *painter, vsq::BPList *list, const QRect &rect ){
-        int size = list->size();
-        if( size < 2 ){
-            return;
-        }
         int max = list->getMaximum();
         int min = list->getMinimum();
-        int width = ui->scrollArea->getSceneWidth();
         int height = this->height();
         int y = (int)(height - MARGIN_BOTTOM - ((list->getDefault() - min) / (double)(max - min) * (height - MARGIN_BOTTOM - MARGIN_TOP) ));
 
         QPainterPath path;
-        path.moveTo( 0, height - MARGIN_BOTTOM );
-        path.lineTo( 0, y );
+        path.moveTo( -1, height - MARGIN_BOTTOM );
+        path.lineTo( -1, y );
+
+        int size = list->size();
         for( int i = 0; i < size; i++ ){
             VSQ_NS::BP point = list->get( i );
             VSQ_NS::tick_t clock = list->getKeyClock( i );
@@ -112,6 +112,10 @@ namespace cadencii{
             y = (int)(height - MARGIN_BOTTOM - ((point.value - min) / (double)(max - min) * (height - MARGIN_BOTTOM - MARGIN_TOP) ));
             path.lineTo( x, y );
         }
+
+        // スクリーンのサイズが、コンポーネントのサイズよりも小さい場合を考慮し、
+        // 大きい方を左端の座標とする。
+        int width = std::max( ui->scrollArea->getSceneWidth(), ui->scrollArea->width() );
         path.lineTo( width, y );
         path.lineTo( width, height - MARGIN_BOTTOM );
         painter->fillPath( path, QColor( 100, 149, 237, 150 ) );
