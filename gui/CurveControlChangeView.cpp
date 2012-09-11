@@ -25,6 +25,7 @@ namespace cadencii{
         sequence = &defaultSequence;
         controlChangeName = "dyn";
         front = sequence->track[0].getCurve( controlChangeName );
+        ui->scrollArea->setBackgroundBrush( QBrush( Qt::darkGray ) );
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     }
@@ -63,11 +64,20 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::paintMainContent( QPainter *painter, const QRect &rect ){
+        // グラフ部分の最大値、最小値の位置の線を描く
+        static QColor lineGraphBottom( 156, 161, 169 );
+        static QColor lineGraphTop( 46, 47, 50 );
+        painter->setPen( lineGraphBottom );
+        painter->drawLine( rect.left(), rect.bottom() - MARGIN_BOTTOM,
+                           rect.right(), rect.bottom() - MARGIN_BOTTOM );
+        painter->setPen( lineGraphTop );
+        painter->drawLine( rect.left(),  MARGIN_TOP,
+                           rect.right(), MARGIN_TOP );
+
         ui->scrollArea->paintMeasureLines( painter, rect );
         if( front ){
             paintBPList( painter, front, rect );
         }
-        //TODO: front が NULL のとき、デフォルト値の描画がされない問題をなんとかする。カーブ名をfieldで持つなどなどを検討
         ui->scrollArea->paintSongPosition( painter, rect );
     }
 
@@ -122,6 +132,23 @@ namespace cadencii{
 
         painter->setPen( QColor( 255, 255, 255 ) );
         painter->drawPath( path );
+    }
+
+    void CurveControlChangeView::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
+        static QColor white100( 0, 0, 0, 100 );
+        static QColor pen( 12, 12, 12 );
+        if( isBorder ){
+            painter->setPen( white100 );
+            painter->drawLine( x, rect.height() - MARGIN_BOTTOM - 1, x, MARGIN_TOP + 1 );
+        }else{
+            int graphHeight = rect.height() - MARGIN_BOTTOM - MARGIN_TOP;
+            int center = rect.top() + graphHeight / 2;
+            painter->setPen( white100 );
+            painter->drawLine( x, center - 5, x, center + 6 );
+            painter->setPen( pen );
+            painter->drawLine( x, MARGIN_TOP, x, MARGIN_TOP + 6 );
+            painter->drawLine( x, rect.height() - MARGIN_BOTTOM, x, rect.height() - MARGIN_BOTTOM - 6 );
+        }
     }
 
 }

@@ -31,11 +31,11 @@ namespace cadencii{
         /**
          * @brief コンポーネントの上端と、グラフの最大値の位置の距離
          */
-        static const int MARGIN_TOP = 10;
+        static const int MARGIN_TOP = 8;
         /**
          * @brief コンポーネントの下端と、グラフの最小の位置の距離
          */
-        static const int MARGIN_BOTTOM = 10;
+        static const int MARGIN_BOTTOM = 42;
         /**
          * @brief デフォルトで描画するシーケンス
          */
@@ -67,6 +67,9 @@ namespace cadencii{
         void setTrackIndex( int index );
 
         void setControlChangeName( const std::string &name );
+
+    protected:
+        void drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder );
 
     private:
         void paintBPList( QPainter *painter, VSQ_NS::BPList *list, const QRect &rect );
