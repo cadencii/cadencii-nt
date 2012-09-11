@@ -107,16 +107,6 @@ namespace cadencii{
         void paintMeasureLines( QPainter *g, QRect visibleArea );
 
         void paintSongPosition( QPainter *g, QRect visibleArea );
-
-    protected:
-        /**
-         * @brief 小節、拍子ごとの線を描画する。オーバーライドすることで、線の描画ロジックを変更できる。
-         * @param painter 描画に使用するペインター
-         * @param rect 描画対象の領域(=可視領域)
-         * @param x 小節、拍子の x 座標
-         * @param isBorder 小節の区切り線であれば true が指定される
-         */
-        virtual void drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder );
     };
 
 }

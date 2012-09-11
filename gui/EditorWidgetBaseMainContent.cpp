@@ -124,7 +124,7 @@ namespace cadencii{
             }else if( right < x ){
                 break;
             }
-            drawMeasureLine( g, visibleArea, x, line.isBorder );
+            parentWidget->drawMeasureLine( g, visibleArea, x, line.isBorder );
         }
     }
 
@@ -138,14 +138,4 @@ namespace cadencii{
         g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
     }
 
-    void EditorWidgetBaseMainContent::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
-        static QColor barColor( 161, 157, 136 );
-        static QColor beatColor( 209, 204, 172 );
-        if( isBorder ){
-            painter->setPen( barColor );
-        }else{
-            painter->setPen( beatColor );
-        }
-        painter->drawLine( x, rect.top(), x, rect.bottom() );
-    }
 }
