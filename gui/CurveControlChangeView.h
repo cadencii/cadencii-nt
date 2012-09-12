@@ -73,6 +73,22 @@ namespace cadencii{
 
     private:
         void paintBPList( QPainter *painter, VSQ_NS::BPList *list, const QRect &rect );
+
+        /**
+         * @brief コントロールチェンジの値から、描画するY座標を取得する
+         * @param max コントロールチェンジの最大値
+         * @param min コントロールチェンジの最小値
+         * @param value コントロールチェンジの値
+         */
+        int getYFromValue( int max, int min, int value );
+
+        /**
+         * @brief コンポーネントのY座標から、コントロールチェンジの値を取得する
+         * @param max コントロールチェンジの最大値
+         * @param min コントロールチェンジの最小値
+         * @param y コンポーネントのY座標
+         */
+        int getValueFromY( int max, int min, int y );
     };
 
 }

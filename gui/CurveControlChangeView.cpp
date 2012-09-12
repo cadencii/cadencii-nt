@@ -107,7 +107,7 @@ namespace cadencii{
         int max = list->getMaximum();
         int min = list->getMinimum();
         int height = this->height();
-        int y = (int)(height - MARGIN_BOTTOM - ((list->getDefault() - min) / (double)(max - min) * (height - MARGIN_BOTTOM - MARGIN_TOP) ));
+        int y = getYFromValue( max, min, list->getDefault() );
 
         QPainterPath path;
         path.moveTo( -1, height - MARGIN_BOTTOM );
@@ -119,7 +119,7 @@ namespace cadencii{
             VSQ_NS::tick_t clock = list->getKeyClock( i );
             int x = controllerAdapter->getXFromTick( clock );
             path.lineTo( x, y );
-            y = (int)(height - MARGIN_BOTTOM - ((point.value - min) / (double)(max - min) * (height - MARGIN_BOTTOM - MARGIN_TOP) ));
+            y = getYFromValue( max, min, point.value );
             path.lineTo( x, y );
         }
 
@@ -141,7 +141,7 @@ namespace cadencii{
         QPoint sceneCursorPos = ui->scrollArea->mapToScene( viewportCursorPos ).toPoint();
         if( MARGIN_TOP <= sceneCursorPos.y() && sceneCursorPos.y() <= height - MARGIN_BOTTOM && rect.contains( sceneCursorPos ) ){
             static QTextOption textOption( Qt::AlignRight | Qt::AlignBottom );
-            int value = (height - MARGIN_BOTTOM - sceneCursorPos.y()) * (max - min) / (height - MARGIN_BOTTOM - MARGIN_TOP) + min;
+            int value = getValueFromY( max, min, sceneCursorPos.y() );
             painter->drawText( QRectF( sceneCursorPos.x() - 100, sceneCursorPos.y() - 100, 100, 100 ),
                                QString( StringUtil::toString( value ).c_str() ),
                                textOption );
@@ -163,6 +163,16 @@ namespace cadencii{
             painter->drawLine( x, MARGIN_TOP, x, MARGIN_TOP + 6 );
             painter->drawLine( x, rect.height() - MARGIN_BOTTOM, x, rect.height() - MARGIN_BOTTOM - 6 );
         }
+    }
+
+    int CurveControlChangeView::getYFromValue( int max, int min, int value ){
+        int height = this->height();
+        return (int)(height - MARGIN_BOTTOM - ((value - min) / (double)(max - min) * (height - MARGIN_BOTTOM - MARGIN_TOP) ));
+    }
+
+    int CurveControlChangeView::getValueFromY( int max, int min, int y ){
+        int height = this->height();
+        return (height - MARGIN_BOTTOM - y) * (max - min) / (height - MARGIN_BOTTOM - MARGIN_TOP) + min;
     }
 
 }
