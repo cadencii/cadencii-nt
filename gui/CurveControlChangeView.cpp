@@ -132,6 +132,20 @@ namespace cadencii{
 
         painter->setPen( QColor( 255, 255, 255 ) );
         painter->drawPath( path );
+
+        // カーソルが描画範囲に入っていれば、カーソル位置での値を描く。
+        QPoint globalCursorPos = QCursor::pos();
+        QPoint globalTopLeftCornerPos = ui->scrollArea->mapToGlobal( QPoint( 0, 0 ) );
+        QPoint viewportCursorPos = QPoint( globalCursorPos.x() - globalTopLeftCornerPos.x(),
+                                                  globalCursorPos.y() - globalTopLeftCornerPos.y() );
+        QPoint sceneCursorPos = ui->scrollArea->mapToScene( viewportCursorPos ).toPoint();
+        if( MARGIN_TOP <= sceneCursorPos.y() && sceneCursorPos.y() <= height - MARGIN_BOTTOM && rect.contains( sceneCursorPos ) ){
+            static QTextOption textOption( Qt::AlignRight | Qt::AlignBottom );
+            int value = (height - MARGIN_BOTTOM - sceneCursorPos.y()) * (max - min) / (height - MARGIN_BOTTOM - MARGIN_TOP) + min;
+            painter->drawText( QRectF( sceneCursorPos.x() - 100, sceneCursorPos.y() - 100, 100, 100 ),
+                               QString( StringUtil::toString( value ).c_str() ),
+                               textOption );
+        }
     }
 
     void CurveControlChangeView::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
