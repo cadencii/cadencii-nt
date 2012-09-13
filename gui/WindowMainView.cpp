@@ -52,7 +52,7 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
     QString filePath = QFileDialog::getOpenFileName( this );
     QFile file( filePath );
     if( file.exists() && this->controllerAdapter ){
-        this->controllerAdapter->openVSQFile( filePath.toStdString() );
+        this->controllerAdapter->openVSQFile( std::string( filePath.toLocal8Bit().data() ) );
     }
     this->activateWindow();
 }
