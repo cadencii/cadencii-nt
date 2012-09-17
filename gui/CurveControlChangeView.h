@@ -91,6 +91,8 @@ namespace cadencii{
 
         void setControlChangeName( const std::string &name );
 
+        void mousePressEvent( QMouseEvent *event );
+
     protected:
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder );
 
@@ -128,6 +130,13 @@ namespace cadencii{
          * @brief トラック一覧のうち、トラック一つ分のタブの描画幅を取得する
          */
         int getTrackTabWidth();
+
+        /**
+         * @brief トラックリスト部分への、MousePress イベントを処理する
+         * @param event マウスイベント
+         * @return 処理された場合は true、マウスの位置が範囲該当で処理されなかった場合は false を返す
+         */
+        bool acceptMousePressOnTrackList( QMouseEvent *event );
     };
 
 }

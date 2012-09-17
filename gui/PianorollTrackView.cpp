@@ -264,6 +264,7 @@ namespace cadencii{
 
     void PianorollTrackView::setTrackIndex( int index ){
         trackIndex = index;
+        update();
     }
 
 }

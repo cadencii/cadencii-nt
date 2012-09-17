@@ -15,6 +15,7 @@
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
 #include <QColor>
+#include <QMouseEvent>
 #include <algorithm>
 
 namespace cadencii{
@@ -112,6 +113,7 @@ namespace cadencii{
             std::string name = front->getName();
             setControlChangeName( name );
         }
+        update();
     }
 
     void CurveControlChangeView::setControlChangeName( const std::string &name ){
@@ -300,4 +302,32 @@ namespace cadencii{
             return (int)((maxTotalWidth) / (numTrack - 1.0f));
         }
     }
+
+    void CurveControlChangeView::mousePressEvent( QMouseEvent *event ){
+        if( acceptMousePressOnTrackList( event ) ){
+            event->accept();
+            return;
+        }
+    }
+
+    bool CurveControlChangeView::acceptMousePressOnTrackList( QMouseEvent *event ){
+        QRect geometry = ui->scrollArea->geometry();
+        QPoint mousePos = event->pos();
+        if( geometry.contains( mousePos ) &&
+            geometry.height() - LANE_HEIGHT <= mousePos.y() &&
+            mousePos.y() <= geometry.height() )
+        {
+            int offset = mousePos.x() - geometry.x();
+            int trackTabWidth = getTrackTabWidth();
+            int trackIndex = offset / trackTabWidth;
+            if( sequence ){
+                if( trackIndex != this->trackIndex && 0 <= trackIndex && trackIndex < sequence->track.size() ){
+                    controllerAdapter->setTrackIndex( 0, trackIndex );
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
