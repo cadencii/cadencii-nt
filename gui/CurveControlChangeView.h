@@ -29,6 +29,10 @@ namespace cadencii{
          */
         VSQ_NS::BPList *front;
         /**
+         * @brief 歌手変更イベントを描画するレーン、トラック一覧を描画するレーンの高さ（共通）
+         */
+        static const int LANE_HEIGHT = 19;
+        /**
          * @brief コンポーネントの上端と、グラフの最大値の位置の距離
          */
         static const int MARGIN_TOP = 8;
@@ -37,6 +41,14 @@ namespace cadencii{
          */
         static const int MARGIN_BOTTOM = 42;
         /**
+         * @brief RENDERボタンの幅(px)
+         */
+        static const int RENDER_BUTTON_WIDTH = 10;
+        /**
+         * @brief トラック一覧のうち、トラック一つ分のタブの最大描画幅
+         */
+        static const int TRACK_TAB_MAX_WIDTH = 80;
+        /**
          * @brief デフォルトで描画するシーケンス
          */
         VSQ_NS::Sequence defaultSequence;
@@ -44,9 +56,20 @@ namespace cadencii{
          * @brief 表示中のコントロールチェンジの名前
          */
         std::string controlChangeName;
+        /**
+         * @brief トラックの背景部分の塗りつぶし色。16トラックそれぞれで異なる
+         */
+        QColor *HILIGHT;
+        /**
+         * @brief トラックをレンダリングするためのボタンの背景色。16トラックそれぞれで異なる
+         */
+        QColor *RENDER;
+
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );
+
+        ~CurveControlChangeView();
 
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
@@ -89,6 +112,22 @@ namespace cadencii{
          * @param y コンポーネントのY座標
          */
         int getValueFromY( int max, int min, int y );
+
+        /**
+         * @brief トラック一覧の部分を描画する
+         * @param painter 描画に使う QPainter
+         */
+        void paintTrackList( QPainter *painter );
+
+        /**
+         * @brief トラック一覧のうち、トラック一つ分のタブを表示する
+         */
+        void paintTrackTab( QPainter *g, const QRect &destRect, const QString &name, bool selected, bool enabled, bool render_required, const QColor &hilight, const QColor &render_button_hilight );
+
+        /**
+         * @brief トラック一覧のうち、トラック一つ分のタブの描画幅を取得する
+         */
+        int getTrackTabWidth();
     };
 
 }

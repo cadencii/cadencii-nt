@@ -94,6 +94,10 @@ namespace cadencii{
         return (int)scene->sceneRect().width();
     }
 
+    int EditorWidgetBaseMainContent::getSceneHeight(){
+        return (int)scene->sceneRect().height();
+    }
+
     void EditorWidgetBaseMainContent::drawForeground( QPainter *painter, const QRectF &rect ){
         QSizeF preferedSceneSize = parentWidget->getPreferedSceneSize();
         scene->setSceneRect( 0, 0, preferedSceneSize.width(), preferedSceneSize.height() );

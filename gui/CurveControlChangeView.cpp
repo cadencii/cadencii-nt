@@ -14,6 +14,7 @@
 #include "CurveControlChangeView.h"
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
+#include <QColor>
 #include <algorithm>
 
 namespace cadencii{
@@ -28,6 +29,26 @@ namespace cadencii{
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::darkGray ) );
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+
+        HILIGHT = new QColor[16];
+        HILIGHT[0] = QColor( 181, 220, 16 ); HILIGHT[1] = QColor( 231, 244, 49 ); HILIGHT[2] = QColor( 252, 230, 29 );
+        HILIGHT[3] = QColor( 247, 171, 20 ); HILIGHT[4] = QColor( 249, 94, 17 ); HILIGHT[5] = QColor( 234, 27, 47 );
+        HILIGHT[6] = QColor( 175, 20, 80 ); HILIGHT[7] = QColor( 183, 24, 149 ); HILIGHT[8] = QColor( 105, 22, 158 );
+        HILIGHT[9] = QColor( 22, 36, 163 ); HILIGHT[10] = QColor( 37, 121, 204 ); HILIGHT[11] = QColor( 29, 179, 219 );
+        HILIGHT[12] = QColor( 24, 239, 239 ); HILIGHT[13] = QColor( 25, 206, 175 ); HILIGHT[14] = QColor( 23, 160, 134 );
+        HILIGHT[15] = QColor( 79, 181, 21 );
+        RENDER = new QColor[16];
+        RENDER[0] = QColor( 19, 143, 52 ); RENDER[1] = QColor( 158, 154, 18 ); RENDER[2] = QColor( 160, 143, 23 );
+        RENDER[3] = QColor( 145, 98, 15 ); RENDER[4] = QColor( 142, 52, 12 ); RENDER[5] = QColor( 142, 19, 37 );
+        RENDER[6] = QColor( 96, 13, 47 ); RENDER[7] = QColor( 117, 17, 98 ); RENDER[8] = QColor( 62, 15, 99 );
+        RENDER[9] = QColor( 13, 23, 84 ); RENDER[10] = QColor( 25, 84, 132 ); RENDER[11] = QColor( 20, 119, 142 );
+        RENDER[12] = QColor( 19, 142, 139 ); RENDER[13] = QColor( 17, 122, 102 ); RENDER[14] = QColor( 13, 86, 72 );
+        RENDER[15] = QColor( 43, 91, 12 );
+    }
+
+    CurveControlChangeView::~CurveControlChangeView(){
+        delete [] HILIGHT;
+        delete [] RENDER;
     }
 
     void CurveControlChangeView::setTimesigList( VSQ_NS::TimesigList *timesigList ){
@@ -74,11 +95,15 @@ namespace cadencii{
         painter->drawLine( rect.left(),  MARGIN_TOP,
                            rect.right(), MARGIN_TOP );
 
+        // グラフ部分の本体を描く
         ui->scrollArea->paintMeasureLines( painter, rect );
         if( front ){
             paintBPList( painter, front, rect );
         }
         ui->scrollArea->paintSongPosition( painter, rect );
+
+        // トラック一覧の部分を描く
+        paintTrackList( painter );
     }
 
     void CurveControlChangeView::setTrackIndex( int index ){
@@ -175,4 +200,104 @@ namespace cadencii{
         return (height - MARGIN_BOTTOM - y) * (max - min) / (height - MARGIN_BOTTOM - MARGIN_TOP) + min;
     }
 
+    void CurveControlChangeView::paintTrackList( QPainter *painter ){
+        static QColor COLOR_BORDER( 118, 123, 138 );
+        painter->setPen( COLOR_BORDER );
+        int height = ui->scrollArea->getSceneHeight();
+        int width = ui->scrollArea->getSceneWidth();
+        if( width < this->width() ){
+            width = this->width();
+        }
+        QRect visibleArea = ui->scrollArea->getVisibleArea();
+        painter->fillRect( visibleArea.left(), height - LANE_HEIGHT,
+                     width, LANE_HEIGHT, Qt::gray );
+        painter->drawLine( 0, height - LANE_HEIGHT,
+                    width, height - LANE_HEIGHT );
+        if( sequence ){
+            int selector_width = getTrackTabWidth();
+            for( int i = 0; i < 16; i++ ){
+                int x = i * selector_width + visibleArea.left();
+                std::string name = (i < sequence->track.size()) ? StringUtil::toString( i + 1 ) + " " + sequence->track[i].getName() : "";
+                paintTrackTab( painter,
+                              QRect( x, height - LANE_HEIGHT + 1, selector_width, LANE_HEIGHT - 1 ),
+                              QString( name.c_str() ),
+                              (i == trackIndex) ? true : false,
+                              true/*TODO:vsq_track.getCommon().PlayMode >= 0*/,
+                              false/*TODO:AppManager.getRenderRequired( i + 1 )*/,
+                              HILIGHT[i],
+                              RENDER[i] );
+            }
+        }
+    }
+
+    void CurveControlChangeView::paintTrackTab( QPainter *painter, const QRect &destRect, const QString &name, bool selected, bool enabled, bool render_required, const QColor &hilight, const QColor &render_button_hilight ){
+        QColor panel_color = enabled ? hilight : QColor( 125, 123, 124 );
+        QColor panel_title = QColor::fromRgb( 0, 0, 0 );
+        QColor button_title = selected ? QColor::fromRgb( 255, 255, 255 ) : QColor::fromRgb( 0, 0, 0 );
+        QColor border = selected ? QColor::fromRgb( 255, 255, 255 ) : QColor( 118, 123, 138 );
+
+        // 背景(選択されている場合)
+        if( selected ){
+            painter->fillRect( destRect, panel_color );
+            if( render_required && enabled ){
+                painter->fillRect( destRect.right() - 10, destRect.top(),
+                             10, destRect.height(), render_button_hilight );
+            }
+        }
+
+        // 左縦線
+        painter->setPen( border );
+        painter->drawLine( destRect.left(), destRect.top(),
+                     destRect.left(), destRect.bottom() );
+        if( 0 < name.length() ){
+            // 上横線
+            painter->setPen( border );
+            painter->drawLine( destRect.left() + 1, destRect.top(),
+                         destRect.right(), destRect.top() );
+        }
+        if( render_required ){
+            painter->setPen( border );
+            painter->drawLine( destRect.right() - 10, destRect.top(),
+                         destRect.right() - 10, destRect.bottom() );
+        }
+
+        painter->setClipRect( destRect );
+        painter->setPen( panel_title );
+        QRectF textRect( destRect.left() + 2, destRect.top(), destRect.width() - 2, destRect.height() );
+        QTextOption textOption( Qt::AlignLeft | Qt::AlignVCenter );
+        painter->drawText( textRect, name, textOption );
+        if( render_required ){
+            painter->setPen( button_title );
+            QRect renderMarkRect( destRect.right() - RENDER_BUTTON_WIDTH, destRect.top(),
+                                  RENDER_BUTTON_WIDTH, destRect.height() );
+            painter->drawText( renderMarkRect, QString( "R" ), textOption );
+        }
+        if( selected ){
+            painter->setPen( border );
+            painter->drawLine( destRect.right(), destRect.top(),
+                         destRect.right(), destRect.bottom() );
+            painter->setPen( border );
+            painter->drawLine( destRect.left(), destRect.bottom(),
+                         destRect.right(), destRect.bottom() );
+        }
+        painter->setClipRect( QRect(), Qt::NoClip );
+    }
+
+    /**
+     * @brief トラック選択部分の、トラック1個分の幅を調べます。pixel
+     */
+    int CurveControlChangeView::getTrackTabWidth(){
+        int draft = TRACK_TAB_MAX_WIDTH;
+        // トラックの一覧を表示するのに利用できる最大の描画幅
+        int maxTotalWidth = width();
+        int numTrack = 1;
+        if( sequence ){
+            numTrack = sequence->track.size();
+        }
+        if( draft * (numTrack - 1) <= maxTotalWidth ){
+            return draft;
+        }else{
+            return (int)((maxTotalWidth) / (numTrack - 1.0f));
+        }
+    }
 }

@@ -68,7 +68,7 @@ namespace cadencii{
 
         trackView->setSequence( &sequence );
         controlChangeView->setSequence( &sequence );
-        setTrackIndex( 0 );
+        setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }
 
@@ -92,8 +92,9 @@ namespace cadencii{
         return (x - 5) / pixelPerTick;
     }
 
-    void Controller::setTrackIndex( int index )throw(){
+    void Controller::setTrackIndex( void *sender, int index )throw(){
         //TODO:trackIndexをフィールドで持っておくべき
+        //TODO:senderの値によって、どのコンポーネントにsetTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex( index );
         controlChangeView->setTrackIndex( index );
     }

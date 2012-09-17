@@ -66,12 +66,11 @@ namespace cadencii{
          */
         void setMainView( MainView *mainView )throw();
 
-    private:
         /**
          * @brief 表示するトラックのインデックスを設定する
          * @param トラックのインデックス
          */
-        void setTrackIndex( int index )throw();
+        void setTrackIndex( void *sender, int index )throw();
     };
 
 }

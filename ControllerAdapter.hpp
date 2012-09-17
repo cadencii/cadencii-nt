@@ -35,6 +35,13 @@ namespace cadencii{
         virtual void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw() = 0;
 
         /**
+         * @brief 表示するトラックの番号が変更になった場合に、他のコンポーネントに対してそれを通知したい場合に呼び出す。
+         * @param sender 変更が最初におこったコンポーネント
+         * @param index トラックの番号
+         */
+        virtual void setTrackIndex( void *sender, int index )throw() = 0;
+
+        /**
          * @brief 現在のソングポジションを取得する
          * @param ソングポジション
          */

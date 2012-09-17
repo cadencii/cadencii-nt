@@ -102,7 +102,17 @@ namespace cadencii{
 
         void scrollContentsBy( int dx, int dy );
 
+        /**
+         * @brief 仮想スクリーンの幅を取得する
+         * @return 仮想スクリーンの幅(pixel)
+         */
         int getSceneWidth();
+
+        /**
+         * @brief 仮想スクリーンの高さを取得する
+         * @return 仮想スクリーンの高さ(pixel)
+         */
+        int getSceneHeight();
 
         void paintMeasureLines( QPainter *g, QRect visibleArea );
 
