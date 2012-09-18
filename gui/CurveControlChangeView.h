@@ -22,6 +22,20 @@ namespace cadencii{
 
     class CurveControlChangeView : public EditorWidgetBase, public ControlChangeView{
     private:
+        /**
+         * @brief 歌手変更イベントの表示状態を表す
+         */
+        enum SingerItemState{
+            /**
+             * @brief デフォルト
+             */
+            DEFAULT,
+            /**
+             * @brief 左端に、薄い色で表示された状態
+             */
+            LEFT
+        };
+
         VSQ_NS::Sequence *sequence;
         int trackIndex;
         /**
@@ -49,6 +63,10 @@ namespace cadencii{
          */
         static const int TRACK_TAB_MAX_WIDTH = 80;
         /**
+         * @brief 歌手変更イベントの表示矩形の幅
+         */
+        static const int SINGER_ITEM_WIDTH = 66;
+        /**
          * @brief デフォルトで描画するシーケンス
          */
         VSQ_NS::Sequence defaultSequence;
@@ -64,7 +82,16 @@ namespace cadencii{
          * @brief トラックをレンダリングするためのボタンの背景色。16トラックそれぞれで異なる
          */
         QColor *RENDER;
-
+        /**
+         * @brief コンポーネント間の区切り線の色
+         * @todo 名前変える
+         */
+        QColor COLOR_BORDER;
+        /**
+         * @brief 歌手変更を表すボックスの枠線の色
+         * @todo 名前変える
+         */
+        QColor COLOR_SINGERBOX_BORDER;
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );
@@ -137,6 +164,16 @@ namespace cadencii{
          * @return 処理された場合は true、マウスの位置が範囲該当で処理されなかった場合は false を返す
          */
         bool acceptMousePressOnTrackList( QMouseEvent *event );
+
+        /**
+         * @brief 歌手の一覧を描画する
+         */
+        void paintSingerList( QPainter *painter );
+
+        /**
+         * @brief 歌手変更イベントを指定された位置に描画する
+         */
+        void paintSinger( QPainter *painter, const VSQ_NS::Event &singerEvent, int x, int y, SingerItemState state );
     };
 
 }

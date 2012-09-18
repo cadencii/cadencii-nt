@@ -56,8 +56,8 @@ namespace cadencii{
             int x = (int)((horizontalScroll->value() - horizontalScroll->minimum()) * preferedSceneSize.width() / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum()));
             int y = (int)((verticalScroll->value() - verticalScroll->minimum()) * preferedSceneSize.height() / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum()));
 
-            int width = horizontalScroll->width();
-            int height = verticalScroll->height();
+            int width = this->width();
+            int height = this->height();
             result = QRect( x, y, width, height );
         }else{
             result = QRect( 0, 0, horizontalScroll->width(), verticalScroll->height() );

@@ -13,6 +13,7 @@
  */
 #include "CurveControlChangeView.h"
 #include "ui_EditorWidgetBase.h"
+#include "vsq/Track.hpp"
 #include <QScrollBar>
 #include <QColor>
 #include <QMouseEvent>
@@ -45,6 +46,8 @@ namespace cadencii{
         RENDER[9] = QColor( 13, 23, 84 ); RENDER[10] = QColor( 25, 84, 132 ); RENDER[11] = QColor( 20, 119, 142 );
         RENDER[12] = QColor( 19, 142, 139 ); RENDER[13] = QColor( 17, 122, 102 ); RENDER[14] = QColor( 13, 86, 72 );
         RENDER[15] = QColor( 43, 91, 12 );
+        COLOR_BORDER = QColor::fromRgb( 118, 123, 138 );
+        COLOR_SINGERBOX_BORDER = QColor::fromRgb( 182, 182, 182 );
     }
 
     CurveControlChangeView::~CurveControlChangeView(){
@@ -105,6 +108,9 @@ namespace cadencii{
 
         // トラック一覧の部分を描く
         paintTrackList( painter );
+
+        // 歌手変更イベントを描く
+        paintSingerList( painter );
     }
 
     void CurveControlChangeView::setTrackIndex( int index ){
@@ -203,7 +209,6 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::paintTrackList( QPainter *painter ){
-        static QColor COLOR_BORDER( 118, 123, 138 );
         painter->setPen( COLOR_BORDER );
         int height = ui->scrollArea->getSceneHeight();
         int width = ui->scrollArea->getSceneWidth();
@@ -328,6 +333,80 @@ namespace cadencii{
             }
         }
         return false;
+    }
+
+    void CurveControlChangeView::paintSingerList( QPainter *painter ){
+        QRect visibleArea = ui->scrollArea->getVisibleArea();
+        int height = ui->scrollArea->getSceneHeight();
+        int width = ui->scrollArea->getSceneWidth();
+        if( width < this->width() ){
+            width = this->width();
+        }
+
+        // 背景と境界線
+        painter->fillRect( visibleArea.left(), height - LANE_HEIGHT * 2,
+                           width, LANE_HEIGHT, Qt::gray );
+        painter->setPen( COLOR_BORDER );
+        painter->drawLine( visibleArea.left(), height - LANE_HEIGHT * 2,
+                           visibleArea.left() + this->width(), height - LANE_HEIGHT * 2 );
+
+        if( !sequence ){
+            return;
+        }
+        if( trackIndex < 0 || sequence->track.size() <= trackIndex ){
+            return;
+        }
+
+        // コンポーネントの左端位置での、歌手変更イベントを調べる
+        int singerItemY = height - LANE_HEIGHT * 2 + 1;
+        VSQ_NS::Track *track = &sequence->track[trackIndex];
+        int offset = controllerAdapter->getXFromTick( 0 );
+        int xAtLeft = visibleArea.x() + offset;
+        int clockAtLeft = controllerAdapter->getTickFromX( xAtLeft );
+        VSQ_NS::Event singerAtLeft = track->getSingerEventAt( clockAtLeft );
+        if( !singerAtLeft.isEOS() ){
+            paintSinger( painter, singerAtLeft, xAtLeft, singerItemY, LEFT );
+        }
+
+        // 順に描画する
+        VSQ_NS::EventListIndexIterator i =
+                track->getIndexIterator( VSQ_NS::EventListIndexIteratorKind::SINGER );
+        VSQ_NS::Event::List *events = track->getEvents();
+        while( i.hasNext() ){
+            int index = i.next();
+            VSQ_NS::Event item = events->get( index );
+            int x = controllerAdapter->getXFromTick( item.clock );
+            if( x < xAtLeft ){
+                continue;
+            }
+            if( visibleArea.right() < x ){
+                break;
+            }
+            paintSinger( painter, item, x, singerItemY, DEFAULT );
+        }
+    }
+
+    void CurveControlChangeView::paintSinger( QPainter *painter, const VSQ_NS::Event &singerEvent, int x, int y, SingerItemState state ){
+        QRect rc( x, y,
+                  SINGER_ITEM_WIDTH, LANE_HEIGHT - 2 );
+        switch( state ){
+            case LEFT:{
+                painter->fillRect( rc, Qt::lightGray );
+                break;
+            }
+            default:{
+                painter->fillRect( rc, Qt::white );
+                break;
+            }
+        }
+        painter->setPen( COLOR_SINGERBOX_BORDER );
+        painter->drawRect( rc );
+
+        painter->setPen( Qt::black );
+        QString text( singerEvent.singerHandle.ids.c_str() );
+        static QTextOption option( Qt::AlignLeft | Qt::AlignVCenter );
+        QRect textRect( x + 1, y, SINGER_ITEM_WIDTH - 1, LANE_HEIGHT - 1 );
+        painter->drawText( textRect, text, option );
     }
 
 }
