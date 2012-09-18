@@ -77,21 +77,19 @@ namespace cadencii{
         /**
          * @brief トラックの背景部分の塗りつぶし色。16トラックそれぞれで異なる
          */
-        QColor *HILIGHT;
+        QColor *trackTabHilightBackgroundColor;
         /**
          * @brief トラックをレンダリングするためのボタンの背景色。16トラックそれぞれで異なる
          */
-        QColor *RENDER;
+        QColor *trackTabRenderButtonBackgroundColor;
         /**
          * @brief コンポーネント間の区切り線の色
-         * @todo 名前変える
          */
-        QColor COLOR_BORDER;
+        QColor borderColor;
         /**
          * @brief 歌手変更を表すボックスの枠線の色
-         * @todo 名前変える
          */
-        QColor COLOR_SINGERBOX_BORDER;
+        QColor singerEventBorderColor;
 
     public:
         CurveControlChangeView( QWidget *parent = 0 );

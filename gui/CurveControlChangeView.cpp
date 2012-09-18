@@ -32,27 +32,27 @@ namespace cadencii{
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
-        HILIGHT = new QColor[16];
-        HILIGHT[0] = QColor( 181, 220, 16 ); HILIGHT[1] = QColor( 231, 244, 49 ); HILIGHT[2] = QColor( 252, 230, 29 );
-        HILIGHT[3] = QColor( 247, 171, 20 ); HILIGHT[4] = QColor( 249, 94, 17 ); HILIGHT[5] = QColor( 234, 27, 47 );
-        HILIGHT[6] = QColor( 175, 20, 80 ); HILIGHT[7] = QColor( 183, 24, 149 ); HILIGHT[8] = QColor( 105, 22, 158 );
-        HILIGHT[9] = QColor( 22, 36, 163 ); HILIGHT[10] = QColor( 37, 121, 204 ); HILIGHT[11] = QColor( 29, 179, 219 );
-        HILIGHT[12] = QColor( 24, 239, 239 ); HILIGHT[13] = QColor( 25, 206, 175 ); HILIGHT[14] = QColor( 23, 160, 134 );
-        HILIGHT[15] = QColor( 79, 181, 21 );
-        RENDER = new QColor[16];
-        RENDER[0] = QColor( 19, 143, 52 ); RENDER[1] = QColor( 158, 154, 18 ); RENDER[2] = QColor( 160, 143, 23 );
-        RENDER[3] = QColor( 145, 98, 15 ); RENDER[4] = QColor( 142, 52, 12 ); RENDER[5] = QColor( 142, 19, 37 );
-        RENDER[6] = QColor( 96, 13, 47 ); RENDER[7] = QColor( 117, 17, 98 ); RENDER[8] = QColor( 62, 15, 99 );
-        RENDER[9] = QColor( 13, 23, 84 ); RENDER[10] = QColor( 25, 84, 132 ); RENDER[11] = QColor( 20, 119, 142 );
-        RENDER[12] = QColor( 19, 142, 139 ); RENDER[13] = QColor( 17, 122, 102 ); RENDER[14] = QColor( 13, 86, 72 );
-        RENDER[15] = QColor( 43, 91, 12 );
-        COLOR_BORDER = QColor::fromRgb( 118, 123, 138 );
-        COLOR_SINGERBOX_BORDER = QColor::fromRgb( 182, 182, 182 );
+        trackTabHilightBackgroundColor = new QColor[16];
+        trackTabHilightBackgroundColor[0] = QColor( 181, 220, 16 ); trackTabHilightBackgroundColor[1] = QColor( 231, 244, 49 ); trackTabHilightBackgroundColor[2] = QColor( 252, 230, 29 );
+        trackTabHilightBackgroundColor[3] = QColor( 247, 171, 20 ); trackTabHilightBackgroundColor[4] = QColor( 249, 94, 17 ); trackTabHilightBackgroundColor[5] = QColor( 234, 27, 47 );
+        trackTabHilightBackgroundColor[6] = QColor( 175, 20, 80 ); trackTabHilightBackgroundColor[7] = QColor( 183, 24, 149 ); trackTabHilightBackgroundColor[8] = QColor( 105, 22, 158 );
+        trackTabHilightBackgroundColor[9] = QColor( 22, 36, 163 ); trackTabHilightBackgroundColor[10] = QColor( 37, 121, 204 ); trackTabHilightBackgroundColor[11] = QColor( 29, 179, 219 );
+        trackTabHilightBackgroundColor[12] = QColor( 24, 239, 239 ); trackTabHilightBackgroundColor[13] = QColor( 25, 206, 175 ); trackTabHilightBackgroundColor[14] = QColor( 23, 160, 134 );
+        trackTabHilightBackgroundColor[15] = QColor( 79, 181, 21 );
+        trackTabRenderButtonBackgroundColor = new QColor[16];
+        trackTabRenderButtonBackgroundColor[0] = QColor( 19, 143, 52 ); trackTabRenderButtonBackgroundColor[1] = QColor( 158, 154, 18 ); trackTabRenderButtonBackgroundColor[2] = QColor( 160, 143, 23 );
+        trackTabRenderButtonBackgroundColor[3] = QColor( 145, 98, 15 ); trackTabRenderButtonBackgroundColor[4] = QColor( 142, 52, 12 ); trackTabRenderButtonBackgroundColor[5] = QColor( 142, 19, 37 );
+        trackTabRenderButtonBackgroundColor[6] = QColor( 96, 13, 47 ); trackTabRenderButtonBackgroundColor[7] = QColor( 117, 17, 98 ); trackTabRenderButtonBackgroundColor[8] = QColor( 62, 15, 99 );
+        trackTabRenderButtonBackgroundColor[9] = QColor( 13, 23, 84 ); trackTabRenderButtonBackgroundColor[10] = QColor( 25, 84, 132 ); trackTabRenderButtonBackgroundColor[11] = QColor( 20, 119, 142 );
+        trackTabRenderButtonBackgroundColor[12] = QColor( 19, 142, 139 ); trackTabRenderButtonBackgroundColor[13] = QColor( 17, 122, 102 ); trackTabRenderButtonBackgroundColor[14] = QColor( 13, 86, 72 );
+        trackTabRenderButtonBackgroundColor[15] = QColor( 43, 91, 12 );
+        borderColor = QColor::fromRgb( 118, 123, 138 );
+        singerEventBorderColor = QColor::fromRgb( 182, 182, 182 );
     }
 
     CurveControlChangeView::~CurveControlChangeView(){
-        delete [] HILIGHT;
-        delete [] RENDER;
+        delete [] trackTabHilightBackgroundColor;
+        delete [] trackTabRenderButtonBackgroundColor;
     }
 
     void CurveControlChangeView::setTimesigList( VSQ_NS::TimesigList *timesigList ){
@@ -209,7 +209,7 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::paintTrackList( QPainter *painter ){
-        painter->setPen( COLOR_BORDER );
+        painter->setPen( borderColor );
         int height = ui->scrollArea->getSceneHeight();
         int width = ui->scrollArea->getSceneWidth();
         if( width < this->width() ){
@@ -231,8 +231,8 @@ namespace cadencii{
                               (i == trackIndex) ? true : false,
                               true/*TODO:vsq_track.getCommon().PlayMode >= 0*/,
                               false/*TODO:AppManager.getRenderRequired( i + 1 )*/,
-                              HILIGHT[i],
-                              RENDER[i] );
+                              trackTabHilightBackgroundColor[i],
+                              trackTabRenderButtonBackgroundColor[i] );
             }
         }
     }
@@ -346,7 +346,7 @@ namespace cadencii{
         // 背景と境界線
         painter->fillRect( visibleArea.left(), height - LANE_HEIGHT * 2,
                            width, LANE_HEIGHT, Qt::gray );
-        painter->setPen( COLOR_BORDER );
+        painter->setPen( borderColor );
         painter->drawLine( visibleArea.left(), height - LANE_HEIGHT * 2,
                            visibleArea.left() + this->width(), height - LANE_HEIGHT * 2 );
 
@@ -399,7 +399,7 @@ namespace cadencii{
                 break;
             }
         }
-        painter->setPen( COLOR_SINGERBOX_BORDER );
+        painter->setPen( singerEventBorderColor );
         painter->drawRect( rc );
 
         painter->setPen( Qt::black );
