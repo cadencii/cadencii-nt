@@ -33,6 +33,14 @@ namespace cadencii{
 
         void setControlChangeView( ControlChangeView *controlChangeView );
 
+        void setBarCountView( BarCountView *barCountView );
+
+    private:
+        /**
+         * @brief ピアノロールウィジェットを設定する
+         */
+        void setupPianorollWidget();
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
 

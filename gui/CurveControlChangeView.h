@@ -119,7 +119,7 @@ namespace cadencii{
         void mousePressEvent( QMouseEvent *event );
 
     protected:
-        void drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder );
+        void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
 
     private:
         void paintBPList( QPainter *painter, VSQ_NS::BPList *list, const QRect &rect );

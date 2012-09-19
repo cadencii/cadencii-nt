@@ -27,6 +27,7 @@ namespace cadencii{
         TrackView *trackView;
         MainView *mainView;
         ControlChangeView *controlChangeView;
+        BarCountView *barCountView;
         VSQ_NS::Sequence sequence;
         VSQ_NS::tick_t songPosition;
 
@@ -61,6 +62,12 @@ namespace cadencii{
         void setControlChangeView( ControlChangeView *controlChangeView )throw();
 
         /**
+         * @brief 小節数のビューを設定する
+         * @param [in] barCountView ビュー
+         */
+        void setBarCountView( BarCountView *barCountView )throw();
+
+        /**
          * @brief メインのビューを設定する
          * @param[in] mainView ビュー
          */
@@ -71,6 +78,12 @@ namespace cadencii{
          * @param トラックのインデックス
          */
         void setTrackIndex( void *sender, int index )throw();
+
+    private:
+        /**
+         * @brief コンポーネントに sequence のインスタンスを設定する
+         */
+        void setupSequence();
     };
 
 }

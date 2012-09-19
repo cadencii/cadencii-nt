@@ -16,6 +16,7 @@
 
 #include "TrackView.hpp"
 #include "ControlChangeView.hpp"
+#include "BarCountView.hpp"
 
 namespace cadencii{
 
@@ -29,6 +30,8 @@ namespace cadencii{
         virtual void setTrackView( TrackView *trackView ) = 0;
 
         virtual void setControlChangeView( ControlChangeView *controlChangeView ) = 0;
+
+        virtual void setBarCountView( BarCountView *barCountView ) = 0;
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter ){
             this->controllerAdapter = controllerAdapter;

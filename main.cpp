@@ -15,6 +15,7 @@
 #include "gui/WindowMainView.h"
 #include "gui/PianorollTrackView.h"
 #include "gui/CurveControlChangeView.h"
+#include "gui/ConcreteBarCountView.hpp"
 #include "Controller.hpp"
 
 int main(int argc, char *argv[])
@@ -23,10 +24,12 @@ int main(int argc, char *argv[])
     cadencii::WindowMainView wv;
     cadencii::PianorollTrackView pv;
     cadencii::CurveControlChangeView cv;
+    cadencii::ConcreteBarCountView bv;
     cadencii::Controller c;
     c.setMainView( &wv );
     c.setTrackView( &pv );
     c.setControlChangeView( &cv );
+    c.setBarCountView( &bv );
     wv.show();
 
     return a.exec();

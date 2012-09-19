@@ -88,9 +88,9 @@ namespace cadencii{
          * @param painter 描画に使用するペインター
          * @param rect 描画対象の領域(=可視領域)
          * @param x 小節、拍子の x 座標
-         * @param isBorder 小節の区切り線であれば true が指定される
+         * @param measureLine 小節・拍子線の情報を格納した MeasureLine のインスタンスが指定される
          */
-        virtual void drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder );
+        virtual void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
     };
 
 }

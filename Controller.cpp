@@ -18,8 +18,8 @@
 namespace cadencii{
 
     Controller::Controller()
-        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), sequence( "Miku", 1, 4, 4, 500000 ),
-          songPosition( 0 ), pixelPerTick( 0.2 )
+        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
+          sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
     }
 
@@ -58,6 +58,20 @@ namespace cadencii{
         if( this->mainView && this->controlChangeView ){
             this->mainView->setControlChangeView( this->controlChangeView );
         }
+        if( this->mainView && this->barCountView ){
+            this->mainView->setBarCountView( this->barCountView );
+        }
+    }
+
+    void Controller::setBarCountView( BarCountView *barCountView )throw(){
+        this->barCountView = barCountView;
+        if( this->barCountView ){
+            this->barCountView->setControllerAdapter( this );
+            this->barCountView->setSequence( &sequence );
+        }
+        if( mainView ){
+            mainView->setBarCountView( this->barCountView );
+        }
     }
 
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
@@ -65,18 +79,19 @@ namespace cadencii{
         VSQ_NS::FileInputStream stream( filePath );
         reader.read( sequence, &stream, "Shift_JIS" );
         stream.close();
-
-        trackView->setSequence( &sequence );
-        controlChangeView->setSequence( &sequence );
-        setTrackIndex( this, 0 );
-        controlChangeView->setControlChangeName( "pit" );
+        setupSequence();
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
-        if( sender == (void *)trackView && controlChangeView ){
-            controlChangeView->setDrawOffset( offset );
-        }else if( sender == (void *)controlChangeView && trackView ){
-            trackView->setDrawOffset( offset );
+        if( sender == (void *)trackView ){
+            if( controlChangeView ) controlChangeView->setDrawOffset( offset );
+            if( barCountView ) barCountView->setDrawOffset( offset );
+        }else if( sender == (void *)controlChangeView ){
+            if( trackView ) trackView->setDrawOffset( offset );
+            if( barCountView ) barCountView->setDrawOffset( offset );
+        }else if( sender == (void *)barCountView ){
+            if( controlChangeView ) controlChangeView->setDrawOffset( offset );
+            if( trackView ) trackView->setDrawOffset( offset );
         }
     }
 
@@ -97,6 +112,14 @@ namespace cadencii{
         //TODO:senderの値によって、どのコンポーネントにsetTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex( index );
         controlChangeView->setTrackIndex( index );
+    }
+
+    void Controller::setupSequence(){
+        trackView->setSequence( &sequence );
+        controlChangeView->setSequence( &sequence );
+        barCountView->setSequence( &sequence );
+        setTrackIndex( this, 0 );
+        controlChangeView->setControlChangeName( "pit" );
     }
 
 }
