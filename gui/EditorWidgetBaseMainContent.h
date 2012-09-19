@@ -32,26 +32,8 @@ namespace cadencii{
 
         Q_OBJECT
 
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     private:
         EditorWidgetBase *parentWidget;
-
-        /**
-         * 拍ごとの線を描画するための、拍子変更情報
-         */
-        VSQ_NS::TimesigList *timesigList;
-
-        /**
-         * @brief デフォルトの拍子変更情報
-         */
-        VSQ_NS::TimesigList defaultTimesigList;
-
-        /**
-         * @brief 拍ごとの線を描画するために、timesigList から作成した反復子
-         */
-        VSQ_NS::MeasureLineIterator *measureLineIterator;
 
         QGraphicsScene *scene;
 
@@ -61,14 +43,6 @@ namespace cadencii{
         explicit EditorWidgetBaseMainContent( QWidget *parent = 0 );
 
         ~EditorWidgetBaseMainContent();
-
-        /**
-         * @brief テンポ変更リストを設定する
-         * @param timesigList テンポ変更リスト
-         */
-        void setTimesigList( VSQ_NS::TimesigList *timesigList );
-
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
         void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
 

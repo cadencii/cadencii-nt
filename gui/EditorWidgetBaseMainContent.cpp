@@ -30,11 +30,8 @@ namespace cadencii{
         deconstructStarted = false;
         scene = new QGraphicsScene();
         setScene( scene );
-        controllerAdapter = 0;
         parentWidget = 0;
 
-        this->defaultTimesigList.push( Timesig( 4, 4, 0 ) );
-        this->measureLineIterator = new MeasureLineIterator( &defaultTimesigList );
         this->setMouseTracking( true );
         this->setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
@@ -43,7 +40,6 @@ namespace cadencii{
 
     EditorWidgetBaseMainContent::~EditorWidgetBaseMainContent(){
         deconstructStarted = true;
-        delete measureLineIterator;
         delete scene;
     }
 
@@ -68,15 +64,6 @@ namespace cadencii{
     void EditorWidgetBaseMainContent::mouseMoveEvent( QMouseEvent *e ){
         this->parentWidget->repaint();
         QWidget::mouseMoveEvent( e );
-    }
-
-    void EditorWidgetBaseMainContent::setTimesigList( TimesigList *timesigList ){
-        MeasureLineIterator *previous = measureLineIterator;
-        this->timesigList = timesigList;
-        measureLineIterator = new MeasureLineIterator( this->timesigList );
-        if( previous ){
-            delete previous;
-        }
     }
 
     void EditorWidgetBaseMainContent::scrollContentsBy( int dx, int dy ){
@@ -110,19 +97,24 @@ namespace cadencii{
         parentWidget = editorWidgetBase;
     }
 
-    void EditorWidgetBaseMainContent::setControllerAdapter( ControllerAdapter *controllerAdapter ){
-        this->controllerAdapter = controllerAdapter;
-    }
-
     void EditorWidgetBaseMainContent::paintMeasureLines( QPainter *g, QRect visibleArea ){
         int left = visibleArea.left();
         int right = visibleArea.right();
-        tick_t tickAtScreenRight = (tick_t)controllerAdapter->getTickFromX( right );
-        measureLineIterator->reset( tickAtScreenRight );
+        tick_t tickAtScreenRight = (tick_t)parentWidget->controllerAdapter->getTickFromX( right );
 
-        while( measureLineIterator->hasNext() ){
-            MeasureLine line = measureLineIterator->next();
-            int x = controllerAdapter->getXFromTick( line.tick );
+        VSQ_NS::TimesigList *list = 0;
+        static VSQ_NS::TimesigList defaultList;
+        if( parentWidget->sequence ){
+            list = &parentWidget->sequence->timesigList;
+        }else{
+            list = &defaultList;
+        }
+        VSQ_NS::MeasureLineIterator i( list );
+        i.reset( tickAtScreenRight );
+
+        while( i.hasNext() ){
+            MeasureLine line = i.next();
+            int x = parentWidget->controllerAdapter->getXFromTick( line.tick );
             if( x < left ){
                 continue;
             }else if( right < x ){
@@ -133,8 +125,8 @@ namespace cadencii{
     }
 
     void EditorWidgetBaseMainContent::paintSongPosition( QPainter *g, QRect visibleArea ){
-        tick_t songPosition = controllerAdapter->getSongPosition();
-        int x = controllerAdapter->getXFromTick( songPosition );
+        tick_t songPosition = parentWidget->controllerAdapter->getSongPosition();
+        int x = parentWidget->controllerAdapter->getXFromTick( songPosition );
         g->setPen( QColor( 0, 0, 0 ) );
         g->drawLine( x, visibleArea.top(), x, visibleArea.bottom() );
         g->setPen( QColor( 0, 0, 0, 40 ) );

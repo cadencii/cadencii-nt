@@ -24,16 +24,7 @@ namespace cadencii{
      * @brief 画面へのトラック描画を担当するviewとの仲立ちを行うための抽象クラス
      */
     class TrackView{
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     public:
-        /**
-         * @brief テンポ変更リストを設定する
-         * @param timesigList テンポ変更リスト
-         */
-        virtual void setTimesigList( VSQ_NS::TimesigList *timesigList ) = 0;
-
         /**
          * @brief 描画対象のシーケンスを設定する
          * @param items 描画対象のシーケンス
@@ -66,9 +57,7 @@ namespace cadencii{
          */
         virtual void setTrackIndex( int index ) = 0;
 
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ){
-            this->controllerAdapter = controllerAdapter;
-        }
+        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
     };
 
 }

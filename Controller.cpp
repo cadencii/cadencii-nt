@@ -18,7 +18,8 @@
 namespace cadencii{
 
     Controller::Controller()
-        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ), tempoView( 0 ),
+        : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
+          tempoView( 0 ), timesigView( 0 ),
           sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
     }
@@ -63,6 +64,9 @@ namespace cadencii{
             if( this->tempoView ){
                 this->mainView->setTempoView( this->tempoView );
             }
+            if( this->timesigView ){
+                this->mainView->setTimesigView( this->timesigView );
+            }
         }
     }
 
@@ -88,6 +92,17 @@ namespace cadencii{
         }
     }
 
+    void Controller::setTimesigView( TimesigView *timesigView )throw(){
+        this->timesigView = timesigView;
+        if( this->timesigView ){
+            this->timesigView->setControllerAdapter( this );
+            this->timesigView->setSequence( &sequence );
+        }
+        if( mainView ){
+            mainView->setTimesigView( this->timesigView );
+        }
+    }
+
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
@@ -101,18 +116,27 @@ namespace cadencii{
             if( controlChangeView ) controlChangeView->setDrawOffset( offset );
             if( barCountView ) barCountView->setDrawOffset( offset );
             if( tempoView ) tempoView->setDrawOffset( offset );
+            if( timesigView ) timesigView->setDrawOffset( offset );
         }else if( sender == (void *)controlChangeView ){
             if( trackView ) trackView->setDrawOffset( offset );
             if( barCountView ) barCountView->setDrawOffset( offset );
             if( tempoView ) tempoView->setDrawOffset( offset );
+            if( timesigView ) timesigView->setDrawOffset( offset );
         }else if( sender == (void *)barCountView ){
             if( controlChangeView ) controlChangeView->setDrawOffset( offset );
             if( trackView ) trackView->setDrawOffset( offset );
             if( tempoView ) tempoView->setDrawOffset( offset );
+            if( timesigView ) timesigView->setDrawOffset( offset );
         }else if( sender == (void *)tempoView ){
             if( controlChangeView ) controlChangeView->setDrawOffset( offset );
             if( trackView ) trackView->setDrawOffset( offset );
             if( barCountView ) barCountView->setDrawOffset( offset );
+            if( timesigView ) timesigView->setDrawOffset( offset );
+        }else if( sender == (void *)timesigView ){
+            if( controlChangeView ) controlChangeView->setDrawOffset( offset );
+            if( trackView ) trackView->setDrawOffset( offset );
+            if( barCountView ) barCountView->setDrawOffset( offset );
+            if( tempoView ) tempoView->setDrawOffset( offset );
         }
     }
 
@@ -140,6 +164,7 @@ namespace cadencii{
         controlChangeView->setSequence( &sequence );
         barCountView->setSequence( &sequence );
         tempoView->setSequence( &sequence );
+        timesigView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }

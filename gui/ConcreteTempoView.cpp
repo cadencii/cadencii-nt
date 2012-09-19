@@ -18,15 +18,13 @@
 namespace cadencii{
 
     ConcreteTempoView::ConcreteTempoView( QWidget *parent ) :
-        EditorWidgetBase( parent ), sequence( 0 ), controllerAdapter( 0 )
+        EditorWidgetBase( parent )
     {
         backgroundColor = QColor( Qt::lightGray );
         lineColor = QColor::fromRgb( 104, 104, 104 );
         const int height = 19;
         setMinimumHeight( height );
         setMaximumHeight( height );
-        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setBackgroundBrush( QBrush( backgroundColor ) );
     }
 
@@ -50,7 +48,6 @@ namespace cadencii{
 
     void ConcreteTempoView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
         this->controllerAdapter = controllerAdapter;
-        this->ui->scrollArea->setControllerAdapter( this->controllerAdapter );
     }
 
     void ConcreteTempoView::setSequence( VSQ_NS::Sequence *sequence ){
@@ -65,9 +62,9 @@ namespace cadencii{
         // 小節ごとの線
         ui->scrollArea->paintMeasureLines( painter, rect );
 
-        // 直上のコンポーネントとの区切り線
+        // 直下のコンポーネントとの区切り線
         painter->setPen( lineColor );
-        painter->drawLine( rect.topLeft(), rect.topRight() );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
         // テンポ変更イベント
         if( sequence ){
@@ -100,7 +97,7 @@ namespace cadencii{
     void ConcreteTempoView::paintSubContent( QPainter *painter, const QRect &rect ){
         painter->fillRect( rect, backgroundColor );
         painter->setPen( lineColor );
-        painter->drawLine( rect.topLeft(), rect.topRight() );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
         painter->drawLine( rect.topRight(), rect.bottomRight() );
 
         painter->setPen( Qt::black );

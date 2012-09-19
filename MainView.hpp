@@ -18,15 +18,13 @@
 #include "ControlChangeView.hpp"
 #include "BarCountView.hpp"
 #include "TempoView.hpp"
+#include "TimesigView.hpp"
 
 namespace cadencii{
 
     class ControllerAdapter;
 
     class MainView{
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     public:
         virtual void setTrackView( TrackView *trackView ) = 0;
 
@@ -36,9 +34,9 @@ namespace cadencii{
 
         virtual void setTempoView( TempoView *tempoView ) = 0;
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter ){
-            this->controllerAdapter = controllerAdapter;
-        }
+        virtual void setTimesigView( TimesigView *timesigView ) = 0;
+
+        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
     };
 
 }

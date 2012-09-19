@@ -24,7 +24,8 @@ namespace cadencii{
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
         trackIndex = 0;
-        sequence = 0;
+        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -43,10 +44,6 @@ namespace cadencii{
         delete [] keyNames;
     }
 
-    void PianorollTrackView::setTimesigList( VSQ_NS::TimesigList *timesigList ){
-        ui->scrollArea->setTimesigList( timesigList );
-    }
-
     void PianorollTrackView::setSequence( VSQ_NS::Sequence *sequence ){
         this->sequence = sequence;
     }
@@ -60,8 +57,7 @@ namespace cadencii{
     }
 
     void PianorollTrackView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
-        TrackView::setControllerAdapter( controllerAdapter );
-        ui->scrollArea->setControllerAdapter( controllerAdapter );
+        this->controllerAdapter = controllerAdapter;
     }
 
     void *PianorollTrackView::getScrollEventSender(){

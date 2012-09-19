@@ -22,10 +22,12 @@ namespace cadencii{
     using namespace VSQ_NS;
 
     EditorWidgetBase::EditorWidgetBase( QWidget *parent ) :
-        QWidget( parent )
+        QWidget( parent ), controllerAdapter( 0 ), sequence( 0 )
     {
         ui = new Ui::EditorWidgetBase;
         ui->setupUi( this );
+        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setBackgroundRole( QPalette::Dark );
         ui->scrollArea->setEditorWidgetBase( this );
         ui->keyboard->setEditorWidgetBase( this );
@@ -42,8 +44,8 @@ namespace cadencii{
 
     void EditorWidgetBase::notifyHorizontalScroll(){
         QRect visibleRect = ui->scrollArea->getVisibleArea();
-        tick_t drawOffset = (tick_t)ui->scrollArea->controllerAdapter->getTickFromX( visibleRect.x() );
-        ui->scrollArea->controllerAdapter->drawOffsetChanged( getScrollEventSender(), drawOffset );
+        tick_t drawOffset = (tick_t)controllerAdapter->getTickFromX( visibleRect.x() );
+        controllerAdapter->drawOffsetChanged( getScrollEventSender(), drawOffset );
     }
 
     void EditorWidgetBase::repaint(){
@@ -53,7 +55,7 @@ namespace cadencii{
     }
 
     void EditorWidgetBase::setDrawOffsetInternal( tick_t drawOffset ){
-        int xScrollTo = -ui->scrollArea->controllerAdapter->getXFromTick( drawOffset );
+        int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
         QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
         int maxValue = scrollBar->maximum() + scrollBar->pageStep();
         int minValue = scrollBar->minimum();
