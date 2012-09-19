@@ -61,9 +61,9 @@ namespace cadencii{
         // 小節ごとの線
         ui->scrollArea->paintMeasureLines( painter, rect );
 
-        // 直上のコンポーネントとの区切り線
+        // 直下のコンポーネントとの区切り線
         painter->setPen( lineColor );
-        painter->drawLine( rect.topLeft(), rect.topRight() );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
         // 拍子変更
         if( sequence ){
@@ -101,7 +101,7 @@ namespace cadencii{
     void ConcreteTimesigView::paintSubContent( QPainter *painter, const QRect &rect ){
         painter->fillRect( rect, backgroundColor );
         painter->setPen( lineColor );
-        painter->drawLine( rect.topLeft(), rect.topRight() );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
         painter->drawLine( rect.topRight(), rect.bottomRight() );
 
         painter->setPen( Qt::black );

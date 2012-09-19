@@ -19,7 +19,7 @@ namespace cadencii{
     ConcreteBarCountView::ConcreteBarCountView( QWidget *parent ) :
         EditorWidgetBase( parent )
     {
-        const int height = 19;
+        const int height = 20;
         setMinimumHeight( height );
         setMaximumHeight( height );
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::lightGray ) );
@@ -54,6 +54,11 @@ namespace cadencii{
 
     void ConcreteBarCountView::paintMainContent( QPainter *painter, const QRect &rect ){
         ui->scrollArea->paintMeasureLines( painter, rect );
+
+        // 直下のコンポーネントとの区切り線
+        painter->setPen( lineColor );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
+
         ui->scrollArea->paintSongPosition( painter, rect );
     }
 
@@ -84,6 +89,7 @@ namespace cadencii{
     void ConcreteBarCountView::paintSubContent( QPainter *painter, const QRect &rect ){
         painter->fillRect( rect, Qt::lightGray );
         painter->setPen( lineColor );
+        painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
         painter->drawLine( rect.topRight(), rect.bottomRight() );
     }
 
