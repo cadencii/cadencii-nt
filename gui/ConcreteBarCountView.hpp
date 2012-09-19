@@ -16,18 +16,20 @@
 
 #include "BarCountView.hpp"
 #include "ControllerAdapter.hpp"
-#include "vsq/Sequence.hpp"
+#include "gui/EditorWidgetBase.h"
 
 namespace cadencii{
 
-    class ConcreteBarCountView : public BarCountView{
+    class ConcreteBarCountView : public EditorWidgetBase, public BarCountView{
     private:
         VSQ_NS::Sequence *sequence;
         ControllerAdapter *controllerAdapter;
         QColor lineColor;
 
     public:
-        ConcreteBarCountView();
+        ConcreteBarCountView( QWidget *parent = 0 );
+
+        ~ConcreteBarCountView();
 
         void *getScrollEventSender();
 

@@ -15,14 +15,14 @@
 #define __BarCountView_hpp__
 
 #include "ControllerAdapter.hpp"
-#include "gui/EditorWidgetBase.h"
+#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
     /**
      * @brief 小節数の表示を行う View
      */
-    class BarCountView : public EditorWidgetBase{
+    class BarCountView{
     public:
         /**
          * @brief 描画対象のシーケンスを設定する
