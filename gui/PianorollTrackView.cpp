@@ -24,6 +24,8 @@ namespace cadencii{
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
         trackIndex = 0;
+        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];

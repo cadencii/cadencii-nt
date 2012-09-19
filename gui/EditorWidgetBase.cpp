@@ -26,6 +26,8 @@ namespace cadencii{
     {
         ui = new Ui::EditorWidgetBase;
         ui->setupUi( this );
+        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setBackgroundRole( QPalette::Dark );
         ui->scrollArea->setEditorWidgetBase( this );
         ui->keyboard->setEditorWidgetBase( this );

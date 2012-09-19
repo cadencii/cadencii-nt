@@ -22,8 +22,6 @@ namespace cadencii{
         const int height = 19;
         setMinimumHeight( height );
         setMaximumHeight( height );
-        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::lightGray ) );
         lineColor = QColor::fromRgb( 104, 104, 104 );
     }

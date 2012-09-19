@@ -29,8 +29,6 @@ namespace cadencii{
         controlChangeName = "dyn";
         front = sequence->track[0].getCurve( controlChangeName );
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::darkGray ) );
-        ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-        ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
         trackTabHilightBackgroundColor = new QColor[16];
         trackTabHilightBackgroundColor[0] = QColor( 181, 220, 16 ); trackTabHilightBackgroundColor[1] = QColor( 231, 244, 49 ); trackTabHilightBackgroundColor[2] = QColor( 252, 230, 29 );
