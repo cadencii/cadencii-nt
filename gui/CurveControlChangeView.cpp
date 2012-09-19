@@ -181,10 +181,10 @@ namespace cadencii{
         }
     }
 
-    void CurveControlChangeView::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
+    void CurveControlChangeView::drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine ){
         static QColor white100( 0, 0, 0, 100 );
         static QColor pen( 12, 12, 12 );
-        if( isBorder ){
+        if( measureLine.isBorder ){
             painter->setPen( white100 );
             painter->drawLine( x, rect.height() - MARGIN_BOTTOM - 1, x, MARGIN_TOP + 1 );
         }else{

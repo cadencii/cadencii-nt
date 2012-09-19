@@ -128,7 +128,7 @@ namespace cadencii{
             }else if( right < x ){
                 break;
             }
-            parentWidget->drawMeasureLine( g, visibleArea, x, line.isBorder );
+            parentWidget->drawMeasureLine( g, visibleArea, x, line );
         }
     }
 

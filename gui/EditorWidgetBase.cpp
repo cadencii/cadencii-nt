@@ -62,10 +62,10 @@ namespace cadencii{
         scrollBar->setValue( value );
     }
 
-    void EditorWidgetBase::drawMeasureLine( QPainter *painter, const QRect &rect, int x, bool isBorder ){
+    void EditorWidgetBase::drawMeasureLine( QPainter *painter, const QRect &rect, int x, const MeasureLine &measureLine ){
         static QColor barColor( 161, 157, 136 );
         static QColor beatColor( 209, 204, 172 );
-        if( isBorder ){
+        if( measureLine.isBorder ){
             painter->setPen( barColor );
         }else{
             painter->setPen( beatColor );
