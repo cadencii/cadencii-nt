@@ -16,7 +16,9 @@
 
 namespace cadencii{
 
-    ConcreteBarCountView::ConcreteBarCountView(){
+    ConcreteBarCountView::ConcreteBarCountView( QWidget *parent ) :
+        EditorWidgetBase( parent )
+    {
         const int height = 19;
         setMinimumHeight( height );
         setMaximumHeight( height );
@@ -26,6 +28,9 @@ namespace cadencii{
         lineColor = QColor::fromRgb( 104, 104, 104 );
         sequence = 0;
         controllerAdapter = 0;
+    }
+
+    ConcreteBarCountView::~ConcreteBarCountView(){
     }
 
     void *ConcreteBarCountView::getScrollEventSender(){

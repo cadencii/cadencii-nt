@@ -35,6 +35,8 @@ namespace cadencii{
 
         void setBarCountView( BarCountView *barCountView );
 
+        void setTempoView( TempoView *tempoView );
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する

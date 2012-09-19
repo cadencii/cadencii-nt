@@ -28,6 +28,7 @@ namespace cadencii{
         MainView *mainView;
         ControlChangeView *controlChangeView;
         BarCountView *barCountView;
+        TempoView *tempoView;
         VSQ_NS::Sequence sequence;
         VSQ_NS::tick_t songPosition;
 
@@ -66,6 +67,12 @@ namespace cadencii{
          * @param [in] barCountView ビュー
          */
         void setBarCountView( BarCountView *barCountView )throw();
+
+        /**
+         * @brief テンポ変更イベントのビューを設定する
+         * @param [in] tempoView ビュー
+         */
+        void setTempoView( TempoView *tempoView )throw();
 
         /**
          * @brief メインのビューを設定する

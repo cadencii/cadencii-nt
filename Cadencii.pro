@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     gui/EditorWidgetBaseSubContent.cpp \
     gui/CurveControlChangeView.cpp \
     gui/PianorollTrackView.cpp \
-    gui/ConcreteBarCountView.cpp
+    gui/ConcreteBarCountView.cpp \
+    gui/ConcreteTempoView.cpp
 
 HEADERS  += \
     TrackView.hpp \
@@ -33,7 +34,9 @@ HEADERS  += \
     gui/CurveControlChangeView.h \
     gui/PianorollTrackView.h \
     BarCountView.hpp \
-    gui/ConcreteBarCountView.hpp
+    gui/ConcreteBarCountView.hpp \
+    TempoView.hpp \
+    gui/ConcreteTempoView.hpp
 
 FORMS    += \
     gui/WindowMainView.ui \
