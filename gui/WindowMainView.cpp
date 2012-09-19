@@ -65,9 +65,22 @@ namespace cadencii{
         setupPianorollWidget();
     }
 
+    void WindowMainView::setTempoView( TempoView *tempoView ){
+        QWidget *widget = (QWidget *)tempoView->getWidget();
+        widget->setParent( ui->layoutWidget1 );
+        if( ui->tempoView ){
+            ui->verticalLayout1->removeWidget( ui->tempoView );
+            delete ui->tempoView;
+        }
+
+        ui->tempoView = widget;
+        setupPianorollWidget();
+    }
+
     void WindowMainView::setupPianorollWidget(){
         QWidgetList list;
         list.push_back( ui->barCountView );
+        list.push_back( ui->tempoView );
         list.push_back( ui->pianoRoll );
 
         // verticalLayout1 にぶら下がっているコンポーネントをすべて取り除く
