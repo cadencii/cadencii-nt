@@ -37,6 +37,8 @@ namespace cadencii{
 
         void setTempoView( TempoView *tempoView );
 
+        void setTimesigView( TimesigView *timesigView );
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する

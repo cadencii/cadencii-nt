@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     gui/CurveControlChangeView.cpp \
     gui/PianorollTrackView.cpp \
     gui/ConcreteBarCountView.cpp \
-    gui/ConcreteTempoView.cpp
+    gui/ConcreteTempoView.cpp \
+    gui/ConcreteTimesigView.cpp
 
 HEADERS  += \
     TrackView.hpp \
@@ -36,7 +37,9 @@ HEADERS  += \
     BarCountView.hpp \
     gui/ConcreteBarCountView.hpp \
     TempoView.hpp \
-    gui/ConcreteTempoView.hpp
+    gui/ConcreteTempoView.hpp \
+    TimesigView.hpp \
+    gui/ConcreteTimesigView.hpp
 
 FORMS    += \
     gui/WindowMainView.ui \
