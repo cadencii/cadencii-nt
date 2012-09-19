@@ -17,7 +17,7 @@
 namespace cadencii{
 
     ConcreteTimesigView::ConcreteTimesigView( QWidget *parent ) :
-        EditorWidgetBase( parent ), sequence( 0 )
+        EditorWidgetBase( parent )
     {
         backgroundColor = QColor( Qt::lightGray );
         lineColor = QColor::fromRgb( 104, 104, 104 );

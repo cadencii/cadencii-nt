@@ -36,7 +36,6 @@ namespace cadencii{
             LEFT
         };
 
-        VSQ_NS::Sequence *sequence;
         int trackIndex;
         /**
          * @brief 手前に表示している BPList
@@ -95,8 +94,6 @@ namespace cadencii{
         CurveControlChangeView( QWidget *parent = 0 );
 
         ~CurveControlChangeView();
-
-        void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
         void setSequence( VSQ_NS::Sequence *sequence );
 

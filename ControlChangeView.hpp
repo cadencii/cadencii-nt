@@ -26,12 +26,6 @@ namespace cadencii{
     class ControlChangeView{
     public:
         /**
-         * @brief テンポ変更リストを設定する
-         * @param timesigList テンポ変更リスト
-         */
-        virtual void setTimesigList( VSQ_NS::TimesigList *timesigList ) = 0;
-
-        /**
          * @brief 描画対象のシーケンスを設定する
          * @param items 描画対象のシーケンス
          */

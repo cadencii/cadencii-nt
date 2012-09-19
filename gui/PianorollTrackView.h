@@ -25,7 +25,6 @@ namespace cadencii{
         int trackHeight;
 
     private:
-        VSQ_NS::Sequence *sequence;
         /**
          * ノート描画高さのデフォルト値(ピクセル単位)
          */

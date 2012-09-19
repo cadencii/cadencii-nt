@@ -26,7 +26,6 @@ namespace cadencii{
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::lightGray ) );
         lineColor = QColor::fromRgb( 104, 104, 104 );
-        sequence = 0;
     }
 
     ConcreteBarCountView::~ConcreteBarCountView(){

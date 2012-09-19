@@ -24,7 +24,6 @@ namespace cadencii{
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
         trackIndex = 0;
-        sequence = 0;
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -41,10 +40,6 @@ namespace cadencii{
 
     PianorollTrackView::~PianorollTrackView(){
         delete [] keyNames;
-    }
-
-    void PianorollTrackView::setTimesigList( VSQ_NS::TimesigList *timesigList ){
-        ui->scrollArea->setTimesigList( timesigList );
     }
 
     void PianorollTrackView::setSequence( VSQ_NS::Sequence *sequence ){

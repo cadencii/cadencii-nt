@@ -55,10 +55,6 @@ namespace cadencii{
         delete [] trackTabRenderButtonBackgroundColor;
     }
 
-    void CurveControlChangeView::setTimesigList( VSQ_NS::TimesigList *timesigList ){
-        ui->scrollArea->setTimesigList( timesigList );
-    }
-
     void CurveControlChangeView::setSequence( VSQ_NS::Sequence *sequence ){
         this->sequence = sequence;
         setControlChangeName( controlChangeName );
