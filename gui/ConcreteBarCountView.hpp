@@ -24,6 +24,7 @@ namespace cadencii{
     private:
         VSQ_NS::Sequence *sequence;
         ControllerAdapter *controllerAdapter;
+        QColor lineColor;
 
     public:
         ConcreteBarCountView();
@@ -43,6 +44,8 @@ namespace cadencii{
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
 
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+
+        void paintSubContent( QPainter *painter, const QRect &rect );
     };
 
 }

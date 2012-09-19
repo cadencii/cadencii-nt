@@ -22,6 +22,8 @@ namespace cadencii{
         setMaximumHeight( height );
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+        ui->scrollArea->setBackgroundBrush( QBrush( Qt::lightGray ) );
+        lineColor = QColor::fromRgb( 104, 104, 104 );
     }
 
     void *ConcreteBarCountView::getScrollEventSender(){
@@ -58,7 +60,6 @@ namespace cadencii{
     }
 
     void ConcreteBarCountView::drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine ){
-        static QColor lineColor( 104, 104, 104 );
         painter->setPen( lineColor );
         if( measureLine.isBorder ){
             painter->drawLine( x, rect.top(), x, rect.bottom() );
@@ -76,6 +77,12 @@ namespace cadencii{
         }else{
             painter->drawLine( x, rect.bottom() - 5, x, rect.bottom() );
         }
+    }
+
+    void ConcreteBarCountView::paintSubContent( QPainter *painter, const QRect &rect ){
+        painter->fillRect( rect, Qt::lightGray );
+        painter->setPen( lineColor );
+        painter->drawLine( rect.topRight(), rect.bottomRight() );
     }
 
 }
