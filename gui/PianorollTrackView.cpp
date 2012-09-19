@@ -60,8 +60,7 @@ namespace cadencii{
     }
 
     void PianorollTrackView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
-        TrackView::setControllerAdapter( controllerAdapter );
-        ui->scrollArea->setControllerAdapter( controllerAdapter );
+        this->controllerAdapter = controllerAdapter;
     }
 
     void *PianorollTrackView::getScrollEventSender(){

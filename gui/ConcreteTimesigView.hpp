@@ -21,7 +21,6 @@ namespace cadencii{
 
     class ConcreteTimesigView : public EditorWidgetBase, public TimesigView{
     private:
-        ControllerAdapter *controllerAdapter;
         VSQ_NS::Sequence *sequence;
         QColor backgroundColor;
         QColor lineColor;

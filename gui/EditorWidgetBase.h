@@ -37,6 +37,9 @@ namespace cadencii{
     public:
         Ui::EditorWidgetBase *ui;
 
+    protected:
+        ControllerAdapter *controllerAdapter;
+
     public:
         explicit EditorWidgetBase( QWidget *parent = 0 );
 

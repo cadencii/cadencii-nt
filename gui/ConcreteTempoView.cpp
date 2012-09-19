@@ -18,7 +18,7 @@
 namespace cadencii{
 
     ConcreteTempoView::ConcreteTempoView( QWidget *parent ) :
-        EditorWidgetBase( parent ), sequence( 0 ), controllerAdapter( 0 )
+        EditorWidgetBase( parent ), sequence( 0 )
     {
         backgroundColor = QColor( Qt::lightGray );
         lineColor = QColor::fromRgb( 104, 104, 104 );
@@ -50,7 +50,6 @@ namespace cadencii{
 
     void ConcreteTempoView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
         this->controllerAdapter = controllerAdapter;
-        this->ui->scrollArea->setControllerAdapter( this->controllerAdapter );
     }
 
     void ConcreteTempoView::setSequence( VSQ_NS::Sequence *sequence ){

@@ -24,6 +24,9 @@ namespace Ui{
 namespace cadencii{
     class WindowMainView : public QMainWindow, public MainView{
         Q_OBJECT
+    private:
+        Ui::WindowMainView *ui;
+        ControllerAdapter *controllerAdapter;
 
     public:
         explicit WindowMainView( QWidget *parent = 0 );
@@ -39,6 +42,8 @@ namespace cadencii{
 
         void setTimesigView( TimesigView *timesigView );
 
+        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する
@@ -47,9 +52,6 @@ namespace cadencii{
 
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
-
-    private:
-        Ui::WindowMainView *ui;
     };
 
 }

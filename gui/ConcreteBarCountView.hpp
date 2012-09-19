@@ -23,7 +23,6 @@ namespace cadencii{
     class ConcreteBarCountView : public EditorWidgetBase, public BarCountView{
     private:
         VSQ_NS::Sequence *sequence;
-        ControllerAdapter *controllerAdapter;
         QColor lineColor;
 
     public:

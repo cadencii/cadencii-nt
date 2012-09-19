@@ -27,7 +27,6 @@ namespace cadencii{
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::lightGray ) );
         lineColor = QColor::fromRgb( 104, 104, 104 );
         sequence = 0;
-        controllerAdapter = 0;
     }
 
     ConcreteBarCountView::~ConcreteBarCountView(){
@@ -54,7 +53,6 @@ namespace cadencii{
 
     void ConcreteBarCountView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
         this->controllerAdapter = controllerAdapter;
-        ui->scrollArea->setControllerAdapter( controllerAdapter );
     }
 
     void ConcreteBarCountView::paintMainContent( QPainter *painter, const QRect &rect ){

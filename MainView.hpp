@@ -25,9 +25,6 @@ namespace cadencii{
     class ControllerAdapter;
 
     class MainView{
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     public:
         virtual void setTrackView( TrackView *trackView ) = 0;
 
@@ -39,9 +36,7 @@ namespace cadencii{
 
         virtual void setTimesigView( TimesigView *timesigView ) = 0;
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter ){
-            this->controllerAdapter = controllerAdapter;
-        }
+        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
     };
 
 }

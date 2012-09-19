@@ -73,8 +73,7 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
-        ControlChangeView::setControllerAdapter( controllerAdapter );
-        ui->scrollArea->setControllerAdapter( controllerAdapter );
+        this->controllerAdapter = controllerAdapter;
     }
 
     void *CurveControlChangeView::getScrollEventSender(){

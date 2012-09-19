@@ -24,9 +24,6 @@ namespace cadencii{
      * @brief 画面へのコントロールチェンジの描画を担当するviewとの仲立ちを行うための抽象クラス
      */
     class ControlChangeView{
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     public:
         /**
          * @brief テンポ変更リストを設定する
@@ -63,9 +60,7 @@ namespace cadencii{
          */
         virtual void setControlChangeName( const std::string &name ) = 0;
 
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ){
-            this->controllerAdapter = controllerAdapter;
-        }
+        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
     };
 
 }

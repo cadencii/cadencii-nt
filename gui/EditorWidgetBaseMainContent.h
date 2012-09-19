@@ -32,9 +32,6 @@ namespace cadencii{
 
         Q_OBJECT
 
-    protected:
-        ControllerAdapter *controllerAdapter;
-
     private:
         EditorWidgetBase *parentWidget;
 
@@ -67,8 +64,6 @@ namespace cadencii{
          * @param timesigList テンポ変更リスト
          */
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
-
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
         void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
 

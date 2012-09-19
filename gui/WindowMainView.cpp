@@ -114,6 +114,10 @@ namespace cadencii{
         }
     }
 
+    void WindowMainView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
+        this->controllerAdapter = controllerAdapter;
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
