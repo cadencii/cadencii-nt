@@ -1,5 +1,5 @@
 /**
- * PianorollTrackView.h
+ * PianorollTrackView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,10 +11,10 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollTrackView_h__
-#define __PianorollTrackView_h__
+#ifndef __PianorollTrackView_hpp__
+#define __PianorollTrackView_hpp__
 
-#include "EditorWidgetBase.h"
+#include "EditorWidgetBase.hpp"
 #include "../TrackView.hpp"
 #include <QGraphicsScene>
 

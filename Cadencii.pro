@@ -24,16 +24,16 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     TrackView.hpp \
-    gui/WindowMainView.h \
+    gui/WindowMainView.hpp \
     MainView.hpp \
     Controller.hpp \
     ControllerAdapter.hpp \
     ControlChangeView.hpp \
-    gui/EditorWidgetBase.h \
-    gui/EditorWidgetBaseMainContent.h \
-    gui/EditorWidgetBaseSubContent.h \
-    gui/CurveControlChangeView.h \
-    gui/PianorollTrackView.h \
+    gui/EditorWidgetBase.hpp \
+    gui/EditorWidgetBaseMainContent.hpp \
+    gui/EditorWidgetBaseSubContent.hpp \
+    gui/CurveControlChangeView.hpp \
+    gui/PianorollTrackView.hpp \
     BarCountView.hpp \
     gui/ConcreteBarCountView.hpp \
     TempoView.hpp \

@@ -1,5 +1,5 @@
 /**
- * ConcreteBarCountView.h
+ * ConcreteBarCountView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -16,7 +16,7 @@
 
 #include "BarCountView.hpp"
 #include "ControllerAdapter.hpp"
-#include "gui/EditorWidgetBase.h"
+#include "gui/EditorWidgetBase.hpp"
 
 namespace cadencii{
 
