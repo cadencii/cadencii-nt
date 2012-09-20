@@ -1,5 +1,5 @@
 /**
- * EditorWidgetBaseMainContent.h
+ * EditorWidgetBaseMainContent.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __EditorWidgetBaseMainContent_h__
-#define __EditorWidgetBaseMainContent_h__
+#ifndef __EditorWidgetBaseMainContent_hpp__
+#define __EditorWidgetBaseMainContent_hpp__
 
 #include <map>
 #include <QWidget>

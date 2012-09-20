@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "gui/WindowMainView.h"
+#include "gui/WindowMainView.hpp"
 #include "ui_WindowMainView.h"
 #include "Controller.hpp"
 #include <QFileDialog>

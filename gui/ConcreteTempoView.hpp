@@ -1,5 +1,5 @@
 /**
- * ConcreteTempoView.h
+ * ConcreteTempoView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -15,7 +15,7 @@
 #define __ConcreteTempoView_hpp__
 
 #include "TempoView.hpp"
-#include "gui/EditorWidgetBase.h"
+#include "gui/EditorWidgetBase.hpp"
 
 namespace cadencii{
 

@@ -1,5 +1,5 @@
 /**
- * EditorWidgetBase.h
+ * EditorWidgetBase.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __EditorWidgetBase_h__
-#define __EditorWidgetBase_h__
+#ifndef __EditorWidgetBase_hpp__
+#define __EditorWidgetBase_hpp__
 
 #include <map>
 #include <QScrollArea>
@@ -20,7 +20,7 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Sequence.hpp"
-#include "gui/EditorWidgetBaseMainContent.h"
+#include "gui/EditorWidgetBaseMainContent.hpp"
 #include "TrackView.hpp"
 
 namespace Ui{

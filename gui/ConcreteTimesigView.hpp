@@ -14,7 +14,7 @@
 #ifndef __ConcreteTimesigView_hpp__
 #define __ConcreteTimesigView_hpp__
 
-#include "gui/EditorWidgetBase.h"
+#include "gui/EditorWidgetBase.hpp"
 #include "TimesigView.hpp"
 
 namespace cadencii{

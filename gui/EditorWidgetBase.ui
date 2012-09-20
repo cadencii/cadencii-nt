@@ -64,12 +64,12 @@
   <customwidget>
    <class>cadencii::EditorWidgetBaseMainContent</class>
    <extends>QGraphicsView</extends>
-   <header>gui/EditorWidgetBaseMainContent.h</header>
+   <header>gui/EditorWidgetBaseMainContent.hpp</header>
   </customwidget>
   <customwidget>
    <class>cadencii::EditorWidgetBaseSubContent</class>
    <extends>QWidget</extends>
-   <header>gui/EditorWidgetBaseSubContent.h</header>
+   <header>gui/EditorWidgetBaseSubContent.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

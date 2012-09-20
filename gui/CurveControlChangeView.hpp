@@ -1,5 +1,5 @@
 /**
- * CurveControlChangeView.h
+ * CurveControlChangeView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,10 +11,10 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __CurveControlChangeView_h__
-#define __CurveControlChangeView_h__
+#ifndef __CurveControlChangeView_hpp__
+#define __CurveControlChangeView_hpp__
 
-#include "EditorWidgetBase.h"
+#include "EditorWidgetBase.hpp"
 #include "../ControlChangeView.hpp"
 #include <QGraphicsScene>
 

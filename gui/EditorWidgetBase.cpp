@@ -13,8 +13,8 @@
  */
 #include <sstream>
 #include <QScrollBar>
-#include "gui/EditorWidgetBase.h"
-#include "gui/EditorWidgetBaseMainContent.h"
+#include "gui/EditorWidgetBase.hpp"
+#include "gui/EditorWidgetBaseMainContent.hpp"
 #include "ui_EditorWidgetBase.h"
 
 namespace cadencii{

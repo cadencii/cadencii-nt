@@ -1,5 +1,5 @@
 /**
- * WindowMainView.h
+ * WindowMainView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -11,8 +11,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __WindowMainView_h__
-#define __WindowMainView_h__
+#ifndef __WindowMainView_hpp__
+#define __WindowMainView_hpp__
 
 #include <QMainWindow>
 #include "MainView.hpp"

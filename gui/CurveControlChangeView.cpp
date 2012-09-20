@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "CurveControlChangeView.h"
+#include "CurveControlChangeView.hpp"
 #include "ui_EditorWidgetBase.h"
 #include "vsq/Track.hpp"
 #include <QScrollBar>
