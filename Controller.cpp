@@ -174,8 +174,20 @@ namespace cadencii{
     void Controller::moveSongPositionStepped( bool isBackward )throw(){
         QuantizeMode::QuantizeModeEnum mode = Settings::instance().getQuantizeMode();
         VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
-        songPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
-        updateAllWidget();
+        VSQ_NS::tick_t newSongPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
+        int minX = getXFromTick( 0 );
+        int x = getXFromTick( newSongPosition );
+        if( x < minX ){
+            newSongPosition = getTickFromX( minX );
+        }
+        int preferedComponentWidth = getPreferedComponentWidth();
+        if( preferedComponentWidth < x ){
+            newSongPosition = getTickFromX( preferedComponentWidth );
+        }
+        if( newSongPosition != songPosition ){
+            songPosition = newSongPosition;
+            updateAllWidget();
+        }
     }
 
     VSQ_NS::tick_t Controller::getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode ){
@@ -196,7 +208,11 @@ namespace cadencii{
 
     int Controller::getPreferedComponentWidth()throw(){
         VSQ_NS::tick_t totalClocks = sequence.getTotalClocks();
-        return getXFromTick( totalClocks );
+        int result = getXFromTick( totalClocks );
+        if( trackView ){
+            result += trackView->getTrackViewWidth();
+        }
+        return result;
     }
 
 }

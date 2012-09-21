@@ -265,4 +265,8 @@ namespace cadencii{
         update();
     }
 
+    int PianorollTrackView::getTrackViewWidth(){
+        return ui->scrollArea->width();
+    }
+
 }
