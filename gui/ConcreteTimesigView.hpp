@@ -47,6 +47,8 @@ namespace cadencii{
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
 
         void paintSubContent( QPainter *painter, const QRect &rect );
+
+        void updateWidget();
     };
 
 }

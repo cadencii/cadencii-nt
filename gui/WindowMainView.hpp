@@ -45,6 +45,8 @@ namespace cadencii{
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
+        void updateWidget();
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する

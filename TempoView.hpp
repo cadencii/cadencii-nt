@@ -44,6 +44,11 @@ namespace cadencii{
          * @param drawOffset 描画範囲の左端の時刻
          */
         virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
+
+        /**
+         * @brief ウィジェットを再描画する
+         */
+        virtual void updateWidget() = 0;
     };
 
 }

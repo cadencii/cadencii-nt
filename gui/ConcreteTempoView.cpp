@@ -117,4 +117,8 @@ namespace cadencii{
         }
     }
 
+    void ConcreteTempoView::updateWidget(){
+        update();
+    }
+
 }

@@ -170,6 +170,8 @@ namespace cadencii{
          * @brief 歌手変更イベントを指定された位置に描画する
          */
         void paintSinger( QPainter *painter, const VSQ_NS::Event &singerEvent, int x, int y, SingerItemState state );
+
+        void updateWidget();
     };
 
 }

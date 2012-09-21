@@ -110,6 +110,11 @@ namespace cadencii{
          * @brief コンポーネントに sequence のインスタンスを設定する
          */
         void setupSequence();
+
+        /**
+         * @brief すべてのウィジェットを再描画する
+         */
+        void updateAllWidget();
     };
 
 }

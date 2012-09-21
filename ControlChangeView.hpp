@@ -56,6 +56,11 @@ namespace cadencii{
         virtual void setControlChangeName( const std::string &name ) = 0;
 
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+
+        /**
+         * @brief ウィジェットを再描画する
+         */
+        virtual void updateWidget() = 0;
     };
 
 }

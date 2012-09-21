@@ -94,4 +94,8 @@ namespace cadencii{
         painter->drawLine( rect.topRight(), rect.bottomRight() );
     }
 
+    void ConcreteBarCountView::updateWidget(){
+        update();
+    }
+
 }

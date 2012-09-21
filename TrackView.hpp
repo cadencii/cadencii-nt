@@ -59,6 +59,11 @@ namespace cadencii{
         virtual void setTrackIndex( int index ) = 0;
 
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+
+        /**
+         * @brief ウィジェットを再描画する
+         */
+        virtual void updateWidget() = 0;
     };
 
 }

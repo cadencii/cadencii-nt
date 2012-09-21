@@ -138,6 +138,10 @@ namespace cadencii{
         ui->actionQuantizeNone->setChecked( quantizeMode == QuantizeMode::NONE );
     }
 
+    void WindowMainView::updateWidget(){
+        update();
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){

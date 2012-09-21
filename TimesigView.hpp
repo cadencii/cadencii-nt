@@ -44,6 +44,11 @@ namespace cadencii{
          * @return ウィジェットの実体
          */
         virtual void *getWidget() = 0;
+
+        /**
+         * @brief ウィジェットを再描画する
+         */
+        virtual void updateWidget() = 0;
     };
 
 }

@@ -403,4 +403,8 @@ namespace cadencii{
         painter->drawText( textRect, text, option );
     }
 
+    void CurveControlChangeView::updateWidget(){
+        update();
+    }
+
 }

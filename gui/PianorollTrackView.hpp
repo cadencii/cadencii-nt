@@ -69,6 +69,8 @@ namespace cadencii{
 
         void setTrackIndex( int index );
 
+        void updateWidget();
+
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
          * @param trackHeight レーンの高さ(ピクセル単位)

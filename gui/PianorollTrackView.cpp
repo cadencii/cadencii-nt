@@ -264,4 +264,8 @@ namespace cadencii{
         update();
     }
 
+    void PianorollTrackView::updateWidget(){
+        update();
+    }
+
 }

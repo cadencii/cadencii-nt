@@ -112,4 +112,8 @@ namespace cadencii{
         painter->drawText( textRect, text, option );
     }
 
+    void ConcreteTimesigView::updateWidget(){
+        update();
+    }
+
 }

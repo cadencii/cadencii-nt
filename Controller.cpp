@@ -175,7 +175,7 @@ namespace cadencii{
         QuantizeMode::QuantizeModeEnum mode = Settings::instance().getQuantizeMode();
         VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
         songPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
-        //TODO:再描画
+        updateAllWidget();
     }
 
     VSQ_NS::tick_t Controller::getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode ){
@@ -186,6 +186,12 @@ namespace cadencii{
             result += unit;
         }
         return result;
+    }
+
+    void Controller::updateAllWidget(){
+        if( mainView ){
+            mainView->updateWidget();
+        }
     }
 
 }
