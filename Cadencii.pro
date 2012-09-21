@@ -54,3 +54,7 @@ RESOURCES += \
     Cadencii.qrc
 
 LIBS += -I"./gui/"
+
+mac {
+    ICON = resources/icon.icns
+}
