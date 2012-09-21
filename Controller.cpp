@@ -15,6 +15,7 @@
 #include "Controller.hpp"
 #include "vsq/VSQFileReader.hpp"
 #include "vsq/FileInputStream.hpp"
+#include "Settings.hpp"
 
 namespace cadencii{
 
@@ -168,6 +169,50 @@ namespace cadencii{
         timesigView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
+    }
+
+    void Controller::moveSongPositionStepped( bool isBackward )throw(){
+        QuantizeMode::QuantizeModeEnum mode = Settings::instance().getQuantizeMode();
+        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
+        VSQ_NS::tick_t newSongPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
+        int minX = getXFromTick( 0 );
+        int x = getXFromTick( newSongPosition );
+        if( x < minX ){
+            newSongPosition = getTickFromX( minX );
+        }
+        int preferedComponentWidth = getPreferedComponentWidth();
+        if( preferedComponentWidth < x ){
+            newSongPosition = getTickFromX( preferedComponentWidth );
+        }
+        if( newSongPosition != songPosition ){
+            songPosition = newSongPosition;
+            updateAllWidget();
+        }
+    }
+
+    VSQ_NS::tick_t Controller::getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode ){
+        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
+        VSQ_NS::tick_t odd = before % unit;
+        VSQ_NS::tick_t result = before - odd;
+        if( odd > unit / 2 ){
+            result += unit;
+        }
+        return result;
+    }
+
+    void Controller::updateAllWidget(){
+        if( mainView ){
+            mainView->updateWidget();
+        }
+    }
+
+    int Controller::getPreferedComponentWidth()throw(){
+        VSQ_NS::tick_t totalClocks = sequence.getTotalClocks();
+        int result = getXFromTick( totalClocks );
+        if( trackView ){
+            result += trackView->getTrackViewWidth();
+        }
+        return result;
     }
 
 }

@@ -270,13 +270,13 @@
      <property name="title">
       <string>Quantize</string>
      </property>
-     <addaction name="action1_4"/>
-     <addaction name="action1_8"/>
-     <addaction name="action1_16"/>
-     <addaction name="action1_32"/>
-     <addaction name="action1_64"/>
-     <addaction name="action1_128"/>
-     <addaction name="actionOff"/>
+     <addaction name="actionQuantizeQuarter"/>
+     <addaction name="actionQuantizeEighth"/>
+     <addaction name="actionQuantizeSisteenth"/>
+     <addaction name="actionQuantizeThirtySecond"/>
+     <addaction name="actionQuantizeSixtyFourth"/>
+     <addaction name="actionQuantizeHundredTwentyEighth"/>
+     <addaction name="actionQuantizeNone"/>
      <addaction name="separator"/>
      <addaction name="actionTriplet"/>
     </widget>
@@ -349,8 +349,8 @@
    <addaction name="action_23"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
-   <addaction name="action_25"/>
-   <addaction name="action_26"/>
+   <addaction name="actionMoveSongPositionLeft"/>
+   <addaction name="actionMoveSongPositionRight"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
    <addaction name="action_27"/>
@@ -674,42 +674,66 @@
     <string>Singing style defaults</string>
    </property>
   </action>
-  <action name="action1_4">
+  <action name="actionQuantizeQuarter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/4</string>
    </property>
   </action>
-  <action name="action1_8">
+  <action name="actionQuantizeEighth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/8</string>
    </property>
   </action>
-  <action name="action1_16">
+  <action name="actionQuantizeSisteenth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/16</string>
    </property>
   </action>
-  <action name="action1_32">
+  <action name="actionQuantizeThirtySecond">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/32</string>
    </property>
   </action>
-  <action name="action1_64">
+  <action name="actionQuantizeSixtyFourth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/64</string>
    </property>
   </action>
-  <action name="action1_128">
+  <action name="actionQuantizeHundredTwentyEighth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>1/128</string>
    </property>
   </action>
-  <action name="actionOff">
+  <action name="actionQuantizeNone">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Off</string>
    </property>
   </action>
   <action name="actionTriplet">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Triplet</string>
    </property>
@@ -801,7 +825,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_25">
+  <action name="actionMoveSongPositionLeft">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double_180.png</normaloff>:/icons/resources/control_double_180.png</iconset>
@@ -810,7 +834,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_26">
+  <action name="actionMoveSongPositionRight">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double.png</normaloff>:/icons/resources/control_double.png</iconset>

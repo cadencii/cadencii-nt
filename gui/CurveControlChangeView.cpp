@@ -75,13 +75,6 @@ namespace cadencii{
         return static_cast<ControlChangeView *>( this );
     }
 
-    QSizeF CurveControlChangeView::getPreferedSceneSize(){
-        VSQ_NS::tick_t totalClocks = sequence->getTotalClocks();
-        int sceneWidth = controllerAdapter->getXFromTick( totalClocks );
-        int sceneHeight = height();
-        return QSizeF( sceneWidth, sceneHeight );
-    }
-
     void CurveControlChangeView::paintMainContent( QPainter *painter, const QRect &rect ){
         // グラフ部分の最大値、最小値の位置の線を描く
         static QColor lineGraphBottom( 156, 161, 169 );
@@ -401,6 +394,10 @@ namespace cadencii{
         static QTextOption option( Qt::AlignLeft | Qt::AlignVCenter );
         QRect textRect( x + 1, y, SINGER_ITEM_WIDTH - 1, LANE_HEIGHT - 1 );
         painter->drawText( textRect, text, option );
+    }
+
+    void CurveControlChangeView::updateWidget(){
+        update();
     }
 
 }

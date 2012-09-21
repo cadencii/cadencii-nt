@@ -76,4 +76,8 @@ namespace cadencii{
         painter->drawLine( x, rect.top(), x, rect.bottom() );
     }
 
+    int EditorWidgetBase::getPreferedComponentHeight(){
+        return height();
+    }
+
 }

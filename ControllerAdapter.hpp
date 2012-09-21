@@ -44,7 +44,7 @@ namespace cadencii{
 
         /**
          * @brief 現在のソングポジションを取得する
-         * @param ソングポジション
+         * @return ソングポジション
          */
         virtual VSQ_NS::tick_t getSongPosition()throw() = 0;
 
@@ -59,6 +59,19 @@ namespace cadencii{
          * @brief x 座標から、tick 単位の時刻を取得する
          */
         virtual double getTickFromX( int x )throw() = 0;
+
+        /**
+         * @brief ソングポジションを移動する
+         * @param isBackward ソングポジションを後退させる場合 true に設定する。false の場合、前進する
+         */
+        virtual void moveSongPositionStepped( bool isBackward )throw() = 0;
+
+        /**
+         * @brief 横方向の表示倍率、シーケンスの長さを考慮し、最適なコンポーネントの横幅を取得する。
+         * スクロールバーによるコンポーネントの部分表示は考慮せず、単純に、シーケンスをすべて表示するのに必要な幅を返す
+         * @return コンポーネントに要求される横幅(ピクセル単位)
+         */
+        virtual int getPreferedComponentWidth()throw() = 0;
     };
 
 }

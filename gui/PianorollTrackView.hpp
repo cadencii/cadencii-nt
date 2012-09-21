@@ -63,11 +63,15 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
+        int getPreferedComponentHeight();
 
         void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber );
 
         void setTrackIndex( int index );
+
+        void updateWidget();
+
+        int getTrackViewWidth();
 
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する

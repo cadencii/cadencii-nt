@@ -108,8 +108,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
-
         void setTrackIndex( int index );
 
         void setControlChangeName( const std::string &name );
@@ -170,6 +168,8 @@ namespace cadencii{
          * @brief 歌手変更イベントを指定された位置に描画する
          */
         void paintSinger( QPainter *painter, const VSQ_NS::Event &singerEvent, int x, int y, SingerItemState state );
+
+        void updateWidget();
     };
 
 }

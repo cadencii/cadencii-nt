@@ -32,8 +32,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
-
         void *getWidget();
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
@@ -47,6 +45,8 @@ namespace cadencii{
         void paintSubContent( QPainter *painter, const QRect &rect );
 
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+
+        void updateWidget();
     };
 
 }

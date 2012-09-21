@@ -59,6 +59,17 @@ namespace cadencii{
         virtual void setTrackIndex( int index ) = 0;
 
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+
+        /**
+         * @brief ウィジェットを再描画する
+         */
+        virtual void updateWidget() = 0;
+
+        /**
+         * @brief トラックビューの幅(ピクセル単位)を取得する
+         * @return トラックビューの幅(ピクセル単位)
+         */
+        virtual int getTrackViewWidth() = 0;
     };
 
 }
