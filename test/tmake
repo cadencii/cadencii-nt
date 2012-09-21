@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+	exit 1
+fi
+rm -f ${1}Test.exe && make ${1}Test.exe
+

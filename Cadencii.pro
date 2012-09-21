@@ -39,7 +39,8 @@ HEADERS  += \
     TempoView.hpp \
     gui/ConcreteTempoView.hpp \
     TimesigView.hpp \
-    gui/ConcreteTimesigView.hpp
+    gui/ConcreteTimesigView.hpp \
+    enum/QuantizeMode.hpp
 
 FORMS    += \
     gui/WindowMainView.ui \
