@@ -20,6 +20,7 @@
 #include "ControlChangeView.hpp"
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
+#include "enum/QuantizeMode.hpp"
 
 namespace cadencii{
 
@@ -51,6 +52,8 @@ namespace cadencii{
         int getXFromTick( VSQ_NS::tick_t tick )throw();
 
         double getTickFromX( int x )throw();
+
+        void moveSongPositionStepped( bool isBackward )throw();
 
         /**
          * @brief トラックのビューを設定する
@@ -93,6 +96,14 @@ namespace cadencii{
          * @param トラックのインデックス
          */
         void setTrackIndex( void *sender, int index )throw();
+
+    protected:
+        /**
+         * @brief tick 単位の時刻を、指定されたクオンタイズモードに応じて丸める
+         * @todo 三連符かどうかのフラグを渡せるようにする
+         * @todo テスト
+         */
+        VSQ_NS::tick_t getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode );
 
     private:
         /**

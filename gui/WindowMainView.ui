@@ -349,8 +349,8 @@
    <addaction name="action_23"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
-   <addaction name="action_25"/>
-   <addaction name="action_26"/>
+   <addaction name="actionMoveSongPositionLeft"/>
+   <addaction name="actionMoveSongPositionRight"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
    <addaction name="action_27"/>
@@ -825,7 +825,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_25">
+  <action name="actionMoveSongPositionLeft">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double_180.png</normaloff>:/icons/resources/control_double_180.png</iconset>
@@ -834,7 +834,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_26">
+  <action name="actionMoveSongPositionRight">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resources/control_double.png</normaloff>:/icons/resources/control_double.png</iconset>

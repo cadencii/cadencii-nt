@@ -15,6 +15,7 @@
 #include "Controller.hpp"
 #include "vsq/VSQFileReader.hpp"
 #include "vsq/FileInputStream.hpp"
+#include "Settings.hpp"
 
 namespace cadencii{
 
@@ -168,6 +169,23 @@ namespace cadencii{
         timesigView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
+    }
+
+    void Controller::moveSongPositionStepped( bool isBackward )throw(){
+        QuantizeMode::QuantizeModeEnum mode = Settings::instance().getQuantizeMode();
+        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
+        songPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
+        //TODO:再描画
+    }
+
+    VSQ_NS::tick_t Controller::getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode ){
+        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
+        VSQ_NS::tick_t odd = before % unit;
+        VSQ_NS::tick_t result = before - odd;
+        if( odd > unit / 2 ){
+            result += unit;
+        }
+        return result;
     }
 
 }

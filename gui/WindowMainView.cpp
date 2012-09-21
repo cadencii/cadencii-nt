@@ -197,3 +197,11 @@ void cadencii::WindowMainView::on_actionQuantizeNone_toggled( bool arg1 ){
         reflectQuantizeModeSettings();
     }
 }
+
+void cadencii::WindowMainView::on_actionMoveSongPositionLeft_triggered(){
+    controllerAdapter->moveSongPositionStepped( true );
+}
+
+void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
+    controllerAdapter->moveSongPositionStepped( false );
+}

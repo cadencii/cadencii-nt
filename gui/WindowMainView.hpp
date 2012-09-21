@@ -70,6 +70,8 @@ namespace cadencii{
         void on_actionQuantizeSixtyFourth_toggled(bool arg1);
         void on_actionQuantizeHundredTwentyEighth_toggled(bool arg1);
         void on_actionQuantizeNone_toggled(bool arg1);
+        void on_actionMoveSongPositionLeft_triggered();
+        void on_actionMoveSongPositionRight_triggered();
     };
 
 }
