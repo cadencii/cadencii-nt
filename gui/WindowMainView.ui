@@ -833,6 +833,9 @@
    <property name="text">
     <string/>
    </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
   </action>
   <action name="actionMoveSongPositionRight">
    <property name="icon">
@@ -841,6 +844,9 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
    </property>
   </action>
   <action name="toolActionPlay">
