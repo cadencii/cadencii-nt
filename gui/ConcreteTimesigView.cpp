@@ -51,13 +51,6 @@ namespace cadencii{
         return static_cast<TimesigView *>( this );
     }
 
-    QSizeF ConcreteTimesigView::getPreferedSceneSize(){
-        VSQ_NS::tick_t totalClocks = sequence->getTotalClocks();
-        int sceneWidth = controllerAdapter->getXFromTick( totalClocks );
-        int sceneHeight = height();
-        return QSizeF( sceneWidth, sceneHeight );
-    }
-
     void ConcreteTimesigView::paintMainContent( QPainter *painter, const QRect &rect ){
         // 小節ごとの線
         ui->scrollArea->paintMeasureLines( painter, rect );

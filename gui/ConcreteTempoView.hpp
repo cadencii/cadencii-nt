@@ -32,8 +32,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
-
         void *getWidget();
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );

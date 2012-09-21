@@ -36,13 +36,6 @@ namespace cadencii{
         return static_cast<TempoView *>( this );
     }
 
-    QSizeF ConcreteTempoView::getPreferedSceneSize(){
-        VSQ_NS::tick_t totalClocks = sequence->getTotalClocks();
-        int sceneWidth = controllerAdapter->getXFromTick( totalClocks );
-        int sceneHeight = height();
-        return QSizeF( sceneWidth, sceneHeight );
-    }
-
     void *ConcreteTempoView::getWidget(){
         return (void *)this;
     }

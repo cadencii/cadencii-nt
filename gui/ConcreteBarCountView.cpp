@@ -34,13 +34,6 @@ namespace cadencii{
         return static_cast<BarCountView *>( this );
     }
 
-    QSizeF ConcreteBarCountView::getPreferedSceneSize(){
-        VSQ_NS::tick_t totalClocks = sequence->getTotalClocks();
-        int sceneWidth = controllerAdapter->getXFromTick( totalClocks );
-        int sceneHeight = height();
-        return QSizeF( sceneWidth, sceneHeight );
-    }
-
     void ConcreteBarCountView::setSequence( VSQ_NS::Sequence *sequence ){
         this->sequence = sequence;
     }

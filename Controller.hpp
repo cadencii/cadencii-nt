@@ -55,6 +55,8 @@ namespace cadencii{
 
         void moveSongPositionStepped( bool isBackward )throw();
 
+        int getPreferedComponentWidth()throw();
+
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー

@@ -108,8 +108,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
-
         void setTrackIndex( int index );
 
         void setControlChangeName( const std::string &name );

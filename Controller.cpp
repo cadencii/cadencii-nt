@@ -194,4 +194,9 @@ namespace cadencii{
         }
     }
 
+    int Controller::getPreferedComponentWidth()throw(){
+        VSQ_NS::tick_t totalClocks = sequence.getTotalClocks();
+        return getXFromTick( totalClocks );
+    }
+
 }

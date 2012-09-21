@@ -32,8 +32,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        QSizeF getPreferedSceneSize();
-
         void setSequence( VSQ_NS::Sequence *sequence );
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
