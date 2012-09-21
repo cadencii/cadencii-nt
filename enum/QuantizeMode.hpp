@@ -16,6 +16,7 @@
 #define __QuantizeMode_hpp__
 
 #include "../vsq/StringUtil.hpp"
+#include "../vsq/vsqglobal.hpp"
 
 namespace cadencii{
 
@@ -112,6 +113,50 @@ namespace cadencii{
             }else{
                 return QuantizeMode::NONE;
             }
+        }
+
+        /**
+         * @brief クオンタイズの際の、単位時間(tick単位)を取得する。例えば、4分音符でクオンタイズする場合、480tickを返す
+         * @param mode クオンタイズ
+         * @return 単位時間
+         */
+        static VSQ_NS::tick_t getQuantizeUnitTick( QuantizeModeEnum mode ){
+            VSQ_NS::tick_t result;
+            switch( mode ){
+                case NONE:{
+                    result = 1;
+                    break;
+                }
+                case QUARTER:{
+                    result = 480;
+                    break;
+                }
+                case EIGHTH:{
+                    result = 240;
+                    break;
+                }
+                case SIXTEENTH:{
+                    result = 120;
+                    break;
+                }
+                case THIRTY_SECOND:{
+                    result = 60;
+                    break;
+                }
+                case SIXTY_FOURTH:{
+                    result = 30;
+                    break;
+                }
+                case HUNDRED_TWENTY_EIGHTH:{
+                    result = 15;
+                    break;
+                }
+                default:{
+                    result = 1;
+                    break;
+                }
+            }
+            return result;
         }
     }
 

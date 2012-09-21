@@ -3,6 +3,7 @@
 
 using namespace std;
 using namespace cadencii;
+using namespace VSQ_NS;
 
 class QuantizeModeTest : public CppUnit::TestCase{
 public:
@@ -31,9 +32,21 @@ public:
         CPPUNIT_ASSERT_EQUAL( QuantizeMode::HUNDRED_TWENTY_EIGHTH, QuantizeMode::fromString( "HUNDRED_TWENTY_EIGHTH" ) );
     }
 
+    void getQuantizeUnitTick(){
+        CPPUNIT_ASSERT_EQUAL( (tick_t)480, QuantizeMode::getQuantizeUnitTick( QuantizeMode::QUARTER ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)240, QuantizeMode::getQuantizeUnitTick( QuantizeMode::EIGHTH ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)120, QuantizeMode::getQuantizeUnitTick( QuantizeMode::SIXTEENTH ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)60, QuantizeMode::getQuantizeUnitTick( QuantizeMode::THIRTY_SECOND ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)30, QuantizeMode::getQuantizeUnitTick( QuantizeMode::SIXTY_FOURTH ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)15, QuantizeMode::getQuantizeUnitTick( QuantizeMode::HUNDRED_TWENTY_EIGHTH ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)1, QuantizeMode::getQuantizeUnitTick( QuantizeMode::NONE ) );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)1, QuantizeMode::getQuantizeUnitTick( (QuantizeMode::QuantizeModeEnum)-1 ) );
+    }
+
     CPPUNIT_TEST_SUITE( QuantizeModeTest );
     CPPUNIT_TEST( toString );
     CPPUNIT_TEST( fromString );
+    CPPUNIT_TEST( getQuantizeUnitTick );
     CPPUNIT_TEST_SUITE_END();
 };
 
