@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     gui/PianorollTrackView.cpp \
     gui/ConcreteBarCountView.cpp \
     gui/ConcreteTempoView.cpp \
-    gui/ConcreteTimesigView.cpp
+    gui/ConcreteTimesigView.cpp \
+    Settings.cpp
 
 HEADERS  += \
     TrackView.hpp \
@@ -40,7 +41,8 @@ HEADERS  += \
     gui/ConcreteTempoView.hpp \
     TimesigView.hpp \
     gui/ConcreteTimesigView.hpp \
-    enum/QuantizeMode.hpp
+    enum/QuantizeMode.hpp \
+    Settings.hpp
 
 FORMS    += \
     gui/WindowMainView.ui \

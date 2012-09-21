@@ -15,6 +15,8 @@
 #include "gui/WindowMainView.hpp"
 #include "ui_WindowMainView.h"
 #include "Controller.hpp"
+#include "enum/QuantizeMode.hpp"
+#include "Settings.hpp"
 #include <QFileDialog>
 
 namespace cadencii{
@@ -25,6 +27,7 @@ namespace cadencii{
     {
         ui->setupUi( this );
         controllerAdapter = 0;
+        reflectSettings();
     }
 
     WindowMainView::~WindowMainView(){
@@ -119,6 +122,22 @@ namespace cadencii{
         this->controllerAdapter = controllerAdapter;
     }
 
+    void WindowMainView::reflectSettings(){
+        reflectQuantizeModeSettings();
+    }
+
+    void WindowMainView::reflectQuantizeModeSettings(){
+        // quantizeMode
+        QuantizeMode::QuantizeModeEnum quantizeMode = Settings::instance().getQuantizeMode();
+        ui->actionQuantizeQuarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
+        ui->actionQuantizeEighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
+        ui->actionQuantizeSisteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
+        ui->actionQuantizeThirtySecond->setChecked( quantizeMode == QuantizeMode::THIRTY_SECOND );
+        ui->actionQuantizeSixtyFourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
+        ui->actionQuantizeHundredTwentyEighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
+        ui->actionQuantizeNone->setChecked( quantizeMode == QuantizeMode::NONE );
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
@@ -128,4 +147,53 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
         this->controllerAdapter->openVSQFile( std::string( filePath.toLocal8Bit().data() ) );
     }
     this->activateWindow();
+}
+
+void cadencii::WindowMainView::on_actionQuantizeQuarter_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::QUARTER );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeEighth_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::EIGHTH );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeSisteenth_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::SIXTEENTH );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeThirtySecond_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::THIRTY_SECOND );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeSixtyFourth_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::SIXTY_FOURTH );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeHundredTwentyEighth_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::HUNDRED_TWENTY_EIGHTH );
+        reflectQuantizeModeSettings();
+    }
+}
+
+void cadencii::WindowMainView::on_actionQuantizeNone_toggled( bool arg1 ){
+    if( arg1 ){
+        Settings::instance().setQuantizeMode( QuantizeMode::NONE );
+        reflectQuantizeModeSettings();
+    }
 }

@@ -51,8 +51,25 @@ namespace cadencii{
          */
         void setupPianorollWidget();
 
+        /**
+         * @brief カスタマイズ可能な設定項目について、Settings::instance の内容をビューに反映する
+         */
+        void reflectSettings();
+
+        /**
+         * @brief QuantizeMode の設定内容をビューに反映する
+         */
+        void reflectQuantizeModeSettings();
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
+        void on_actionQuantizeQuarter_toggled(bool arg1);
+        void on_actionQuantizeEighth_toggled(bool arg1);
+        void on_actionQuantizeSisteenth_toggled(bool arg1);
+        void on_actionQuantizeThirtySecond_toggled(bool arg1);
+        void on_actionQuantizeSixtyFourth_toggled(bool arg1);
+        void on_actionQuantizeHundredTwentyEighth_toggled(bool arg1);
+        void on_actionQuantizeNone_toggled(bool arg1);
     };
 
 }
