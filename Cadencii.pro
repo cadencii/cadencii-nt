@@ -51,8 +51,8 @@ FORMS    += \
 OTHER_FILES +=
 
 RESOURCES += \
-    Cadencii.qrc
+    qt/Cadencii.qrc
 
 mac {
-    ICON = resources/icon.icns
+    ICON = resource/icon.icns
 }

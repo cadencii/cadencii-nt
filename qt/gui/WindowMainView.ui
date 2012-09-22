@@ -14,8 +14,8 @@
    <string notr="true">Cadencii</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Cadencii.qrc">
-    <normaloff>:/icons/resources/icon.ico</normaloff>:/icons/resources/icon.ico</iconset>
+   <iconset>
+    <normaloff>:/icons/resource/icon.ico</normaloff>:/icons/resource/icon.ico</iconset>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -373,7 +373,7 @@
   <action name="action_16">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/disk__plus.png</normaloff>:/icons/resources/disk__plus.png</iconset>
+     <normaloff>:/icons/resource/disk__plus.png</normaloff>:/icons/resource/disk__plus.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -755,8 +755,8 @@
   </action>
   <action name="action_17">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/folder_horizontal_open.png</normaloff>:/icons/resources/folder_horizontal_open.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/folder_horizontal_open.png</normaloff>:/icons/resource/folder_horizontal_open.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -764,8 +764,8 @@
   </action>
   <action name="action_18">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/disk.png</normaloff>:/icons/resources/disk.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/disk.png</normaloff>:/icons/resource/disk.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -773,8 +773,8 @@
   </action>
   <action name="action_19">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/scissors.png</normaloff>:/icons/resources/scissors.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/scissors.png</normaloff>:/icons/resource/scissors.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -782,8 +782,8 @@
   </action>
   <action name="action_20">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/documents.png</normaloff>:/icons/resources/documents.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/documents.png</normaloff>:/icons/resource/documents.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -791,8 +791,8 @@
   </action>
   <action name="action_21">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/clipboard_paste.png</normaloff>:/icons/resources/clipboard_paste.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/clipboard_paste.png</normaloff>:/icons/resource/clipboard_paste.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -800,8 +800,8 @@
   </action>
   <action name="action_22">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/arrow_skip_180.png</normaloff>:/icons/resources/arrow_skip_180.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -809,8 +809,8 @@
   </action>
   <action name="action_23">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/arrow_skip.png</normaloff>:/icons/resources/arrow_skip.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -818,8 +818,8 @@
   </action>
   <action name="action_24">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/control_stop_180.png</normaloff>:/icons/resources/control_stop_180.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/control_stop_180.png</normaloff>:/icons/resource/control_stop_180.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -827,8 +827,8 @@
   </action>
   <action name="actionMoveSongPositionLeft">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/control_double_180.png</normaloff>:/icons/resources/control_double_180.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/control_double_180.png</normaloff>:/icons/resource/control_double_180.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -839,8 +839,8 @@
   </action>
   <action name="actionMoveSongPositionRight">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/control_double.png</normaloff>:/icons/resources/control_double.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/control_double.png</normaloff>:/icons/resource/control_double.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -851,8 +851,8 @@
   </action>
   <action name="toolActionPlay">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/control.png</normaloff>:/icons/resources/control.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/control.png</normaloff>:/icons/resource/control.png</iconset>
    </property>
    <property name="text">
     <string>Play</string>
@@ -866,8 +866,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/arrow_circle_double.png</normaloff>:/icons/resources/arrow_circle_double.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/arrow_circle_double.png</normaloff>:/icons/resource/arrow_circle_double.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -878,8 +878,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/arrow_return.png</normaloff>:/icons/resources/arrow_return.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/arrow_return.png</normaloff>:/icons/resource/arrow_return.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -890,8 +890,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/arrow_135.png</normaloff>:/icons/resources/arrow_135.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/arrow_135.png</normaloff>:/icons/resource/arrow_135.png</iconset>
    </property>
    <property name="text">
     <string>Pointer</string>
@@ -902,8 +902,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/pencil.png</normaloff>:/icons/resources/pencil.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/pencil.png</normaloff>:/icons/resource/pencil.png</iconset>
    </property>
    <property name="text">
     <string>Pencil</string>
@@ -914,8 +914,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/layer_shape_line.png</normaloff>:/icons/resources/layer_shape_line.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/layer_shape_line.png</normaloff>:/icons/resource/layer_shape_line.png</iconset>
    </property>
    <property name="text">
     <string>Line</string>
@@ -926,8 +926,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/eraser.png</normaloff>:/icons/resources/eraser.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/eraser.png</normaloff>:/icons/resource/eraser.png</iconset>
    </property>
    <property name="text">
     <string>Eraser</string>
@@ -938,8 +938,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/ruler_crop.png</normaloff>:/icons/resources/ruler_crop.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/ruler_crop.png</normaloff>:/icons/resource/ruler_crop.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -950,8 +950,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/layer_shape_curve.png</normaloff>:/icons/resources/layer_shape_curve.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/layer_shape_curve.png</normaloff>:/icons/resource/layer_shape_curve.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -962,8 +962,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/piano.png</normaloff>:/icons/resources/piano.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/piano.png</normaloff>:/icons/resource/piano.png</iconset>
    </property>
    <property name="text">
     <string/>
@@ -971,8 +971,8 @@
   </action>
   <action name="toolActionToEnd">
    <property name="icon">
-    <iconset resource="../Cadencii.qrc">
-     <normaloff>:/icons/resources/control_stop.png</normaloff>:/icons/resources/control_stop.png</iconset>
+    <iconset>
+     <normaloff>:/icons/resource/control_stop.png</normaloff>:/icons/resource/control_stop.png</iconset>
    </property>
    <property name="text">
     <string/>
