@@ -106,7 +106,8 @@ namespace cadencii{
         if( measureLine.isBorder ){
             painter->drawLine( x, rect.top(), x, rect.bottom() );
         }else{
-            painter->drawLine( x, rect.bottom() - 5, x, rect.bottom() );
+            int lineHeight = measureLine.isAssistLine ? 3 : 6;
+            painter->drawLine( x, rect.bottom() - lineHeight, x, rect.bottom() );
         }
     }
 

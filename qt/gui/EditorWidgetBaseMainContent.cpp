@@ -20,6 +20,7 @@
 #include "vsq/Timesig.hpp"
 #include "qt/gui/EditorWidgetBase.hpp"
 #include "qt/gui/EditorWidgetBaseMainContent.hpp"
+#include "Settings.hpp"
 
 namespace cadencii{
     using namespace std;
@@ -113,6 +114,11 @@ namespace cadencii{
             list = &defaultList;
         }
         VSQ_NS::MeasureLineIterator i( list );
+        if( Settings::instance()->isGridVisible() ){
+            QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
+            VSQ_NS::tick_t assistLineStep = QuantizeMode::getQuantizeUnitTick( mode );
+            i = VSQ_NS::MeasureLineIterator( list, assistLineStep );
+        }
         i.reset( tickAtScreenRight );
 
         while( i.hasNext() ){
