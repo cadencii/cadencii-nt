@@ -25,31 +25,44 @@ namespace cadencii{
     class Settings{
     public:
         /**
-         * @brief 設定項目のインスタンスを取得する
-         * @return 設定項目のインスタンス
+         * @brief 設定項目を取得する。引数 newInstance が指定された場合、設定項目のインスタンスを置き換える
+         * @param newInstance 置き換える設定項目のインスタンス
+         * @return 設定項目
          */
-        static Settings &instance();
+        static Settings *instance( Settings *newInstance = 0 ){
+            static Settings *settings;
+            if( newInstance ){
+                settings = newInstance;
+            }
+            return settings;
+        }
 
         /**
          * @brief クオンタイズモードを取得する
          */
-        QuantizeMode::QuantizeModeEnum getQuantizeMode();
+        virtual QuantizeMode::QuantizeModeEnum getQuantizeMode() = 0;
 
         /**
          * @brief クオンタイズモードを設定する
          */
-        void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode );
-
-    private:
-        /**
-         * @brief 保存されている設定項目があればそれを読み取り、初期化する
-         */
-        Settings();
+        virtual void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode ) = 0;
 
         /**
-         * @brief デストラクタ
+         * @brief グリッド線を表示するかどうかを取得する
+         * @return グリッド線を表示する場合は true を返す
          */
-        ~Settings();
+        virtual bool isGridVisible() = 0;
+
+        /**
+         * @brief グリッド線を表示するかどうかを設定する
+         * @param isVisible 表示する場合は true を、それ以外は false を設定する
+         */
+        virtual void setGridVisible( bool isVisible ) = 0;
+
+        /**
+         * @brief 設定項目を保存する
+         */
+        virtual void save() = 0;
     };
 
 }

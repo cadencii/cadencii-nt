@@ -124,11 +124,12 @@ namespace cadencii{
 
     void WindowMainView::reflectSettings(){
         reflectQuantizeModeSettings();
+        reflectGridVisibleSettings();
     }
 
     void WindowMainView::reflectQuantizeModeSettings(){
         // quantizeMode
-        QuantizeMode::QuantizeModeEnum quantizeMode = Settings::instance().getQuantizeMode();
+        QuantizeMode::QuantizeModeEnum quantizeMode = Settings::instance()->getQuantizeMode();
         ui->actionQuantizeQuarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
         ui->actionQuantizeEighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
         ui->actionQuantizeSisteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
@@ -140,6 +141,11 @@ namespace cadencii{
 
     void WindowMainView::updateWidget(){
         update();
+    }
+
+    void WindowMainView::reflectGridVisibleSettings(){
+        bool gridVisible = Settings::instance()->isGridVisible();
+        ui->actionToggleGridVisible->setChecked( gridVisible );
     }
 
 }
@@ -155,49 +161,49 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
 
 void cadencii::WindowMainView::on_actionQuantizeQuarter_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::QUARTER );
+        Settings::instance()->setQuantizeMode( QuantizeMode::QUARTER );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeEighth_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::EIGHTH );
+        Settings::instance()->setQuantizeMode( QuantizeMode::EIGHTH );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeSisteenth_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::SIXTEENTH );
+        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTEENTH );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeThirtySecond_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::THIRTY_SECOND );
+        Settings::instance()->setQuantizeMode( QuantizeMode::THIRTY_SECOND );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeSixtyFourth_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::SIXTY_FOURTH );
+        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTY_FOURTH );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeHundredTwentyEighth_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::HUNDRED_TWENTY_EIGHTH );
+        Settings::instance()->setQuantizeMode( QuantizeMode::HUNDRED_TWENTY_EIGHTH );
         reflectQuantizeModeSettings();
     }
 }
 
 void cadencii::WindowMainView::on_actionQuantizeNone_toggled( bool arg1 ){
     if( arg1 ){
-        Settings::instance().setQuantizeMode( QuantizeMode::NONE );
+        Settings::instance()->setQuantizeMode( QuantizeMode::NONE );
         reflectQuantizeModeSettings();
     }
 }
@@ -208,4 +214,9 @@ void cadencii::WindowMainView::on_actionMoveSongPositionLeft_triggered(){
 
 void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
     controllerAdapter->moveSongPositionStepped( false );
+}
+
+void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
+    Settings::instance()->setGridVisible( arg1 );
+    update();
 }

@@ -19,10 +19,14 @@
 #include "qt/gui/ConcreteBarCountView.hpp"
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
+#include "qt/ConcreteSettings.hpp"
 #include "Controller.hpp"
 
 int main(int argc, char *argv[])
 {
+    cadencii::ConcreteSettings settings;
+    cadencii::Settings::instance( &settings );
+
     QApplication a(argc, argv);
     cadencii::WindowMainView wv;
     cadencii::PianorollTrackView pv;

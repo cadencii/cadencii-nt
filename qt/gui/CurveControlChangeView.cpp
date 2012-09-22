@@ -176,12 +176,16 @@ namespace cadencii{
             painter->drawLine( x, rect.height() - MARGIN_BOTTOM - 1, x, MARGIN_TOP + 1 );
         }else{
             int graphHeight = rect.height() - MARGIN_BOTTOM - MARGIN_TOP;
-            int center = rect.top() + graphHeight / 2;
+            int center = rect.top() + MARGIN_TOP + graphHeight / 2;
+            int scaleLineHeight = measureLine.isAssistLine ? 3 : 6;
+
             painter->setPen( white100 );
-            painter->drawLine( x, center - 5, x, center + 6 );
-            painter->setPen( pen );
-            painter->drawLine( x, MARGIN_TOP, x, MARGIN_TOP + 6 );
-            painter->drawLine( x, rect.height() - MARGIN_BOTTOM, x, rect.height() - MARGIN_BOTTOM - 6 );
+            painter->drawLine( x, center - scaleLineHeight - 1, x, center + scaleLineHeight );
+            if( !measureLine.isAssistLine ){
+                painter->setPen( pen );
+            }
+            painter->drawLine( x, MARGIN_TOP, x, MARGIN_TOP + scaleLineHeight );
+            painter->drawLine( x, rect.height() - MARGIN_BOTTOM, x, rect.height() - MARGIN_BOTTOM - scaleLineHeight );
         }
     }
 

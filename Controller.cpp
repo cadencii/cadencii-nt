@@ -172,7 +172,7 @@ namespace cadencii{
     }
 
     void Controller::moveSongPositionStepped( bool isBackward )throw(){
-        QuantizeMode::QuantizeModeEnum mode = Settings::instance().getQuantizeMode();
+        QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
         VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick( mode );
         VSQ_NS::tick_t newSongPosition = getQuantizedTick( songPosition + (isBackward ? -unit : unit), mode );
         int minX = getXFromTick( 0 );

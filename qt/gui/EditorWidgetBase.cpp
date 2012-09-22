@@ -66,13 +66,12 @@ namespace cadencii{
     }
 
     void EditorWidgetBase::drawMeasureLine( QPainter *painter, const QRect &rect, int x, const MeasureLine &measureLine ){
-        static QColor barColor( 161, 157, 136 );
-        static QColor beatColor( 209, 204, 172 );
-        if( measureLine.isBorder ){
-            painter->setPen( barColor );
-        }else{
-            painter->setPen( beatColor );
-        }
+        static QBrush barBrush( QColor::fromRgb( 161, 157, 136 ), Qt::SolidPattern );
+        static QBrush beatBrush( QColor::fromRgb( 209, 204, 172 ), Qt::SolidPattern );
+        QBrush brush = measureLine.isBorder ? barBrush : beatBrush;
+        Qt::PenStyle style = measureLine.isAssistLine ? Qt::DashLine : Qt::SolidLine;
+        QPen pen( brush, 1.0, style );
+        painter->setPen( pen );
         painter->drawLine( x, rect.top(), x, rect.bottom() );
     }
 
