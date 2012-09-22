@@ -56,13 +56,17 @@ namespace cadencii{
     }
 
     void EditorWidgetBase::setDrawOffsetInternal( tick_t drawOffset ){
-        int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
-        QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
-        int maxValue = scrollBar->maximum() + scrollBar->pageStep();
-        int minValue = scrollBar->minimum();
-        int contentWidth = (int)ui->scrollArea->getSceneWidth();
-        int value = (int)(minValue + (minValue - maxValue) * (double)xScrollTo / contentWidth);
-        scrollBar->setValue( value );
+        static QMutex mutex;
+        if( mutex.tryLock() ){
+            int xScrollTo = -controllerAdapter->getXFromTick( drawOffset );
+            QScrollBar *scrollBar = ui->scrollArea->horizontalScrollBar();
+            int maxValue = scrollBar->maximum() + scrollBar->pageStep();
+            int minValue = scrollBar->minimum();
+            int contentWidth = (int)ui->scrollArea->getSceneWidth();
+            int value = (int)(minValue + (minValue - maxValue) * (double)xScrollTo / contentWidth);
+            if( scrollBar->value() != value ) scrollBar->setValue( value );
+            mutex.unlock();
+        }
     }
 
     void EditorWidgetBase::drawMeasureLine( QPainter *painter, const QRect &rect, int x, const MeasureLine &measureLine ){
