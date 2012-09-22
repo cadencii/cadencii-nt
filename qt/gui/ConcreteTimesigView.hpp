@@ -1,5 +1,5 @@
 /**
- * ConcreteBarCountView.hpp
+ * ConcreteTimesigView.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,35 +12,35 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __ConcreteBarCountView_hpp__
-#define __ConcreteBarCountView_hpp__
+#ifndef __ConcreteTimesigView_hpp__
+#define __ConcreteTimesigView_hpp__
 
-#include "BarCountView.hpp"
-#include "ControllerAdapter.hpp"
-#include "gui/EditorWidgetBase.hpp"
+#include "qt/gui/EditorWidgetBase.hpp"
+#include "gui/TimesigView.hpp"
 
 namespace cadencii{
 
-    class ConcreteBarCountView : public EditorWidgetBase, public BarCountView{
+    class ConcreteTimesigView : public EditorWidgetBase, public TimesigView{
     private:
+        QColor backgroundColor;
         QColor lineColor;
 
     public:
-        ConcreteBarCountView( QWidget *parent = 0 );
+        ConcreteTimesigView( QWidget *parent = 0 );
 
-        ~ConcreteBarCountView();
-
-        void *getScrollEventSender();
-
-        void setSequence( VSQ_NS::Sequence *sequence );
+        ~ConcreteTimesigView();
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
-        void *getWidget();
-
-        void paintMainContent( QPainter *painter, const QRect &rect );
+        void setSequence( VSQ_NS::Sequence *sequence );
 
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
+
+        void *getWidget();
+
+        void *getScrollEventSender();
+
+        void paintMainContent( QPainter *painter, const QRect &rect );
 
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
 

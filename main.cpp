@@ -13,12 +13,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <QtGui/QApplication>
-#include "gui/WindowMainView.hpp"
-#include "gui/PianorollTrackView.hpp"
-#include "gui/CurveControlChangeView.hpp"
-#include "gui/ConcreteBarCountView.hpp"
-#include "gui/ConcreteTempoView.hpp"
-#include "gui/ConcreteTimesigView.hpp"
+#include "qt/gui/WindowMainView.hpp"
+#include "qt/gui/PianorollTrackView.hpp"
+#include "qt/gui/CurveControlChangeView.hpp"
+#include "qt/gui/ConcreteBarCountView.hpp"
+#include "qt/gui/ConcreteTempoView.hpp"
+#include "qt/gui/ConcreteTimesigView.hpp"
 #include "Controller.hpp"
 
 int main(int argc, char *argv[])

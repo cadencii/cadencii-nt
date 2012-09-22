@@ -15,8 +15,8 @@
 #ifndef __ConcreteTempoView_hpp__
 #define __ConcreteTempoView_hpp__
 
-#include "TempoView.hpp"
-#include "gui/EditorWidgetBase.hpp"
+#include "gui/TempoView.hpp"
+#include "qt/gui/EditorWidgetBase.hpp"
 
 namespace cadencii{
 

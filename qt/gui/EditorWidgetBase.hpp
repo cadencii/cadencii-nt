@@ -21,8 +21,8 @@
 #include "vsq/MeasureLineIterator.hpp"
 #include "vsq/TimesigList.hpp"
 #include "vsq/Sequence.hpp"
-#include "gui/EditorWidgetBaseMainContent.hpp"
-#include "TrackView.hpp"
+#include "qt/gui/EditorWidgetBaseMainContent.hpp"
+#include "gui/TrackView.hpp"
 
 namespace Ui{
     class EditorWidgetBase;

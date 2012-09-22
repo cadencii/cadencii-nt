@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "gui/ConcreteTimesigView.hpp"
+#include "qt/gui/ConcreteTimesigView.hpp"
 #include "ui_EditorWidgetBase.h"
 
 namespace cadencii{
