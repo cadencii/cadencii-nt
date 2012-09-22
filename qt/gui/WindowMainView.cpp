@@ -218,4 +218,5 @@ void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
 
 void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
     Settings::instance()->setGridVisible( arg1 );
+    update();
 }
