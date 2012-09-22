@@ -176,7 +176,7 @@ namespace cadencii{
             painter->drawLine( x, rect.height() - MARGIN_BOTTOM - 1, x, MARGIN_TOP + 1 );
         }else{
             int graphHeight = rect.height() - MARGIN_BOTTOM - MARGIN_TOP;
-            int center = rect.top() + graphHeight / 2;
+            int center = rect.top() + MARGIN_TOP + graphHeight / 2;
             int scaleLineHeight = measureLine.isAssistLine ? 3 : 6;
 
             painter->setPen( white100 );
