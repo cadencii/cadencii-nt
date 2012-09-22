@@ -124,6 +124,7 @@ namespace cadencii{
 
     void WindowMainView::reflectSettings(){
         reflectQuantizeModeSettings();
+        reflectGridVisibleSettings();
     }
 
     void WindowMainView::reflectQuantizeModeSettings(){
@@ -140,6 +141,11 @@ namespace cadencii{
 
     void WindowMainView::updateWidget(){
         update();
+    }
+
+    void WindowMainView::reflectGridVisibleSettings(){
+        bool gridVisible = Settings::instance()->isGridVisible();
+        ui->actionToggleGridVisible->setChecked( gridVisible );
     }
 
 }
@@ -208,4 +214,8 @@ void cadencii::WindowMainView::on_actionMoveSongPositionLeft_triggered(){
 
 void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
     controllerAdapter->moveSongPositionStepped( false );
+}
+
+void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
+    Settings::instance()->setGridVisible( arg1 );
 }

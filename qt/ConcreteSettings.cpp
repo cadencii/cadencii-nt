@@ -62,7 +62,7 @@ namespace cadencii{
 
     void ConcreteSettings::setGridVisible( bool isVisible ){
         gridVisible = isVisible;
-        QVariant m( isVisible );
+        QVariant m( gridVisible );
         settings->setValue( CADENCII_SETTINGS_GRID_VISIBLE, m );
     }
 
