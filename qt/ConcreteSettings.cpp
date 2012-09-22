@@ -1,5 +1,5 @@
 /**
- * Settings.cpp
+ * ConcreteSettings.cpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,39 +12,39 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "Settings.hpp"
+#include "qt/ConcreteSettings.hpp"
 #include <QSettings>
-
-static QSettings *settings = 0;
 
 namespace cadencii{
     using namespace std;
 
-    Settings &Settings::instance(){
-        static Settings i;
-        return i;
-    }
-
-    Settings::Settings(){
+    ConcreteSettings::ConcreteSettings(){
         settings = new QSettings( "cadencii", "cadencii" );
+        QString v = settings->value( "quantizeMode" ).toString();
+        quantizeMode = QuantizeMode::fromString( v.toStdString() );
     }
 
-    Settings::~Settings(){
+    ConcreteSettings::~ConcreteSettings(){
         if( settings ){
+            save();
             delete settings;
             settings = 0;
         }
     }
 
-    QuantizeMode::QuantizeModeEnum Settings::getQuantizeMode(){
-        QString v = settings->value( "quantizeMode" ).toString();
-        return QuantizeMode::fromString( v.toStdString() );
+    QuantizeMode::QuantizeModeEnum ConcreteSettings::getQuantizeMode(){
+        return quantizeMode;
     }
 
-    void Settings::setQuantizeMode( QuantizeMode::QuantizeModeEnum mode ){
-        string modeText = QuantizeMode::toString( mode );
+    void ConcreteSettings::setQuantizeMode( QuantizeMode::QuantizeModeEnum mode ){
+        quantizeMode = mode;
+        string modeText = QuantizeMode::toString( quantizeMode );
         QVariant m( modeText.c_str() );
         settings->setValue( "quantizeMode", m );
+    }
+
+    void ConcreteSettings::save(){
+        setQuantizeMode( quantizeMode );
     }
 
 }

@@ -21,7 +21,7 @@ SOURCES += main.cpp\
     qt/gui/ConcreteBarCountView.cpp \
     qt/gui/ConcreteTempoView.cpp \
     qt/gui/ConcreteTimesigView.cpp \
-    Settings.cpp
+    qt/ConcreteSettings.cpp
 
 HEADERS  += \
     gui/TrackView.hpp \
@@ -42,7 +42,8 @@ HEADERS  += \
     gui/TimesigView.hpp \
     qt/gui/ConcreteTimesigView.hpp \
     enum/QuantizeMode.hpp \
-    Settings.hpp
+    Settings.hpp \
+    qt/ConcreteSettings.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
