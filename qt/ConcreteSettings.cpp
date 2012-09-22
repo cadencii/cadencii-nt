@@ -15,13 +15,21 @@
 #include "qt/ConcreteSettings.hpp"
 #include <QSettings>
 
+#define CADENCII_SETTINGS_QUANTIZE_MODE "quantizeMode"
+#define CADENCII_SETTINGS_GRID_VISIBLE "gridVisible"
+
 namespace cadencii{
     using namespace std;
 
     ConcreteSettings::ConcreteSettings(){
         settings = new QSettings( "cadencii", "cadencii" );
-        QString v = settings->value( "quantizeMode" ).toString();
-        quantizeMode = QuantizeMode::fromString( v.toStdString() );
+        {
+            QString v = settings->value( CADENCII_SETTINGS_QUANTIZE_MODE ).toString();
+            quantizeMode = QuantizeMode::fromString( v.toStdString() );
+        }
+        {
+            gridVisible = settings->value( CADENCII_SETTINGS_GRID_VISIBLE ).toBool();
+        }
     }
 
     ConcreteSettings::~ConcreteSettings(){
@@ -40,11 +48,22 @@ namespace cadencii{
         quantizeMode = mode;
         string modeText = QuantizeMode::toString( quantizeMode );
         QVariant m( modeText.c_str() );
-        settings->setValue( "quantizeMode", m );
+        settings->setValue( CADENCII_SETTINGS_QUANTIZE_MODE, m );
     }
 
     void ConcreteSettings::save(){
         setQuantizeMode( quantizeMode );
+        setGridVisible( gridVisible );
+    }
+
+    bool ConcreteSettings::isGridVisible(){
+        return gridVisible;
+    }
+
+    void ConcreteSettings::setGridVisible( bool isVisible ){
+        gridVisible = isVisible;
+        QVariant m( isVisible );
+        settings->setValue( CADENCII_SETTINGS_GRID_VISIBLE, m );
     }
 
 }

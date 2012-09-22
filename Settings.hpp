@@ -48,6 +48,18 @@ namespace cadencii{
         virtual void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode ) = 0;
 
         /**
+         * @brief グリッド線を表示するかどうかを取得する
+         * @return グリッド線を表示する場合は true を返す
+         */
+        virtual bool isGridVisible() = 0;
+
+        /**
+         * @brief グリッド線を表示するかどうかを設定する
+         * @param isVisible 表示する場合は true を、それ以外は false を設定する
+         */
+        virtual void setGridVisible( bool isVisible ) = 0;
+
+        /**
          * @brief 設定項目を保存する
          */
         virtual void save() = 0;

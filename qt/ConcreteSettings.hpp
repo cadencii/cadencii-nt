@@ -23,6 +23,7 @@ namespace cadencii{
     class ConcreteSettings : public Settings{
     protected:
         QuantizeMode::QuantizeModeEnum quantizeMode;
+        bool gridVisible;
         QSettings *settings;
 
     public:
@@ -33,6 +34,10 @@ namespace cadencii{
         QuantizeMode::QuantizeModeEnum getQuantizeMode();
 
         void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode );
+
+        bool isGridVisible();
+
+        void setGridVisible( bool isVisible );
 
         void save();
     };
