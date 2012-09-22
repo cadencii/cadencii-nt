@@ -18,8 +18,8 @@
 #include <QPainter>
 #include <QScrollBar>
 #include "vsq/Timesig.hpp"
-#include "gui/EditorWidgetBase.hpp"
-#include "gui/EditorWidgetBaseMainContent.hpp"
+#include "qt/gui/EditorWidgetBase.hpp"
+#include "qt/gui/EditorWidgetBaseMainContent.hpp"
 
 namespace cadencii{
     using namespace std;

@@ -16,7 +16,7 @@
 #define __CurveControlChangeView_hpp__
 
 #include "EditorWidgetBase.hpp"
-#include "../ControlChangeView.hpp"
+#include "gui/ControlChangeView.hpp"
 #include <QGraphicsScene>
 
 namespace cadencii{

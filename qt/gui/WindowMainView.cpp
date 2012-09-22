@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "gui/WindowMainView.hpp"
+#include "qt/gui/WindowMainView.hpp"
 #include "ui_WindowMainView.h"
 #include "Controller.hpp"
 #include "enum/QuantizeMode.hpp"

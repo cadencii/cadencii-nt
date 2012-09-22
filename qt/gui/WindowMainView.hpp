@@ -16,7 +16,7 @@
 #define __WindowMainView_hpp__
 
 #include <QMainWindow>
-#include "MainView.hpp"
+#include "gui/MainView.hpp"
 
 namespace Ui{
     class WindowMainView;

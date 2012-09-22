@@ -11,49 +11,47 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    gui/WindowMainView.cpp \
+    qt/gui/WindowMainView.cpp \
     Controller.cpp \
-    gui/EditorWidgetBase.cpp \
-    gui/EditorWidgetBaseMainContent.cpp \
-    gui/EditorWidgetBaseSubContent.cpp \
-    gui/CurveControlChangeView.cpp \
-    gui/PianorollTrackView.cpp \
-    gui/ConcreteBarCountView.cpp \
-    gui/ConcreteTempoView.cpp \
-    gui/ConcreteTimesigView.cpp \
+    qt/gui/EditorWidgetBase.cpp \
+    qt/gui/EditorWidgetBaseMainContent.cpp \
+    qt/gui/EditorWidgetBaseSubContent.cpp \
+    qt/gui/CurveControlChangeView.cpp \
+    qt/gui/PianorollTrackView.cpp \
+    qt/gui/ConcreteBarCountView.cpp \
+    qt/gui/ConcreteTempoView.cpp \
+    qt/gui/ConcreteTimesigView.cpp \
     Settings.cpp
 
 HEADERS  += \
-    TrackView.hpp \
-    gui/WindowMainView.hpp \
-    MainView.hpp \
+    gui/TrackView.hpp \
+    qt/gui/WindowMainView.hpp \
+    gui/MainView.hpp \
     Controller.hpp \
     ControllerAdapter.hpp \
     ControlChangeView.hpp \
-    gui/EditorWidgetBase.hpp \
-    gui/EditorWidgetBaseMainContent.hpp \
-    gui/EditorWidgetBaseSubContent.hpp \
-    gui/CurveControlChangeView.hpp \
-    gui/PianorollTrackView.hpp \
-    BarCountView.hpp \
-    gui/ConcreteBarCountView.hpp \
-    TempoView.hpp \
-    gui/ConcreteTempoView.hpp \
-    TimesigView.hpp \
-    gui/ConcreteTimesigView.hpp \
+    qt/gui/EditorWidgetBase.hpp \
+    qt/gui/EditorWidgetBaseMainContent.hpp \
+    qt/gui/EditorWidgetBaseSubContent.hpp \
+    qt/gui/CurveControlChangeView.hpp \
+    qt/gui/PianorollTrackView.hpp \
+    gui/BarCountView.hpp \
+    qt/gui/ConcreteBarCountView.hpp \
+    gui/TempoView.hpp \
+    qt/gui/ConcreteTempoView.hpp \
+    gui/TimesigView.hpp \
+    qt/gui/ConcreteTimesigView.hpp \
     enum/QuantizeMode.hpp \
     Settings.hpp
 
 FORMS    += \
-    gui/WindowMainView.ui \
-    gui/EditorWidgetBase.ui
+    qt/gui/WindowMainView.ui \
+    qt/gui/EditorWidgetBase.ui
 
 OTHER_FILES +=
 
 RESOURCES += \
     Cadencii.qrc
-
-LIBS += -I"./gui/"
 
 mac {
     ICON = resources/icon.icns

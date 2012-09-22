@@ -15,9 +15,9 @@
 #ifndef __Controller_hpp__
 #define __Controller_hpp__
 
-#include "MainView.hpp"
-#include "TrackView.hpp"
-#include "ControlChangeView.hpp"
+#include "gui/MainView.hpp"
+#include "gui/TrackView.hpp"
+#include "gui/ControlChangeView.hpp"
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
