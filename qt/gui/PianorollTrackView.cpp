@@ -65,8 +65,11 @@ namespace cadencii{
         return static_cast<TrackView *>( this );
     }
 
-    int PianorollTrackView::getPreferedComponentHeight(){
-        return trackHeight * (NOTE_MAX - NOTE_MIN + 1);
+    QSize PianorollTrackView::getPreferedSceneSize(){
+        QScrollBar *scrollBar = ui->scrollArea->verticalScrollBar();
+        int width = controllerAdapter->getPreferedComponentWidth() - scrollBar->width();
+        int height = trackHeight * (NOTE_MAX - NOTE_MIN + 1);
+        return QSize( width, height );
     }
 
     void PianorollTrackView::ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber ){

@@ -50,8 +50,9 @@ namespace cadencii{
         QScrollBar *horizontalScroll = horizontalScrollBar();
         QScrollBar *verticalScroll = verticalScrollBar();
         if( parentWidget ){
-            float preferedHeight = parentWidget->getPreferedComponentHeight();
-            float preferedWidth = parentWidget->controllerAdapter->getPreferedComponentWidth();
+            QSize preferedSize = parentWidget->getPreferedSceneSize();
+            float preferedHeight = preferedSize.height();
+            float preferedWidth = preferedSize.width();
             int x = (int)((horizontalScroll->value() - horizontalScroll->minimum()) * preferedWidth / (horizontalScroll->maximum() + horizontalScroll->pageStep() - horizontalScroll->minimum()));
             int y = (int)((verticalScroll->value() - verticalScroll->minimum()) * preferedHeight / (verticalScroll->maximum() + verticalScroll->pageStep() - verticalScroll->minimum()));
 
@@ -89,9 +90,8 @@ namespace cadencii{
     }
 
     void EditorWidgetBaseMainContent::drawForeground( QPainter *painter, const QRectF &rect ){
-        int preferedHeight = parentWidget->getPreferedComponentHeight();
-        int preferedWidth = parentWidget->controllerAdapter->getPreferedComponentWidth();
-        scene->setSceneRect( 0, 0, preferedWidth, preferedHeight );
+        QSize preferedSize = parentWidget->getPreferedSceneSize();
+        scene->setSceneRect( 0, 0, preferedSize.width(), preferedSize.height() );
 
         QRect visibleArea( (int)rect.x(), (int)rect.y(), (int)rect.width(), (int)rect.height() );
         parentWidget->paintMainContent( painter, visibleArea );
