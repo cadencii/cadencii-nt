@@ -60,6 +60,18 @@ namespace cadencii{
         virtual void setGridVisible( bool isVisible ) = 0;
 
         /**
+         * @brief ソングポジションの移動時に、ソングポジションが可視状態となるよう自動でスクロールするかどうかを取得する
+         * @return 自動スクロールするかどうか
+         */
+        virtual bool isAutoScroll() = 0;
+
+        /**
+         * @brief ソングポジションの移動時に、ソングポジションが可視状態となるよう自動でスクロールするかどうかを設定する
+         * @param isAutoScroll 自動スクロールするかどうか
+         */
+        virtual void setAutoScroll( bool isAutoScroll ) = 0;
+
+        /**
          * @brief 設定項目を保存する
          */
         virtual void save() = 0;

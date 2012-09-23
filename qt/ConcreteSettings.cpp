@@ -17,6 +17,7 @@
 
 #define CADENCII_SETTINGS_QUANTIZE_MODE "quantizeMode"
 #define CADENCII_SETTINGS_GRID_VISIBLE "gridVisible"
+#define CADENCII_SETTINGS_AUTO_SCROLL "autoScroll"
 
 namespace cadencii{
     using namespace std;
@@ -24,12 +25,12 @@ namespace cadencii{
     ConcreteSettings::ConcreteSettings(){
         settings = new QSettings( "cadencii", "cadencii" );
         {
-            QString v = settings->value( CADENCII_SETTINGS_QUANTIZE_MODE ).toString();
+            QVariant d( QuantizeMode::toString( QuantizeMode::QUARTER ).c_str() );
+            QString v = settings->value( CADENCII_SETTINGS_QUANTIZE_MODE, d ).toString();
             quantizeMode = QuantizeMode::fromString( v.toStdString() );
         }
-        {
-            gridVisible = settings->value( CADENCII_SETTINGS_GRID_VISIBLE ).toBool();
-        }
+        gridVisible = settings->value( CADENCII_SETTINGS_GRID_VISIBLE, QVariant( false ) ).toBool();
+        autoScroll = settings->value( CADENCII_SETTINGS_AUTO_SCROLL, QVariant( true ) ).toBool();
     }
 
     ConcreteSettings::~ConcreteSettings(){
@@ -38,6 +39,12 @@ namespace cadencii{
             delete settings;
             settings = 0;
         }
+    }
+
+    void ConcreteSettings::save(){
+        setQuantizeMode( quantizeMode );
+        setGridVisible( gridVisible );
+        setAutoScroll( autoScroll );
     }
 
     QuantizeMode::QuantizeModeEnum ConcreteSettings::getQuantizeMode(){
@@ -51,11 +58,6 @@ namespace cadencii{
         settings->setValue( CADENCII_SETTINGS_QUANTIZE_MODE, m );
     }
 
-    void ConcreteSettings::save(){
-        setQuantizeMode( quantizeMode );
-        setGridVisible( gridVisible );
-    }
-
     bool ConcreteSettings::isGridVisible(){
         return gridVisible;
     }
@@ -64,6 +66,16 @@ namespace cadencii{
         gridVisible = isVisible;
         QVariant m( gridVisible );
         settings->setValue( CADENCII_SETTINGS_GRID_VISIBLE, m );
+    }
+
+    bool ConcreteSettings::isAutoScroll(){
+        return autoScroll;
+    }
+
+    void ConcreteSettings::setAutoScroll( bool isAutoScroll ){
+        autoScroll = isAutoScroll;
+        QVariant m( autoScroll );
+        settings->setValue( CADENCII_SETTINGS_AUTO_SCROLL, m );
     }
 
 }

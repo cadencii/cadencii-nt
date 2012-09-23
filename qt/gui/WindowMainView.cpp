@@ -125,6 +125,7 @@ namespace cadencii{
     void WindowMainView::reflectSettings(){
         reflectQuantizeModeSettings();
         reflectGridVisibleSettings();
+        reflectAutoScrollSettings();
     }
 
     void WindowMainView::reflectQuantizeModeSettings(){
@@ -146,6 +147,11 @@ namespace cadencii{
     void WindowMainView::reflectGridVisibleSettings(){
         bool gridVisible = Settings::instance()->isGridVisible();
         ui->actionToggleGridVisible->setChecked( gridVisible );
+    }
+
+    void WindowMainView::reflectAutoScrollSettings(){
+        bool autoScroll = Settings::instance()->isAutoScroll();
+        ui->actionToggleAutoScroll->setChecked( autoScroll );
     }
 
 }
@@ -219,4 +225,8 @@ void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
 void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
     Settings::instance()->setGridVisible( arg1 );
     update();
+}
+
+void cadencii::WindowMainView::on_actionToggleAutoScroll_toggled( bool arg1 ){
+    Settings::instance()->setAutoScroll( arg1 );
 }
