@@ -35,7 +35,7 @@ namespace cadencii{
     }
 
     void WindowMainView::setTrackView( TrackView *trackView ){
-        QWidget *widget = (QWidget *)trackView->getWidget();
+        PianorollTrackView *widget = static_cast<PianorollTrackView *>( trackView->getWidget() );
         widget->setParent( ui->layoutWidget1 );
         if( ui->pianoRoll ){
             ui->verticalLayout1->removeWidget( ui->pianoRoll );
@@ -47,7 +47,7 @@ namespace cadencii{
     }
 
     void WindowMainView::setControlChangeView( ControlChangeView *controlChangeView ){
-        QWidget *widget = (QWidget *)controlChangeView->getWidget();
+        CurveControlChangeView *widget = static_cast<CurveControlChangeView *>( controlChangeView->getWidget() );
         widget->setParent( ui->layoutWidget3 );
         if( ui->curveView ){
             ui->verticalLayout3->removeWidget( ui->curveView );
@@ -58,7 +58,7 @@ namespace cadencii{
     }
 
     void WindowMainView::setBarCountView( BarCountView *barCountView ){
-        QWidget *widget = (QWidget *)barCountView->getWidget();
+        ConcreteBarCountView *widget = static_cast<ConcreteBarCountView *>( barCountView->getWidget() );
         widget->setParent( ui->layoutWidget1 );
         if( ui->barCountView ){
             ui->verticalLayout1->removeWidget( ui->barCountView );
@@ -70,7 +70,7 @@ namespace cadencii{
     }
 
     void WindowMainView::setTempoView( TempoView *tempoView ){
-        QWidget *widget = (QWidget *)tempoView->getWidget();
+        ConcreteTempoView *widget = static_cast<ConcreteTempoView *>( tempoView->getWidget() );
         widget->setParent( ui->layoutWidget1 );
         if( ui->tempoView ){
             ui->verticalLayout1->removeWidget( ui->tempoView );
@@ -82,7 +82,7 @@ namespace cadencii{
     }
 
     void WindowMainView::setTimesigView( TimesigView *timesigView ){
-        QWidget *widget = (QWidget *)timesigView->getWidget();
+        ConcreteTimesigView *widget = static_cast<ConcreteTimesigView *>( timesigView->getWidget() );
         widget->setParent( ui->layoutWidget1 );
         if( ui->timesigView ){
             ui->verticalLayout1->removeWidget( ui->timesigView );
@@ -138,10 +138,16 @@ namespace cadencii{
         ui->actionQuantizeSixtyFourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
         ui->actionQuantizeHundredTwentyEighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
         ui->actionQuantizeNone->setChecked( quantizeMode == QuantizeMode::NONE );
+        updateWidget();
     }
 
     void WindowMainView::updateWidget(){
-        update();
+        ui->barCountView->repaint();
+        ui->tempoView->repaint();
+        ui->timesigView->repaint();
+        ui->pianoRoll->repaint();
+        ui->curveView->repaint();
+        repaint();
     }
 
     void WindowMainView::reflectGridVisibleSettings(){
@@ -224,7 +230,7 @@ void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
 
 void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
     Settings::instance()->setGridVisible( arg1 );
-    update();
+    updateWidget();
 }
 
 void cadencii::WindowMainView::on_actionToggleAutoScroll_toggled( bool arg1 ){

@@ -50,6 +50,7 @@ namespace cadencii{
     }
 
     void EditorWidgetBase::repaint(){
+        ui->scrollArea->scene->update();
         ui->scrollArea->repaint();
         ui->keyboard->repaint();
         QWidget::repaint();

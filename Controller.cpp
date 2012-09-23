@@ -200,9 +200,12 @@ namespace cadencii{
     }
 
     void Controller::updateAllWidget(){
-        if( mainView ){
-            mainView->updateWidget();
-        }
+        if( mainView ) mainView->updateWidget();
+        if( barCountView ) barCountView->updateWidget();
+        if( tempoView ) tempoView->updateWidget();
+        if( timesigView ) timesigView->updateWidget();
+        if( trackView ) trackView->updateWidget();
+        if( controlChangeView ) controlChangeView->updateWidget();
     }
 
     int Controller::getPreferedComponentWidth()throw(){

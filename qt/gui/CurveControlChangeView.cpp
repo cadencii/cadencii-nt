@@ -106,7 +106,7 @@ namespace cadencii{
             std::string name = front->getName();
             setControlChangeName( name );
         }
-        update();
+        updateWidget();
     }
 
     void CurveControlChangeView::setControlChangeName( const std::string &name ){
@@ -401,7 +401,7 @@ namespace cadencii{
     }
 
     void CurveControlChangeView::updateWidget(){
-        update();
+        repaint();
     }
 
 }

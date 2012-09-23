@@ -264,11 +264,11 @@ namespace cadencii{
 
     void PianorollTrackView::setTrackIndex( int index ){
         trackIndex = index;
-        update();
+        updateWidget();
     }
 
     void PianorollTrackView::updateWidget(){
-        update();
+        repaint();
     }
 
     int PianorollTrackView::getTrackViewWidth(){
