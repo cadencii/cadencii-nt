@@ -36,9 +36,9 @@ namespace cadencii{
          * @brief 指定した位置の音符が可視となるようスクロールする
          * @param tick 時刻
          * @param length 音符の長さ
-         * @param noteNumber ノート番号
+         * @param noteNumber ノート番号。負の値が指定された場合、縦方向のスクロールは行わない
          */
-        virtual void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber ) = 0;
+        virtual void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1 ) = 0;
 
         /**
          * @brief ウィジェットの実体を返す

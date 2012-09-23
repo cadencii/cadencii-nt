@@ -24,6 +24,7 @@ namespace cadencii{
     protected:
         QuantizeMode::QuantizeModeEnum quantizeMode;
         bool gridVisible;
+        bool autoScroll;
         QSettings *settings;
 
     public:
@@ -38,6 +39,10 @@ namespace cadencii{
         bool isGridVisible();
 
         void setGridVisible( bool isVisible );
+
+        bool isAutoScroll();
+
+        void setAutoScroll( bool isAutoScroll );
 
         void save();
     };

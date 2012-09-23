@@ -29,7 +29,7 @@ HEADERS  += \
     gui/MainView.hpp \
     Controller.hpp \
     ControllerAdapter.hpp \
-    ControlChangeView.hpp \
+    gui/ControlChangeView.hpp \
     qt/gui/EditorWidgetBase.hpp \
     qt/gui/EditorWidgetBaseMainContent.hpp \
     qt/gui/EditorWidgetBaseSubContent.hpp \

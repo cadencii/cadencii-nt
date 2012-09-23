@@ -75,8 +75,6 @@ namespace cadencii{
     void PianorollTrackView::ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber ){
         int left = controllerAdapter->getXFromTick( tick );
         int right = controllerAdapter->getXFromTick( tick + length );
-        int top = getYFromNoteNumber( noteNumber, trackHeight );
-        int bottom = top + trackHeight;
 
         QRect visibleArea = ui->scrollArea->getVisibleArea();
         QScrollBar *horizontalScrollBar = ui->scrollArea->horizontalScrollBar();
@@ -88,8 +86,22 @@ namespace cadencii{
         }else if( left < visibleArea.left() ){
             dx = -ui->scrollArea->width() + (right - left);
         }
-        if( top < visibleArea.top() || visibleArea.bottom() < bottom ){
-            newValue = (bottom + top) / 2 - visibleArea.height() / 2;
+        if( 0 <= noteNumber ){
+            int top = getYFromNoteNumber( noteNumber, trackHeight );
+            int bottom = top + trackHeight;
+            if( top < visibleArea.top() || visibleArea.bottom() < bottom ){
+                newValue = (bottom + top) / 2 - visibleArea.height() / 2;
+            }
+
+            if( verticalScrollBar->value() != newValue ){
+                if( newValue < verticalScrollBar->minimum() ){
+                    verticalScrollBar->setValue( verticalScrollBar->minimum() );
+                }else if( verticalScrollBar->maximum() < newValue ){
+                    verticalScrollBar->setValue( verticalScrollBar->maximum() );
+                }else{
+                    verticalScrollBar->setValue( newValue );
+                }
+            }
         }
         if( dx ){
             int value = horizontalScrollBar->value() + dx;
@@ -99,15 +111,6 @@ namespace cadencii{
                 horizontalScrollBar->setValue( horizontalScrollBar->maximum() );
             }else{
                 horizontalScrollBar->setValue( value );
-            }
-        }
-        if( verticalScrollBar->value() != newValue ){
-            if( newValue < verticalScrollBar->minimum() ){
-                verticalScrollBar->setValue( verticalScrollBar->minimum() );
-            }else if( verticalScrollBar->maximum() < newValue ){
-                verticalScrollBar->setValue( verticalScrollBar->maximum() );
-            }else{
-                verticalScrollBar->setValue( newValue );
             }
         }
     }

@@ -117,6 +117,12 @@ namespace cadencii{
          * @brief すべてのウィジェットを再描画する
          */
         void updateAllWidget();
+
+        /**
+         * @brief ソングポジションを設定する
+         * @param songPosition ソングポジション
+         */
+        void setSongPosition( VSQ_NS::tick_t songPosition );
     };
 
 }

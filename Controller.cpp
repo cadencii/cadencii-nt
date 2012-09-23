@@ -185,8 +185,7 @@ namespace cadencii{
             newSongPosition = getTickFromX( preferedComponentWidth );
         }
         if( newSongPosition != songPosition ){
-            songPosition = newSongPosition;
-            updateAllWidget();
+            setSongPosition( newSongPosition );
         }
     }
 
@@ -213,6 +212,14 @@ namespace cadencii{
             result += trackView->getTrackViewWidth();
         }
         return result;
+    }
+
+    void Controller::setSongPosition( VSQ_NS::tick_t songPosition ){
+        this->songPosition = songPosition;
+        if( Settings::instance()->isAutoScroll() ){
+            trackView->ensureNoteVisible( songPosition, 0 );
+        }
+        updateAllWidget();
     }
 
 }

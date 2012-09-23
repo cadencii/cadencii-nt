@@ -353,7 +353,7 @@
    <addaction name="actionMoveSongPositionRight"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
-   <addaction name="action_27"/>
+   <addaction name="actionToggleAutoScroll"/>
    <addaction name="action_28"/>
    <addaction name="separator"/>
    <addaction name="toolActionPointer"/>
@@ -861,7 +861,7 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_27">
+  <action name="actionToggleAutoScroll">
    <property name="checkable">
     <bool>true</bool>
    </property>

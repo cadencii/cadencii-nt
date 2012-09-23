@@ -68,6 +68,11 @@ namespace cadencii{
          */
         void reflectGridVisibleSettings();
 
+        /**
+         * @brief autoScroll の設定内容をビューに反映する
+         */
+        void reflectAutoScrollSettings();
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
         void on_actionQuantizeQuarter_toggled(bool arg1);
@@ -80,6 +85,7 @@ namespace cadencii{
         void on_actionMoveSongPositionLeft_triggered();
         void on_actionMoveSongPositionRight_triggered();
         void on_actionToggleGridVisible_toggled(bool arg1);
+        void on_actionToggleAutoScroll_toggled(bool arg1);
     };
 
 }
