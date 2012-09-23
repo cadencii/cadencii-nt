@@ -89,7 +89,7 @@ namespace cadencii{
     }
 
     void ConcreteBarCountView::updateWidget(){
-        update();
+        repaint();
     }
 
 }

@@ -33,10 +33,11 @@ namespace cadencii{
 
         Q_OBJECT
 
+    protected:
+        QGraphicsScene *scene;
+
     private:
         EditorWidgetBase *parentWidget;
-
-        QGraphicsScene *scene;
 
         bool deconstructStarted;
 

@@ -107,7 +107,7 @@ namespace cadencii{
     }
 
     void ConcreteTimesigView::updateWidget(){
-        update();
+        repaint();
     }
 
 }

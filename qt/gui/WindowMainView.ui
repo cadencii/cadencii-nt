@@ -61,7 +61,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="barCountView" native="true">
+       <widget class="cadencii::ConcreteBarCountView" name="barCountView" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -83,7 +83,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="tempoView" native="true">
+       <widget class="cadencii::ConcreteTempoView" name="tempoView" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -105,7 +105,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="timesigView" native="true">
+       <widget class="cadencii::ConcreteTimesigView" name="timesigView" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -127,7 +127,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="pianoRoll" native="true">
+       <widget class="cadencii::PianorollTrackView" name="pianoRoll" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -144,7 +144,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="curveView" native="true"/>
+       <widget class="cadencii::CurveControlChangeView" name="curveView" native="true"/>
       </item>
      </layout>
     </widget>
@@ -156,7 +156,7 @@
      <x>0</x>
      <y>0</y>
      <width>1205</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -980,6 +980,33 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>cadencii::ConcreteBarCountView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/ConcreteBarCountView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::ConcreteTempoView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/ConcreteTempoView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::ConcreteTimesigView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/ConcreteTimesigView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::PianorollTrackView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/PianorollTrackView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::CurveControlChangeView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/CurveControlChangeView.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Cadencii.qrc"/>
  </resources>

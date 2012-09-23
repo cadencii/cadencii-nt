@@ -36,6 +36,7 @@ namespace cadencii{
 
         this->setMouseTracking( true );
         this->setAlignment( Qt::AlignLeft | Qt::AlignTop );
+        this->setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
 
         scene->setSceneRect( 0, 0, 5000, 10 );
     }
