@@ -49,7 +49,7 @@ FORMS    += \
     qt/gui/WindowMainView.ui \
     qt/gui/EditorWidgetBase.ui
 
-OTHER_FILES +=
+OTHER_FILES += resource/win_icon.rc
 
 RESOURCES += \
     qt/Cadencii.qrc
@@ -57,3 +57,7 @@ RESOURCES += \
 mac {
     ICON = resource/icon.icns
 }
+win32 {
+    RC_FILE = resource/win_icon.rc
+}
+
