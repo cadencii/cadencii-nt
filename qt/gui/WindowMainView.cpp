@@ -236,3 +236,9 @@ void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
 void cadencii::WindowMainView::on_actionToggleAutoScroll_toggled( bool arg1 ){
     Settings::instance()->setAutoScroll( arg1 );
 }
+
+void cadencii::WindowMainView::on_actionExportAsMusicXML_triggered(){
+    QString filePath = QFileDialog::getSaveFileName( this );
+    controllerAdapter->exportAsMusicXml( filePath.toLocal8Bit().data() );
+    activateWindow();
+}
