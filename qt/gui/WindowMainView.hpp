@@ -86,6 +86,7 @@ namespace cadencii{
         void on_actionMoveSongPositionRight_triggered();
         void on_actionToggleGridVisible_toggled(bool arg1);
         void on_actionToggleAutoScroll_toggled(bool arg1);
+        void on_actionExportAsMusicXML_triggered();
     };
 
 }

@@ -15,6 +15,8 @@
 #include "Controller.hpp"
 #include "vsq/VSQFileReader.hpp"
 #include "vsq/FileInputStream.hpp"
+#include "vsq/StreamWriter.hpp"
+#include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
 
 namespace cadencii{
@@ -223,6 +225,12 @@ namespace cadencii{
             trackView->ensureNoteVisible( songPosition, 0 );
         }
         updateAllWidget();
+    }
+
+    void Controller::exportAsMusicXml( const std::string &filePath )throw(){
+        VSQ_NS::StreamWriter stream( filePath );
+        VSQ_NS::MusicXmlWriter writer;
+        writer.write( &sequence, &stream, "cadencii" );
     }
 
 }

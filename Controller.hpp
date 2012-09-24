@@ -57,6 +57,8 @@ namespace cadencii{
 
         int getPreferedComponentWidth()throw();
 
+        void exportAsMusicXml( const std::string &filePath )throw();
+
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー

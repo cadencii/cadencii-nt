@@ -156,13 +156,19 @@
      <x>0</x>
      <y>0</y>
      <width>1205</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionExportAsMusicXML"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_2"/>
     <addaction name="actionSave"/>
@@ -171,7 +177,7 @@
     <addaction name="action_open_vsq_vocaloid_midi"/>
     <addaction name="actionOpen_UTAU_project_file"/>
     <addaction name="actionImport"/>
-    <addaction name="actionExport"/>
+    <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="actionOpenRecent"/>
    </widget>
@@ -412,11 +418,6 @@
   <action name="actionImport">
    <property name="text">
     <string>Import</string>
-   </property>
-  </action>
-  <action name="actionExport">
-   <property name="text">
-    <string>Export</string>
    </property>
   </action>
   <action name="actionOpenRecent">
@@ -976,6 +977,11 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </action>
+  <action name="actionExportAsMusicXML">
+   <property name="text">
+    <string>MusicXML</string>
    </property>
   </action>
  </widget>
