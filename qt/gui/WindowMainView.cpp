@@ -131,13 +131,13 @@ namespace cadencii{
     void WindowMainView::reflectQuantizeModeSettings(){
         // quantizeMode
         QuantizeMode::QuantizeModeEnum quantizeMode = Settings::instance()->getQuantizeMode();
-        ui->actionQuantizeQuarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
-        ui->actionQuantizeEighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
-        ui->actionQuantizeSisteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
-        ui->actionQuantizeThirtySecond->setChecked( quantizeMode == QuantizeMode::THIRTY_SECOND );
-        ui->actionQuantizeSixtyFourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
-        ui->actionQuantizeHundredTwentyEighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
-        ui->actionQuantizeNone->setChecked( quantizeMode == QuantizeMode::NONE );
+        ui->action_quantize_quarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
+        ui->action_quantize_eighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
+        ui->action_quantize_sixteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
+        ui->action_quantize_thirty_second->setChecked( quantizeMode == QuantizeMode::THIRTY_SECOND );
+        ui->action_quantize_sixty_fourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
+        ui->action_quantize_hundred_twenty_eighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
+        ui->action_quantize_none->setChecked( quantizeMode == QuantizeMode::NONE );
         updateWidget();
     }
 
@@ -152,12 +152,19 @@ namespace cadencii{
 
     void WindowMainView::reflectGridVisibleSettings(){
         bool gridVisible = Settings::instance()->isGridVisible();
-        ui->actionToggleGridVisible->setChecked( gridVisible );
+        ui->action_toggle_grid_visible->setChecked( gridVisible );
     }
 
     void WindowMainView::reflectAutoScrollSettings(){
         bool autoScroll = Settings::instance()->isAutoScroll();
-        ui->actionToggleAutoScroll->setChecked( autoScroll );
+        ui->action_toggle_auto_scroll->setChecked( autoScroll );
+    }
+
+    void WindowMainView::setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode ){
+        if( checked ){
+            Settings::instance()->setQuantizeMode( mode );
+            reflectQuantizeModeSettings();
+        }
     }
 
 }
@@ -171,73 +178,52 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
     this->activateWindow();
 }
 
-void cadencii::WindowMainView::on_actionQuantizeQuarter_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::QUARTER );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_quarter_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::QUARTER );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeEighth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::EIGHTH );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_eighth_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::EIGHTH );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeSisteenth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTEENTH );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_sixteenth_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::SIXTEENTH );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeThirtySecond_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::THIRTY_SECOND );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_thirty_second_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::THIRTY_SECOND );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeSixtyFourth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTY_FOURTH );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_sixty_fourth_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::SIXTY_FOURTH );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeHundredTwentyEighth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::HUNDRED_TWENTY_EIGHTH );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_hundred_twenty_eighth_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::HUNDRED_TWENTY_EIGHTH );
 }
 
-void cadencii::WindowMainView::on_actionQuantizeNone_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::NONE );
-        reflectQuantizeModeSettings();
-    }
+void cadencii::WindowMainView::on_action_quantize_none_toggled( bool arg1 ){
+    setQuantizeMode( arg1, QuantizeMode::NONE );
 }
 
-void cadencii::WindowMainView::on_actionMoveSongPositionLeft_triggered(){
+void cadencii::WindowMainView::on_action_move_song_position_left_triggered(){
     controllerAdapter->moveSongPositionStepped( true );
 }
 
-void cadencii::WindowMainView::on_actionMoveSongPositionRight_triggered(){
+void cadencii::WindowMainView::on_action_move_song_position_right_triggered(){
     controllerAdapter->moveSongPositionStepped( false );
 }
 
-void cadencii::WindowMainView::on_actionToggleGridVisible_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_action_toggle_grid_visible_toggled( bool arg1 ){
     Settings::instance()->setGridVisible( arg1 );
     updateWidget();
 }
 
-void cadencii::WindowMainView::on_actionToggleAutoScroll_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_action_toggle_auto_scroll_toggled( bool arg1 ){
     Settings::instance()->setAutoScroll( arg1 );
 }
 
-void cadencii::WindowMainView::on_actionExportAsMusicXML_triggered(){
+void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
     QString filePath = QFileDialog::getSaveFileName( this );
     controllerAdapter->exportAsMusicXml( filePath.toLocal8Bit().data() );
     activateWindow();

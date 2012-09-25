@@ -167,7 +167,7 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="actionExportAsMusicXML"/>
+     <addaction name="action_export_as_musicxml"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_2"/>
@@ -276,13 +276,13 @@
      <property name="title">
       <string>Quantize</string>
      </property>
-     <addaction name="actionQuantizeQuarter"/>
-     <addaction name="actionQuantizeEighth"/>
-     <addaction name="actionQuantizeSisteenth"/>
-     <addaction name="actionQuantizeThirtySecond"/>
-     <addaction name="actionQuantizeSixtyFourth"/>
-     <addaction name="actionQuantizeHundredTwentyEighth"/>
-     <addaction name="actionQuantizeNone"/>
+     <addaction name="action_quantize_quarter"/>
+     <addaction name="action_quantize_eighth"/>
+     <addaction name="action_quantize_sixteenth"/>
+     <addaction name="action_quantize_thirty_second"/>
+     <addaction name="action_quantize_sixty_fourth"/>
+     <addaction name="action_quantize_hundred_twenty_eighth"/>
+     <addaction name="action_quantize_none"/>
      <addaction name="separator"/>
      <addaction name="actionTriplet"/>
     </widget>
@@ -355,18 +355,18 @@
    <addaction name="action_23"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
-   <addaction name="actionMoveSongPositionLeft"/>
-   <addaction name="actionMoveSongPositionRight"/>
+   <addaction name="action_move_song_position_left"/>
+   <addaction name="action_move_song_position_right"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
-   <addaction name="actionToggleAutoScroll"/>
+   <addaction name="action_toggle_auto_scroll"/>
    <addaction name="action_28"/>
    <addaction name="separator"/>
    <addaction name="toolActionPointer"/>
    <addaction name="toolActionPencil"/>
    <addaction name="toolActionLine"/>
    <addaction name="toolActionEraser"/>
-   <addaction name="actionToggleGridVisible"/>
+   <addaction name="action_toggle_grid_visible"/>
    <addaction name="action_30"/>
    <addaction name="action_31"/>
   </widget>
@@ -675,7 +675,7 @@
     <string>Singing style defaults</string>
    </property>
   </action>
-  <action name="actionQuantizeQuarter">
+  <action name="action_quantize_quarter">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -683,7 +683,7 @@
     <string>1/4</string>
    </property>
   </action>
-  <action name="actionQuantizeEighth">
+  <action name="action_quantize_eighth">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -691,7 +691,7 @@
     <string>1/8</string>
    </property>
   </action>
-  <action name="actionQuantizeSisteenth">
+  <action name="action_quantize_sixteenth">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -699,7 +699,7 @@
     <string>1/16</string>
    </property>
   </action>
-  <action name="actionQuantizeThirtySecond">
+  <action name="action_quantize_thirty_second">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -707,7 +707,7 @@
     <string>1/32</string>
    </property>
   </action>
-  <action name="actionQuantizeSixtyFourth">
+  <action name="action_quantize_sixty_fourth">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -715,7 +715,7 @@
     <string>1/64</string>
    </property>
   </action>
-  <action name="actionQuantizeHundredTwentyEighth">
+  <action name="action_quantize_hundred_twenty_eighth">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -723,7 +723,7 @@
     <string>1/128</string>
    </property>
   </action>
-  <action name="actionQuantizeNone">
+  <action name="action_quantize_none">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -826,7 +826,7 @@
     <string/>
    </property>
   </action>
-  <action name="actionMoveSongPositionLeft">
+  <action name="action_move_song_position_left">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double_180.png</normaloff>:/icons/resource/control_double_180.png</iconset>
@@ -838,7 +838,7 @@
     <string>Left</string>
    </property>
   </action>
-  <action name="actionMoveSongPositionRight">
+  <action name="action_move_song_position_right">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double.png</normaloff>:/icons/resource/control_double.png</iconset>
@@ -862,7 +862,7 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionToggleAutoScroll">
+  <action name="action_toggle_auto_scroll">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -934,7 +934,7 @@
     <string>Eraser</string>
    </property>
   </action>
-  <action name="actionToggleGridVisible">
+  <action name="action_toggle_grid_visible">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -979,7 +979,7 @@
     <string/>
    </property>
   </action>
-  <action name="actionExportAsMusicXML">
+  <action name="action_export_as_musicxml">
    <property name="text">
     <string>MusicXML</string>
    </property>

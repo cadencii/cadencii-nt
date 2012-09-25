@@ -17,6 +17,7 @@
 
 #include <QMainWindow>
 #include "gui/MainView.hpp"
+#include "enum/QuantizeMode.hpp"
 
 namespace Ui{
     class WindowMainView;
@@ -73,20 +74,27 @@ namespace cadencii{
          */
         void reflectAutoScrollSettings();
 
+        /**
+         * @brief クオンタイズモードを設定する
+         * @param checked クオンタイズモードを変更する QAction のチェックが入っているかどうか
+         * @param mode クオンタイズモード
+         */
+        void setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode );
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
-        void on_actionQuantizeQuarter_toggled(bool arg1);
-        void on_actionQuantizeEighth_toggled(bool arg1);
-        void on_actionQuantizeSisteenth_toggled(bool arg1);
-        void on_actionQuantizeThirtySecond_toggled(bool arg1);
-        void on_actionQuantizeSixtyFourth_toggled(bool arg1);
-        void on_actionQuantizeHundredTwentyEighth_toggled(bool arg1);
-        void on_actionQuantizeNone_toggled(bool arg1);
-        void on_actionMoveSongPositionLeft_triggered();
-        void on_actionMoveSongPositionRight_triggered();
-        void on_actionToggleGridVisible_toggled(bool arg1);
-        void on_actionToggleAutoScroll_toggled(bool arg1);
-        void on_actionExportAsMusicXML_triggered();
+        void on_action_quantize_quarter_toggled( bool arg1 );
+        void on_action_quantize_eighth_toggled( bool arg1 );
+        void on_action_quantize_sixteenth_toggled( bool arg1 );
+        void on_action_quantize_thirty_second_toggled( bool arg1 );
+        void on_action_quantize_sixty_fourth_toggled( bool arg1 );
+        void on_action_quantize_hundred_twenty_eighth_toggled( bool arg1 );
+        void on_action_quantize_none_toggled( bool arg1 );
+        void on_action_move_song_position_left_triggered();
+        void on_action_move_song_position_right_triggered();
+        void on_action_toggle_grid_visible_toggled( bool arg1 );
+        void on_action_toggle_auto_scroll_toggled( bool arg1 );
+        void on_action_export_as_musicxml_triggered();
     };
 
 }
