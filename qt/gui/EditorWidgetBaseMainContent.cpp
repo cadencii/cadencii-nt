@@ -115,8 +115,8 @@ namespace cadencii{
             list = &defaultList;
         }
         VSQ_NS::MeasureLineIterator i( list );
-        if( Settings::instance()->isGridVisible() ){
-            QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
+        QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
+        if( Settings::instance()->isGridVisible() && mode != QuantizeMode::NONE ){
             VSQ_NS::tick_t assistLineStep = QuantizeMode::getQuantizeUnitTick( mode );
             i = VSQ_NS::MeasureLineIterator( list, assistLineStep );
         }
