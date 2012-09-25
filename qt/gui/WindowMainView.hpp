@@ -17,6 +17,7 @@
 
 #include <QMainWindow>
 #include "gui/MainView.hpp"
+#include "enum/QuantizeMode.hpp"
 
 namespace Ui{
     class WindowMainView;
@@ -72,6 +73,13 @@ namespace cadencii{
          * @brief autoScroll の設定内容をビューに反映する
          */
         void reflectAutoScrollSettings();
+
+        /**
+         * @brief クオンタイズモードを設定する
+         * @param checked クオンタイズモードを変更する QAction のチェックが入っているかどうか
+         * @param mode クオンタイズモード
+         */
+        void setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode );
 
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();

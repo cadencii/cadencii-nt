@@ -160,6 +160,13 @@ namespace cadencii{
         ui->action_toggle_auto_scroll->setChecked( autoScroll );
     }
 
+    void WindowMainView::setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode ){
+        if( checked ){
+            Settings::instance()->setQuantizeMode( mode );
+            reflectQuantizeModeSettings();
+        }
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
@@ -172,52 +179,31 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
 }
 
 void cadencii::WindowMainView::on_action_quantize_quarter_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::QUARTER );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::QUARTER );
 }
 
 void cadencii::WindowMainView::on_action_quantize_eighth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::EIGHTH );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::EIGHTH );
 }
 
 void cadencii::WindowMainView::on_action_quantize_sixteenth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTEENTH );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::SIXTEENTH );
 }
 
 void cadencii::WindowMainView::on_action_quantize_thirty_second_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::THIRTY_SECOND );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::THIRTY_SECOND );
 }
 
 void cadencii::WindowMainView::on_action_quantize_sixty_fourth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::SIXTY_FOURTH );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::SIXTY_FOURTH );
 }
 
 void cadencii::WindowMainView::on_action_quantize_hundred_twenty_eighth_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::HUNDRED_TWENTY_EIGHTH );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::HUNDRED_TWENTY_EIGHTH );
 }
 
 void cadencii::WindowMainView::on_action_quantize_none_toggled( bool arg1 ){
-    if( arg1 ){
-        Settings::instance()->setQuantizeMode( QuantizeMode::NONE );
-        reflectQuantizeModeSettings();
-    }
+    setQuantizeMode( arg1, QuantizeMode::NONE );
 }
 
 void cadencii::WindowMainView::on_action_move_song_position_left_triggered(){
