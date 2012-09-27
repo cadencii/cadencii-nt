@@ -1,6 +1,7 @@
 SOURCES += \
     enum/QuantizeModeTest.cpp \
-    main.cpp
+    main.cpp \
+    audio/AudioMixerTest.cpp
 
 HEADERS += \
     Util.hpp

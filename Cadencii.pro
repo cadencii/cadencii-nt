@@ -43,7 +43,14 @@ HEADERS  += \
     qt/gui/ConcreteTimesigView.hpp \
     enum/QuantizeMode.hpp \
     Settings.hpp \
-    qt/ConcreteSettings.hpp
+    qt/ConcreteSettings.hpp \
+    audio/PassiveAudioInput.hpp \
+    audio/AudioOutput.hpp \
+    audio/AudioMixer.hpp \
+    audio/ActiveAudioInput.hpp \
+    audio/Sender.hpp \
+    audio/Receiver.hpp \
+    audio/AudioUnit.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
