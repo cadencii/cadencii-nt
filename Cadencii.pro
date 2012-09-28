@@ -50,7 +50,8 @@ HEADERS  += \
     audio/ActiveAudioInput.hpp \
     audio/Sender.hpp \
     audio/Receiver.hpp \
-    audio/AudioUnit.hpp
+    audio/AudioUnit.hpp \
+    audio/AudioFilter.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
