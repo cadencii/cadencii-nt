@@ -4,4 +4,7 @@ SOURCES += \
     audio/AudioMixerTest.cpp
 
 HEADERS += \
-    Util.hpp
+    Util.hpp \
+    audio/PassiveAudioInputStub.hpp \
+    audio/MemoryAudioOutput.hpp \
+    audio/ActiveAudioInputStub.hpp
