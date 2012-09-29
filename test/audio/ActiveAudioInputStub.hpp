@@ -37,6 +37,7 @@ public:
             receiver->push( bufferLeft, bufferRight, amount, 0 );
             remain -= amount;
         }
+        receiver->flush();
         delete [] bufferLeft;
         delete [] bufferRight;
     }

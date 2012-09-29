@@ -51,7 +51,8 @@ HEADERS  += \
     audio/Sender.hpp \
     audio/Receiver.hpp \
     audio/AudioUnit.hpp \
-    audio/AudioFilter.hpp
+    audio/AudioFilter.hpp \
+    audio/AudioSplitter.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
