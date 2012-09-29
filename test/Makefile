@@ -1,4 +1,4 @@
-TEST_FILES=$(shell ls **/*Test.cpp)
+TEST_FILES=$(shell ls *Test.cpp **/*Test.cpp 2>/dev/null)
 TARGETS=$(TEST_FILES:.cpp=.exe)
 
 all: $(TARGETS)
