@@ -16,6 +16,7 @@
 #define __AudioSplitter_hpp__
 
 #include "Receiver.hpp"
+#include <string.h>
 #include <vector>
 
 namespace cadencii{
