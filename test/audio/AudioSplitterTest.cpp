@@ -10,16 +10,21 @@ class AudioSplitterTest : public CppUnit::TestCase{
 public:
     void test(){
         const int sampleRate = 44100;
-        const double value = 3.0;
+
+        uint64_t length = sampleRate + 13;
+        double *activeInputFixture = new double[length];
+        for( int i = 0; i < length; i++ ){
+            activeInputFixture[i] = (rand() - RAND_MAX / 2) / (double)RAND_MAX;
+        }
+        ActiveAudioInputStub input( sampleRate, activeInputFixture, length );
+
         AudioSplitter splitter( sampleRate );
-        ActiveAudioInputStub input( sampleRate, value );
         MemoryAudioOutput out1( sampleRate );
         MemoryAudioOutput out2( sampleRate );
         input.setReceiver( &splitter );
         splitter.addReceiver( &out1 );
         splitter.addReceiver( &out2 );
 
-        uint64_t length = sampleRate + 13;
         input.start( length );
 
         CPPUNIT_ASSERT_EQUAL( length, out1.getBufferLength() );
@@ -32,15 +37,17 @@ public:
         out1.getResult( actual1Left, actual1Right, length );
         out2.getResult( actual2Left, actual2Right, length );
         for( uint64_t i = 0; i < length; i++ ){
-            if( actual1Left[i] != value || actual1Right[i] != value ){
-                CPPUNIT_FAIL( "" );
+            if( actual1Left[i] != activeInputFixture[i] || actual1Right[i] != activeInputFixture[i] ){
+                CPPUNIT_FAIL( "waveform not equal" );
                 break;
             }
-            if( actual2Left[i] != value || actual2Right[i] != value ){
-                CPPUNIT_FAIL( "" );
+            if( actual2Left[i] != activeInputFixture[i] || actual2Right[i] != activeInputFixture[i] ){
+                CPPUNIT_FAIL( "waveform not equal" );
                 break;
             }
         }
+
+        delete [] activeInputFixture;
         delete [] actual1Left;
         delete [] actual1Right;
         delete [] actual2Left;

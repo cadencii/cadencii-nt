@@ -6,6 +6,7 @@
 #include "ActiveAudioInputStub.hpp"
 #include "PassiveAudioInputStub.hpp"
 #include "MemoryAudioOutput.hpp"
+#include <cstdlib>
 
 using namespace std;
 using namespace cadencii::audio;
@@ -14,9 +15,15 @@ class AudioMixerTest : public CppUnit::TestCase{
 public:
     void test(){
         const int sampleRate = 44100;
-        const double activeInputValue = 0.1;
-        const double passiveInputValue = -0.2;
-        ActiveAudioInputStub activeInput( sampleRate, activeInputValue );
+        const double passiveInputValue = 0.2;
+        const uint64_t length = sampleRate + 17;
+
+        double *activeInputFixture = new double[length];
+        for( int i = 0; i < length; i++ ){
+            activeInputFixture[i] = (rand() - RAND_MAX / 2) / (double)RAND_MAX;
+        }
+
+        ActiveAudioInputStub activeInput( sampleRate, activeInputFixture, length );
         PassiveAudioInputStub passiveInput( sampleRate, passiveInputValue );
         AudioMixer mixer( sampleRate );
         MemoryAudioOutput output( sampleRate );
@@ -24,7 +31,6 @@ public:
         mixer.setReceiver( &output );
         mixer.addSource( &passiveInput );
 
-        uint64_t length = sampleRate + 100;
         activeInput.start( length );
 
         uint64_t bufferLength = output.getBufferLength();
@@ -32,12 +38,14 @@ public:
         double *actualLeft = new double[bufferLength];
         double *actualRight = new double[bufferLength];
         output.getResult( actualLeft, actualRight, bufferLength );
-        const double expected = activeInputValue + passiveInputValue;
         for( uint64_t i = 0; i < bufferLength; i++ ){
+            const double expected = activeInputFixture[i] + passiveInputValue;
             if( actualLeft[i] != expected || actualRight[i] != expected ){
                 CPPUNIT_FAIL( "waveform not equal" );
             }
         }
+
+        delete [] activeInputFixture;
         delete [] actualLeft;
         delete [] actualRight;
     }

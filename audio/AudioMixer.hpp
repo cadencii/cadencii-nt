@@ -90,6 +90,7 @@ namespace audio{
                     receiver->push( bufferLeft, bufferRight, amount, 0 );
                 }
                 remain -= amount;
+                finished += amount;
             }
         }
 
