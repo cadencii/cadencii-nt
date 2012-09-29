@@ -36,6 +36,8 @@ namespace audio{
         explicit AudioSplitter( int sampleRate ) :
             Receiver( sampleRate )
         {
+            memset( bufferLeft, 0, sizeof( double ) * unitBufferLength );
+            memset( bufferRight, 0, sizeof( double ) * unitBufferLength );
         }
 
         /**
