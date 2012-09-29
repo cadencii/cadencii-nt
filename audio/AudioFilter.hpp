@@ -25,6 +25,11 @@ namespace audio{
      */
     class AudioFilter : public Receiver{
     public:
+        explicit AudioFilter( int sampleRate ) :
+            Receiver( sampleRate )
+        {
+        }
+
         /**
          * @brief オーディオ波形の受け取り先を設定する
          * @param[in] オーディオ波形の受け取り先

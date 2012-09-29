@@ -2,7 +2,8 @@ SOURCES += \
     enum/QuantizeModeTest.cpp \
     main.cpp \
     audio/AudioMixerTest.cpp \
-    audio/AudioSplitterTest.cpp
+    audio/AudioSplitterTest.cpp \
+    audio/SampleRateLinearConverterTest.cpp
 
 HEADERS += \
     Util.hpp \
