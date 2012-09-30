@@ -3,7 +3,8 @@ SOURCES += \
     main.cpp \
     audio/AudioMixerTest.cpp \
     audio/AudioSplitterTest.cpp \
-    audio/SampleRateLinearConverterTest.cpp
+    audio/SampleRateLinearConverterTest.cpp \
+    audio/FilterDriverTest.cpp
 
 HEADERS += \
     Util.hpp \
