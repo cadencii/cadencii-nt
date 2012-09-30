@@ -23,7 +23,7 @@ namespace cadencii{
 namespace audio{
 
     /**
-     * @brief サンプリングレートを変換するフィルター
+     * @brief サンプリングレートを線形補間により変換するフィルター
      */
     class SampleRateLinearConverter : public AudioFilter{
     protected:
@@ -56,6 +56,14 @@ namespace audio{
          * @brief 内部バッファー
          */
         double *bufferRight;
+        /**
+         * @brief push により与えられた波形バッファのうち、末尾の値(左チャンネル)
+         */
+        double lastLeft;
+        /**
+         * @brief push により与えられた波形バッファのうち、末尾の値(右チャンネル)
+         */
+        double lastRight;
 
     public:
         /**
@@ -89,28 +97,18 @@ namespace audio{
         void push( double *left, double *right, int length, int offset ){
             if( !receiver ) return;
 
+            // index for internal buffer
             int bufferIndex = 0;
 
+            // 何サンプル目まで変換するか
             uint64_t aEndSample = (uint64_t)std::floor( (bFinished + length - 1) / (double)bRate * aRate );
+            int finished = 0;
             for( uint64_t aSample = aFinished; aSample <= aEndSample; ++aSample ){
                 uint64_t bSample = (uint64_t)std::floor( aSample / (double)aRate * bRate );
                 double deltaSecond = aSample / (double)aRate - bSample / (double)bRate;
-                {
-                    // left channenl
-                    double y_ip1 = left[bSample + 1 - bFinished - offset];
-                    double y_i = left[bSample - bFinished - offset];
-                    double a = (y_ip1 - y_i) * bRate;
-                    double value = y_i + a * deltaSecond;
-                    bufferLeft[bufferIndex] = value;
-                }
-                {
-                    // right channel
-                    double y_ip1 = right[bSample + 1 - bFinished - offset];
-                    double y_i = right[bSample - bFinished - offset];
-                    double a = (y_ip1 - y_i) * bRate;
-                    double value = y_i + a * deltaSecond;
-                    bufferRight[bufferIndex] = value;
-                }
+                bufferLeft[bufferIndex] = getInterpolatedValue( left, offset, lastLeft, bSample, deltaSecond );
+                bufferRight[bufferIndex] = getInterpolatedValue( right, offset, lastRight, bSample, deltaSecond );
+                finished++;
                 bufferIndex++;
 
                 // flush buffers
@@ -125,8 +123,44 @@ namespace audio{
                 receiver->push( bufferLeft, bufferRight, bufferIndex, 0 );
             }
 
+            lastLeft = left[offset + length - 1];
+            lastRight = right[offset + length - 1];
             bFinished += length;
-            aFinished = aEndSample - 1;
+            aFinished += finished;
+        }
+
+    private:
+        /**
+         * @brief 補間によって、引数 outgoingBufferIndex サンプル目の値を取得する
+         * @param incomingBuffer push メソッドによって渡されたバッファ
+         * @param incomingBufferOffset push メソッドに渡されたバッファのオフセット
+         * @param incomingBufferLastValue 直前の push メソッドで渡された、バッファーの末尾位置の値
+         * @param outgoingBufferIndex 取得するサンプル位置
+         * @param deltaSecond 補間の起点となる時刻から、outgoingBufferIndex サンプル位置での時刻の時間差
+         * @return 補間後の値
+         */
+        inline double getInterpolatedValue(
+                double *incomingBuffer, int incomingBufferOffset, double incomingBufferLastValue,
+                uint64_t outgoingBufferIndex, double deltaSecond
+        ){
+            // interpolate using `i` and `i + 1` th value of incoming buffer
+            int i = outgoingBufferIndex + incomingBufferOffset - bFinished;
+
+            // value of `i + 1` th incoming buffer
+            double y_ip1 = incomingBuffer[i + 1];
+
+            // value of `i` th incoming buffer
+            // select from last-value if `i` is out of the range of incoming buffer
+            double y_i;
+            if( outgoingBufferIndex < bFinished ){
+                y_i = incomingBufferLastValue;
+            }else{
+                y_i = incomingBuffer[i];
+            }
+
+            // slope
+            double a = (y_ip1 - y_i) * bRate;
+            return y_i + a * deltaSecond;
         }
     };
 
