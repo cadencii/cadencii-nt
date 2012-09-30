@@ -81,6 +81,8 @@ namespace audio{
             unitBufferLength = 4096;
             bufferLeft = new double[unitBufferLength];
             bufferRight = new double[unitBufferLength];
+            lastLeft = 0;
+            lastRight = 0;
         }
 
         ~SampleRateLinearConverter(){
