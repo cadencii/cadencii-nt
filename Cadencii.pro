@@ -53,7 +53,8 @@ HEADERS  += \
     audio/AudioUnit.hpp \
     audio/AudioFilter.hpp \
     audio/AudioSplitter.hpp \
-    audio/SampleRateLinearConverter.hpp
+    audio/SampleRateLinearConverter.hpp \
+    audio/FilterDriver.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
