@@ -3,6 +3,7 @@
 
 #include "../../audio/AudioOutput.hpp"
 #include <vector>
+#include <stdint.h>
 
 /**
  * @brief 受け取ったオーディオ波形をメモリーにため続ける、AudioOutput の実装

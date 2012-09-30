@@ -2,6 +2,7 @@
 #include "../../audio/FilterDriver.hpp"
 #include "MemoryAudioOutput.hpp"
 #include "PassiveAudioInputStub.hpp"
+#include <stdint.h>
 
 using namespace std;
 using namespace cadencii::audio;
