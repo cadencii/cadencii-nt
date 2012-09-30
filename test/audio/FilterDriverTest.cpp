@@ -48,6 +48,7 @@ public:
     {
         outgoingLength = 0;
         incomingLength = 0;
+        receiver = 0;
     }
 
     void push( double *left, double *right, int length, int offset ){
@@ -83,6 +84,7 @@ public:
     explicit AddSampleFilter( int sampleRate ) :
         AudioFilter( sampleRate )
     {
+        receiver = 0;
     }
 
     void push( double *left, double *right, int length, int offset ){

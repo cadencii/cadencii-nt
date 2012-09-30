@@ -87,6 +87,7 @@ namespace audio{
             bufferRight = new double[unitBufferLength];
             temporaryBufferLeft = new double[unitBufferLength];
             temporaryBufferRight = new double[unitBufferLength];
+            sender = 0;
         }
 
         ~FilterDriver(){
