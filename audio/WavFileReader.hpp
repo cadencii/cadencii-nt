@@ -260,29 +260,67 @@ namespace audio{
         /**
          * @brief ストリームから内部バッファに読み込む
          */
-        void fillin(){
+        inline void fillin(){
             if( bytesPerSample == 2 ){
-                if( channels == 2 ){
-                    fillinStereo16();
-                }
+                fillin16();
+            }else if( bytesPerSample == 1 ){
+                fillin8();
             }
         }
 
         /**
-         * @brief ステレオ、16 bit per sample と見なして、ストリームから波形を読み込み、内部バッファに格納する
+         * @brief 16 bit per sample と見なして、ストリームから波形を読み込み、内部バッファに格納する
          */
-        void fillinStereo16(){
-            const int bufferLength = unitBufferLength * bytesPerSample * 2;
+        inline void fillin16(){
+            const int bufferLength = unitBufferLength * bytesPerSample * channels;
             char temporaryBuffer[bufferLength];
             stream.read( temporaryBuffer, bufferLength );
-            int actualBufferLegnth = stream.gcount() / bytesPerSample / 2;
+            int actualBufferLegnth = stream.gcount() / bytesPerSample / channels;
             const double coeff = 1.0 / 32768.0;
             char *temporaryBufferIndex = temporaryBuffer;
-            for( int i = 0; i < actualBufferLegnth; i++ ){
-                bufferLeft[i] = VSQ_NS::BitConverter::makeInt16LE( temporaryBufferIndex ) * coeff;
-                temporaryBufferIndex += bytesPerSample;
-                bufferRight[i] = VSQ_NS::BitConverter::makeInt16LE( temporaryBufferIndex ) * coeff;
-                temporaryBufferIndex += bytesPerSample;
+            if( channels == 2 ){
+                for( int i = 0; i < actualBufferLegnth; i++ ){
+                    bufferLeft[i] = VSQ_NS::BitConverter::makeInt16LE( temporaryBufferIndex ) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                    bufferRight[i] = VSQ_NS::BitConverter::makeInt16LE( temporaryBufferIndex ) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                }
+            }else{
+                for( int i = 0; i < actualBufferLegnth; i++ ){
+                    double value = VSQ_NS::BitConverter::makeInt16LE( temporaryBufferIndex ) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                    bufferRight[i] = value;
+                    bufferLeft[i] = value;
+                }
+            }
+            bufferFilledLength = actualBufferLegnth;
+            bufferIndex = 0;
+        }
+
+        /**
+         * @brief 8 bit per sample と見なして、ストリームから波形を読み込み、内部バッファに格納する
+         */
+        inline void fillin8(){
+            const int bufferLength = unitBufferLength * bytesPerSample * channels;
+            char temporaryBuffer[bufferLength];
+            stream.read( temporaryBuffer, bufferLength );
+            int actualBufferLegnth = stream.gcount() / bytesPerSample / channels;
+            const double coeff = 1.0 / 128.0;
+            int temporaryBufferIndex = 0;
+            if( channels == 2 ){
+                for( int i = 0; i < actualBufferLegnth; i++ ){
+                    bufferLeft[i] = ((int)(0xFF & temporaryBuffer[temporaryBufferIndex]) - 127) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                    bufferRight[i] = ((int)(0xFF & temporaryBuffer[temporaryBufferIndex]) - 127) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                }
+            }else{
+                for( int i = 0; i < actualBufferLegnth; i++ ){
+                    double value = ((int)(0xFF & temporaryBuffer[temporaryBufferIndex]) - 127) * coeff;
+                    temporaryBufferIndex += bytesPerSample;
+                    bufferRight[i] = value;
+                    bufferLeft[i] = value;
+                }
             }
             bufferFilledLength = actualBufferLegnth;
             bufferIndex = 0;
