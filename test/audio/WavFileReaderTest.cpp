@@ -9,6 +9,8 @@ public:
     void stereo16_44100(){
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100stereo16.wav" );
 
+        CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+
         const double amplitude = 32768.0;
         double fixture[25];
         fixture[0] = 0 / amplitude;
@@ -66,6 +68,8 @@ public:
     void monoral16_44100(){
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100monoral16.wav" );
 
+        CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+
         const double amplitude = 32768.0;
         double fixture[25];
         fixture[0] = 0 / amplitude;
@@ -121,6 +125,8 @@ public:
 
     void stereo8_44100(){
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100stereo8.wav" );
+
+        CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
 
         const double amplitude = 128.0;
         double fixture[25];
@@ -178,6 +184,8 @@ public:
 
     void monoral8_44100(){
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100monoral8.wav" );
+
+        CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
 
         const double amplitude = 128.0;
         double fixture[25];

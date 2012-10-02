@@ -142,6 +142,14 @@ namespace audio{
             }
         }
 
+        /**
+         * @brief サンプリングレートを取得する
+         * @return サンプリングレート(Hz)
+         */
+        int getSampleRate(){
+            return sampleRate;
+        }
+
     private:
         /**
          * @brief ファイルを開き、WAV のフォーマット情報を読み込む
