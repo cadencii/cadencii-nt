@@ -259,7 +259,6 @@ namespace audio{
                 stream.close();
                 return false;
             }
-            int size = (int)VSQ_NS::BitConverter::makeUInt32LE( buf );
 
             isReady = true;
             return true;
