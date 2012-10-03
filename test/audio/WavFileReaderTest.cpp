@@ -10,6 +10,7 @@ public:
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100stereo16.wav" );
 
         CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+        CPPUNIT_ASSERT_EQUAL( (uint32_t)44100, reader.getTotalSamples() );
 
         const double amplitude = 32768.0;
         double fixture[25];
@@ -69,6 +70,7 @@ public:
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100monoral16.wav" );
 
         CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+        CPPUNIT_ASSERT_EQUAL( (uint32_t)44100, reader.getTotalSamples() );
 
         const double amplitude = 32768.0;
         double fixture[25];
@@ -127,6 +129,7 @@ public:
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100stereo8.wav" );
 
         CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+        CPPUNIT_ASSERT_EQUAL( (uint32_t)44100, reader.getTotalSamples() );
 
         const double amplitude = 128.0;
         double fixture[25];
@@ -186,6 +189,7 @@ public:
         WavFileReader reader( TestUtil::getFixtureRootPath() + "/fixture/audio/WavFileReaderTest/44100monoral8.wav" );
 
         CPPUNIT_ASSERT_EQUAL( 44100, reader.getSampleRate() );
+        CPPUNIT_ASSERT_EQUAL( (uint32_t)44100, reader.getTotalSamples() );
 
         const double amplitude = 128.0;
         double fixture[25];

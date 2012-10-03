@@ -71,6 +71,10 @@ namespace audio{
          * @brief ファイルストリームが正しく open できているかどうか
          */
         bool isReady;
+        /**
+         * @brief 記録されているサンプル数
+         */
+        uint32_t totalSamples;
 
     public:
         /**
@@ -90,6 +94,7 @@ namespace audio{
             sampleRate = 44100;
             bytesPerSample = 2;
             isReady = false;
+            totalSamples = 0;
             open( filePath );
         }
 
@@ -148,6 +153,14 @@ namespace audio{
          */
         int getSampleRate(){
             return sampleRate;
+        }
+
+        /**
+         * @brief 記録されているサンプル数を取得する
+         * @return サンプル数
+         */
+        uint32_t getTotalSamples(){
+            return totalSamples;
         }
 
     private:
@@ -259,6 +272,8 @@ namespace audio{
                 stream.close();
                 return false;
             }
+            uint32_t size = (uint32_t)VSQ_NS::BitConverter::makeUInt32LE( buf );
+            totalSamples = size / (channels * bytesPerSample);
 
             isReady = true;
             return true;
