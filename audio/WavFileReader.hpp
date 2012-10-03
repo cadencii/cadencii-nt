@@ -108,7 +108,7 @@ namespace audio{
 
             // 残っているバッファーを使い切る
             while( 0 < remain ){
-                int amount = bufferFilledLength <= bufferIndex + length ? bufferFilledLength - bufferIndex : length;
+                int amount = bufferFilledLength - bufferIndex <= remain ? bufferFilledLength - bufferIndex : remain;
                 if( 0 < amount ){
                     for( int i = 0; i < amount; i++ ){
                         left[i + finished] = bufferLeft[bufferIndex + i];
