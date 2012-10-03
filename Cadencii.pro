@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 TARGET = Cadencii
 TEMPLATE = app
@@ -55,7 +55,8 @@ HEADERS  += \
     audio/AudioSplitter.hpp \
     audio/SampleRateLinearConverter.hpp \
     audio/FilterDriver.hpp \
-    audio/WavFileReader.hpp
+    audio/WavFileReader.hpp \
+    qt/audio/DeviceAudioOutput.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
