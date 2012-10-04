@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../Util.hpp"
 #include "../../audio/SampleRateLinearConverter.hpp"
-#include "ActiveAudioInputStub.hpp"
+#include "AudioGeneratorStub.hpp"
 #include "MemoryAudioOutput.hpp"
 
 using namespace std;
@@ -34,7 +34,7 @@ public:
         fixture[3] = 0.6; // 0.75 sec
         fixture[4] = 0.7; // 1.0 sec
         fixture[5] = 0.1; // 1.25 sec
-        ActiveAudioInputStub input( convertFrom, fixture, length );
+        AudioGeneratorStub input( convertFrom, fixture, length );
 
         MemoryAudioOutput out( convertTo );
 
@@ -100,7 +100,7 @@ public:
         fixture[3] = 0.6;/* 0.176470588 sec */
         fixture[4] = -0.1;/* 0.235294118 sec */
         fixture[5] = -0.3;/* 0.294117647 sec */
-        ActiveAudioInputStub input( convertFrom, fixture, length );
+        AudioGeneratorStub input( convertFrom, fixture, length );
 
         MemoryAudioOutput out( convertTo );
 

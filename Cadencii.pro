@@ -44,12 +44,11 @@ HEADERS  += \
     enum/QuantizeMode.hpp \
     Settings.hpp \
     qt/ConcreteSettings.hpp \
-    audio/PassiveAudioInput.hpp \
     audio/AudioOutput.hpp \
     audio/AudioMixer.hpp \
-    audio/ActiveAudioInput.hpp \
-    audio/Sender.hpp \
-    audio/Receiver.hpp \
+    audio/AudioGenerator.hpp \
+    audio/AudioSender.hpp \
+    audio/AudioReceiver.hpp \
     audio/AudioUnit.hpp \
     audio/AudioFilter.hpp \
     audio/AudioSplitter.hpp \

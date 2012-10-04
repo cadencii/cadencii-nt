@@ -1,5 +1,5 @@
 /**
- * Sender.hpp
+ * AudioSender.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,8 +12,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __Sender_hpp__
-#define __Sender_hpp__
+#ifndef __cadencii_audio_Sender_hpp__
+#define __cadencii_audio_Sender_hpp__
 
 #include "AudioUnit.hpp"
 
@@ -23,9 +23,9 @@ namespace audio{
     /**
      * @brief オーディオ波形を要求に応じて生成するオブジェクトを表す抽象クラス
      */
-    class Sender : public AudioUnit{
+    class AudioSender : public AudioUnit{
     public:
-        explicit Sender( int sampleRate ) :
+        explicit AudioSender( int sampleRate ) :
             AudioUnit( sampleRate )
         {
         }

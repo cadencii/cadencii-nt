@@ -1,28 +1,28 @@
 #ifndef __cadencii_audio_ActiveAudioInputStub_hpp__
 #define __cadencii_audio_ActiveAudioInputStub_hpp__
 
-#include "../../audio/ActiveAudioInput.hpp"
+#include "../../audio/AudioGenerator.hpp"
 #include <cstdlib>
 #include <iostream>
 
 /**
- * @brief 初期化時に指定された波形を出力する、ActiveAudioInput の実装
+ * @brief 初期化時に指定された波形を出力する、AudioGenerator の実装
  */
-class ActiveAudioInputStub : public cadencii::audio::ActiveAudioInput{
+class AudioGeneratorStub : public cadencii::audio::AudioGenerator{
 private:
     double *buffer;
     int length;
-    cadencii::audio::Receiver *receiver;
+    cadencii::audio::AudioReceiver *receiver;
 
 public:
-    explicit ActiveAudioInputStub( int sampleRate, double* buffer, int length ) :
-        ActiveAudioInput( sampleRate ), receiver( 0 )
+    explicit AudioGeneratorStub( int sampleRate, double* buffer, int length ) :
+        AudioGenerator( sampleRate ), receiver( 0 )
     {
         this->buffer = buffer;
         this->length = length;
     }
 
-    void setReceiver( cadencii::audio::Receiver *receiver ){
+    void setReceiver( cadencii::audio::AudioReceiver *receiver ){
         this->receiver = receiver;
     }
 

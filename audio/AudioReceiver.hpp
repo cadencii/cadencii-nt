@@ -1,5 +1,5 @@
 /**
- * Receiver.hpp
+ * AudioReceiver.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,8 +12,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __Receiver_hpp__
-#define __Receiver_hpp__
+#ifndef __cadencii_audio_AudioReceiver_hpp__
+#define __cadencii_audio_AudioReceiver_hpp__
 
 #include "AudioUnit.hpp"
 
@@ -23,9 +23,9 @@ namespace audio{
     /**
      * @brief オーディオ波形を受信するオブジェクトを表す抽象クラス
      */
-    class Receiver : public AudioUnit{
+    class AudioReceiver : public AudioUnit{
     public:
-        explicit Receiver( int sampleRate ) :
+        explicit AudioReceiver( int sampleRate ) :
             AudioUnit( sampleRate )
         {
         }

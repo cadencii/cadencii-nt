@@ -15,7 +15,7 @@
 #ifndef __AudioOutput_hpp__
 #define __AudioOutput_hpp__
 
-#include "Receiver.hpp"
+#include "AudioReceiver.hpp"
 
 namespace cadencii{
 namespace audio{
@@ -23,10 +23,10 @@ namespace audio{
     /**
      * @brief AudioOutput は、オーディオ波形の最終的に受け取り、何らかの出力を行うオブジェクトを表す抽象クラスです
      */
-    class AudioOutput : public Receiver{
+    class AudioOutput : public AudioReceiver{
     public:
         explicit AudioOutput( int sampleRate ) :
-            Receiver( sampleRate )
+            AudioReceiver( sampleRate )
         {
         }
     };

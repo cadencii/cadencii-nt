@@ -1,6 +1,6 @@
 #include "../Util.hpp"
 #include "../../audio/AudioSplitter.hpp"
-#include "ActiveAudioInputStub.hpp"
+#include "AudioGeneratorStub.hpp"
 #include "MemoryAudioOutput.hpp"
 
 using namespace std;
@@ -16,7 +16,7 @@ public:
         for( int i = 0; i < length; i++ ){
             activeInputFixture[i] = (rand() - RAND_MAX / 2) / (double)RAND_MAX;
         }
-        ActiveAudioInputStub input( sampleRate, activeInputFixture, length );
+        AudioGeneratorStub input( sampleRate, activeInputFixture, length );
 
         AudioSplitter splitter( sampleRate );
         MemoryAudioOutput out1( sampleRate );

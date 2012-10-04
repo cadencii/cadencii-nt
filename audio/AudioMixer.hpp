@@ -15,8 +15,8 @@
 #ifndef __AudioMixer_hpp__
 #define __AudioMixer_hpp__
 
-#include "Receiver.hpp"
-#include "Sender.hpp"
+#include "AudioReceiver.hpp"
+#include "AudioSender.hpp"
 #include <vector>
 
 namespace cadencii{
@@ -25,10 +25,10 @@ namespace audio{
     /**
      * @brief AudioMixer は、複数のオーディオ波形をミックスするクラスです
      */
-    class AudioMixer : public Receiver{
+    class AudioMixer : public AudioReceiver{
     protected:
-        Receiver *receiver;
-        std::vector<Sender *> sourceList;
+        AudioReceiver *receiver;
+        std::vector<AudioSender *> sourceList;
         const static int unitBufferLength = 1024;
         double *bufferLeft;
         double *bufferRight;
@@ -37,7 +37,7 @@ namespace audio{
 
     public:
         explicit AudioMixer( int sampleRate ) :
-            Receiver( sampleRate ), receiver( 0 )
+            AudioReceiver( sampleRate ), receiver( 0 )
         {
             bufferLeft = new double[unitBufferLength];
             bufferRight = new double[unitBufferLength];
@@ -56,7 +56,7 @@ namespace audio{
          * @brief オーディオ波形の受け取り先を設定する
          * @param[in] オーディオ波形の受け取り先
          */
-        void setReceiver( Receiver *receiver ){
+        void setReceiver( AudioReceiver *receiver ){
             this->receiver = receiver;
         }
 
@@ -64,7 +64,7 @@ namespace audio{
          * @brief ミックスする音源を追加する
          * @param[in] sender ミックス対象の音源
          */
-        void addSource( Sender *sender ){
+        void addSource( AudioSender *sender ){
             sourceList.push_back( sender );
         }
 

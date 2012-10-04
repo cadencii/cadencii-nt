@@ -15,7 +15,7 @@
 #ifndef __AudioSplitter_hpp__
 #define __AudioSplitter_hpp__
 
-#include "Receiver.hpp"
+#include "AudioReceiver.hpp"
 #include <string.h>
 #include <vector>
 
@@ -25,16 +25,16 @@ namespace audio{
     /**
      * @brief AudioSplitter は、オーディオ波形を複数の受け取り先に分割するクラスです
      */
-    class AudioSplitter : public Receiver{
+    class AudioSplitter : public AudioReceiver{
     private:
-        std::vector<Receiver *> receiverList;
+        std::vector<AudioReceiver *> receiverList;
         static const int unitBufferLength = 4096;
         double bufferLeft[unitBufferLength];
         double bufferRight[unitBufferLength];
 
     public:
         explicit AudioSplitter( int sampleRate ) :
-            Receiver( sampleRate )
+            AudioReceiver( sampleRate )
         {
             memset( bufferLeft, 0, sizeof( double ) * unitBufferLength );
             memset( bufferRight, 0, sizeof( double ) * unitBufferLength );
@@ -44,7 +44,7 @@ namespace audio{
          * @brief オーディオ波形の受け取り先を追加する
          * @param[in] オーディオ波形の受け取り先
          */
-        void addReceiver( Receiver *receiver ){
+        void addReceiver( AudioReceiver *receiver ){
             receiverList.push_back( receiver );
         }
 
@@ -55,7 +55,7 @@ namespace audio{
                 int amount = unitBufferLength <= remain ? unitBufferLength : remain;
                 memcpy( bufferLeft, left + sizeof( double ) * (offset + finished), sizeof( double ) * amount );
                 memcpy( bufferRight, left + sizeof( double ) * (offset + finished), sizeof( double ) * amount );
-                std::vector<Receiver *>::iterator i;
+                std::vector<AudioReceiver *>::iterator i;
                 for( i = receiverList.begin(); i != receiverList.end(); ++i ){
                     (*i)->push( bufferLeft, bufferRight, amount, 0 );
                 }
@@ -65,7 +65,7 @@ namespace audio{
         }
 
         void flush(){
-            std::vector<Receiver *>::iterator i;
+            std::vector<AudioReceiver *>::iterator i;
             for( i = receiverList.begin(); i != receiverList.end(); ++i ){
                 (*i)->flush();
             }

@@ -1,18 +1,18 @@
 #ifndef __cadencii_audio_PassiveAudioInputStub_hpp__
 #define __cadencii_audio_PassiveAudioInputStub_hpp__
 
-#include "../../audio/PassiveAudioInput.hpp"
+#include "../../audio/AudioSender.hpp"
 
 /**
- * @brief 常に同じ値の DCは計を出力する、PassiveAudioInput の実装
+ * @brief 常に同じ値の DCは計を出力する、AudioSender の実装
  */
-class PassiveAudioInputStub : public cadencii::audio::PassiveAudioInput{
+class AudioSenderStub : public cadencii::audio::AudioSender{
 private:
     double value;
 
 public:
-    explicit PassiveAudioInputStub( int sampleRate, double value ) :
-        PassiveAudioInput( sampleRate )
+    explicit AudioSenderStub( int sampleRate, double value ) :
+        AudioSender( sampleRate )
     {
         this->value = value;
     }

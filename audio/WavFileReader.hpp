@@ -15,7 +15,7 @@
 #ifndef __cadencii_audio_WavFileReader_hpp__
 #define __cadencii_audio_WavFileReader_hpp__
 
-#include "Sender.hpp"
+#include "AudioSender.hpp"
 #include "../vsq/BitConverter.hpp"
 #include <string>
 #include <string.h>
@@ -28,7 +28,7 @@ namespace audio{
     /**
      * @brief WAV ファイルから、波形を読み込むクラス
      */
-    class WavFileReader : public Sender{
+    class WavFileReader : public AudioSender{
     private:
         /**
          * @brief 内部で使用するバッファの長さ
@@ -83,7 +83,7 @@ namespace audio{
          * @todo Sender( 44100 ) となっている箇所、これでよいか検討する
          */
         explicit WavFileReader( const std::string &filePath ) :
-            Sender( 44100 )
+            AudioSender( 44100 )
         {
             memset( bufferLeft, 0, sizeof( double ) * unitBufferLength );
             memset( bufferRight, 0, sizeof( double ) * unitBufferLength );

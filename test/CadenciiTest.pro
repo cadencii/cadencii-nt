@@ -9,6 +9,6 @@ SOURCES += \
 
 HEADERS += \
     Util.hpp \
-    audio/PassiveAudioInputStub.hpp \
+    audio/AudioSenderStub.hpp \
     audio/MemoryAudioOutput.hpp \
-    audio/ActiveAudioInputStub.hpp
+    audio/AudioGeneratorStub.hpp

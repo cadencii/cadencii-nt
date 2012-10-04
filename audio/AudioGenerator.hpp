@@ -1,5 +1,5 @@
 /**
- * ActiveAudioInput.hpp
+ * AudioGenerator.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,30 +12,30 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __ActiveAudioInput_hpp__
-#define __ActiveAudioInput_hpp__
+#ifndef __cadencii_audio_AudioGenerator_hpp__
+#define __cadencii_audio_AudioGenerator_hpp__
 
-#include "Receiver.hpp"
+#include "AudioReceiver.hpp"
 #include <stdint.h>
 
 namespace cadencii{
 namespace audio{
 
     /**
-     * @brief ActiveAudioInput は、オーディオ波形を生成するオブジェクトを表す抽象クラスです
+     * @brief AudioGenerator は、オーディオ波形を生成するオブジェクトを表す抽象クラスです
      */
-    class ActiveAudioInput : public AudioUnit{
+    class AudioGenerator : public AudioUnit{
     public:
-        explicit ActiveAudioInput( int sampleRate ) :
+        explicit AudioGenerator( int sampleRate ) :
             AudioUnit( sampleRate )
         {
         }
 
         /**
          * @brief オーディオ波形の受け取り先を設定する
-         * @param[in] オーディオ波形の受け取り先
+         * @param[in] receiver オーディオ波形の受け取り先
          */
-        virtual void setReceiver( Receiver *receiver ) = 0;
+        virtual void setReceiver( AudioReceiver *receiver ) = 0;
 
         /**
          * @brief オーディオ波形の生成を開始する
