@@ -27,7 +27,7 @@ namespace audio{
      */
     class SampleRateLinearConverter : public AudioFilter{
     protected:
-        Receiver *receiver;
+        AudioReceiver *receiver;
         /**
          * @brief 変換前のサンプリングレート
          */
@@ -90,7 +90,7 @@ namespace audio{
             delete [] bufferRight;
         }
 
-        void setReceiver( Receiver *receiver ){
+        void setReceiver( AudioReceiver *receiver ){
             this->receiver = receiver;
         }
 

@@ -15,7 +15,7 @@
 #ifndef __AudioFilter_hpp__
 #define __AudioFilter_hpp__
 
-#include "Receiver.hpp"
+#include "AudioReceiver.hpp"
 
 namespace cadencii{
 namespace audio{
@@ -23,18 +23,18 @@ namespace audio{
     /**
      * @brief AudioFilter は、オーディオ波形を加工するオブジェクトを表す抽象クラスです
      */
-    class AudioFilter : public Receiver{
+    class AudioFilter : public AudioReceiver{
     public:
         explicit AudioFilter( int sampleRate ) :
-            Receiver( sampleRate )
+            AudioReceiver( sampleRate )
         {
         }
 
         /**
          * @brief オーディオ波形の受け取り先を設定する
-         * @param[in] オーディオ波形の受け取り先
+         * @param[in] receiver オーディオ波形の受け取り先
          */
-        virtual void setReceiver( Receiver *receiver ) = 0;
+        virtual void setReceiver( AudioReceiver *receiver ) = 0;
     };
 
 }

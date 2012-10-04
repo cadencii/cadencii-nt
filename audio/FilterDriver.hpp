@@ -16,7 +16,7 @@
 #define __cadencii_audio_AudioFilter_hpp__
 
 #include "AudioFilter.hpp"
-#include "Sender.hpp"
+#include "AudioSender.hpp"
 #include <vector>
 
 namespace cadencii{
@@ -25,16 +25,16 @@ namespace audio{
     /**
      * @brief AudioFilter を Sender として動作させるためのクラス
      */
-    class FilterDriver : public Sender{
+    class FilterDriver : public AudioSender{
     private:
-        class MemoryReceiver : public Receiver{
+        class MemoryReceiver : public AudioReceiver{
         private:
             std::vector<double> bufferLeft;
             std::vector<double> bufferRight;
 
         public:
             explicit MemoryReceiver( int sampleRate ) :
-                Receiver( sampleRate )
+                AudioReceiver( sampleRate )
             {
             }
 
@@ -69,7 +69,7 @@ namespace audio{
 
         AudioFilter *filter;
         MemoryReceiver receiver;
-        Sender *sender;
+        AudioSender *sender;
         double *bufferLeft;
         double *bufferRight;
         int unitBufferLength;
@@ -78,7 +78,7 @@ namespace audio{
 
     public:
         explicit FilterDriver( int sampleRate, AudioFilter *filter ) :
-            Sender( sampleRate ), receiver( sampleRate )
+            AudioSender( sampleRate ), receiver( sampleRate )
         {
             this->filter = filter;
             this->filter->setReceiver( &receiver );
@@ -97,7 +97,7 @@ namespace audio{
             delete [] temporaryBufferRight;
         }
 
-        void setSender( Sender *sender ){
+        void setSender( AudioSender *sender ){
             this->sender = sender;
         }
 

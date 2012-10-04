@@ -1,7 +1,7 @@
 #include "../Util.hpp"
 #include "../../audio/FilterDriver.hpp"
 #include "MemoryAudioOutput.hpp"
-#include "PassiveAudioInputStub.hpp"
+#include "AudioSenderStub.hpp"
 #include <stdint.h>
 
 using namespace std;
@@ -10,7 +10,7 @@ using namespace cadencii::audio;
 class AmplifierStub : public AudioFilter{
 private:
     double amplify;
-    Receiver *receiver;
+    AudioReceiver *receiver;
 
 public:
     explicit AmplifierStub( int sampleRate, double amplify ) :
@@ -19,7 +19,7 @@ public:
         this->amplify = amplify;
     }
 
-    void setReceiver( Receiver *receiver ){
+    void setReceiver( AudioReceiver *receiver ){
         this->receiver = receiver;
     }
 
@@ -40,7 +40,7 @@ class ReduceSampleFilter : public AudioFilter{
 private:
     uint64_t outgoingLength;
     uint64_t incomingLength;
-    Receiver *receiver;
+    AudioReceiver *receiver;
 
 public:
     explicit ReduceSampleFilter( int sampleRate ) :
@@ -71,14 +71,14 @@ public:
     void flush(){
     }
 
-    void setReceiver( Receiver *receiver ){
+    void setReceiver( AudioReceiver *receiver ){
         this->receiver = receiver;
     }
 };
 
 class AddSampleFilter : public AudioFilter{
 private:
-    Receiver *receiver;
+    AudioReceiver *receiver;
 
 public:
     explicit AddSampleFilter( int sampleRate ) :
@@ -96,7 +96,7 @@ public:
         receiver->flush();
     }
 
-    void setReceiver( Receiver *receiver ){
+    void setReceiver( AudioReceiver *receiver ){
         this->receiver = receiver;
     }
 };
@@ -107,7 +107,7 @@ public:
         const int sampleRate = 44100;
         const double value = 1.0;
         const double amplify = 2.0;
-        PassiveAudioInputStub input( sampleRate, value );
+        AudioSenderStub input( sampleRate, value );
         AmplifierStub filter( sampleRate, amplify );
         FilterDriver driver( sampleRate, &filter );
         driver.setSender( &input );
@@ -129,7 +129,7 @@ public:
     void testWhenFilterDecreaseSampleRate(){
         const int sampleRate = 44100;
         const double value = 1.0;
-        PassiveAudioInputStub input( sampleRate, value );
+        AudioSenderStub input( sampleRate, value );
         ReduceSampleFilter filter( sampleRate );
         FilterDriver driver( sampleRate, &filter );
         driver.setSender( &input );
@@ -153,7 +153,7 @@ public:
     void testWhenFilterIncreaseSampleRate(){
         const int sampleRate = 44100;
         const double value = 1.0;
-        PassiveAudioInputStub input( sampleRate, value );
+        AudioSenderStub input( sampleRate, value );
         AddSampleFilter filter( sampleRate );
         FilterDriver driver( sampleRate, &filter );
         driver.setSender( &input );

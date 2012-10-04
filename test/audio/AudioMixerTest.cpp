@@ -1,10 +1,9 @@
 #include "../../audio/AudioMixer.hpp"
-#include "../../audio/ActiveAudioInput.hpp"
+#include "../../audio/AudioGenerator.hpp"
 #include "../../audio/AudioOutput.hpp"
-#include "../../audio/PassiveAudioInput.hpp"
 #include "../Util.hpp"
-#include "ActiveAudioInputStub.hpp"
-#include "PassiveAudioInputStub.hpp"
+#include "AudioGeneratorStub.hpp"
+#include "AudioSenderStub.hpp"
 #include "MemoryAudioOutput.hpp"
 #include <cstdlib>
 
@@ -23,8 +22,8 @@ public:
             activeInputFixture[i] = (rand() - RAND_MAX / 2) / (double)RAND_MAX;
         }
 
-        ActiveAudioInputStub activeInput( sampleRate, activeInputFixture, length );
-        PassiveAudioInputStub passiveInput( sampleRate, passiveInputValue );
+        AudioGeneratorStub activeInput( sampleRate, activeInputFixture, length );
+        AudioSenderStub passiveInput( sampleRate, passiveInputValue );
         AudioMixer mixer( sampleRate );
         MemoryAudioOutput output( sampleRate );
         activeInput.setReceiver( &mixer );
