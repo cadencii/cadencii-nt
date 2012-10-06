@@ -20,6 +20,7 @@
 #include "BarCountView.hpp"
 #include "TempoView.hpp"
 #include "TimesigView.hpp"
+#include "enum/ToolKind.hpp"
 
 namespace cadencii{
 
@@ -43,6 +44,11 @@ namespace cadencii{
          * @brief ウィジェットを再描画する
          */
         virtual void updateWidget() = 0;
+
+        /**
+         * @brief 選択されたツールの種類を設定する
+         */
+        virtual void setToolKind( ToolKind::ToolKindEnum kind ) = 0;
     };
 
 }

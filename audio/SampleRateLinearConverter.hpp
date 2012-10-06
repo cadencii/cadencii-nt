@@ -79,15 +79,26 @@ namespace audio{
             bFinished = 0;
             aFinished = 0;
             unitBufferLength = 4096;
-            bufferLeft = new double[unitBufferLength];
-            bufferRight = new double[unitBufferLength];
+            if( aRate == bRate ){
+                bufferLeft = 0;
+                bufferRight = 0;
+            }else{
+                bufferLeft = new double[unitBufferLength];
+                bufferRight = new double[unitBufferLength];
+            }
             lastLeft = 0;
             lastRight = 0;
         }
 
         ~SampleRateLinearConverter(){
-            delete [] bufferLeft;
-            delete [] bufferRight;
+            if( bufferLeft ){
+                delete [] bufferLeft;
+                bufferLeft = 0;
+            }
+            if( bufferRight ){
+                delete [] bufferRight;
+                bufferRight = 0;
+            }
         }
 
         void setReceiver( AudioReceiver *receiver ){
@@ -98,6 +109,10 @@ namespace audio{
 
         void push( double *left, double *right, int length, int offset ){
             if( !receiver ) return;
+            if( aRate == bRate ){
+                receiver->push( left, right, length, offset );
+                return;
+            }
 
             // index for internal buffer
             int bufferIndex = 0;

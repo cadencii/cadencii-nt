@@ -120,6 +120,7 @@ namespace cadencii{
 
     void WindowMainView::setControllerAdapter( ControllerAdapter *controllerAdapter ){
         this->controllerAdapter = controllerAdapter;
+        reflectToolKind();
     }
 
     void WindowMainView::reflectSettings(){
@@ -165,6 +166,18 @@ namespace cadencii{
             Settings::instance()->setQuantizeMode( mode );
             reflectQuantizeModeSettings();
         }
+    }
+
+    void WindowMainView::setToolKind( ToolKind::ToolKindEnum kind ){
+        reflectToolKind();
+    }
+
+    void WindowMainView::reflectToolKind(){
+        ToolKind::ToolKindEnum kind = controllerAdapter->getToolKind();
+        ui->action_toggle_pointer_tool->setChecked( kind == ToolKind::ARROW );
+        ui->action_toggle_eraser_tool->setChecked( kind == ToolKind::ERASER );
+        ui->action_toggle_line_tool->setChecked( kind == ToolKind::LINE );
+        ui->action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
     }
 
 }
@@ -227,4 +240,20 @@ void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
     QString filePath = QFileDialog::getSaveFileName( this );
     controllerAdapter->exportAsMusicXml( filePath.toLocal8Bit().data() );
     activateWindow();
+}
+
+void cadencii::WindowMainView::on_action_toggle_pointer_tool_triggered(){
+    controllerAdapter->setToolKind( ToolKind::ARROW );
+}
+
+void cadencii::WindowMainView::on_action_toggle_pencil_tool_triggered(){
+    controllerAdapter->setToolKind( ToolKind::PENCIL );
+}
+
+void cadencii::WindowMainView::on_action_toggle_line_tool_triggered(){
+    controllerAdapter->setToolKind( ToolKind::LINE );
+}
+
+void cadencii::WindowMainView::on_action_toggle_eraser_tool_triggered(){
+    controllerAdapter->setToolKind( ToolKind::ERASER );
 }
