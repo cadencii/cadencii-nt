@@ -223,20 +223,20 @@ namespace cadencii{
         int visibleMaxY = visibleArea.bottom();
 
         for( int i = 0; i < count; i++ ){
-            VSQ_NS::Event item = list->get( i );
-            if( item.type != VSQ_NS::EventType::NOTE ) continue;
-            VSQ_NS::tick_t tick = item.clock;
+            const VSQ_NS::Event *item = list->get( i );
+            if( item->type != VSQ_NS::EventType::NOTE ) continue;
+            VSQ_NS::tick_t tick = item->clock;
             int x = controllerAdapter->getXFromTick( tick );
-            int width = controllerAdapter->getXFromTick( tick + item.getLength() ) - x;
+            int width = controllerAdapter->getXFromTick( tick + item->getLength() ) - x;
 
             if( visibleMinX <= x + width && x <= visibleMaxX ){
-                int y = getYFromNoteNumber( item.note, trackHeight ) + 1;
+                int y = getYFromNoteNumber( item->note, trackHeight ) + 1;
                 if( visibleMinY <= y + height && y <= visibleMaxY ){
                     g->fillRect( x, y, width, height, fillColor );
                     g->setPen( borderColor );
                     g->drawRect( x, y, width, height );
 
-                    VSQ_NS::Lyric lyric = item.lyricHandle.getLyricAt( 0 );
+                    VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
                     g->setPen( QColor( 0, 0, 0 ) );
                     g->drawText( x + 1, y + trackHeight - 2,
                                  QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );

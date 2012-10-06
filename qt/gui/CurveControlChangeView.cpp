@@ -354,8 +354,8 @@ namespace cadencii{
         int offset = controllerAdapter->getXFromTick( 0 );
         int xAtLeft = visibleArea.x() + offset;
         int clockAtLeft = controllerAdapter->getTickFromX( xAtLeft );
-        VSQ_NS::Event singerAtLeft = track->getSingerEventAt( clockAtLeft );
-        if( !singerAtLeft.isEOS() ){
+        const VSQ_NS::Event *singerAtLeft = track->getSingerEventAt( clockAtLeft );
+        if( singerAtLeft ){
             paintSinger( painter, singerAtLeft, xAtLeft, singerItemY, LEFT );
         }
 
@@ -365,8 +365,8 @@ namespace cadencii{
         VSQ_NS::Event::List *events = track->getEvents();
         while( i.hasNext() ){
             int index = i.next();
-            VSQ_NS::Event item = events->get( index );
-            int x = controllerAdapter->getXFromTick( item.clock );
+            const VSQ_NS::Event *item = events->get( index );
+            int x = controllerAdapter->getXFromTick( item->clock );
             if( x < xAtLeft ){
                 continue;
             }
@@ -377,7 +377,7 @@ namespace cadencii{
         }
     }
 
-    void CurveControlChangeView::paintSinger( QPainter *painter, const VSQ_NS::Event &singerEvent, int x, int y, SingerItemState state ){
+    void CurveControlChangeView::paintSinger( QPainter *painter, const VSQ_NS::Event *singerEvent, int x, int y, SingerItemState state ){
         QRect rc( x, y,
                   SINGER_ITEM_WIDTH, LANE_HEIGHT - 2 );
         switch( state ){
@@ -394,7 +394,7 @@ namespace cadencii{
         painter->drawRect( rc );
 
         painter->setPen( Qt::black );
-        QString text( singerEvent.singerHandle.ids.c_str() );
+        QString text( singerEvent->singerHandle.ids.c_str() );
         static QTextOption option( Qt::AlignLeft | Qt::AlignVCenter );
         QRect textRect( x + 1, y, SINGER_ITEM_WIDTH - 1, LANE_HEIGHT - 1 );
         painter->drawText( textRect, text, option );
