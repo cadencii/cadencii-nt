@@ -26,7 +26,7 @@ namespace cadencii{
           tempoView( 0 ), timesigView( 0 ),
           sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
-        toolKind = ToolKind::ARROW;
+        toolKind = ToolKind::POINTER;
     }
 
     void Controller::setTrackView( TrackView *trackView )throw(){
