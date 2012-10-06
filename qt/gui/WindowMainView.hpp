@@ -48,6 +48,8 @@ namespace cadencii{
 
         void updateWidget();
 
+        void setToolKind( ToolKind::ToolKindEnum kind );
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する
@@ -81,6 +83,11 @@ namespace cadencii{
          */
         void setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode );
 
+        /**
+         * @brief ツールの選択状態を画面に反映する
+         */
+        void reflectToolKind();
+
     private slots:
         void on_action_open_vsq_vocaloid_midi_triggered();
         void on_action_quantize_quarter_toggled( bool arg1 );
@@ -95,6 +102,10 @@ namespace cadencii{
         void on_action_toggle_grid_visible_toggled( bool arg1 );
         void on_action_toggle_auto_scroll_toggled( bool arg1 );
         void on_action_export_as_musicxml_triggered();
+        void on_action_toggle_pointer_tool_triggered();
+        void on_action_toggle_pencil_tool_triggered();
+        void on_action_toggle_line_tool_triggered();
+        void on_action_toggle_eraser_tool_triggered();
     };
 
 }

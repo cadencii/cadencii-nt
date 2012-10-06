@@ -40,6 +40,11 @@ namespace cadencii{
          */
         double pixelPerTick;
 
+        /**
+         * @brief 選択されているツールの種類
+         */
+        ToolKind::ToolKindEnum toolKind;
+
     public:
         explicit Controller();
 
@@ -58,6 +63,10 @@ namespace cadencii{
         int getPreferedComponentWidth()throw();
 
         void exportAsMusicXml( const std::string &filePath )throw();
+
+        void setToolKind( ToolKind::ToolKindEnum kind )throw();
+
+        ToolKind::ToolKindEnum getToolKind()throw();
 
         /**
          * @brief トラックのビューを設定する

@@ -26,6 +26,7 @@ namespace cadencii{
           tempoView( 0 ), timesigView( 0 ),
           sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
+        toolKind = ToolKind::ARROW;
     }
 
     void Controller::setTrackView( TrackView *trackView )throw(){
@@ -231,6 +232,15 @@ namespace cadencii{
         VSQ_NS::StreamWriter stream( filePath );
         VSQ_NS::MusicXmlWriter writer;
         writer.write( &sequence, &stream, "cadencii" );
+    }
+
+    void Controller::setToolKind( ToolKind::ToolKindEnum kind )throw(){
+        toolKind = kind;
+        if( mainView ) mainView->setToolKind( toolKind );
+    }
+
+    ToolKind::ToolKindEnum Controller::getToolKind()throw(){
+        return toolKind;
     }
 
 }

@@ -15,6 +15,7 @@
 #ifndef __ControllerAdapter_hpp__
 #define __ControllerAdapter_hpp__
 
+#include "enum/ToolKind.hpp"
 #include "vsq/vsqglobal.hpp"
 #include <string>
 
@@ -78,6 +79,16 @@ namespace cadencii{
          * @return コンポーネントに要求される横幅(ピクセル単位)
          */
         virtual int getPreferedComponentWidth()throw() = 0;
+
+        /**
+         * @brief 選択されているツール種類を取得する
+         */
+        virtual ToolKind::ToolKindEnum getToolKind()throw() = 0;
+
+        /**
+         * @brief 選択されているツール種類を設定する
+         */
+        virtual void setToolKind( ToolKind::ToolKindEnum kind )throw() = 0;
     };
 
 }
