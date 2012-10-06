@@ -359,6 +359,7 @@
    <addaction name="action_move_song_position_right"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
+   <addaction name="separator"/>
    <addaction name="action_toggle_auto_scroll"/>
    <addaction name="action_28"/>
    <addaction name="separator"/>
@@ -366,6 +367,7 @@
    <addaction name="toolActionPencil"/>
    <addaction name="toolActionLine"/>
    <addaction name="toolActionEraser"/>
+   <addaction name="separator"/>
    <addaction name="action_toggle_grid_visible"/>
    <addaction name="action_30"/>
    <addaction name="action_31"/>
