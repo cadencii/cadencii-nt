@@ -320,7 +320,7 @@ namespace cadencii{
         VSQ_NS::tick_t tick = item->clock;
         int x = controllerAdapter->getXFromTick( tick );
         int width = controllerAdapter->getXFromTick( tick + item->getLength() ) - x;
-        int y = getYFromNoteNumber( item->note, trackHeight ) + 1;
+        int y = getYFromNoteNumber( item->note, trackHeight );
         return QRect( x, y, width, trackHeight );
     }
 
