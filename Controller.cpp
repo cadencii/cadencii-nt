@@ -108,6 +108,16 @@ namespace cadencii{
         }
     }
 
+    void Controller::setPropertyView( PropertyView *propertyView )throw(){
+        this->propertyView = propertyView;
+        if( this->propertyView ){
+            this->propertyView->setControllerAdapter( this );
+        }
+        if( mainView ){
+            mainView->setPropertyView( this->propertyView );
+        }
+    }
+
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
@@ -209,6 +219,7 @@ namespace cadencii{
         if( timesigView ) timesigView->updateWidget();
         if( trackView ) trackView->updateWidget();
         if( controlChangeView ) controlChangeView->updateWidget();
+        if( propertyView ) propertyView->updateWidget();
     }
 
     int Controller::getPreferedComponentWidth()throw(){

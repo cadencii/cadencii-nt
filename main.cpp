@@ -19,6 +19,7 @@
 #include "qt/gui/ConcreteBarCountView.hpp"
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
+#include "qt/gui/ConcretePropertyView.hpp"
 #include "qt/ConcreteSettings.hpp"
 #include "Controller.hpp"
 
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     cadencii::ConcreteBarCountView bv;
     cadencii::ConcreteTempoView tempoView;
     cadencii::ConcreteTimesigView timesigView;
+    cadencii::ConcretePropertyView propertyView;
     cadencii::Controller c;
     c.setMainView( &wv );
     c.setTrackView( &pv );
@@ -41,6 +43,7 @@ int main(int argc, char *argv[])
     c.setBarCountView( &bv );
     c.setTempoView( &tempoView );
     c.setTimesigView( &timesigView );
+    c.setPropertyView( &propertyView );
     wv.show();
 
     return a.exec();
