@@ -16,6 +16,7 @@
 #define __ControllerAdapter_hpp__
 
 #include "enum/ToolKind.hpp"
+#include "ItemSelectionManager.hpp"
 #include "vsq/vsqglobal.hpp"
 #include <string>
 
@@ -89,6 +90,11 @@ namespace cadencii{
          * @brief 選択されているツール種類を設定する
          */
         virtual void setToolKind( ToolKind::ToolKindEnum kind )throw() = 0;
+
+        /**
+         * @brief 選択状態のアイテムを管理するマネージャオブジェクトを取得する
+         */
+        virtual ItemSelectionManager *getItemSelectionManager()throw() = 0;
     };
 
 }

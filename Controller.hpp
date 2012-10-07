@@ -45,6 +45,11 @@ namespace cadencii{
          */
         ToolKind::ToolKindEnum toolKind;
 
+        /**
+         * @brief アイテムの選択状態を管理するマネージャオブジェクト
+         */
+        ItemSelectionManager itemSelectionManager;
+
     public:
         explicit Controller();
 
@@ -67,6 +72,8 @@ namespace cadencii{
         void setToolKind( ToolKind::ToolKindEnum kind )throw();
 
         ToolKind::ToolKindEnum getToolKind()throw();
+
+        ItemSelectionManager *getItemSelectionManager()throw();
 
         /**
          * @brief トラックのビューを設定する

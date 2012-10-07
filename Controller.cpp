@@ -243,4 +243,8 @@ namespace cadencii{
         return toolKind;
     }
 
+    ItemSelectionManager *Controller::getItemSelectionManager()throw(){
+        return &itemSelectionManager;
+    }
+
 }
