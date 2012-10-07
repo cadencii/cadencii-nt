@@ -26,7 +26,7 @@ namespace cadencii{
             /**
              * @brief 矢印ツール
              */
-            ARROW,
+            POINTER,
             /**
              * @brief 鉛筆ツール
              */

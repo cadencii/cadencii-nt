@@ -5,7 +5,8 @@ SOURCES += \
     audio/AudioSplitterTest.cpp \
     audio/SampleRateLinearConverterTest.cpp \
     audio/FilterDriverTest.cpp \
-    audio/WavFileReaderTest.cpp
+    audio/WavFileReaderTest.cpp \
+    ItemSelectionManagerTest.cpp
 
 HEADERS += \
     Util.hpp \

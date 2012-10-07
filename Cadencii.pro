@@ -56,7 +56,8 @@ HEADERS  += \
     audio/FilterDriver.hpp \
     audio/WavFileReader.hpp \
     qt/audio/DeviceAudioOutput.hpp \
-    enum/ToolKind.hpp
+    enum/ToolKind.hpp \
+    ItemSelectionManager.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \

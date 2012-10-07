@@ -174,7 +174,7 @@ namespace cadencii{
 
     void WindowMainView::reflectToolKind(){
         ToolKind::ToolKindEnum kind = controllerAdapter->getToolKind();
-        ui->action_toggle_pointer_tool->setChecked( kind == ToolKind::ARROW );
+        ui->action_toggle_pointer_tool->setChecked( kind == ToolKind::POINTER );
         ui->action_toggle_eraser_tool->setChecked( kind == ToolKind::ERASER );
         ui->action_toggle_line_tool->setChecked( kind == ToolKind::LINE );
         ui->action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
@@ -243,7 +243,7 @@ void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
 }
 
 void cadencii::WindowMainView::on_action_toggle_pointer_tool_triggered(){
-    controllerAdapter->setToolKind( ToolKind::ARROW );
+    controllerAdapter->setToolKind( ToolKind::POINTER );
 }
 
 void cadencii::WindowMainView::on_action_toggle_pencil_tool_triggered(){

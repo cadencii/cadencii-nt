@@ -15,6 +15,7 @@
 #include "PianorollTrackView.hpp"
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
+#include <QMouseEvent>
 #include "vsq/Event.hpp"
 
 namespace cadencii{
@@ -212,35 +213,28 @@ namespace cadencii{
         }
         VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
         int count = list->size();
-        int height = trackHeight - 1;
 
-        QColor fillColor = QColor( 181, 220, 86 );
-        QColor borderColor = QColor( 125, 123, 124 );
+        static QColor fillColor = QColor( 181, 220, 86 );
+        static QColor hilightFillColor = QColor( 100, 149, 237 );
+        static QColor borderColor = QColor( 125, 123, 124 );
 
-        int visibleMinX = visibleArea.left();
-        int visibleMaxX = visibleArea.right();
-        int visibleMinY = visibleArea.top();
-        int visibleMaxY = visibleArea.bottom();
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
 
         for( int i = 0; i < count; i++ ){
-            VSQ_NS::Event item = list->get( i );
-            if( item.type != VSQ_NS::EventType::NOTE ) continue;
-            VSQ_NS::tick_t tick = item.clock;
-            int x = controllerAdapter->getXFromTick( tick );
-            int width = controllerAdapter->getXFromTick( tick + item.getLength() ) - x;
+            const VSQ_NS::Event *item = list->get( i );
+            if( item->type != VSQ_NS::EventType::NOTE ) continue;
+            QRect itemRect = getNoteItemRect( item );
 
-            if( visibleMinX <= x + width && x <= visibleMaxX ){
-                int y = getYFromNoteNumber( item.note, trackHeight ) + 1;
-                if( visibleMinY <= y + height && y <= visibleMaxY ){
-                    g->fillRect( x, y, width, height, fillColor );
-                    g->setPen( borderColor );
-                    g->drawRect( x, y, width, height );
+            if( visibleArea.intersects( itemRect ) ){
+                QColor color = manager->isContains( item ) ? hilightFillColor : fillColor;
+                g->fillRect( itemRect, color );
+                g->setPen( borderColor );
+                g->drawRect( itemRect );
 
-                    VSQ_NS::Lyric lyric = item.lyricHandle.getLyricAt( 0 );
-                    g->setPen( QColor( 0, 0, 0 ) );
-                    g->drawText( x + 1, y + trackHeight - 2,
-                                 QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
-                }
+                VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+                g->setPen( QColor( 0, 0, 0 ) );
+                g->drawText( itemRect.left() + 1, itemRect.bottom() - 1,
+                             QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
             }
         }
     }
@@ -273,6 +267,60 @@ namespace cadencii{
 
     int PianorollTrackView::getTrackViewWidth(){
         return ui->scrollArea->width();
+    }
+
+    void PianorollTrackView::mousePressEvent( QMouseEvent *event ){
+        ToolKind::ToolKindEnum tool = controllerAdapter->getToolKind();
+        if( tool == ToolKind::POINTER ){
+            if( event->button() == Qt::LeftButton ){
+                handleMouseLeftButtonPressByPointer( event );
+            }
+        }
+    }
+
+    /**
+     * @todo Shift を押しながら音符イベントにマウスがおろされたとき、直前に選択した音符イベントがある場合、
+     * この２つの音符イベントの間にある音符イベントをすべて選択状態とする動作を実装する
+     */
+    void PianorollTrackView::handleMouseLeftButtonPressByPointer( QMouseEvent *event ){
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
+        if( noteEventOnMouse ){
+            if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
+                manager->clear();
+            }
+            manager->add( noteEventOnMouse );
+        }else{
+            manager->clear();
+        }
+        updateWidget();
+    }
+
+    const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
+        VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
+        int count = list->size();
+        QPoint globalMousePos = mapToGlobal( mousePosition );
+        QPoint scrollAreaMousePos = ui->scrollArea->mapFromGlobal( globalMousePos );
+        QPoint sceneMousePos = ui->scrollArea->mapToScene( scrollAreaMousePos ).toPoint();
+
+        for( int i = 0; i < count; i++ ){
+            const VSQ_NS::Event *item = list->get( i );
+            if( item->type != VSQ_NS::EventType::NOTE ) continue;
+            QRect itemRect = getNoteItemRect( item );
+            if( itemRect.contains( sceneMousePos ) ){
+                return item;
+            }
+        }
+
+        return 0;
+    }
+
+    QRect PianorollTrackView::getNoteItemRect( const VSQ_NS::Event *item ){
+        VSQ_NS::tick_t tick = item->clock;
+        int x = controllerAdapter->getXFromTick( tick );
+        int width = controllerAdapter->getXFromTick( tick + item->getLength() ) - x;
+        int y = getYFromNoteNumber( item->note, trackHeight );
+        return QRect( x, y, width, trackHeight );
     }
 
 }
