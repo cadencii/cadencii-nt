@@ -112,6 +112,7 @@ namespace cadencii{
         this->propertyView = propertyView;
         if( this->propertyView ){
             this->propertyView->setControllerAdapter( this );
+            itemSelectionManager.addStatusListener( this->propertyView );
         }
         if( mainView ){
             mainView->setPropertyView( this->propertyView );

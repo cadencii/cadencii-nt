@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     qt/gui/ConcreteBarCountView.cpp \
     qt/gui/ConcreteTempoView.cpp \
     qt/gui/ConcreteTimesigView.cpp \
-    qt/ConcreteSettings.cpp
+    qt/ConcreteSettings.cpp \
+    qt/gui/ConcretePropertyView.cpp
 
 HEADERS  += \
     gui/TrackView.hpp \
@@ -60,7 +61,8 @@ HEADERS  += \
     enum/ToolKind.hpp \
     ItemSelectionManager.hpp \
     gui/PropertyView.hpp \
-    qt/gui/ConcretePropertyView.hpp
+    qt/gui/ConcretePropertyView.hpp \
+    ItemSelectionStatusListener.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \

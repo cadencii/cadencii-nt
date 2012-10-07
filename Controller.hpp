@@ -77,6 +77,8 @@ namespace cadencii{
 
         ItemSelectionManager *getItemSelectionManager()throw();
 
+        void notifyItemSelectionChange()throw();
+
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー

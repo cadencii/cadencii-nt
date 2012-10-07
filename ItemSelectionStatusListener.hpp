@@ -1,5 +1,5 @@
 /**
- * PropertyView.hpp
+ * ItemSelectionStatusListener.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,24 +12,20 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __cadencii_gui_PropertyView_hpp__
-#define __cadencii_gui_PropertyView_hpp__
-
-#include "../ControllerAdapter.hpp"
-#include "../ItemSelectionStatusListener.hpp"
+#ifndef __cadencii_ItemSelectionStatusListener_hpp__
+#define __cadencii_ItemSelectionStatusListener_hpp__
 
 namespace cadencii{
 
     /**
-     * @brief 編集可能なアイテムのプロパティーを編集するビュー
+     * @brief アイテムの選択状態をモニターする
      */
-    class PropertyView : public ItemSelectionStatusListener{
+    class ItemSelectionStatusListener{
     public:
-        virtual void setControllerAdapter( ControllerAdapter *adapter ) = 0;
-
-        virtual void updateWidget() = 0;
-
-        virtual void *getWidget() = 0;
+        /**
+         * @brief アイテムの選択状態が変化した場合に呼ばれる
+         */
+        virtual void statusChanged() = 0;
     };
 
 }

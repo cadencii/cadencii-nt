@@ -17,7 +17,7 @@
 
 #include "../../gui/PropertyView.hpp"
 #include <QtTreePropertyBrowser>
-#include <QFocusEvent>
+#include <QtIntPropertyManager>
 
 namespace cadencii{
 
@@ -25,28 +25,66 @@ namespace cadencii{
     private:
         ControllerAdapter *controllerAdapter;
 
+        QtGroupPropertyManager groupManager;
+
+        /**
+         * @brief 汎用文字列プロパティマネージャ
+         */
+        QtStringPropertyManager stringPropertyManager;
+        /**
+         * @brief 列挙子のプロパティ用マネージャ
+         */
+        QtEnumPropertyManager enumPropertyManager;
+        /**
+         * @brief 汎用数値プロパティマネージャ
+         */
+        QtIntPropertyManager intPropertyManager;
+
+        // Lyric
+        QtProperty *lyric;
+        QtProperty *lyricPhrase;
+        QtProperty *lyricPhoneticSymbol;
+        QtProperty *lyricConsonantAdjustment;
+        QtProperty *lyricProtect;
+
+        // Note
+        QtProperty *note;
+        QtProperty *noteLength;
+        QtProperty *noteNumber;
+
+        // Note Location
+        QtProperty *notelocation;
+        QtProperty *notelocationClock;
+        QtProperty *notelocationMeasure;
+        QtProperty *notelocationBeat;
+        QtProperty *notelocationTick;
+
+        // Vibrato
+        QtProperty *vibrato;
+        QtProperty *vibratoType;
+        QtProperty *vibratoLength;
+
     public:
-        ConcretePropertyView( QWidget *parent = 0 ) :
-            QtTreePropertyBrowser( parent )
-        {
-            setFocusPolicy( Qt::NoFocus );
-        }
+        ConcretePropertyView( QWidget *parent = 0 );
 
-        void updateTree(){
-            //TODO:
-        }
+        void setControllerAdapter( ControllerAdapter *adapter );
 
-        void setControllerAdapter( ControllerAdapter *adapter ){
-            this->controllerAdapter = adapter;
-        }
+        void *getWidget();
 
-        void *getWidget(){
-            return this;
-        }
+        void updateWidget();
 
-        void updateWidget(){
-            repaint();
-        }
+        void statusChanged();
+
+    private:
+        /**
+         * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
+         */
+        void updateTreeByEvent();
+
+        /**
+         * @brief QtProperty * 型のフィールドを初期化する
+         */
+        void initProperties();
     };
 
 }
