@@ -213,7 +213,6 @@ namespace cadencii{
         }
         VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
         int count = list->size();
-        int height = trackHeight - 1;
 
         static QColor fillColor = QColor( 181, 220, 86 );
         static QColor hilightFillColor = QColor( 100, 149, 237 );
