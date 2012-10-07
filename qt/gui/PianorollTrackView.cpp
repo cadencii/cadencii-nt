@@ -214,13 +214,16 @@ namespace cadencii{
         int count = list->size();
         int height = trackHeight - 1;
 
-        QColor fillColor = QColor( 181, 220, 86 );
-        QColor borderColor = QColor( 125, 123, 124 );
+        static QColor fillColor = QColor( 181, 220, 86 );
+        static QColor hilightFillColor = QColor( 100, 149, 237 );
+        static QColor borderColor = QColor( 125, 123, 124 );
 
         int visibleMinX = visibleArea.left();
         int visibleMaxX = visibleArea.right();
         int visibleMinY = visibleArea.top();
         int visibleMaxY = visibleArea.bottom();
+
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
 
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
@@ -232,7 +235,8 @@ namespace cadencii{
             if( visibleMinX <= x + width && x <= visibleMaxX ){
                 int y = getYFromNoteNumber( item->note, trackHeight ) + 1;
                 if( visibleMinY <= y + height && y <= visibleMaxY ){
-                    g->fillRect( x, y, width, height, fillColor );
+                    QColor color = manager->isContains( item ) ? hilightFillColor : fillColor;
+                    g->fillRect( x, y, width, height, color );
                     g->setPen( borderColor );
                     g->drawRect( x, y, width, height );
 
