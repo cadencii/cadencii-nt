@@ -73,6 +73,8 @@ namespace cadencii{
 
         int getTrackViewWidth();
 
+        void mousePressEvent( QMouseEvent *event );
+
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
          * @param trackHeight レーンの高さ(ピクセル単位)
@@ -95,6 +97,25 @@ namespace cadencii{
          * アイテムを描画する
          */
         void paintItems( QPainter *g, QRect visibleArea );
+
+        /**
+         * @brief POINTER ツールによる、左ボタンでの MousePress イベントを処理する
+         */
+        void handleMouseLeftButtonPressByPointer( QMouseEvent *event );
+
+        /**
+         * @brief このウィジェットの指定された位置における音符イベントを探す
+         * @param mousePosition このウィジェットローカル座標基準の位置
+         * @return 音符イベント。見つからなければ null を返す
+         */
+        const VSQ_NS::Event *findNoteEventAt( const QPoint &mousePosition );
+
+        /**
+         * @brief 指定された音符イベントの、描画の際の形状を取得する。
+         * @param 形状を取得する音符イベント
+         * @return 形状。座標は、QGraphicsScene の座標を用いる
+         */
+        QRect getNoteItemRect( const VSQ_NS::Event *item );
 
         /**
          * @brief y 座標からノート番号を取得する
