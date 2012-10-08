@@ -62,7 +62,9 @@ HEADERS  += \
     ItemSelectionManager.hpp \
     gui/PropertyView.hpp \
     qt/gui/ConcretePropertyView.hpp \
-    ItemSelectionStatusListener.hpp
+    ItemSelectionStatusListener.hpp \
+    command/AbstractCommand.hpp \
+    command/EditEventCommand.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
