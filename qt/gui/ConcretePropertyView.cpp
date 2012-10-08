@@ -128,21 +128,21 @@ namespace cadencii{
                 if( vibratoLength != vibLength ) vibratoLength = -1;
             }
 
-            stringPropertyManager.setValue( this->lyricPhrase, QString( lyricPhrase.c_str() ) );
-            stringPropertyManager.setValue( this->lyricPhoneticSymbol, QString( lyricPhoneticSymbol.c_str() ) );
-            stringPropertyManager.setValue( this->lyricConsonantAdjustment, QString( lyricConsonantAdjustment.c_str() ) );
+            stringPropertyManager.setValue( this->lyricPhrase, lyricPhrase.c_str() );
+            stringPropertyManager.setValue( this->lyricPhoneticSymbol, lyricPhoneticSymbol.c_str() );
+            stringPropertyManager.setValue( this->lyricConsonantAdjustment, lyricConsonantAdjustment.c_str() );
             enumPropertyManager.setValue( this->lyricProtect, lyricProtect );
 
-            intPropertyManager.setValue( this->noteLength, noteLength );
-            intPropertyManager.setValue( this->noteNumber, noteNumber );
+            stringPropertyManager.setValue( this->noteLength, 0 <= noteLength ? StringUtil::toString( noteLength ).c_str() : "" );
+            stringPropertyManager.setValue( this->noteNumber, 0 <= noteNumber ? StringUtil::toString( noteNumber ).c_str() : "" );
 
-            intPropertyManager.setValue( this->notelocationClock, notelocationClock );
-            intPropertyManager.setValue( this->notelocationMeasure, notelocationMeasure );
-            intPropertyManager.setValue( this->notelocationBeat, notelocationBeat );
-            intPropertyManager.setValue( this->notelocationTick, notelocationTick );
+            stringPropertyManager.setValue( this->notelocationClock, 0 <= notelocationClock ? StringUtil::toString( notelocationClock ).c_str() : "" );
+            stringPropertyManager.setValue( this->notelocationMeasure, 0 <= notelocationMeasure ? StringUtil::toString( notelocationMeasure ).c_str() : "" );
+            stringPropertyManager.setValue( this->notelocationBeat, 0 <= notelocationBeat ? StringUtil::toString( notelocationBeat ).c_str() : "" );
+            stringPropertyManager.setValue( this->notelocationTick, 0 <= notelocationTick ? StringUtil::toString( notelocationTick ).c_str() : "" );
 
             enumPropertyManager.setValue( this->vibratoType, vibratoType );
-            intPropertyManager.setValue( this->vibratoLength, vibratoLength );
+            stringPropertyManager.setValue( this->vibratoLength, 0 <= vibratoLength ? StringUtil::toString( vibratoLength ).c_str() : "" );
         }
     }
 
@@ -160,18 +160,17 @@ namespace cadencii{
 
         // Note
         note = groupManager.addProperty( tr( "Note" ) );
-        noteLength = intPropertyManager.addProperty( tr( "Length" ) );
-        noteNumber = intPropertyManager.addProperty( tr( "Note#" ) );
-        intPropertyManager.setRange( noteNumber, 0, 127 );
+        noteLength = stringPropertyManager.addProperty( tr( "Length" ) );
+        noteNumber = stringPropertyManager.addProperty( tr( "Note#" ) );
         note->addSubProperty( noteLength );
         note->addSubProperty( noteNumber );
 
         // Note Location
         notelocation = groupManager.addProperty( tr( "Note Location" ) );
-        notelocationClock = intPropertyManager.addProperty( tr( "Clock" ) );
-        notelocationMeasure = intPropertyManager.addProperty( tr( "Measure" ) );
-        notelocationBeat = intPropertyManager.addProperty( tr( "Beat" ) );
-        notelocationTick = intPropertyManager.addProperty( tr( "Tick" ) );
+        notelocationClock = stringPropertyManager.addProperty( tr( "Clock" ) );
+        notelocationMeasure = stringPropertyManager.addProperty( tr( "Measure" ) );
+        notelocationBeat = stringPropertyManager.addProperty( tr( "Beat" ) );
+        notelocationTick = stringPropertyManager.addProperty( tr( "Tick" ) );
         notelocation->addSubProperty( notelocationClock );
         notelocation->addSubProperty( notelocationMeasure );
         notelocation->addSubProperty( notelocationBeat );
@@ -180,8 +179,7 @@ namespace cadencii{
         // Vibrato
         vibrato = groupManager.addProperty( tr( "Vibrato" ) );
         vibratoType = enumPropertyManager.addProperty( tr( "Vibrato" ) );
-        vibratoLength = intPropertyManager.addProperty( tr( "Vibrato Length" ) );
-        intPropertyManager.setRange( vibratoLength, 0, 100 );
+        vibratoLength = stringPropertyManager.addProperty( tr( "Vibrato Length" ) );
         vibrato->addSubProperty( vibratoType );
         vibrato->addSubProperty( vibratoLength );
 
@@ -192,8 +190,6 @@ namespace cadencii{
         setFactoryForManager( &enumPropertyManager, new QtEnumEditorFactory() );
 
         setFactoryForManager( &stringPropertyManager, new QtLineEditFactory() );
-
-        setFactoryForManager( &intPropertyManager, new QtSpinBoxFactory() );
 
         QStringList vibratoTypes;
         std::vector<std::string> topTypes;

@@ -38,10 +38,6 @@ namespace cadencii{
          * @brief 列挙子のプロパティ用マネージャ
          */
         QtEnumPropertyManager enumPropertyManager;
-        /**
-         * @brief 汎用数値プロパティマネージャ
-         */
-        QtIntPropertyManager intPropertyManager;
 
         // Lyric
         QtProperty *lyric;
