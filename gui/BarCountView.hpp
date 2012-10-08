@@ -26,12 +26,6 @@ namespace cadencii{
     class BarCountView{
     public:
         /**
-         * @brief 描画対象のシーケンスを設定する
-         * @param items 描画対象のシーケンス
-         */
-        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
-
-        /**
          * @brief ControllerAdapter のインスタンスを設定する
          */
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;

@@ -46,10 +46,6 @@ namespace cadencii{
         delete [] keyNames;
     }
 
-    void PianorollTrackView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
-    }
-
     void *PianorollTrackView::getWidget(){
         return (void *)this;
     }
@@ -208,10 +204,11 @@ namespace cadencii{
     }
 
     void PianorollTrackView::paintItems( QPainter *g, QRect visibleArea ){
-        if( sequence == NULL ){
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        if( !sequence ){
             return;
         }
-        VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
+        const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
         int count = list->size();
 
         static QColor fillColor = QColor( 181, 220, 86 );
@@ -297,7 +294,8 @@ namespace cadencii{
     }
 
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
-        VSQ_NS::Event::List *list = sequence->track[trackIndex].getEvents();
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
         int count = list->size();
         QPoint globalMousePos = mapToGlobal( mousePosition );
         QPoint scrollAreaMousePos = ui->scrollArea->mapFromGlobal( globalMousePos );

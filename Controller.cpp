@@ -33,7 +33,6 @@ namespace cadencii{
         this->trackView = trackView;
         if( this->trackView ){
             this->trackView->setControllerAdapter( this );
-            this->trackView->setSequence( &sequence );
         }
 
         if( mainView ){
@@ -45,7 +44,6 @@ namespace cadencii{
         this->controlChangeView = controlChangeView;
         if( this->controlChangeView ){
             this->controlChangeView->setControllerAdapter( this );
-            this->controlChangeView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setControlChangeView( this->controlChangeView );
@@ -79,7 +77,6 @@ namespace cadencii{
         this->barCountView = barCountView;
         if( this->barCountView ){
             this->barCountView->setControllerAdapter( this );
-            this->barCountView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setBarCountView( this->barCountView );
@@ -90,7 +87,6 @@ namespace cadencii{
         this->tempoView = tempoView;
         if( this->tempoView ){
             this->tempoView->setControllerAdapter( this );
-            this->tempoView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setTempoView( this->tempoView );
@@ -101,7 +97,6 @@ namespace cadencii{
         this->timesigView = timesigView;
         if( this->timesigView ){
             this->timesigView->setControllerAdapter( this );
-            this->timesigView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setTimesigView( this->timesigView );
@@ -176,11 +171,6 @@ namespace cadencii{
     }
 
     void Controller::setupSequence(){
-        trackView->setSequence( &sequence );
-        controlChangeView->setSequence( &sequence );
-        barCountView->setSequence( &sequence );
-        tempoView->setSequence( &sequence );
-        timesigView->setSequence( &sequence );
         propertyView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );

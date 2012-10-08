@@ -17,7 +17,6 @@
 
 #include "ControllerAdapter.hpp"
 #include "vsq/TimesigList.hpp"
-#include "vsq/Sequence.hpp"
 
 namespace cadencii{
 
@@ -26,12 +25,6 @@ namespace cadencii{
      */
     class ControlChangeView{
     public:
-        /**
-         * @brief 描画対象のシーケンスを設定する
-         * @param items 描画対象のシーケンス
-         */
-        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
-
         /**
          * @brief ウィジェットの実体を返す
          * @return ウィジェットの実体

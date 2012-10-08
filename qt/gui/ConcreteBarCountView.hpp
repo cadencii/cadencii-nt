@@ -32,8 +32,6 @@ namespace cadencii{
 
         void *getScrollEventSender();
 
-        void setSequence( VSQ_NS::Sequence *sequence );
-
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
         void *getWidget();

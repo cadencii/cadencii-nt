@@ -34,10 +34,6 @@ namespace cadencii{
         return static_cast<BarCountView *>( this );
     }
 
-    void ConcreteBarCountView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
-    }
-
     void *ConcreteBarCountView::getWidget(){
         return this;
     }
@@ -66,6 +62,7 @@ namespace cadencii{
             painter->drawLine( x, rect.top(), x, rect.bottom() );
 
             int preMeasure = 1;
+            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             if( sequence ){
                 preMeasure = sequence->getPreMeasure();
             }

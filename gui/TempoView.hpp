@@ -34,12 +34,6 @@ namespace cadencii{
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
 
         /**
-         * @brief 描画対象のシーケンスを設定する
-         * @param items 描画対象のシーケンス
-         */
-        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
-
-        /**
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
