@@ -13,17 +13,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <QtGui/QApplication>
+#include <QTextCodec>
 #include "qt/gui/WindowMainView.hpp"
 #include "qt/gui/PianorollTrackView.hpp"
 #include "qt/gui/CurveControlChangeView.hpp"
 #include "qt/gui/ConcreteBarCountView.hpp"
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
+#include "qt/gui/ConcretePropertyView.hpp"
 #include "qt/ConcreteSettings.hpp"
 #include "Controller.hpp"
 
 int main(int argc, char *argv[])
 {
+    QTextCodec *codec = QTextCodec::codecForName( "UTF-8" );
+    QTextCodec::setCodecForCStrings( codec );
+    QTextCodec::setCodecForTr( codec );
+
     cadencii::ConcreteSettings settings;
     cadencii::Settings::instance( &settings );
 
@@ -34,6 +40,7 @@ int main(int argc, char *argv[])
     cadencii::ConcreteBarCountView bv;
     cadencii::ConcreteTempoView tempoView;
     cadencii::ConcreteTimesigView timesigView;
+    cadencii::ConcretePropertyView propertyView;
     cadencii::Controller c;
     c.setMainView( &wv );
     c.setTrackView( &pv );
@@ -41,6 +48,7 @@ int main(int argc, char *argv[])
     c.setBarCountView( &bv );
     c.setTempoView( &tempoView );
     c.setTimesigView( &timesigView );
+    c.setPropertyView( &propertyView );
     wv.show();
 
     return a.exec();

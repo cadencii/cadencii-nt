@@ -23,7 +23,7 @@ namespace cadencii{
 
     Controller::Controller()
         : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
-          tempoView( 0 ), timesigView( 0 ),
+          tempoView( 0 ), timesigView( 0 ), propertyView( 0 ),
           sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
         toolKind = ToolKind::POINTER;
@@ -108,6 +108,17 @@ namespace cadencii{
         }
     }
 
+    void Controller::setPropertyView( PropertyView *propertyView )throw(){
+        this->propertyView = propertyView;
+        if( this->propertyView ){
+            this->propertyView->setControllerAdapter( this );
+            itemSelectionManager.addStatusListener( this->propertyView );
+        }
+        if( mainView ){
+            mainView->setPropertyView( this->propertyView );
+        }
+    }
+
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
@@ -170,6 +181,7 @@ namespace cadencii{
         barCountView->setSequence( &sequence );
         tempoView->setSequence( &sequence );
         timesigView->setSequence( &sequence );
+        propertyView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }
@@ -209,6 +221,7 @@ namespace cadencii{
         if( timesigView ) timesigView->updateWidget();
         if( trackView ) trackView->updateWidget();
         if( controlChangeView ) controlChangeView->updateWidget();
+        if( propertyView ) propertyView->updateWidget();
     }
 
     int Controller::getPreferedComponentWidth()throw(){

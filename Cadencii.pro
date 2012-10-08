@@ -9,6 +9,7 @@ QT       += core gui multimedia
 TARGET = Cadencii
 TEMPLATE = app
 
+include(qt-solutions/qtpropertybrowser/src/qtpropertybrowser.pri)
 
 SOURCES += main.cpp\
     qt/gui/WindowMainView.cpp \
@@ -21,7 +22,8 @@ SOURCES += main.cpp\
     qt/gui/ConcreteBarCountView.cpp \
     qt/gui/ConcreteTempoView.cpp \
     qt/gui/ConcreteTimesigView.cpp \
-    qt/ConcreteSettings.cpp
+    qt/ConcreteSettings.cpp \
+    qt/gui/ConcretePropertyView.cpp
 
 HEADERS  += \
     gui/TrackView.hpp \
@@ -57,7 +59,10 @@ HEADERS  += \
     audio/WavFileReader.hpp \
     qt/audio/DeviceAudioOutput.hpp \
     enum/ToolKind.hpp \
-    ItemSelectionManager.hpp
+    ItemSelectionManager.hpp \
+    gui/PropertyView.hpp \
+    qt/gui/ConcretePropertyView.hpp \
+    ItemSelectionStatusListener.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \

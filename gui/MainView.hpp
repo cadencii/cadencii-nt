@@ -20,6 +20,7 @@
 #include "BarCountView.hpp"
 #include "TempoView.hpp"
 #include "TimesigView.hpp"
+#include "PropertyView.hpp"
 #include "enum/ToolKind.hpp"
 
 namespace cadencii{
@@ -37,6 +38,8 @@ namespace cadencii{
         virtual void setTempoView( TempoView *tempoView ) = 0;
 
         virtual void setTimesigView( TimesigView *timesigView ) = 0;
+
+        virtual void setPropertyView( PropertyView *propertyView ) = 0;
 
         virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
 

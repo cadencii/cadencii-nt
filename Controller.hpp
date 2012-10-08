@@ -18,6 +18,7 @@
 #include "gui/MainView.hpp"
 #include "gui/TrackView.hpp"
 #include "gui/ControlChangeView.hpp"
+#include "gui/PropertyView.hpp"
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
@@ -32,6 +33,7 @@ namespace cadencii{
         BarCountView *barCountView;
         TempoView *tempoView;
         TimesigView *timesigView;
+        PropertyView *propertyView;
         VSQ_NS::Sequence sequence;
         VSQ_NS::tick_t songPosition;
 
@@ -75,6 +77,8 @@ namespace cadencii{
 
         ItemSelectionManager *getItemSelectionManager()throw();
 
+        void notifyItemSelectionChange()throw();
+
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー
@@ -110,6 +114,12 @@ namespace cadencii{
          * @param[in] mainView ビュー
          */
         void setMainView( MainView *mainView )throw();
+
+        /**
+         * @brief プロパティーのビューを設定する
+         * @param[in] propertyView ビュー
+         */
+        void setPropertyView( PropertyView *propertyView )throw();
 
         /**
          * @brief 表示するトラックのインデックスを設定する

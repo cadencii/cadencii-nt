@@ -44,6 +44,8 @@ namespace cadencii{
 
         void setTimesigView( TimesigView *timesigView );
 
+        void setPropertyView( PropertyView *propertyView );
+
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
         void updateWidget();
