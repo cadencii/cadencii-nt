@@ -13,6 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <QtGui/QApplication>
+#include <QTextCodec>
 #include "qt/gui/WindowMainView.hpp"
 #include "qt/gui/PianorollTrackView.hpp"
 #include "qt/gui/CurveControlChangeView.hpp"
@@ -25,6 +26,10 @@
 
 int main(int argc, char *argv[])
 {
+    QTextCodec *codec = QTextCodec::codecForName( "UTF-8" );
+    QTextCodec::setCodecForCStrings( codec );
+    QTextCodec::setCodecForTr( codec );
+
     cadencii::ConcreteSettings settings;
     cadencii::Settings::instance( &settings );
 

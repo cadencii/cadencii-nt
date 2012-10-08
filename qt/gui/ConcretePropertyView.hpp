@@ -16,6 +16,7 @@
 #define __cadencii_qt_gui_ConcretePropertyView_hpp__
 
 #include "../../gui/PropertyView.hpp"
+#include "../../vsq/Sequence.hpp"
 #include <QtTreePropertyBrowser>
 #include <QtIntPropertyManager>
 
@@ -24,6 +25,8 @@ namespace cadencii{
     class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView{
     private:
         ControllerAdapter *controllerAdapter;
+
+        VSQ_NS::Sequence *sequence;
 
         QtGroupPropertyManager groupManager;
 
@@ -73,13 +76,15 @@ namespace cadencii{
 
         void updateWidget();
 
+        void setSequence( VSQ_NS::Sequence *sequence );
+
         void statusChanged();
 
     private:
         /**
          * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
          */
-        void updateTreeByEvent();
+        void updateTreeByEvent( const std::vector<const VSQ_NS::Event *> *list );
 
         /**
          * @brief QtProperty * 型のフィールドを初期化する

@@ -181,6 +181,7 @@ namespace cadencii{
         barCountView->setSequence( &sequence );
         tempoView->setSequence( &sequence );
         timesigView->setSequence( &sequence );
+        propertyView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }

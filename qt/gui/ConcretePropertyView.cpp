@@ -19,7 +19,7 @@
 namespace cadencii{
 
     ConcretePropertyView::ConcretePropertyView( QWidget *parent ) :
-        QtTreePropertyBrowser( parent ), controllerAdapter( 0 )
+        QtTreePropertyBrowser( parent ), controllerAdapter( 0 ), sequence( 0 )
     {
         setFocusPolicy( Qt::NoFocus );
         setResizeMode( QtTreePropertyBrowser::Interactive );
@@ -36,7 +36,7 @@ namespace cadencii{
             return;
         }
 
-        updateTreeByEvent();
+        updateTreeByEvent( list );
     }
 
     void ConcretePropertyView::setControllerAdapter( ControllerAdapter *adapter ){
@@ -51,11 +51,99 @@ namespace cadencii{
         repaint();
     }
 
-    void ConcretePropertyView::updateTreeByEvent(){
+    void ConcretePropertyView::updateTreeByEvent( const std::vector<const VSQ_NS::Event *> *list ){
         addProperty( lyric );
         addProperty( note );
         addProperty( notelocation );
         addProperty( vibrato );
+
+        std::string lyricPhrase = "";
+        std::string lyricPhoneticSymbol = "";
+        std::string lyricConsonantAdjustment = "";
+        int lyricProtect = 0; // enum のインデックス 0 = 未選択, 1 = Off, 2 = On
+        int noteLength = -1;
+        int noteNumber = -1;
+        VSQ_NS::tick_t notelocationClock = -1;
+        int notelocationMeasure = -1;
+        int notelocationBeat = 1;
+        int notelocationTick = -1;
+        int vibratoType = 0;
+        int vibratoLength = -1;
+        int count = list->size();
+
+        // 複数のイベントのプロパティを表示する場合、すべてのイベントのプロパティが同じもののみ、
+        // 値を表示する。イベント同士で値が違うものは、空欄とする
+        for( int i = 0; i < count; i++ ){
+            const VSQ_NS::Event *item = list->at( i );
+            const VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+
+            VSQ_NS::tick_t clock = item->clock;
+            int premeasure = sequence->getPreMeasure();
+            int measure = sequence->timesigList.getBarCountFromClock( clock ) - premeasure + 1;
+            int clock_bartop = sequence->timesigList.getClockFromBarCount( measure + premeasure - 1 );
+            VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt( clock );
+            int den = timesig.denominator;
+            int dif = clock - clock_bartop;
+            int step = 480 * 4 / den;
+            int beat = dif / step + 1;
+            int tick = dif - (beat - 1) * step;
+
+            int vibType = 0;
+            if( item->vibratoHandle.iconId.length() == 9 ){
+                std::string vibTypeString = item->vibratoHandle.iconId.substr( 6 );
+                vibType = StringUtil::parseInt<int>( vibTypeString, 16 );
+            }
+            int vibLength = item->vibratoHandle.getLength() * 100 / item->getLength();
+
+            if( i == 0 ){
+                lyricPhrase = lyric.phrase;
+                lyricPhoneticSymbol = lyric.getPhoneticSymbol();
+                lyricConsonantAdjustment = lyric.getConsonantAdjustment();
+                lyricProtect = lyric.isProtected ? 2 : 1;
+                noteLength = item->getLength();
+                noteNumber = item->note;
+
+                notelocationClock = clock;
+                notelocationMeasure = measure;
+                notelocationBeat = beat;
+                notelocationTick = tick;
+
+                vibratoType = vibType;
+                vibratoLength = vibLength;
+            }else{
+                if( lyricPhrase != lyric.phrase ) lyricPhrase = "";
+                if( lyricPhoneticSymbol != lyric.getPhoneticSymbol() ) lyricPhoneticSymbol = "";
+                if( lyricConsonantAdjustment != lyric.getConsonantAdjustment() ) lyricConsonantAdjustment = "";
+                if( lyricProtect != (lyric.isProtected ? 2 : 1) ) lyricProtect = 0;
+
+                if( noteLength != item->getLength() ) noteLength = -1;
+                if( noteNumber != item->note ) noteNumber = -1;
+
+                if( notelocationClock != clock ) notelocationClock = -1;
+                if( notelocationMeasure != measure ) notelocationMeasure = -1;
+                if( notelocationBeat != beat ) notelocationBeat = -1;
+                if( notelocationTick != tick ) notelocationTick = -1;
+
+                if( vibratoType != vibType ) vibratoType = 0;
+                if( vibratoLength != vibLength ) vibratoLength = -1;
+            }
+
+            stringPropertyManager.setValue( this->lyricPhrase, QString( lyricPhrase.c_str() ) );
+            stringPropertyManager.setValue( this->lyricPhoneticSymbol, QString( lyricPhoneticSymbol.c_str() ) );
+            stringPropertyManager.setValue( this->lyricConsonantAdjustment, QString( lyricConsonantAdjustment.c_str() ) );
+            enumPropertyManager.setValue( this->lyricProtect, lyricProtect );
+
+            intPropertyManager.setValue( this->noteLength, noteLength );
+            intPropertyManager.setValue( this->noteNumber, noteNumber );
+
+            intPropertyManager.setValue( this->notelocationClock, notelocationClock );
+            intPropertyManager.setValue( this->notelocationMeasure, notelocationMeasure );
+            intPropertyManager.setValue( this->notelocationBeat, notelocationBeat );
+            intPropertyManager.setValue( this->notelocationTick, notelocationTick );
+
+            enumPropertyManager.setValue( this->vibratoType, vibratoType );
+            intPropertyManager.setValue( this->vibratoLength, vibratoLength );
+        }
     }
 
     void ConcretePropertyView::initProperties(){
@@ -97,8 +185,9 @@ namespace cadencii{
         vibrato->addSubProperty( vibratoType );
         vibrato->addSubProperty( vibratoLength );
 
+        // enum で列挙する文字列の一覧を作成
         QStringList types;
-        types << "Off" << "On";
+        types << "" << "Off" << "On";
         enumPropertyManager.setEnumNames( lyricProtect, types );
         setFactoryForManager( &enumPropertyManager, new QtEnumEditorFactory() );
 
@@ -121,6 +210,10 @@ namespace cadencii{
             }
         }
         enumPropertyManager.setEnumNames( vibratoType, vibratoTypes );
+    }
+
+    void ConcretePropertyView::setSequence( VSQ_NS::Sequence *sequence ){
+        this->sequence = sequence;
     }
 
 }
