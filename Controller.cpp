@@ -260,4 +260,8 @@ namespace cadencii{
         return &itemSelectionManager;
     }
 
+    const VSQ_NS::Sequence *Controller::getSequence()throw(){
+        return &sequence;
+    }
+
 }

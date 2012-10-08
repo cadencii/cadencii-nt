@@ -77,6 +77,8 @@ namespace cadencii{
 
         ItemSelectionManager *getItemSelectionManager()throw();
 
+        const VSQ_NS::Sequence *getSequence()throw();
+
         void notifyItemSelectionChange()throw();
 
         /**
