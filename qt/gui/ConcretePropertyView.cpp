@@ -31,7 +31,7 @@ namespace cadencii{
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
         const std::vector<const VSQ_NS::Event *> *list = manager->getEventItemList();
 
-        if( list->size() == 0 ){
+        if( list->empty() ){
             clear();
             return;
         }

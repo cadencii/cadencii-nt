@@ -23,7 +23,7 @@ namespace cadencii{
 
     Controller::Controller()
         : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
-          tempoView( 0 ), timesigView( 0 ),
+          tempoView( 0 ), timesigView( 0 ), propertyView( 0 ),
           sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
     {
         toolKind = ToolKind::POINTER;
