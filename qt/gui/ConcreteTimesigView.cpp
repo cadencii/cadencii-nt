@@ -35,10 +35,6 @@ namespace cadencii{
         this->controllerAdapter = controllerAdapter;
     }
 
-    void ConcreteTimesigView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
-    }
-
     void ConcreteTimesigView::setDrawOffset( VSQ_NS::tick_t drawOffset ){
         setDrawOffsetInternal( drawOffset );
     }
@@ -60,8 +56,9 @@ namespace cadencii{
         painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
         // 拍子変更
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( sequence ){
-            VSQ_NS::TimesigList *list = &sequence->timesigList;
+            const VSQ_NS::TimesigList *list = &sequence->timesigList;
             int count = list->size();
             for( int i = 0; i < count; i++ ){
                 const VSQ_NS::Timesig timesig = list->get( i );

@@ -44,10 +44,6 @@ namespace cadencii{
         this->controllerAdapter = controllerAdapter;
     }
 
-    void ConcreteTempoView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
-    }
-
     void ConcreteTempoView::setDrawOffset( VSQ_NS::tick_t drawOffset ){
         setDrawOffsetInternal( drawOffset );
     }
@@ -61,11 +57,12 @@ namespace cadencii{
         painter->drawLine( rect.bottomLeft(), rect.bottomRight() );
 
         // テンポ変更イベント
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( sequence ){
             // テンポ値の描かれる幅は drawWindow ピクセル以下と見なす
             const int drawWindow = 200;
             painter->setPen( Qt::black );
-            VSQ_NS::TempoList *tempoList = &sequence->tempoList;
+            const VSQ_NS::TempoList *tempoList = &sequence->tempoList;
             VSQ_NS::TempoList::Iterator i = tempoList->iterator();
             while( i.hasNext() ){
                 VSQ_NS::Tempo tempo = i.next();

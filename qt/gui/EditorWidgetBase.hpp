@@ -40,7 +40,6 @@ namespace cadencii{
 
     protected:
         ControllerAdapter *controllerAdapter;
-        VSQ_NS::Sequence *sequence;
 
     public:
         explicit EditorWidgetBase( QWidget *parent = 0 );

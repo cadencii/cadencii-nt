@@ -24,8 +24,9 @@ namespace cadencii{
     Controller::Controller()
         : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
           tempoView( 0 ), timesigView( 0 ), propertyView( 0 ),
-          sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
+          songPosition( 0 ), pixelPerTick( 0.2 )
     {
+        model.reset( VSQ_NS::Sequence( "Miku", 1, 4, 4, 500000 ) );
         toolKind = ToolKind::POINTER;
     }
 
@@ -33,7 +34,6 @@ namespace cadencii{
         this->trackView = trackView;
         if( this->trackView ){
             this->trackView->setControllerAdapter( this );
-            this->trackView->setSequence( &sequence );
         }
 
         if( mainView ){
@@ -45,7 +45,6 @@ namespace cadencii{
         this->controlChangeView = controlChangeView;
         if( this->controlChangeView ){
             this->controlChangeView->setControllerAdapter( this );
-            this->controlChangeView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setControlChangeView( this->controlChangeView );
@@ -79,7 +78,6 @@ namespace cadencii{
         this->barCountView = barCountView;
         if( this->barCountView ){
             this->barCountView->setControllerAdapter( this );
-            this->barCountView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setBarCountView( this->barCountView );
@@ -90,7 +88,6 @@ namespace cadencii{
         this->tempoView = tempoView;
         if( this->tempoView ){
             this->tempoView->setControllerAdapter( this );
-            this->tempoView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setTempoView( this->tempoView );
@@ -101,7 +98,6 @@ namespace cadencii{
         this->timesigView = timesigView;
         if( this->timesigView ){
             this->timesigView->setControllerAdapter( this );
-            this->timesigView->setSequence( &sequence );
         }
         if( mainView ){
             mainView->setTimesigView( this->timesigView );
@@ -122,8 +118,10 @@ namespace cadencii{
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
+        VSQ_NS::Sequence sequence;
         reader.read( sequence, &stream, "Shift_JIS" );
         stream.close();
+        model.reset( sequence );
         setupSequence();
     }
 
@@ -176,12 +174,6 @@ namespace cadencii{
     }
 
     void Controller::setupSequence(){
-        trackView->setSequence( &sequence );
-        controlChangeView->setSequence( &sequence );
-        barCountView->setSequence( &sequence );
-        tempoView->setSequence( &sequence );
-        timesigView->setSequence( &sequence );
-        propertyView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }
@@ -225,7 +217,7 @@ namespace cadencii{
     }
 
     int Controller::getPreferedComponentWidth()throw(){
-        VSQ_NS::tick_t totalClocks = sequence.getTotalClocks();
+        VSQ_NS::tick_t totalClocks = model.getSequence()->getTotalClocks();
         int result = getXFromTick( totalClocks );
         if( trackView ){
             result += trackView->getTrackViewWidth();
@@ -244,7 +236,7 @@ namespace cadencii{
     void Controller::exportAsMusicXml( const std::string &filePath )throw(){
         VSQ_NS::StreamWriter stream( filePath );
         VSQ_NS::MusicXmlWriter writer;
-        writer.write( &sequence, &stream, "cadencii" );
+        writer.write( model.getSequence(), &stream, "cadencii" );
     }
 
     void Controller::setToolKind( ToolKind::ToolKindEnum kind )throw(){
@@ -258,6 +250,10 @@ namespace cadencii{
 
     ItemSelectionManager *Controller::getItemSelectionManager()throw(){
         return &itemSelectionManager;
+    }
+
+    const VSQ_NS::Sequence *Controller::getSequence()throw(){
+        return model.getSequence();
     }
 
 }

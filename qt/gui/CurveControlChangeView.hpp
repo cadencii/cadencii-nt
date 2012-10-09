@@ -41,7 +41,7 @@ namespace cadencii{
         /**
          * @brief 手前に表示している BPList
          */
-        VSQ_NS::BPList *front;
+        const VSQ_NS::BPList *front;
         /**
          * @brief 歌手変更イベントを描画するレーン、トラック一覧を描画するレーンの高さ（共通）
          */
@@ -96,8 +96,6 @@ namespace cadencii{
 
         ~CurveControlChangeView();
 
-        void setSequence( VSQ_NS::Sequence *sequence );
-
         void *getWidget();
 
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
@@ -118,7 +116,7 @@ namespace cadencii{
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
 
     private:
-        void paintBPList( QPainter *painter, VSQ_NS::BPList *list, const QRect &rect );
+        void paintBPList( QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect );
 
         /**
          * @brief コントロールチェンジの値から、描画するY座標を取得する

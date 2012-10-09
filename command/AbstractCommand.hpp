@@ -1,5 +1,5 @@
 /**
- * PropertyView.hpp
+ * AbstractCommand.hpp
  * Copyright © 2012 kbinani
  *
  * This file is part of cadencii.
@@ -12,25 +12,23 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __cadencii_gui_PropertyView_hpp__
-#define __cadencii_gui_PropertyView_hpp__
+#ifndef __cadencii_command_AbstractCommand_hpp__
+#define __cadencii_command_AbstractCommand_hpp__
 
-#include "../ControllerAdapter.hpp"
-#include "../ItemSelectionStatusListener.hpp"
 #include "../vsq/Sequence.hpp"
 
 namespace cadencii{
 
     /**
-     * @brief 編集可能なアイテムのプロパティーを編集するビュー
+     * @brief シーケンスの編集操作を表現するクラス
      */
-    class PropertyView : public ItemSelectionStatusListener{
+    class AbstractCommand{
     public:
-        virtual void setControllerAdapter( ControllerAdapter *adapter ) = 0;
-
-        virtual void updateWidget() = 0;
-
-        virtual void *getWidget() = 0;
+        /**
+         * @brief 編集操作を実行する
+         * @return 操作を元に戻すコマンドを返す。戻り値のインスタンスは、SequenceModel が delete するので気にしなくてよい
+         */
+        virtual AbstractCommand *execute( VSQ_NS::Sequence *sequence ) = 0;
     };
 
 }

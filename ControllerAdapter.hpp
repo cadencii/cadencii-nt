@@ -17,7 +17,7 @@
 
 #include "enum/ToolKind.hpp"
 #include "ItemSelectionManager.hpp"
-#include "vsq/vsqglobal.hpp"
+#include "vsq/Sequence.hpp"
 #include <string>
 
 namespace cadencii{
@@ -95,6 +95,11 @@ namespace cadencii{
          * @brief 選択状態のアイテムを管理するマネージャオブジェクトを取得する
          */
         virtual ItemSelectionManager *getItemSelectionManager()throw() = 0;
+
+        /**
+         * @brief シーケンスへのポインターを取得する
+         */
+        virtual const VSQ_NS::Sequence *getSequence()throw() = 0;
     };
 
 }

@@ -49,8 +49,6 @@ namespace cadencii{
 
         void setTimesigList( VSQ_NS::TimesigList *timesigList );
 
-        void setSequence( VSQ_NS::Sequence *sequence );
-
         void *getWidget();
 
         void setDrawOffset( VSQ_NS::tick_t drawOffset );

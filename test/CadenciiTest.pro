@@ -6,7 +6,9 @@ SOURCES += \
     audio/SampleRateLinearConverterTest.cpp \
     audio/FilterDriverTest.cpp \
     audio/WavFileReaderTest.cpp \
-    ItemSelectionManagerTest.cpp
+    ItemSelectionManagerTest.cpp \
+    command/EditEventCommandTest.cpp \
+    SequenceModelTest.cpp
 
 HEADERS += \
     Util.hpp \

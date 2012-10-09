@@ -26,9 +26,8 @@ namespace cadencii{
         EditorWidgetBase( parent )
     {
         trackIndex = 0;
-        sequence = &defaultSequence;
         controlChangeName = "dyn";
-        front = sequence->track[0].getCurve( controlChangeName );
+        front = defaultSequence.track[0].getCurve( controlChangeName );
         ui->scrollArea->setBackgroundBrush( QBrush( Qt::darkGray ) );
 
         trackTabHilightBackgroundColor = new QColor[16];
@@ -52,11 +51,6 @@ namespace cadencii{
     CurveControlChangeView::~CurveControlChangeView(){
         delete [] trackTabHilightBackgroundColor;
         delete [] trackTabRenderButtonBackgroundColor;
-    }
-
-    void CurveControlChangeView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
-        setControlChangeName( controlChangeName );
     }
 
     void *CurveControlChangeView::getWidget(){
@@ -111,9 +105,10 @@ namespace cadencii{
 
     void CurveControlChangeView::setControlChangeName( const std::string &name ){
         controlChangeName = name;
-        if( sequence ){
+        if( controllerAdapter ){
+            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             if( 0 <= trackIndex && trackIndex < sequence->track.size() ){
-                front = sequence->track[trackIndex].getCurve( controlChangeName );
+                front = sequence->track[trackIndex].getConstCurve( controlChangeName );
             }else{
                 front = 0;
             }
@@ -123,7 +118,7 @@ namespace cadencii{
     }
 
     //TODO:効率よく描画するようリファクタする
-    void CurveControlChangeView::paintBPList( QPainter *painter, vsq::BPList *list, const QRect &rect ){
+    void CurveControlChangeView::paintBPList( QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect ){
         int max = list->getMaximum();
         int min = list->getMinimum();
         int height = this->height();
@@ -211,6 +206,7 @@ namespace cadencii{
                      width, LANE_HEIGHT, Qt::gray );
         painter->drawLine( 0, height - LANE_HEIGHT,
                     width, height - LANE_HEIGHT );
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( sequence ){
             int selector_width = getTrackTabWidth();
             for( int i = 0; i < 16; i++ ){
@@ -289,6 +285,7 @@ namespace cadencii{
         // トラックの一覧を表示するのに利用できる最大の描画幅
         int maxTotalWidth = width();
         int numTrack = 1;
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( sequence ){
             numTrack = sequence->track.size();
         }
@@ -316,6 +313,7 @@ namespace cadencii{
             int offset = mousePos.x() - geometry.x();
             int trackTabWidth = getTrackTabWidth();
             int trackIndex = offset / trackTabWidth;
+            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             if( sequence ){
                 if( trackIndex != this->trackIndex && 0 <= trackIndex && trackIndex < sequence->track.size() ){
                     controllerAdapter->setTrackIndex( 0, trackIndex );
@@ -341,6 +339,7 @@ namespace cadencii{
         painter->drawLine( visibleArea.left(), height - LANE_HEIGHT * 2,
                            visibleArea.left() + this->width(), height - LANE_HEIGHT * 2 );
 
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( !sequence ){
             return;
         }
@@ -350,19 +349,20 @@ namespace cadencii{
 
         // コンポーネントの左端位置での、歌手変更イベントを調べる
         int singerItemY = height - LANE_HEIGHT * 2 + 1;
-        VSQ_NS::Track *track = &sequence->track[trackIndex];
+        VSQ_NS::Track track = sequence->track[trackIndex];
         int offset = controllerAdapter->getXFromTick( 0 );
         int xAtLeft = visibleArea.x() + offset;
         int clockAtLeft = controllerAdapter->getTickFromX( xAtLeft );
-        const VSQ_NS::Event *singerAtLeft = track->getSingerEventAt( clockAtLeft );
+        //TODO:getSingerEventAt を const メソッドにしたうえで、sequence->track[trackIndex].getSingerEventAt という書き方に変更する。要は track のインスタンスのコピー回数をゼロにする
+        const VSQ_NS::Event *singerAtLeft = track.getSingerEventAt( clockAtLeft );
         if( singerAtLeft ){
             paintSinger( painter, singerAtLeft, xAtLeft, singerItemY, LEFT );
         }
 
         // 順に描画する
         VSQ_NS::EventListIndexIterator i =
-                track->getIndexIterator( VSQ_NS::EventListIndexIteratorKind::SINGER );
-        VSQ_NS::Event::List *events = track->getEvents();
+                track.getIndexIterator( VSQ_NS::EventListIndexIteratorKind::SINGER );
+        const VSQ_NS::Event::List *events = track.getConstEvents();
         while( i.hasNext() ){
             int index = i.next();
             const VSQ_NS::Event *item = events->get( index );

@@ -32,8 +32,6 @@ namespace cadencii{
 
         void setControllerAdapter( ControllerAdapter *controllerAdapter );
 
-        void setSequence( VSQ_NS::Sequence *sequence );
-
         void setDrawOffset( VSQ_NS::tick_t drawOffset );
 
         void *getWidget();

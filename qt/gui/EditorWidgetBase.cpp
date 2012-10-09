@@ -23,7 +23,7 @@ namespace cadencii{
     using namespace VSQ_NS;
 
     EditorWidgetBase::EditorWidgetBase( QWidget *parent ) :
-        QWidget( parent ), controllerAdapter( 0 ), sequence( 0 )
+        QWidget( parent ), controllerAdapter( 0 )
     {
         ui = new Ui::EditorWidgetBase;
         ui->setupUi( this );

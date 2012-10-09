@@ -27,12 +27,6 @@ namespace cadencii{
     class TrackView{
     public:
         /**
-         * @brief 描画対象のシーケンスを設定する
-         * @param items 描画対象のシーケンス
-         */
-        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
-
-        /**
          * @brief 指定した位置の音符が可視となるようスクロールする
          * @param tick 時刻
          * @param length 音符の長さ

@@ -107,10 +107,11 @@ namespace cadencii{
         int right = visibleArea.right();
         tick_t tickAtScreenRight = (tick_t)parentWidget->controllerAdapter->getTickFromX( right );
 
-        VSQ_NS::TimesigList *list = 0;
+        const VSQ_NS::TimesigList *list = 0;
         static VSQ_NS::TimesigList defaultList;
-        if( parentWidget->sequence ){
-            list = &parentWidget->sequence->timesigList;
+        const VSQ_NS::Sequence *sequence = parentWidget->controllerAdapter->getSequence();
+        if( sequence ){
+            list = &sequence->timesigList;
         }else{
             list = &defaultList;
         }

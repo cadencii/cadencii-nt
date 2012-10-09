@@ -26,8 +26,6 @@ namespace cadencii{
     private:
         ControllerAdapter *controllerAdapter;
 
-        VSQ_NS::Sequence *sequence;
-
         QtGroupPropertyManager groupManager;
 
         /**
@@ -71,8 +69,6 @@ namespace cadencii{
         void *getWidget();
 
         void updateWidget();
-
-        void setSequence( VSQ_NS::Sequence *sequence );
 
         void statusChanged();
 
