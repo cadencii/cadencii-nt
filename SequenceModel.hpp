@@ -74,14 +74,14 @@ namespace cadencii{
          * @brief undo できるかどうかを取得する
          */
         bool canUndo(){
-            return commandHistory.size() > 0 && 0 <= currentHistoryIndex && currentHistoryIndex < commandHistory.size();
+            return (!commandHistory.empty()) && 0 <= currentHistoryIndex && currentHistoryIndex < commandHistory.size();
         }
 
         /**
          * @brief redo できるかどうかを取得する
          */
         bool canRedo(){
-            return commandHistory.size() > 0 && 0 <= currentHistoryIndex + 1 && currentHistoryIndex + 1 < commandHistory.size();
+            return (!commandHistory.empty()) && 0 <= currentHistoryIndex + 1 && currentHistoryIndex + 1 < commandHistory.size();
         }
 
         /**
