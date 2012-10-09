@@ -24,8 +24,9 @@ namespace cadencii{
     Controller::Controller()
         : trackView( 0 ), mainView( 0 ), controlChangeView( 0 ), barCountView( 0 ),
           tempoView( 0 ), timesigView( 0 ), propertyView( 0 ),
-          sequence( "Miku", 1, 4, 4, 500000 ), songPosition( 0 ), pixelPerTick( 0.2 )
+          songPosition( 0 ), pixelPerTick( 0.2 )
     {
+        model.reset( VSQ_NS::Sequence( "Miku", 1, 4, 4, 500000 ) );
         toolKind = ToolKind::POINTER;
     }
 
@@ -117,8 +118,10 @@ namespace cadencii{
     void Controller::openVSQFile( const ::std::string &filePath )throw(){
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
+        VSQ_NS::Sequence sequence;
         reader.read( sequence, &stream, "Shift_JIS" );
         stream.close();
+        model.reset( sequence );
         setupSequence();
     }
 
@@ -214,7 +217,7 @@ namespace cadencii{
     }
 
     int Controller::getPreferedComponentWidth()throw(){
-        VSQ_NS::tick_t totalClocks = sequence.getTotalClocks();
+        VSQ_NS::tick_t totalClocks = model.getSequence()->getTotalClocks();
         int result = getXFromTick( totalClocks );
         if( trackView ){
             result += trackView->getTrackViewWidth();
@@ -233,7 +236,7 @@ namespace cadencii{
     void Controller::exportAsMusicXml( const std::string &filePath )throw(){
         VSQ_NS::StreamWriter stream( filePath );
         VSQ_NS::MusicXmlWriter writer;
-        writer.write( &sequence, &stream, "cadencii" );
+        writer.write( model.getSequence(), &stream, "cadencii" );
     }
 
     void Controller::setToolKind( ToolKind::ToolKindEnum kind )throw(){
@@ -250,7 +253,7 @@ namespace cadencii{
     }
 
     const VSQ_NS::Sequence *Controller::getSequence()throw(){
-        return &sequence;
+        return model.getSequence();
     }
 
 }

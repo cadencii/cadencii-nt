@@ -22,6 +22,7 @@
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
+#include "SequenceModel.hpp"
 
 namespace cadencii{
 
@@ -34,7 +35,7 @@ namespace cadencii{
         TempoView *tempoView;
         TimesigView *timesigView;
         PropertyView *propertyView;
-        VSQ_NS::Sequence sequence;
+        SequenceModel model;
         VSQ_NS::tick_t songPosition;
 
         /**
@@ -139,7 +140,7 @@ namespace cadencii{
 
     private:
         /**
-         * @brief コンポーネントに sequence のインスタンスを設定する
+         * @brief 各コンポーネントに、sequence のインスタンスが置き換わったことを通知する
          */
         void setupSequence();
 
