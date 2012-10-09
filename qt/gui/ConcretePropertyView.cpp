@@ -19,7 +19,7 @@
 namespace cadencii{
 
     ConcretePropertyView::ConcretePropertyView( QWidget *parent ) :
-        QtTreePropertyBrowser( parent ), controllerAdapter( 0 ), sequence( 0 )
+        QtTreePropertyBrowser( parent ), controllerAdapter( 0 )
     {
         setFocusPolicy( Qt::NoFocus );
         setResizeMode( QtTreePropertyBrowser::Interactive );
@@ -78,6 +78,7 @@ namespace cadencii{
             const VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
 
             VSQ_NS::tick_t clock = item->clock;
+            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             int premeasure = sequence->getPreMeasure();
             int measure = sequence->timesigList.getBarCountFromClock( clock ) - premeasure + 1;
             int clock_bartop = sequence->timesigList.getClockFromBarCount( measure + premeasure - 1 );
@@ -206,10 +207,6 @@ namespace cadencii{
             }
         }
         enumPropertyManager.setEnumNames( vibratoType, vibratoTypes );
-    }
-
-    void ConcretePropertyView::setSequence( VSQ_NS::Sequence *sequence ){
-        this->sequence = sequence;
     }
 
 }

@@ -171,7 +171,6 @@ namespace cadencii{
     }
 
     void Controller::setupSequence(){
-        propertyView->setSequence( &sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }

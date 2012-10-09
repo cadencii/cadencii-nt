@@ -31,8 +31,6 @@ namespace cadencii{
         virtual void updateWidget() = 0;
 
         virtual void *getWidget() = 0;
-
-        virtual void setSequence( VSQ_NS::Sequence *sequence ) = 0;
     };
 
 }
