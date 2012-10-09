@@ -26,7 +26,7 @@ namespace cadencii{
     public:
         /**
          * @brief 編集操作を実行する
-         * @return 操作を元に戻すコマンドを返す
+         * @return 操作を元に戻すコマンドを返す。戻り値のインスタンスは、SequenceModel が delete するので気にしなくてよい
          */
         virtual AbstractCommand *execute( VSQ_NS::Sequence *sequence ) = 0;
     };

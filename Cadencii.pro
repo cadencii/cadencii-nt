@@ -64,7 +64,8 @@ HEADERS  += \
     qt/gui/ConcretePropertyView.hpp \
     ItemSelectionStatusListener.hpp \
     command/AbstractCommand.hpp \
-    command/EditEventCommand.hpp
+    command/EditEventCommand.hpp \
+    SequenceModel.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \
