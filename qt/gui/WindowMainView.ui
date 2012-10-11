@@ -360,8 +360,8 @@
    <addaction name="action_19"/>
    <addaction name="action_20"/>
    <addaction name="action_21"/>
-   <addaction name="action_22"/>
-   <addaction name="action_23"/>
+   <addaction name="tool_action_undo"/>
+   <addaction name="tool_action_redo"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
    <addaction name="action_move_song_position_left"/>
@@ -822,7 +822,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_22">
+  <action name="tool_action_undo">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
@@ -831,7 +831,7 @@
     <string/>
    </property>
   </action>
-  <action name="action_23">
+  <action name="tool_action_redo">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>

@@ -112,6 +112,8 @@ namespace cadencii{
         void on_action_toggle_eraser_tool_triggered();
         void on_action_undo_triggered();
         void on_action_redo_triggered();
+        void on_tool_action_undo_triggered();
+        void on_tool_action_redo_triggered();
     };
 
 }

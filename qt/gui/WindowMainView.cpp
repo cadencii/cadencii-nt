@@ -287,3 +287,11 @@ void cadencii::WindowMainView::on_action_undo_triggered(){
 void cadencii::WindowMainView::on_action_redo_triggered(){
     controllerAdapter->redo();
 }
+
+void cadencii::WindowMainView::on_tool_action_undo_triggered(){
+    controllerAdapter->undo();
+}
+
+void cadencii::WindowMainView::on_tool_action_redo_triggered(){
+    controllerAdapter->redo();
+}
