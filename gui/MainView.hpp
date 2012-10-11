@@ -52,6 +52,11 @@ namespace cadencii{
          * @brief 選択されたツールの種類を設定する
          */
         virtual void setToolKind( ToolKind::ToolKindEnum kind ) = 0;
+
+        /**
+         * @brief コマンドの操作履歴のステータスが変更したことを通知する
+         */
+        virtual void notifyCommandHistoryChanged() = 0;
     };
 
 }

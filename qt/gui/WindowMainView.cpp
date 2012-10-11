@@ -196,6 +196,12 @@ namespace cadencii{
         ui->action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
     }
 
+    void WindowMainView::notifyCommandHistoryChanged(){
+        ui->action_undo->setEnabled( controllerAdapter->canUndo() );
+        ui->action_redo->setEnabled( controllerAdapter->canRedo() );
+        updateWidget();
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
@@ -272,4 +278,12 @@ void cadencii::WindowMainView::on_action_toggle_line_tool_triggered(){
 
 void cadencii::WindowMainView::on_action_toggle_eraser_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::ERASER );
+}
+
+void cadencii::WindowMainView::on_action_undo_triggered(){
+    controllerAdapter->undo();
+}
+
+void cadencii::WindowMainView::on_action_redo_triggered(){
+    controllerAdapter->redo();
 }

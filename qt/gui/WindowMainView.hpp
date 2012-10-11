@@ -52,6 +52,8 @@ namespace cadencii{
 
         void setToolKind( ToolKind::ToolKindEnum kind );
 
+        void notifyCommandHistoryChanged();
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する
@@ -108,6 +110,8 @@ namespace cadencii{
         void on_action_toggle_pencil_tool_triggered();
         void on_action_toggle_line_tool_triggered();
         void on_action_toggle_eraser_tool_triggered();
+        void on_action_undo_triggered();
+        void on_action_redo_triggered();
     };
 
 }
