@@ -199,6 +199,8 @@ namespace cadencii{
     void WindowMainView::notifyCommandHistoryChanged(){
         ui->action_undo->setEnabled( controllerAdapter->canUndo() );
         ui->action_redo->setEnabled( controllerAdapter->canRedo() );
+        ui->tool_action_undo->setEnabled( controllerAdapter->canUndo() );
+        ui->tool_action_redo->setEnabled( controllerAdapter->canRedo() );
         updateWidget();
     }
 

@@ -823,6 +823,9 @@
    </property>
   </action>
   <action name="tool_action_undo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
@@ -832,6 +835,9 @@
    </property>
   </action>
   <action name="tool_action_redo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>
