@@ -17,6 +17,7 @@
 
 #include "enum/ToolKind.hpp"
 #include "ItemSelectionManager.hpp"
+#include "command/AbstractCommand.hpp"
 #include "vsq/Sequence.hpp"
 #include <string>
 
@@ -120,6 +121,12 @@ namespace cadencii{
          * @brief undo できるかどうかを取得する
          */
         virtual bool canUndo() = 0;
+
+        /**
+         * @brief シーケンスの操作コマンドを実行する
+         * @param command 実行するコマンド
+         */
+        virtual void execute( AbstractCommand *command ) = 0;
     };
 
 }

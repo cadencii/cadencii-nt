@@ -88,6 +88,8 @@ namespace cadencii{
 
         bool canRedo();
 
+        void execute( AbstractCommand *command );
+
         void notifyItemSelectionChange()throw();
 
         /**

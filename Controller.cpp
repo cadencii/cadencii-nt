@@ -277,4 +277,10 @@ namespace cadencii{
         return model.canUndo();
     }
 
+    void Controller::execute( AbstractCommand *command ){
+        model.execute( command );
+        if( mainView ) mainView->notifyCommandHistoryChanged();
+        if( propertyView ) propertyView->statusChanged();
+    }
+
 }

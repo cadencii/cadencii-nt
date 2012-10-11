@@ -102,6 +102,11 @@ namespace cadencii{
         void handleMouseLeftButtonPressByPointer( QMouseEvent *event );
 
         /**
+         * @brief ERASER ツールによる、左ボタンでの MousePress イベントを処理する
+         */
+        void handleMouseLeftButtonPressByEraser( QMouseEvent *event );
+
+        /**
          * @brief このウィジェットの指定された位置における音符イベントを探す
          * @param mousePosition このウィジェットローカル座標基準の位置
          * @return 音符イベント。見つからなければ null を返す
