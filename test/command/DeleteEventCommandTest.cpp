@@ -24,9 +24,12 @@ public:
         AbstractCommand *reverseCommand = command.execute( &sequence );
         CPPUNIT_ASSERT_EQUAL( 0, sequence.track[0].getEvents()->size() );
 
-        reverseCommand->execute( &sequence );
+        AbstractCommand *trash = reverseCommand->execute( &sequence );
         CPPUNIT_ASSERT_EQUAL( (tick_t)0, sequence.track[0].getEvents()->get( 0 )->clock );
         CPPUNIT_ASSERT_EQUAL( (tick_t)480, sequence.track[0].getEvents()->get( 1 )->clock );
+
+        delete reverseCommand;
+        delete trash;
     }
 
     CPPUNIT_TEST_SUITE( DeleteEventCommandTest );

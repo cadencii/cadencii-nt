@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     qt/ConcreteSettings.cpp \
     qt/gui/ConcretePropertyView.cpp \
     command/DeleteEventCommand.cpp \
-    command/AddEventCommand.cpp
+    command/AddEventCommand.cpp \
+    command/AbstractCommand.cpp
 
 HEADERS  += \
     gui/TrackView.hpp \

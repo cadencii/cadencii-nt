@@ -24,10 +24,11 @@ public:
 
         CPPUNIT_ASSERT_EQUAL( 61, sequence.track[0].getEvents()->findFromId( 2 )->note );
 
-        inverseCommand->execute( &sequence );
+        AbstractCommand *garbage = inverseCommand->execute( &sequence );
         CPPUNIT_ASSERT_EQUAL( 60, sequence.track[0].getEvents()->findFromId( 2 )->note );
 
         delete inverseCommand;
+        delete garbage;
     }
 
     CPPUNIT_TEST_SUITE( EditEventCommandTest );

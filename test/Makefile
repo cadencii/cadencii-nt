@@ -4,7 +4,7 @@ TARGETS=$(TEST_FILES:.cpp=.exe)
 all: $(TARGETS)
 
 $(TARGETS): %.exe: %.cpp
-	g++ main.cpp $< -w -ldl -lcppunit -o $@
+	g++ -g main.cpp $< -w -ldl -lcppunit -o $@
 	./$@
 
 run: $(TARGETS)

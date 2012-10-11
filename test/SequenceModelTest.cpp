@@ -31,7 +31,6 @@ public:
         editedNote.note = 61;
         EditEventCommand *command = new EditEventCommand( 0, 2, editedNote );
 
-
         CPPUNIT_ASSERT( false == model.canRedo() );
         CPPUNIT_ASSERT( false == model.canUndo() );
 
@@ -56,6 +55,8 @@ public:
         model.reset( Sequence() );
         CPPUNIT_ASSERT( false == model.canRedo() );
         CPPUNIT_ASSERT( false == model.canUndo() );
+
+        delete command;
     }
 
     CPPUNIT_TEST_SUITE( SequenceModelTest );
