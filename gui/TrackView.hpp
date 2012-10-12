@@ -15,9 +15,9 @@
 #ifndef __TrackView_hpp__
 #define __TrackView_hpp__
 
-#include "ControllerAdapter.hpp"
-#include "vsq/TimesigList.hpp"
-#include "vsq/Sequence.hpp"
+#include "../ControllerAdapter.hpp"
+#include "../vsq/TimesigList.hpp"
+#include "../vsq/Sequence.hpp"
 
 namespace cadencii{
 

@@ -15,8 +15,8 @@
 #ifndef __TempoView_hpp__
 #define __TempoView_hpp__
 
-#include "ControllerAdapter.hpp"
-#include "vsq/Sequence.hpp"
+#include "../ControllerAdapter.hpp"
+#include "../vsq/Sequence.hpp"
 
 namespace cadencii{
 

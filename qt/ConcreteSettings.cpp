@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "qt/ConcreteSettings.hpp"
+#include "ConcreteSettings.hpp"
 #include <QSettings>
 
 #define CADENCII_SETTINGS_QUANTIZE_MODE "quantizeMode"

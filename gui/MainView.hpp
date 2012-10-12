@@ -21,7 +21,7 @@
 #include "TempoView.hpp"
 #include "TimesigView.hpp"
 #include "PropertyView.hpp"
-#include "enum/ToolKind.hpp"
+#include "../enum/ToolKind.hpp"
 
 namespace cadencii{
 

@@ -15,9 +15,9 @@
 #ifndef __ConcreteBarCountView_hpp__
 #define __ConcreteBarCountView_hpp__
 
-#include "gui/BarCountView.hpp"
-#include "ControllerAdapter.hpp"
-#include "qt/gui/EditorWidgetBase.hpp"
+#include "../../gui/BarCountView.hpp"
+#include "../../ControllerAdapter.hpp"
+#include "../../qt/gui/EditorWidgetBase.hpp"
 
 namespace cadencii{
 

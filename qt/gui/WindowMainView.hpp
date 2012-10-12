@@ -16,8 +16,8 @@
 #define __WindowMainView_hpp__
 
 #include <QMainWindow>
-#include "gui/MainView.hpp"
-#include "enum/QuantizeMode.hpp"
+#include "../../gui/MainView.hpp"
+#include "../../enum/QuantizeMode.hpp"
 
 namespace Ui{
     class WindowMainView;

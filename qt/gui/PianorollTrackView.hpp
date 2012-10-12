@@ -16,7 +16,7 @@
 #define __PianorollTrackView_hpp__
 
 #include "EditorWidgetBase.hpp"
-#include "gui/TrackView.hpp"
+#include "../../gui/TrackView.hpp"
 #include <QGraphicsScene>
 
 namespace cadencii{

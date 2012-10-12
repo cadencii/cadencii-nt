@@ -19,10 +19,10 @@
 #include <QWidget>
 #include <QMutex>
 #include <QGraphicsView>
-#include "ControllerAdapter.hpp"
-#include "vsq/TimesigList.hpp"
-#include "vsq/MeasureLineIterator.hpp"
-#include "vsq/Sequence.hpp"
+#include "../../ControllerAdapter.hpp"
+#include "../../vsq/TimesigList.hpp"
+#include "../../vsq/MeasureLineIterator.hpp"
+#include "../../vsq/Sequence.hpp"
 
 namespace cadencii{
 

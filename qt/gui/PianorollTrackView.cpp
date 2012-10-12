@@ -16,7 +16,7 @@
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
 #include <QMouseEvent>
-#include "vsq/Event.hpp"
+#include "../../vsq/Event.hpp"
 #include "../../command/DeleteEventCommand.hpp"
 
 namespace cadencii{

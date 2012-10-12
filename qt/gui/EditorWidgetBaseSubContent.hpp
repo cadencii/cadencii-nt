@@ -15,7 +15,7 @@
 #ifndef __EditorWidgetBaseSubContent_hpp__
 #define __EditorWidgetBaseSubContent_hpp__
 
-#include "qt/gui/EditorWidgetBase.hpp"
+#include "EditorWidgetBase.hpp"
 #include <QWidget>
 
 namespace cadencii{

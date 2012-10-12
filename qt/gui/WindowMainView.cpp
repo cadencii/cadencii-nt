@@ -12,12 +12,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "qt/gui/WindowMainView.hpp"
-#include "qt/gui/ConcretePropertyView.hpp"
+#include "WindowMainView.hpp"
+#include "ConcretePropertyView.hpp"
 #include "ui_WindowMainView.h"
-#include "Controller.hpp"
-#include "enum/QuantizeMode.hpp"
-#include "Settings.hpp"
+#include "../../Controller.hpp"
+#include "../../enum/QuantizeMode.hpp"
+#include "../../Settings.hpp"
 #include <QFileDialog>
 
 namespace cadencii{
