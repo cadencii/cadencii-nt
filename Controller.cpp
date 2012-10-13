@@ -121,8 +121,7 @@ namespace cadencii{
         VSQ_NS::Sequence sequence;
         reader.read( sequence, &stream, "Shift_JIS" );
         stream.close();
-        model.reset( sequence );
-        setupSequence();
+        setupSequence( sequence );
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
@@ -171,9 +170,12 @@ namespace cadencii{
         //TODO:senderの値によって、どのコンポーネントにsetTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex( index );
         controlChangeView->setTrackIndex( index );
+        itemSelectionManager.clear();
+        if( mainView ) mainView->notifyCommandHistoryChanged();
     }
 
-    void Controller::setupSequence(){
+    void Controller::setupSequence( const VSQ_NS::Sequence &sequence ){
+        model.reset( sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
     }
@@ -254,6 +256,32 @@ namespace cadencii{
 
     const VSQ_NS::Sequence *Controller::getSequence()throw(){
         return model.getSequence();
+    }
+
+    void Controller::redo(){
+        model.redo();
+        if( mainView ) mainView->notifyCommandHistoryChanged();
+        if( propertyView ) propertyView->statusChanged();
+    }
+
+    void Controller::undo(){
+        model.undo();
+        if( mainView ) mainView->notifyCommandHistoryChanged();
+        if( propertyView ) propertyView->statusChanged();
+    }
+
+    bool Controller::canRedo(){
+        return model.canRedo();
+    }
+
+    bool Controller::canUndo(){
+        return model.canUndo();
+    }
+
+    void Controller::execute( AbstractCommand *command ){
+        model.execute( command );
+        if( mainView ) mainView->notifyCommandHistoryChanged();
+        if( propertyView ) propertyView->statusChanged();
     }
 
 }

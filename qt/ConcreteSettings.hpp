@@ -15,7 +15,7 @@
 #ifndef __ConcreteSettings_hpp__
 #define __ConcreteSettings_hpp__
 
-#include "Settings.hpp"
+#include "../Settings.hpp"
 #include <QSettings>
 
 namespace cadencii{

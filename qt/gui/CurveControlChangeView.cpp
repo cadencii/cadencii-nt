@@ -14,7 +14,7 @@
  */
 #include "CurveControlChangeView.hpp"
 #include "ui_EditorWidgetBase.h"
-#include "vsq/Track.hpp"
+#include "../../vsq/Track.hpp"
 #include <QScrollBar>
 #include <QColor>
 #include <QMouseEvent>

@@ -16,7 +16,7 @@
 #define __PianorollTrackView_hpp__
 
 #include "EditorWidgetBase.hpp"
-#include "gui/TrackView.hpp"
+#include "../../gui/TrackView.hpp"
 #include <QGraphicsScene>
 
 namespace cadencii{
@@ -100,6 +100,11 @@ namespace cadencii{
          * @brief POINTER ツールによる、左ボタンでの MousePress イベントを処理する
          */
         void handleMouseLeftButtonPressByPointer( QMouseEvent *event );
+
+        /**
+         * @brief ERASER ツールによる、左ボタンでの MousePress イベントを処理する
+         */
+        void handleMouseLeftButtonPressByEraser( QMouseEvent *event );
 
         /**
          * @brief このウィジェットの指定された位置における音符イベントを探す

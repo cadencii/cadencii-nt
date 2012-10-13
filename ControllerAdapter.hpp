@@ -17,6 +17,7 @@
 
 #include "enum/ToolKind.hpp"
 #include "ItemSelectionManager.hpp"
+#include "command/AbstractCommand.hpp"
 #include "vsq/Sequence.hpp"
 #include <string>
 
@@ -100,6 +101,32 @@ namespace cadencii{
          * @brief シーケンスへのポインターを取得する
          */
         virtual const VSQ_NS::Sequence *getSequence()throw() = 0;
+
+        /**
+         * @brief 編集操作を一つやり直す
+         */
+        virtual void redo() = 0;
+
+        /**
+         * @brief 編集操作を一つ元に戻す
+         */
+        virtual void undo() = 0;
+
+        /**
+         * @brief redo できるかどうかを取得する
+         */
+        virtual bool canRedo() = 0;
+
+        /**
+         * @brief undo できるかどうかを取得する
+         */
+        virtual bool canUndo() = 0;
+
+        /**
+         * @brief シーケンスの操作コマンドを実行する
+         * @param command 実行するコマンド
+         */
+        virtual void execute( AbstractCommand *command ) = 0;
     };
 
 }

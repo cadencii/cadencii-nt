@@ -46,3 +46,7 @@ int main( int argc, char* argv[] )
 
     return results.wasSuccessful() ? 0 : 1;
 }
+
+#include "../command/AddEventCommand.cpp"
+#include "../command/DeleteEventCommand.cpp"
+#include "../command/AbstractCommand.cpp"

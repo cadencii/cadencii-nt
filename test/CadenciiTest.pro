@@ -8,7 +8,9 @@ SOURCES += \
     audio/WavFileReaderTest.cpp \
     ItemSelectionManagerTest.cpp \
     command/EditEventCommandTest.cpp \
-    SequenceModelTest.cpp
+    SequenceModelTest.cpp \
+    command/AddEventCommandTest.cpp \
+    command/DeleteEventCommandTest.cpp
 
 HEADERS += \
     Util.hpp \

@@ -80,6 +80,16 @@ namespace cadencii{
 
         const VSQ_NS::Sequence *getSequence()throw();
 
+        void undo();
+
+        void redo();
+
+        bool canUndo();
+
+        bool canRedo();
+
+        void execute( AbstractCommand *command );
+
         void notifyItemSelectionChange()throw();
 
         /**
@@ -140,9 +150,10 @@ namespace cadencii{
 
     private:
         /**
-         * @brief 各コンポーネントに、sequence のインスタンスが置き換わったことを通知する
+         * @brief sequence のインスタンスを置き換えたのち、各コンポーネントに sequence のインスタンスが置き換わったことを通知する
+         * @param sequence 置き換わるインスタンス
          */
-        void setupSequence();
+        void setupSequence( const VSQ_NS::Sequence &sequence );
 
         /**
          * @brief すべてのウィジェットを再描画する

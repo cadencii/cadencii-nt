@@ -15,8 +15,8 @@
 #ifndef __ControlChangeView_hpp__
 #define __ControlChangeView_hpp__
 
-#include "ControllerAdapter.hpp"
-#include "vsq/TimesigList.hpp"
+#include "../ControllerAdapter.hpp"
+#include "../vsq/TimesigList.hpp"
 
 namespace cadencii{
 

@@ -17,10 +17,10 @@
 #include <QScrollArea>
 #include <QPainter>
 #include <QScrollBar>
-#include "vsq/Timesig.hpp"
-#include "qt/gui/EditorWidgetBase.hpp"
-#include "qt/gui/EditorWidgetBaseMainContent.hpp"
-#include "Settings.hpp"
+#include "../../vsq/Timesig.hpp"
+#include "EditorWidgetBase.hpp"
+#include "EditorWidgetBaseMainContent.hpp"
+#include "../../Settings.hpp"
 
 namespace cadencii{
     using namespace std;

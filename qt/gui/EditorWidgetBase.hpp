@@ -18,11 +18,11 @@
 #include <map>
 #include <QScrollArea>
 #include <QMutex>
-#include "vsq/MeasureLineIterator.hpp"
-#include "vsq/TimesigList.hpp"
-#include "vsq/Sequence.hpp"
-#include "qt/gui/EditorWidgetBaseMainContent.hpp"
-#include "gui/TrackView.hpp"
+#include "../../vsq/MeasureLineIterator.hpp"
+#include "../../vsq/TimesigList.hpp"
+#include "../../vsq/Sequence.hpp"
+#include "../../qt/gui/EditorWidgetBaseMainContent.hpp"
+#include "../../gui/TrackView.hpp"
 
 namespace Ui{
     class EditorWidgetBase;

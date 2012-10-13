@@ -12,12 +12,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "qt/gui/WindowMainView.hpp"
-#include "qt/gui/ConcretePropertyView.hpp"
+#include "WindowMainView.hpp"
+#include "ConcretePropertyView.hpp"
 #include "ui_WindowMainView.h"
-#include "Controller.hpp"
-#include "enum/QuantizeMode.hpp"
-#include "Settings.hpp"
+#include "../../Controller.hpp"
+#include "../../enum/QuantizeMode.hpp"
+#include "../../Settings.hpp"
 #include <QFileDialog>
 
 namespace cadencii{
@@ -196,6 +196,14 @@ namespace cadencii{
         ui->action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
     }
 
+    void WindowMainView::notifyCommandHistoryChanged(){
+        ui->action_undo->setEnabled( controllerAdapter->canUndo() );
+        ui->action_redo->setEnabled( controllerAdapter->canRedo() );
+        ui->tool_action_undo->setEnabled( controllerAdapter->canUndo() );
+        ui->tool_action_redo->setEnabled( controllerAdapter->canRedo() );
+        updateWidget();
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
@@ -272,4 +280,20 @@ void cadencii::WindowMainView::on_action_toggle_line_tool_triggered(){
 
 void cadencii::WindowMainView::on_action_toggle_eraser_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::ERASER );
+}
+
+void cadencii::WindowMainView::on_action_undo_triggered(){
+    controllerAdapter->undo();
+}
+
+void cadencii::WindowMainView::on_action_redo_triggered(){
+    controllerAdapter->redo();
+}
+
+void cadencii::WindowMainView::on_tool_action_undo_triggered(){
+    controllerAdapter->undo();
+}
+
+void cadencii::WindowMainView::on_tool_action_redo_triggered(){
+    controllerAdapter->redo();
 }

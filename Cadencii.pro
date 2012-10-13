@@ -23,7 +23,10 @@ SOURCES += main.cpp\
     qt/gui/ConcreteTempoView.cpp \
     qt/gui/ConcreteTimesigView.cpp \
     qt/ConcreteSettings.cpp \
-    qt/gui/ConcretePropertyView.cpp
+    qt/gui/ConcretePropertyView.cpp \
+    command/DeleteEventCommand.cpp \
+    command/AddEventCommand.cpp \
+    command/AbstractCommand.cpp
 
 HEADERS  += \
     gui/TrackView.hpp \
@@ -65,7 +68,9 @@ HEADERS  += \
     ItemSelectionStatusListener.hpp \
     command/AbstractCommand.hpp \
     command/EditEventCommand.hpp \
-    SequenceModel.hpp
+    SequenceModel.hpp \
+    command/DeleteEventCommand.hpp \
+    command/AddEventCommand.hpp
 
 FORMS    += \
     qt/gui/WindowMainView.ui \

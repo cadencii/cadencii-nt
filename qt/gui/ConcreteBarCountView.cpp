@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "qt/gui/ConcreteBarCountView.hpp"
+#include "ConcreteBarCountView.hpp"
 #include "ui_EditorWidgetBase.h"
 
 namespace cadencii{

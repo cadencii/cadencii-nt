@@ -15,8 +15,8 @@
 #ifndef __BarCountView_hpp__
 #define __BarCountView_hpp__
 
-#include "ControllerAdapter.hpp"
-#include "vsq/Sequence.hpp"
+#include "../ControllerAdapter.hpp"
+#include "../vsq/Sequence.hpp"
 
 namespace cadencii{
 

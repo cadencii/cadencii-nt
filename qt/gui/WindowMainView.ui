@@ -33,9 +33,7 @@
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-
    <widget class="QWidget" name="propertyView" native="true"/>
-
    <widget class="QSplitter" name="splitter_3">
     <property name="lineWidth">
      <number>0</number>
@@ -196,8 +194,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
+    <addaction name="action_undo"/>
+    <addaction name="action_redo"/>
     <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
@@ -362,8 +360,8 @@
    <addaction name="action_19"/>
    <addaction name="action_20"/>
    <addaction name="action_21"/>
-   <addaction name="action_22"/>
-   <addaction name="action_23"/>
+   <addaction name="tool_action_undo"/>
+   <addaction name="tool_action_redo"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
    <addaction name="action_move_song_position_left"/>
@@ -438,14 +436,26 @@
     <string>Open Recent</string>
    </property>
   </action>
-  <action name="actionUndo">
+  <action name="action_undo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Undo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
   </action>
-  <action name="actionRedo">
+  <action name="action_redo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionCut">
@@ -812,7 +822,10 @@
     <string/>
    </property>
   </action>
-  <action name="action_22">
+  <action name="tool_action_undo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
@@ -821,7 +834,10 @@
     <string/>
    </property>
   </action>
-  <action name="action_23">
+  <action name="tool_action_redo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>

@@ -16,8 +16,8 @@
 #define __WindowMainView_hpp__
 
 #include <QMainWindow>
-#include "gui/MainView.hpp"
-#include "enum/QuantizeMode.hpp"
+#include "../../gui/MainView.hpp"
+#include "../../enum/QuantizeMode.hpp"
 
 namespace Ui{
     class WindowMainView;
@@ -51,6 +51,8 @@ namespace cadencii{
         void updateWidget();
 
         void setToolKind( ToolKind::ToolKindEnum kind );
+
+        void notifyCommandHistoryChanged();
 
     private:
         /**
@@ -108,6 +110,10 @@ namespace cadencii{
         void on_action_toggle_pencil_tool_triggered();
         void on_action_toggle_line_tool_triggered();
         void on_action_toggle_eraser_tool_triggered();
+        void on_action_undo_triggered();
+        void on_action_redo_triggered();
+        void on_tool_action_undo_triggered();
+        void on_tool_action_redo_triggered();
     };
 
 }

@@ -15,8 +15,8 @@
 #ifndef __ConcreteTimesigView_hpp__
 #define __ConcreteTimesigView_hpp__
 
-#include "qt/gui/EditorWidgetBase.hpp"
-#include "gui/TimesigView.hpp"
+#include "../../qt/gui/EditorWidgetBase.hpp"
+#include "../../gui/TimesigView.hpp"
 
 namespace cadencii{
 
