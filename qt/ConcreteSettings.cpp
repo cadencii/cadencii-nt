@@ -31,6 +31,7 @@ namespace cadencii{
         }
         gridVisible = settings->value( CADENCII_SETTINGS_GRID_VISIBLE, QVariant( false ) ).toBool();
         autoScroll = settings->value( CADENCII_SETTINGS_AUTO_SCROLL, QVariant( true ) ).toBool();
+        isUnitTest = false;
     }
 
     ConcreteSettings::~ConcreteSettings(){
@@ -76,6 +77,10 @@ namespace cadencii{
         autoScroll = isAutoScroll;
         QVariant m( autoScroll );
         settings->setValue( CADENCII_SETTINGS_AUTO_SCROLL, m );
+    }
+
+    bool ConcreteSettings::isUnderUnitTest(){
+        return isUnitTest;
     }
 
 }

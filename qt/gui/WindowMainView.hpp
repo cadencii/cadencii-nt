@@ -54,6 +54,8 @@ namespace cadencii{
 
         void notifyCommandHistoryChanged();
 
+        void showWidget();
+
     private:
         /**
          * @brief ピアノロールウィジェットを設定する

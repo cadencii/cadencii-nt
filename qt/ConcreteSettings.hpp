@@ -26,6 +26,7 @@ namespace cadencii{
         bool gridVisible;
         bool autoScroll;
         QSettings *settings;
+        bool isUnitTest;
 
     public:
         ConcreteSettings();
@@ -45,6 +46,8 @@ namespace cadencii{
         void setAutoScroll( bool isAutoScroll );
 
         void save();
+
+        bool isUnderUnitTest();
     };
 
 }

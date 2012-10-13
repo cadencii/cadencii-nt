@@ -75,6 +75,11 @@ namespace cadencii{
          * @brief 設定項目を保存する
          */
         virtual void save() = 0;
+
+        /**
+         * @brief 単体テストでの実行かどうかを取得する
+         */
+        virtual bool isUnderUnitTest() = 0;
     };
 
 }
