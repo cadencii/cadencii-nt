@@ -283,4 +283,8 @@ namespace cadencii{
         if( propertyView ) propertyView->statusChanged();
     }
 
+    void Controller::showMainView(){
+        if( mainView ) mainView->showWidget();
+    }
+
 }

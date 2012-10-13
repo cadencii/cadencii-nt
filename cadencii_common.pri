@@ -66,7 +66,8 @@ HEADERS  += \
     $$PWD/command/EditEventCommand.hpp \
     $$PWD/SequenceModel.hpp \
     $$PWD/command/DeleteEventCommand.hpp \
-    $$PWD/command/AddEventCommand.hpp
+    $$PWD/command/AddEventCommand.hpp \
+    $$PWD/qt/AppContainer.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

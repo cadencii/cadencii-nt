@@ -60,6 +60,12 @@ namespace cadencii{
 
         void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw();
 
+        /**
+         * @brief 表示するトラックのインデックスを設定する
+         * @param トラックのインデックス
+         */
+        void setTrackIndex( void *sender, int index )throw();
+
         VSQ_NS::tick_t getSongPosition()throw();
 
         int getXFromTick( VSQ_NS::tick_t tick )throw();
@@ -135,10 +141,9 @@ namespace cadencii{
         void setPropertyView( PropertyView *propertyView )throw();
 
         /**
-         * @brief 表示するトラックのインデックスを設定する
-         * @param トラックのインデックス
+         * @brief メインのビューを表示する
          */
-        void setTrackIndex( void *sender, int index )throw();
+        void showMainView();
 
     protected:
         /**

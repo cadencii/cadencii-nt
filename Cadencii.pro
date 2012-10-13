@@ -13,3 +13,5 @@ include(qt-solutions/qtpropertybrowser/src/qtpropertybrowser.pri)
 include(cadencii_common.pri)
 
 SOURCES += main.cpp
+
+HEADERS +=
