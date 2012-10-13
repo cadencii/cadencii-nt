@@ -17,12 +17,6 @@
    <iconset resource="../Cadencii.qrc">
     <normaloff>:/icons/resource/icon.ico</normaloff>:/icons/resource/icon.ico</iconset>
   </property>
-  <property name="toolButtonStyle">
-   <enum>Qt::ToolButtonIconOnly</enum>
-  </property>
-  <property name="tabShape">
-   <enum>QTabWidget::Rounded</enum>
-  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -342,9 +336,6 @@
      <height>24</height>
     </size>
    </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
    <property name="floatable">
     <bool>true</bool>
    </property>
@@ -391,9 +382,6 @@
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk__plus.png</normaloff>:/icons/resource/disk__plus.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="actionNew">
@@ -782,17 +770,11 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/folder_horizontal_open.png</normaloff>:/icons/resource/folder_horizontal_open.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_18">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk.png</normaloff>:/icons/resource/disk.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="action_19">
@@ -800,26 +782,17 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/scissors.png</normaloff>:/icons/resource/scissors.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_20">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/documents.png</normaloff>:/icons/resource/documents.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_21">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/clipboard_paste.png</normaloff>:/icons/resource/clipboard_paste.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="tool_action_undo">
@@ -830,9 +803,6 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="tool_action_redo">
    <property name="enabled">
@@ -842,26 +812,17 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_24">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop_180.png</normaloff>:/icons/resource/control_stop_180.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_move_song_position_left">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double_180.png</normaloff>:/icons/resource/control_double_180.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
    <property name="shortcut">
     <string>Left</string>
@@ -872,9 +833,6 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double.png</normaloff>:/icons/resource/control_double.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
    <property name="shortcut">
     <string>Right</string>
    </property>
@@ -884,7 +842,7 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control.png</normaloff>:/icons/resource/control.png</iconset>
    </property>
-   <property name="text">
+   <property name="iconText">
     <string>Play</string>
    </property>
    <property name="iconVisibleInMenu">
@@ -899,9 +857,6 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_circle_double.png</normaloff>:/icons/resource/arrow_circle_double.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_28">
    <property name="checkable">
@@ -910,9 +865,6 @@
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_return.png</normaloff>:/icons/resource/arrow_return.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="action_toggle_pointer_tool">
@@ -971,9 +923,6 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/ruler_crop.png</normaloff>:/icons/resource/ruler_crop.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="action_30">
    <property name="checkable">
@@ -982,9 +931,6 @@
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/layer_shape_curve.png</normaloff>:/icons/resource/layer_shape_curve.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="action_31">
@@ -995,17 +941,11 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/piano.png</normaloff>:/icons/resource/piano.png</iconset>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </action>
   <action name="toolActionToEnd">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop.png</normaloff>:/icons/resource/control_stop.png</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="action_export_as_musicxml">
