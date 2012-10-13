@@ -170,13 +170,14 @@ namespace cadencii{
         //TODO:senderの値によって、どのコンポーネントにsetTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex( index );
         controlChangeView->setTrackIndex( index );
+        itemSelectionManager.clear();
+        if( mainView ) mainView->notifyCommandHistoryChanged();
     }
 
     void Controller::setupSequence( const VSQ_NS::Sequence &sequence ){
         model.reset( sequence );
         setTrackIndex( this, 0 );
         controlChangeView->setControlChangeName( "pit" );
-        if( mainView ) mainView->notifyCommandHistoryChanged();
     }
 
     void Controller::moveSongPositionStepped( bool isBackward )throw(){
