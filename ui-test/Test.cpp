@@ -76,3 +76,39 @@ void Test::removeSelectedEvents(){
     // 選択状態を管理するマネージャに、音符がもはや選択されていないこと
     QCOMPARE( (size_t)0, manager->getEventItemList()->size() );
 }
+
+void Test::avoidCrashByZeroLengthEvent(){
+    SettingsStub settings;
+    Settings::instance( &settings );
+
+    AppContainer container;
+
+    // 画面を表示
+    container.c.showMainView();
+
+    // 長さが 0 のイベントを追加。
+    // ビブラートイベントの長さを、イベント本体の長さに対する % で表示する処理があり、
+    // ここでのクラッシュがないかどうかを特にテストしたい。
+    Event note( 480, EventType::NOTE );
+    note.setLength( 0 );
+    note.vibratoHandle = Handle( HandleType::VIBRATO );
+    vector<Event> eventList;
+    eventList.push_back( note );
+    AddEventCommand command( 0, eventList );
+    container.c.execute( &command );
+
+    // 追加したイベントを取得
+    const Track *track = &container.c.getSequence()->track[0];
+    const Event *targetEvent = 0;
+    for( int i = 0; i < track->getConstEvents()->size(); i++ ){
+        const Event *item = track->getConstEvents()->get( i );
+        if( item->clock == 480 ){
+            targetEvent = item;
+            break;
+        }
+    }
+
+    // 長さが 0 のイベントを選択状態とする
+    ItemSelectionManager *manager = container.c.getItemSelectionManager();
+    manager->add( targetEvent );
+}

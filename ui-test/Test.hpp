@@ -26,4 +26,9 @@ private slots:
      * @brief Controller::removeSelectedEvents のテスト
      */
     void removeSelectedEvents();
+
+    /**
+     * @brief 長さが 0 のイベントがあった場合でもクラッシュしないこと
+     */
+    void avoidCrashByZeroLengthEvent();
 };
