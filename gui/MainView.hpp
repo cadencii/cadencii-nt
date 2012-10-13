@@ -57,6 +57,11 @@ namespace cadencii{
          * @brief コマンドの操作履歴のステータスが変更したことを通知する
          */
         virtual void notifyCommandHistoryChanged() = 0;
+
+        /**
+         * @brief ビューを表示する
+         */
+        virtual void showWidget() = 0;
     };
 
 }

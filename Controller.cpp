@@ -18,6 +18,7 @@
 #include "vsq/StreamWriter.hpp"
 #include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
+#include <QMessageBox>
 
 namespace cadencii{
 
@@ -119,9 +120,16 @@ namespace cadencii{
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream( filePath );
         VSQ_NS::Sequence sequence;
-        reader.read( sequence, &stream, "Shift_JIS" );
-        stream.close();
-        setupSequence( sequence );
+        try{
+            reader.read( sequence, &stream, "Shift_JIS" );
+            stream.close();
+            setupSequence( sequence );
+        }catch( std::exception & ){
+            if( !Settings::instance()->isUnderUnitTest() ){
+                QMessageBox::information(
+                    0, QObject::tr( "Error" ), QObject::tr( "Invalid VSQ/VOCALOID MIDI file" ), Qt::NoButton );
+            }
+        }
     }
 
     void Controller::drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw(){
@@ -282,6 +290,10 @@ namespace cadencii{
         model.execute( command );
         if( mainView ) mainView->notifyCommandHistoryChanged();
         if( propertyView ) propertyView->statusChanged();
+    }
+
+    void Controller::showMainView(){
+        if( mainView ) mainView->showWidget();
     }
 
 }

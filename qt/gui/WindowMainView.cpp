@@ -204,6 +204,10 @@ namespace cadencii{
         updateWidget();
     }
 
+    void WindowMainView::showWidget(){
+        show();
+    }
+
 }
 
 void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
