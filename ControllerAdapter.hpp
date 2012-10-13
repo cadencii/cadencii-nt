@@ -134,6 +134,11 @@ namespace cadencii{
          * @param item 削除するイベント
          */
         virtual void removeEvent( int trackIndex, const VSQ_NS::Event *item ) = 0;
+
+        /**
+         * @brief 選択されたアイテムを削除する
+         */
+        virtual void removeSelectedItems() = 0;
     };
 
 }

@@ -301,3 +301,7 @@ void cadencii::WindowMainView::on_tool_action_undo_triggered(){
 void cadencii::WindowMainView::on_tool_action_redo_triggered(){
     controllerAdapter->redo();
 }
+
+void cadencii::WindowMainView::on_action_delete_triggered(){
+    controllerAdapter->removeSelectedItems();
+}

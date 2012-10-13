@@ -37,6 +37,7 @@ namespace cadencii{
         PropertyView *propertyView;
         SequenceModel model;
         VSQ_NS::tick_t songPosition;
+        int trackIndex;
 
         /**
          * @brief 1 tick 時刻を何ピクセルで描画するか
@@ -97,6 +98,8 @@ namespace cadencii{
         void execute( AbstractCommand *command );
 
         void removeEvent( int trackIndex, const VSQ_NS::Event *item );
+
+        void removeSelectedItems();
 
         void notifyItemSelectionChange()throw();
 
