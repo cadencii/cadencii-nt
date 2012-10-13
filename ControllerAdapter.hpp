@@ -127,6 +127,13 @@ namespace cadencii{
          * @param command 実行するコマンド
          */
         virtual void execute( AbstractCommand *command ) = 0;
+
+        /**
+         * @brief イベントを削除する
+         * @param trackIndex トラックの番号
+         * @param item 削除するイベント
+         */
+        virtual void removeEvent( int trackIndex, const VSQ_NS::Event *item ) = 0;
     };
 
 }

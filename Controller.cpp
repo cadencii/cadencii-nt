@@ -18,6 +18,7 @@
 #include "vsq/StreamWriter.hpp"
 #include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
+#include "command/DeleteEventCommand.hpp"
 #include <QMessageBox>
 
 namespace cadencii{
@@ -294,6 +295,34 @@ namespace cadencii{
 
     void Controller::showMainView(){
         if( mainView ) mainView->showWidget();
+    }
+
+    void Controller::removeEvent( int trackIndex, const VSQ_NS::Event *item ){
+        if( item ){
+            // マウスの位置にイベントがあった場合
+            std::vector<int> idList;
+            const std::vector<const VSQ_NS::Event *> *selectedItemList = itemSelectionManager.getEventItemList();
+            std::vector<const VSQ_NS::Event *>::const_iterator index
+                    = std::find( selectedItemList->begin(), selectedItemList->end(), item );
+            if( index == selectedItemList->end() ){
+                // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、マウス位置のイベントのみ削除する
+                idList.push_back( item->id );
+            }else{
+                // マウスの位置のイベントが、選択されたイベントに含まれていた場合、選択されたイベントを全て削除する
+                std::vector<const VSQ_NS::Event *>::const_iterator i
+                        = selectedItemList->begin();
+                for( ; i != selectedItemList->end(); ++i ){
+                    idList.push_back( (*i)->id );
+                }
+            }
+
+            itemSelectionManager.clear();
+
+            DeleteEventCommand *command = new DeleteEventCommand( trackIndex, idList );
+            execute( command );
+        }else{
+            itemSelectionManager.clear();
+        }
     }
 
 }

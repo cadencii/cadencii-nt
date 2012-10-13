@@ -299,33 +299,8 @@ namespace cadencii{
     }
 
     void PianorollTrackView::handleMouseLeftButtonPressByEraser( QMouseEvent *event ){
-        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
-        if( noteEventOnMouse ){
-            // マウスの位置にイベントがあった場合
-            std::vector<int> idList;
-            const std::vector<const VSQ_NS::Event *> *selectedItemList = manager->getEventItemList();
-            std::vector<const VSQ_NS::Event *>::const_iterator index
-                    = std::find( selectedItemList->begin(), selectedItemList->end(), noteEventOnMouse );
-            if( index == selectedItemList->end() ){
-                // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、マウス位置のイベントのみ削除する
-                idList.push_back( noteEventOnMouse->id );
-            }else{
-                // マウスの位置のイベントが、選択されたイベントに含まれていた場合、選択されたイベントを全て削除する
-                std::vector<const VSQ_NS::Event *>::const_iterator i
-                        = selectedItemList->begin();
-                for( ; i != selectedItemList->end(); ++i ){
-                    idList.push_back( (*i)->id );
-                }
-            }
-
-            manager->clear();
-
-            DeleteEventCommand *command = new DeleteEventCommand( trackIndex, idList );
-            controllerAdapter->execute( command );
-        }else{
-            manager->clear();
-        }
+        controllerAdapter->removeEvent( trackIndex, noteEventOnMouse );
         updateWidget();
     }
 

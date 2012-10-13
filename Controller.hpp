@@ -96,6 +96,8 @@ namespace cadencii{
 
         void execute( AbstractCommand *command );
 
+        void removeEvent( int trackIndex, const VSQ_NS::Event *item );
+
         void notifyItemSelectionChange()throw();
 
         /**
