@@ -90,11 +90,14 @@ namespace cadencii{
             int tick = dif - (beat - 1) * step;
 
             int vibType = 0;
-            if( item->vibratoHandle.iconId.length() == 9 ){
-                std::string vibTypeString = item->vibratoHandle.iconId.substr( 6 );
-                vibType = StringUtil::parseInt<int>( vibTypeString, 16 );
+            int vibLength = -1;
+            if( item->vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO ){
+                if( item->vibratoHandle.iconId.length() == 9 && 0 < item->getLength() ){
+                    std::string vibTypeString = item->vibratoHandle.iconId.substr( 6 );
+                    vibType = StringUtil::parseInt<int>( vibTypeString, 16 );
+                    vibLength = item->vibratoHandle.getLength() * 100 / item->getLength();
+                }
             }
-            int vibLength = item->vibratoHandle.getLength() * 100 / item->getLength();
 
             if( i == 0 ){
                 lyricPhrase = lyric.phrase;

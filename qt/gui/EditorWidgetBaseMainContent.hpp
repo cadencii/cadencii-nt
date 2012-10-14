@@ -48,10 +48,14 @@ namespace cadencii{
 
         void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
 
+        void mousePressEvent( QMouseEvent *event );
+
         /**
          * オーバーライドする。再描画処理が追加される
          */
         void mouseMoveEvent( QMouseEvent *e );
+
+        void mouseReleaseEvent( QMouseEvent *event );
 
         void drawForeground( QPainter *painter, const QRectF &rect );
 
@@ -93,6 +97,22 @@ namespace cadencii{
         void paintMeasureLines( QPainter *g, QRect visibleArea );
 
         void paintSongPosition( QPainter *g, QRect visibleArea );
+
+    signals:
+        /**
+         * @brief ui->PianoRoll での MousePress イベントが起きたとき呼ばれる
+         */
+        void onMousePress( QMouseEvent *event );
+
+        /**
+         * @brief ui->PianoRoll での MouseMove イベントが起きたとき呼ばれる
+         */
+        void onMouseMove( QMouseEvent *event );
+
+        /**
+         * @brief ui->PianoRoll での MouseRelease イベントが起きたとき呼ばれる
+         */
+        void onMouseRelease( QMouseEvent *event );
     };
 
 }

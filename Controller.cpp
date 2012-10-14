@@ -18,6 +18,7 @@
 #include "vsq/StreamWriter.hpp"
 #include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
+#include "command/DeleteEventCommand.hpp"
 #include <QMessageBox>
 
 namespace cadencii{
@@ -29,6 +30,7 @@ namespace cadencii{
     {
         model.reset( VSQ_NS::Sequence( "Miku", 1, 4, 4, 500000 ) );
         toolKind = ToolKind::POINTER;
+        trackIndex = 0;
     }
 
     void Controller::setTrackView( TrackView *trackView )throw(){
@@ -174,7 +176,7 @@ namespace cadencii{
     }
 
     void Controller::setTrackIndex( void *sender, int index )throw(){
-        //TODO:trackIndexをフィールドで持っておくべき
+        trackIndex = index;
         //TODO:senderの値によって、どのコンポーネントにsetTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex( index );
         controlChangeView->setTrackIndex( index );
@@ -294,6 +296,49 @@ namespace cadencii{
 
     void Controller::showMainView(){
         if( mainView ) mainView->showWidget();
+    }
+
+    void Controller::removeEvent( int trackIndex, const VSQ_NS::Event *item ){
+        if( item ){
+            // マウスの位置にイベントがあった場合
+            std::vector<int> idList;
+            const std::vector<const VSQ_NS::Event *> *selectedItemList = itemSelectionManager.getEventItemList();
+            std::vector<const VSQ_NS::Event *>::const_iterator index
+                    = std::find( selectedItemList->begin(), selectedItemList->end(), item );
+            if( index == selectedItemList->end() ){
+                // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、マウス位置のイベントのみ削除する
+                idList.push_back( item->id );
+            }else{
+                // マウスの位置のイベントが、選択されたイベントに含まれていた場合、選択されたイベントを全て削除する
+                std::vector<const VSQ_NS::Event *>::const_iterator i
+                        = selectedItemList->begin();
+                for( ; i != selectedItemList->end(); ++i ){
+                    idList.push_back( (*i)->id );
+                }
+            }
+
+            itemSelectionManager.clear();
+
+            DeleteEventCommand *command = new DeleteEventCommand( trackIndex, idList );
+            execute( command );
+        }else{
+            itemSelectionManager.clear();
+        }
+    }
+
+    void Controller::removeSelectedItems(){
+        //TODO: 音符・歌手イベント以外の選択ができるようになったら対応する
+        const std::vector<const VSQ_NS::Event *> *itemList = itemSelectionManager.getEventItemList();
+        std::vector<const VSQ_NS::Event *>::const_iterator i = itemList->begin();
+        std::vector<int> idList;
+        for( ; i != itemList->end(); ++i ){
+            const VSQ_NS::Event *item = (*i);
+            idList.push_back( item->id );
+        }
+
+        itemSelectionManager.clear();
+        DeleteEventCommand *command = new DeleteEventCommand( trackIndex, idList );
+        execute( command );
     }
 
 }

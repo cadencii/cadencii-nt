@@ -69,6 +69,7 @@ namespace cadencii{
     void EditorWidgetBaseMainContent::mouseMoveEvent( QMouseEvent *e ){
         this->parentWidget->repaint();
         QWidget::mouseMoveEvent( e );
+        emit onMouseMove( e );
     }
 
     void EditorWidgetBaseMainContent::scrollContentsBy( int dx, int dy ){
@@ -143,6 +144,14 @@ namespace cadencii{
         g->setPen( QColor( 0, 0, 0, 40 ) );
         g->drawLine( x - 1, visibleArea.top(), x - 1, visibleArea.bottom() );
         g->drawLine( x + 1, visibleArea.top(), x + 1, visibleArea.bottom() );
+    }
+
+    void EditorWidgetBaseMainContent::mousePressEvent( QMouseEvent *event ){
+        emit onMousePress( event );
+    }
+
+    void EditorWidgetBaseMainContent::mouseReleaseEvent( QMouseEvent *event ){
+        emit onMouseRelease( event );
     }
 
 }

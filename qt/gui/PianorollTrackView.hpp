@@ -22,6 +22,37 @@
 namespace cadencii{
 
     class PianorollTrackView : public EditorWidgetBase, public TrackView{
+        Q_OBJECT
+
+    private:
+        /**
+         * @brief マウスの状態
+         */
+        class MouseStatus{
+        public:
+            /**
+             * @brief マウスがおりているかどうか
+             */
+            bool isDown;
+            /**
+             * @brief 最初にマウスがおりた位置。QGraphicsScene 基準の座標
+             */
+            QPoint startPosition;
+            /**
+             * @brief マウスが Up となった位置。QGraphicsScene 基準の座標
+             */
+            QPoint endPosition;
+
+        public:
+            explicit MouseStatus();
+
+            /**
+             * @brief 指定したマウス位置を始点とし、マウスが降りたことにする
+             * @param mousePosition QGraphicsScene 基準の座標
+             */
+            void start( const QPoint &mousePosition );
+        };
+
     public:
         int trackHeight;
 
@@ -41,6 +72,7 @@ namespace cadencii{
          */
         QString *keyNames;
         int trackIndex;
+        MouseStatus mouseStatus;
 
     public:
         PianorollTrackView( QWidget *parent = 0 );
@@ -71,8 +103,6 @@ namespace cadencii{
 
         int getTrackViewWidth();
 
-        void mousePressEvent( QMouseEvent *event );
-
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
          * @param trackHeight レーンの高さ(ピクセル単位)
@@ -84,6 +114,12 @@ namespace cadencii{
          * @param mutex ミューテックス
          */
         void setMutex( QMutex *mutex );
+    private slots:
+        void onMousePressSlot( QMouseEvent *event );
+
+        void onMouseMoveSlot( QMouseEvent *event );
+
+        void onMouseReleaseSlot( QMouseEvent *event );
 
     private:
         /**
@@ -119,6 +155,11 @@ namespace cadencii{
          * @return 形状。座標は、QGraphicsScene の座標を用いる
          */
         QRect getNoteItemRect( const VSQ_NS::Event *item );
+
+        /**
+         * @brief ui->scrollArea 基準の座標を、scene の座標に変換する
+         */
+        inline QPoint mapToScene( const QPoint &mousePos );
 
         /**
          * @brief y 座標からノート番号を取得する

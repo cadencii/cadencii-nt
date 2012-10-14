@@ -15,3 +15,5 @@ include(cadencii_common.pri)
 SOURCES += main.cpp
 
 HEADERS +=
+
+INCLUDEPATH += .
