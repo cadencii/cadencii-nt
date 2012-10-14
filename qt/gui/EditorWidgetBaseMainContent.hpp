@@ -99,10 +99,19 @@ namespace cadencii{
         void paintSongPosition( QPainter *g, QRect visibleArea );
 
     signals:
+        /**
+         * @brief ui->PianoRoll での MousePress イベントが起きたとき呼ばれる
+         */
         void onMousePress( QMouseEvent *event );
 
+        /**
+         * @brief ui->PianoRoll での MouseMove イベントが起きたとき呼ばれる
+         */
         void onMouseMove( QMouseEvent *event );
 
+        /**
+         * @brief ui->PianoRoll での MouseRelease イベントが起きたとき呼ばれる
+         */
         void onMouseRelease( QMouseEvent *event );
     };
 

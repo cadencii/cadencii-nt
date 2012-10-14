@@ -41,6 +41,9 @@ namespace cadencii{
             oss << name << order;
             keyNames[noteNumber - NOTE_MIN] = QString( oss.str().c_str() );
         }
+        connect( ui->scrollArea, SIGNAL(onMousePress(QMouseEvent*)), this, SLOT(onMousePressSlot(QMouseEvent*)) );
+        connect( ui->scrollArea, SIGNAL(onMouseMove(QMouseEvent*)), this, SLOT(onMouseMoveSlot(QMouseEvent*)) );
+        connect( ui->scrollArea, SIGNAL(onMouseRelease(QMouseEvent*)), this, SLOT(onMouseReleaseSlot(QMouseEvent*)) );
     }
 
     PianorollTrackView::~PianorollTrackView(){
@@ -128,6 +131,14 @@ namespace cadencii{
             paintItems( painter, rect );
         }
         ui->scrollArea->paintSongPosition( painter, rect );
+
+        // 矩形選択の範囲を描画する
+        if( mouseStatus.isDown ){
+            QRect selectRect( mouseStatus.startPosition, mouseStatus.endPosition );
+            painter->fillRect( selectRect, QColor( 0, 0, 0, 100 ) );
+            painter->setPen( QColor( 0, 0, 0, 200 ) );
+            painter->drawRect( selectRect );
+        }
     }
 
     void PianorollTrackView::paintSubContent( QPainter *painter, const QRect &rect ){
@@ -267,19 +278,6 @@ namespace cadencii{
         return ui->scrollArea->width();
     }
 
-    void PianorollTrackView::mousePressEvent( QMouseEvent *event ){
-        ToolKind::ToolKindEnum tool = controllerAdapter->getToolKind();
-        if( tool == ToolKind::POINTER ){
-            if( event->button() == Qt::LeftButton ){
-                handleMouseLeftButtonPressByPointer( event );
-            }
-        }else if( tool == ToolKind::ERASER ){
-            if( event->button() == Qt::LeftButton ){
-                handleMouseLeftButtonPressByEraser( event );
-            }
-        }
-    }
-
     /**
      * @todo Shift を押しながら音符イベントにマウスがおろされたとき、直前に選択した音符イベントがある場合、
      * この２つの音符イベントの間にある音符イベントをすべて選択状態とする動作を実装する
@@ -293,6 +291,7 @@ namespace cadencii{
             }
             manager->add( noteEventOnMouse );
         }else{
+            mouseStatus.start( mapToScene( event->pos() ) );
             manager->clear();
         }
         updateWidget();
@@ -301,6 +300,9 @@ namespace cadencii{
     void PianorollTrackView::handleMouseLeftButtonPressByEraser( QMouseEvent *event ){
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         controllerAdapter->removeEvent( trackIndex, noteEventOnMouse );
+        if( !noteEventOnMouse ){
+            mouseStatus.start( mapToScene( event->pos() ) );
+        }
         updateWidget();
     }
 
@@ -308,9 +310,7 @@ namespace cadencii{
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
         int count = list->size();
-        QPoint globalMousePos = mapToGlobal( mousePosition );
-        QPoint scrollAreaMousePos = ui->scrollArea->mapFromGlobal( globalMousePos );
-        QPoint sceneMousePos = ui->scrollArea->mapToScene( scrollAreaMousePos ).toPoint();
+        QPoint sceneMousePos = mapToScene( mousePosition );
 
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
@@ -330,6 +330,43 @@ namespace cadencii{
         int width = controllerAdapter->getXFromTick( tick + item->getLength() ) - x;
         int y = getYFromNoteNumber( item->note, trackHeight );
         return QRect( x, y, width, trackHeight );
+    }
+
+    QPoint PianorollTrackView::mapToScene( const QPoint &mousePos ){
+        return ui->scrollArea->mapToScene( mousePos ).toPoint();
+    }
+
+    void PianorollTrackView::onMousePressSlot( QMouseEvent *event ){
+        ToolKind::ToolKindEnum tool = controllerAdapter->getToolKind();
+        if( tool == ToolKind::POINTER ){
+            if( event->button() == Qt::LeftButton ){
+                handleMouseLeftButtonPressByPointer( event );
+            }
+        }else if( tool == ToolKind::ERASER ){
+            if( event->button() == Qt::LeftButton ){
+                handleMouseLeftButtonPressByEraser( event );
+            }
+        }
+    }
+
+    void PianorollTrackView::onMouseMoveSlot( QMouseEvent *event ){
+        if( mouseStatus.isDown ) mouseStatus.endPosition = mapToScene( event->pos() );
+    }
+
+    void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
+        mouseStatus.endPosition = mapToScene( event->pos() );
+        mouseStatus.isDown = false;
+        updateWidget();
+    }
+
+    PianorollTrackView::MouseStatus::MouseStatus(){
+        isDown = false;
+    }
+
+    void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
+        isDown = true;
+        startPosition = mousePosition;
+        endPosition = mousePosition;
     }
 
 }
