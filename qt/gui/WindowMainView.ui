@@ -170,6 +170,7 @@
      <property name="title">
       <string>Export</string>
      </property>
+     <addaction name="action_export_as_vsq_file"/>
      <addaction name="action_export_as_musicxml"/>
     </widget>
     <addaction name="actionNew"/>
@@ -954,6 +955,11 @@
   <action name="action_export_as_musicxml">
    <property name="text">
     <string>MusicXML</string>
+   </property>
+  </action>
+  <action name="action_export_as_vsq_file">
+   <property name="text">
+    <string>VSQ File</string>
    </property>
   </action>
  </widget>

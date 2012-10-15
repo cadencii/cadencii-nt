@@ -112,3 +112,11 @@ void Test::avoidCrashByZeroLengthEvent(){
     ItemSelectionManager *manager = container.c.getItemSelectionManager();
     manager->add( targetEvent );
 }
+
+void Test::exportAsVSQFileWithException(){
+    SettingsStub settings;
+    Settings::instance( &settings );
+
+    AppContainer container;
+    container.c.exportAsVSQFile( "" );
+}

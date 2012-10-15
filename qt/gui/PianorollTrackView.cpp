@@ -134,10 +134,24 @@ namespace cadencii{
 
         // 矩形選択の範囲を描画する
         if( mouseStatus.isDown ){
-            QRect selectRect( mouseStatus.startPosition, mouseStatus.endPosition );
-            painter->fillRect( selectRect, QColor( 0, 0, 0, 100 ) );
-            painter->setPen( QColor( 0, 0, 0, 200 ) );
+            QRect selectRect = mouseStatus.rect();
+            static QColor fillColor( 0, 0, 0, 100 );
+            static QColor borderColor( 0, 0, 0, 200 );
+            static QColor shadowColor( 0, 0, 0, 40 );
+            painter->fillRect( selectRect, fillColor );
+            painter->setPen( borderColor );
             painter->drawRect( selectRect );
+
+            // 選択範囲の周囲に影を描く
+            painter->setPen( shadowColor );
+            // 上側
+            painter->drawLine( selectRect.left(), selectRect.top() - 1, selectRect.right() + 1, selectRect.top() - 1 );
+            // 下側
+            painter->drawLine( selectRect.left(), selectRect.bottom() + 2, selectRect.right() + 1, selectRect.bottom() + 2 );
+            // 左側
+            painter->drawLine( selectRect.left() - 1, selectRect.top(), selectRect.left() - 1, selectRect.bottom() + 1 );
+            // 右側
+            painter->drawLine( selectRect.right() + 2, selectRect.top(), selectRect.right() + 2, selectRect.bottom() + 1 );
         }
     }
 
@@ -367,6 +381,14 @@ namespace cadencii{
         isDown = true;
         startPosition = mousePosition;
         endPosition = mousePosition;
+    }
+
+    QRect PianorollTrackView::MouseStatus::rect()const{
+        int x = std::min( startPosition.x(), endPosition.x() );
+        int y = std::min( startPosition.y(), endPosition.y() );
+        int width = std::abs( startPosition.x() - endPosition.x() );
+        int height = std::abs( startPosition.y() - endPosition.y() );
+        return QRect( x, y, width, height );
     }
 
 }

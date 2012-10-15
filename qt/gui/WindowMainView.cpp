@@ -305,3 +305,15 @@ void cadencii::WindowMainView::on_tool_action_redo_triggered(){
 void cadencii::WindowMainView::on_action_delete_triggered(){
     controllerAdapter->removeSelectedItems();
 }
+
+void cadencii::WindowMainView::on_action_export_as_vsq_file_triggered(){
+    QString filter;
+    filter += tr( "VSQ Format(*.vsq)" );
+    filter += ";;";
+    filter += tr( "All Files(*.*)" );
+    QString filePath = QFileDialog::getSaveFileName( this, "", "", filter );
+    if( !filePath.isEmpty() ){
+        controllerAdapter->exportAsVSQFile( filePath.toLocal8Bit().data() );
+    }
+    activateWindow();
+}

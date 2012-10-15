@@ -117,6 +117,7 @@ namespace cadencii{
         void on_tool_action_undo_triggered();
         void on_tool_action_redo_triggered();
         void on_action_delete_triggered();
+        void on_action_export_as_vsq_file_triggered();
     };
 
 }

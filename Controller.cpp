@@ -14,7 +14,9 @@
  */
 #include "Controller.hpp"
 #include "vsq/VSQFileReader.hpp"
+#include "vsq/VSQFileWriter.hpp"
 #include "vsq/FileInputStream.hpp"
+#include "vsq/FileOutputStream.hpp"
 #include "vsq/StreamWriter.hpp"
 #include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
@@ -249,6 +251,20 @@ namespace cadencii{
         VSQ_NS::StreamWriter stream( filePath );
         VSQ_NS::MusicXmlWriter writer;
         writer.write( model.getSequence(), &stream, "cadencii" );
+    }
+
+    void Controller::exportAsVSQFile( const string &filePath )throw(){
+        VSQ_NS::VSQFileWriter writer;
+        try{
+            VSQ_NS::FileOutputStream stream( filePath );
+            writer.write( model.getSequence(), &stream, 500, "Shift_JIS", false );
+            stream.close();
+        }catch( VSQ_NS::FileOutputStream::IOException & ){
+            if( !Settings::instance()->isUnderUnitTest() ){
+                QMessageBox::information(
+                    0, QObject::tr( "Error" ), QObject::tr( "Can't write to file: " ) + filePath.c_str(), Qt::NoButton );
+            }
+        }
     }
 
     void Controller::setToolKind( ToolKind::ToolKindEnum kind )throw(){

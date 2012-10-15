@@ -38,6 +38,12 @@ namespace cadencii{
         virtual void exportAsMusicXml( const std::string &filePath )throw() = 0;
 
         /**
+         * @brief VSQ ファイルとして出力する
+         * @param filePath 保存するファイルパス
+         */
+        virtual void exportAsVSQFile( const std::string &filePath )throw() = 0;
+
+        /**
          * @brief スクロールされるなどして、時間方向の描画範囲がかわった場合に、他のコンポーネントに対してそれを通知したい場合に呼び出す。
          * @param sender 描画範囲が変わったコンポーネント
          * @param offset tick 単位の描画オフセット

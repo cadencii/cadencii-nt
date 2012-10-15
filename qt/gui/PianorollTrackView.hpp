@@ -51,6 +51,11 @@ namespace cadencii{
              * @param mousePosition QGraphicsScene 基準の座標
              */
             void start( const QPoint &mousePosition );
+
+            /**
+             * @brief startPosition と endPosition が成す矩形を取得する
+             */
+            inline QRect rect()const;
         };
 
     public:
