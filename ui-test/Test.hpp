@@ -31,4 +31,9 @@ private slots:
      * @brief 長さが 0 のイベントがあった場合でもクラッシュしないこと
      */
     void avoidCrashByZeroLengthEvent();
+
+    /**
+     * @brief 書き込みに失敗する場合であってもクラッシュしないこと
+     */
+    void exportAsVSQFileWithException();
 };

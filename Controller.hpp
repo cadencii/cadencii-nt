@@ -79,6 +79,8 @@ namespace cadencii{
 
         void exportAsMusicXml( const std::string &filePath )throw();
 
+        void exportAsVSQFile( const string &filePath )throw();
+
         void setToolKind( ToolKind::ToolKindEnum kind )throw();
 
         ToolKind::ToolKindEnum getToolKind()throw();
