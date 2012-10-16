@@ -120,3 +120,11 @@ void Test::exportAsVSQFileWithException(){
     AppContainer container;
     container.c.exportAsVSQFile( "" );
 }
+
+void Test::exportAsMusicXmlWithException(){
+    SettingsStub settings;
+    Settings::instance( &settings );
+
+    AppContainer container;
+    container.c.exportAsMusicXml( "" );
+}

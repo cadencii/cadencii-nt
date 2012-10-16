@@ -36,4 +36,9 @@ private slots:
      * @brief 書き込みに失敗する場合であってもクラッシュしないこと
      */
     void exportAsVSQFileWithException();
+
+    /**
+     * @brief 書き込みに失敗する場合であってもクラッシュしないこと
+     */
+    void exportAsMusicXmlWithException();
 };
