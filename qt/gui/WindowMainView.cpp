@@ -265,7 +265,11 @@ void cadencii::WindowMainView::on_action_toggle_auto_scroll_toggled( bool arg1 )
 }
 
 void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
-    QString filePath = QFileDialog::getSaveFileName( this );
+    QString filter;
+    filter += tr( "MusicXML(*.xml)" );
+    filter += ";;";
+    filter += tr( "All Files(*.*)" );
+    QString filePath = QFileDialog::getSaveFileName( this, "", "", filter );
     controllerAdapter->exportAsMusicXml( filePath.toLocal8Bit().data() );
     activateWindow();
 }
