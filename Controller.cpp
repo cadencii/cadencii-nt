@@ -248,9 +248,17 @@ namespace cadencii{
     }
 
     void Controller::exportAsMusicXml( const std::string &filePath )throw(){
-        VSQ_NS::StreamWriter stream( filePath );
         VSQ_NS::MusicXmlWriter writer;
-        writer.write( model.getSequence(), &stream, "cadencii" );
+        try{
+            VSQ_NS::StreamWriter stream( filePath );
+            writer.write( model.getSequence(), &stream, "cadencii" );
+            stream.close();
+        }catch( VSQ_NS::StreamWriter::IOException & ){
+            if( !Settings::instance()->isUnderUnitTest() ){
+                QMessageBox::information(
+                    0, QObject::tr( "Error" ), QObject::tr( "Can't write to file: " ) + filePath.c_str(), Qt::NoButton );
+            }
+        }
     }
 
     void Controller::exportAsVSQFile( const string &filePath )throw(){
