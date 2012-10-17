@@ -63,6 +63,19 @@ namespace cadencii{
         }
 
         /**
+         * @brief アイテムを選択状態から解除する
+         * @param event 選択状態を解除するアイテム
+         */
+        void remove( const VSQ_NS::Event *event ){
+            std::set<void *>::iterator index = itemList.find( (void *)event );
+            if( index != itemList.end() ){
+                itemList.erase( index );
+                eventItemList.erase( std::find( eventItemList.begin(), eventItemList.end(), event ) );
+                notifyStatusChange();
+            }
+        }
+
+        /**
          * @brief アイテムが選択状態担っているかどうかを取得する
          */
         bool isContains( const VSQ_NS::Event *event )const{

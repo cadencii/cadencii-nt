@@ -133,7 +133,7 @@ namespace cadencii{
         ui->scrollArea->paintSongPosition( painter, rect );
 
         // 矩形選択の範囲を描画する
-        if( mouseStatus.isDown ){
+        if( mouseStatus.isLeftButtonDown ){
             QRect selectRect = mouseStatus.rect();
             static QColor fillColor( 0, 0, 0, 100 );
             static QColor borderColor( 0, 0, 0, 200 );
@@ -320,6 +320,14 @@ namespace cadencii{
         updateWidget();
     }
 
+    void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
+        mouseStatus.isMiddleButtonDown = true;
+        mouseStatus.isLeftButtonDown = false;
+        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
+        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
+        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
+    }
+
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
@@ -352,33 +360,77 @@ namespace cadencii{
 
     void PianorollTrackView::onMousePressSlot( QMouseEvent *event ){
         ToolKind::ToolKindEnum tool = controllerAdapter->getToolKind();
-        if( tool == ToolKind::POINTER ){
-            if( event->button() == Qt::LeftButton ){
+        Qt::MouseButton button = event->button();
+
+        if( button == Qt::LeftButton ){
+            if( tool == ToolKind::POINTER ){
                 handleMouseLeftButtonPressByPointer( event );
-            }
-        }else if( tool == ToolKind::ERASER ){
-            if( event->button() == Qt::LeftButton ){
+            }else if( tool == ToolKind::ERASER ){
                 handleMouseLeftButtonPressByEraser( event );
             }
+        }else if( button == Qt::MidButton ){
+            handleMouseMiddleButtonPress( event );
         }
     }
 
     void PianorollTrackView::onMouseMoveSlot( QMouseEvent *event ){
-        if( mouseStatus.isDown ) mouseStatus.endPosition = mapToScene( event->pos() );
+        if( mouseStatus.isLeftButtonDown ){
+            mouseStatus.endPosition = mapToScene( event->pos() );
+            updateSelectedItem();
+            updateWidget();
+        }else if( mouseStatus.isMiddleButtonDown ){
+            QPoint globalMousePos = ui->scrollArea->mapToGlobal( event->pos() );
+            int deltaX = globalMousePos.x() - mouseStatus.globalStartPosition.x();
+            int deltaY = globalMousePos.y() - mouseStatus.globalStartPosition.y();
+
+            ui->scrollArea->horizontalScrollBar()->setValue( mouseStatus.horizontalScrollStartValue - deltaX );
+            ui->scrollArea->verticalScrollBar()->setValue( mouseStatus.verticalScrollStartValue - deltaY );
+            updateWidget();
+        }
     }
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
-        mouseStatus.isDown = false;
+        mouseStatus.isLeftButtonDown = false;
+        mouseStatus.isMiddleButtonDown = false;
         updateWidget();
     }
 
+    void PianorollTrackView::updateSelectedItem(){
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        if( !sequence ){
+            return;
+        }
+
+        const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
+        int count = list->size();
+
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        QRect rect = mouseStatus.rect();
+
+        for( int i = 0; i < count; i++ ){
+            const VSQ_NS::Event *item = list->get( i );
+            if( item->type != VSQ_NS::EventType::NOTE ) continue;
+            QRect itemRect = getNoteItemRect( item );
+
+            if( rect.intersects( itemRect ) ){
+                manager->add( item );
+            }else{
+                manager->remove( item );
+            }
+        }
+    }
+
     PianorollTrackView::MouseStatus::MouseStatus(){
-        isDown = false;
+        isLeftButtonDown = false;
+        isMiddleButtonDown = false;
+        horizontalScrollStartValue = 0;
+        verticalScrollStartValue = 0;
     }
 
     void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
-        isDown = true;
+        isLeftButtonDown = true;
+        isMiddleButtonDown = false;
         startPosition = mousePosition;
         endPosition = mousePosition;
     }
