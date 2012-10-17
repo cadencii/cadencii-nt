@@ -368,7 +368,7 @@ namespace cadencii{
             }else if( tool == ToolKind::ERASER ){
                 handleMouseLeftButtonPressByEraser( event );
             }
-        }else if( button == Qt::MiddleButton ){
+        }else if( button == Qt::MidButton ){
             handleMouseMiddleButtonPress( event );
         }
     }
