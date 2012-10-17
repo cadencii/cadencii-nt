@@ -31,9 +31,9 @@ namespace cadencii{
         class MouseStatus{
         public:
             /**
-             * @brief マウスがおりているかどうか
+             * @brief マウスの左ボタンがおりているかどうか
              */
-            bool isDown;
+            bool isLeftButtonDown;
             /**
              * @brief 最初にマウスがおりた位置。QGraphicsScene 基準の座標
              */
@@ -42,6 +42,22 @@ namespace cadencii{
              * @brief マウスが Up となった位置。QGraphicsScene 基準の座標
              */
             QPoint endPosition;
+            /**
+             * @brief マウスの真ん中ボタンがおりているかどうか
+             */
+            bool isMiddleButtonDown;
+            /**
+             * @brief 最初にマウスが降りた位置。グローバルなスクリーン座標
+             */
+            QPoint globalStartPosition;
+            /**
+             * @brief 水平スクロールバーの、マウスが降りた時点での値
+             */
+            int horizontalScrollStartValue;
+            /**
+             * @brief 垂直スクロールバーの、マウスが降りた時点での値
+             */
+            int verticalScrollStartValue;
 
         public:
             explicit MouseStatus();
@@ -146,6 +162,11 @@ namespace cadencii{
          * @brief ERASER ツールによる、左ボタンでの MousePress イベントを処理する
          */
         void handleMouseLeftButtonPressByEraser( QMouseEvent *event );
+
+        /**
+         * @brief 中ボタンでの MousePress イベントを処理する
+         */
+        void handleMouseMiddleButtonPress( QMouseEvent *event );
 
         /**
          * @brief このウィジェットの指定された位置における音符イベントを探す
