@@ -424,6 +424,8 @@ namespace cadencii{
     PianorollTrackView::MouseStatus::MouseStatus(){
         isLeftButtonDown = false;
         isMiddleButtonDown = false;
+        horizontalScrollStartValue = 0;
+        verticalScrollStartValue = 0;
     }
 
     void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
