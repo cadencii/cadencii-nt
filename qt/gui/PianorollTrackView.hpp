@@ -167,6 +167,11 @@ namespace cadencii{
         inline QPoint mapToScene( const QPoint &mousePos );
 
         /**
+         * @brief 矩形選択の四角形内に入っているアイテムを選択し直す
+         */
+        void updateSelectedItem();
+
+        /**
          * @brief y 座標からノート番号を取得する
          * @param y 座標
          * @return ノート番号

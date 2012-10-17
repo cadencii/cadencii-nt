@@ -364,13 +364,42 @@ namespace cadencii{
     }
 
     void PianorollTrackView::onMouseMoveSlot( QMouseEvent *event ){
-        if( mouseStatus.isDown ) mouseStatus.endPosition = mapToScene( event->pos() );
+        if( mouseStatus.isDown ){
+            mouseStatus.endPosition = mapToScene( event->pos() );
+            updateSelectedItem();
+            updateWidget();
+        }
     }
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
         mouseStatus.isDown = false;
         updateWidget();
+    }
+
+    void PianorollTrackView::updateSelectedItem(){
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        if( !sequence ){
+            return;
+        }
+
+        const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
+        int count = list->size();
+
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        QRect rect = mouseStatus.rect();
+
+        for( int i = 0; i < count; i++ ){
+            const VSQ_NS::Event *item = list->get( i );
+            if( item->type != VSQ_NS::EventType::NOTE ) continue;
+            QRect itemRect = getNoteItemRect( item );
+
+            if( rect.intersects( itemRect ) ){
+                manager->add( item );
+            }else{
+                manager->remove( item );
+            }
+        }
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
