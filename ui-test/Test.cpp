@@ -22,9 +22,9 @@ void Test::openVsqFileWithException(){
     cadencii::Settings::instance( &settings );
 
     cadencii::AppContainer container;
-    container.c.showMainView();
+    container.controller.showMainView();
 
-    container.c.openVSQFile( "./fixture/invalid.vsq" );
+    container.controller.openVSQFile( "./fixture/invalid.vsq" );
 }
 
 void Test::removeSelectedEvents(){
@@ -32,8 +32,8 @@ void Test::removeSelectedEvents(){
     Settings::instance( &settings );
 
     AppContainer container;
-    container.c.showMainView();
-    ItemSelectionManager *manager = container.c.getItemSelectionManager();
+    container.controller.showMainView();
+    ItemSelectionManager *manager = container.controller.getItemSelectionManager();
 
     // シーケンスに音符を 2 つ追加する
     {
@@ -45,16 +45,16 @@ void Test::removeSelectedEvents(){
         eventList.push_back( noteA );
         eventList.push_back( noteB );
         AddEventCommand command( 0, eventList );
-        container.c.execute( &command );
+        container.controller.execute( &command );
 
         // デフォルトで追加されている歌手変更イベントと、追加した音符イベントで
         // 合計 3 つのイベントがあるはず
-        QCOMPARE( 3, container.c.getSequence()->track[0].getConstEvents()->size() );
+        QCOMPARE( 3, container.controller.getSequence()->track[0].getConstEvents()->size() );
     }
 
     // 今しがた追加した音符を選択状態にする
     {
-        const Event::List *events = container.c.getSequence()->track[0].getConstEvents();
+        const Event::List *events = container.controller.getSequence()->track[0].getConstEvents();
         for( int i = 0; i < events->size(); i++ ){
             const Event *item = events->get( i );
             if( 480 == item->clock ||
@@ -68,10 +68,10 @@ void Test::removeSelectedEvents(){
     }
 
     // テスト対象の removeSelectedItems を実行
-    container.c.removeSelectedItems();
+    container.controller.removeSelectedItems();
 
     // 音符が 1 個に減っていること
-    QCOMPARE( 1, container.c.getSequence()->track[0].getConstEvents()->size() );
+    QCOMPARE( 1, container.controller.getSequence()->track[0].getConstEvents()->size() );
 
     // 選択状態を管理するマネージャに、音符がもはや選択されていないこと
     QCOMPARE( (size_t)0, manager->getEventItemList()->size() );
@@ -84,7 +84,7 @@ void Test::avoidCrashByZeroLengthEvent(){
     AppContainer container;
 
     // 画面を表示
-    container.c.showMainView();
+    container.controller.showMainView();
 
     // 長さが 0 のイベントを追加。
     // ビブラートイベントの長さを、イベント本体の長さに対する % で表示する処理があり、
@@ -95,10 +95,10 @@ void Test::avoidCrashByZeroLengthEvent(){
     vector<Event> eventList;
     eventList.push_back( note );
     AddEventCommand command( 0, eventList );
-    container.c.execute( &command );
+    container.controller.execute( &command );
 
     // 追加したイベントを取得
-    const Track *track = &container.c.getSequence()->track[0];
+    const Track *track = &container.controller.getSequence()->track[0];
     const Event *targetEvent = 0;
     for( int i = 0; i < track->getConstEvents()->size(); i++ ){
         const Event *item = track->getConstEvents()->get( i );
@@ -109,7 +109,7 @@ void Test::avoidCrashByZeroLengthEvent(){
     }
 
     // 長さが 0 のイベントを選択状態とする
-    ItemSelectionManager *manager = container.c.getItemSelectionManager();
+    ItemSelectionManager *manager = container.controller.getItemSelectionManager();
     manager->add( targetEvent );
 }
 
@@ -118,7 +118,7 @@ void Test::exportAsVSQFileWithException(){
     Settings::instance( &settings );
 
     AppContainer container;
-    container.c.exportAsVSQFile( "" );
+    container.controller.exportAsVSQFile( "" );
 }
 
 void Test::exportAsMusicXmlWithException(){
@@ -126,5 +126,5 @@ void Test::exportAsMusicXmlWithException(){
     Settings::instance( &settings );
 
     AppContainer container;
-    container.c.exportAsMusicXml( "" );
+    container.controller.exportAsMusicXml( "" );
 }
