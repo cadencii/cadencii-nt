@@ -17,9 +17,8 @@
 #include <QtGui/QApplication>
 #include <QTextCodec>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
+int main( int argc, char *argv[] ){
+    QApplication a( argc, argv );
 
     QTextCodec *codec = QTextCodec::codecForName( "UTF-8" );
     QTextCodec::setCodecForCStrings( codec );
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
     cadencii::Settings::instance( &settings );
 
     cadencii::AppContainer container;
-    container.c.showMainView();
+    container.controller.showMainView();
 
     return a.exec();
 }
