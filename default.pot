@@ -5,567 +5,417 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Qt-Contexts: true\n"
 
-#: bin/debug/ui_EditorWidgetBase.h:74 bin/release/ui_EditorWidgetBase.h:74
-#: ui-test/bin/ui_EditorWidgetBase.h:74
+#: bin/release/ui_EditorWidgetBase.h:74
 msgctxt "EditorWidgetBase|"
 msgid "Form"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:708 bin/debug/ui_WindowMainView.h:710
-#: bin/release/ui_WindowMainView.h:708 bin/release/ui_WindowMainView.h:710
-#: ui-test/bin/ui_WindowMainView.h:708 ui-test/bin/ui_WindowMainView.h:710
+#: bin/release/ui_WindowMainView.h:807 bin/release/ui_WindowMainView.h:809
 msgctxt "WindowMainView|"
 msgid "Open"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:709 bin/release/ui_WindowMainView.h:709
-#: ui-test/bin/ui_WindowMainView.h:709
+#: bin/release/ui_WindowMainView.h:808
 msgctxt "WindowMainView|"
 msgid "New"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:711 bin/release/ui_WindowMainView.h:711
-#: ui-test/bin/ui_WindowMainView.h:711
+#: bin/release/ui_WindowMainView.h:810
 msgctxt "WindowMainView|"
 msgid "Save"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:712 bin/release/ui_WindowMainView.h:712
-#: ui-test/bin/ui_WindowMainView.h:712
+#: bin/release/ui_WindowMainView.h:811
 msgctxt "WindowMainView|"
 msgid "Save as"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:713 bin/release/ui_WindowMainView.h:713
-#: ui-test/bin/ui_WindowMainView.h:713
+#: bin/release/ui_WindowMainView.h:812
 msgctxt "WindowMainView|"
 msgid "Open VSQ/Vocaloid MIDI"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:714 bin/release/ui_WindowMainView.h:714
-#: ui-test/bin/ui_WindowMainView.h:714
+#: bin/release/ui_WindowMainView.h:813
 msgctxt "WindowMainView|"
 msgid "Open UTAU project file"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:715 bin/release/ui_WindowMainView.h:715
-#: ui-test/bin/ui_WindowMainView.h:715
+#: bin/release/ui_WindowMainView.h:814
 msgctxt "WindowMainView|"
 msgid "Import"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:716 bin/release/ui_WindowMainView.h:716
-#: ui-test/bin/ui_WindowMainView.h:716
+#: bin/release/ui_WindowMainView.h:815
 msgctxt "WindowMainView|"
 msgid "Open Recent"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:717 bin/release/ui_WindowMainView.h:717
-#: ui-test/bin/ui_WindowMainView.h:717
+#: bin/release/ui_WindowMainView.h:816
 msgctxt "WindowMainView|"
 msgid "Undo"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:718 bin/release/ui_WindowMainView.h:718
-#: ui-test/bin/ui_WindowMainView.h:718
-msgctxt "WindowMainView|"
-msgid "Ctrl+Z"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:719 bin/release/ui_WindowMainView.h:719
-#: ui-test/bin/ui_WindowMainView.h:719
+#: bin/release/ui_WindowMainView.h:817
 msgctxt "WindowMainView|"
 msgid "Redo"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:720 bin/release/ui_WindowMainView.h:720
-#: ui-test/bin/ui_WindowMainView.h:720
-msgctxt "WindowMainView|"
-msgid "Ctrl+Shift+Z"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:721 bin/release/ui_WindowMainView.h:721
-#: ui-test/bin/ui_WindowMainView.h:721
+#: bin/release/ui_WindowMainView.h:818
 msgctxt "WindowMainView|"
 msgid "Cut"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:722 bin/release/ui_WindowMainView.h:722
-#: ui-test/bin/ui_WindowMainView.h:722
+#: bin/release/ui_WindowMainView.h:819
 msgctxt "WindowMainView|"
 msgid "Copy"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:723 bin/release/ui_WindowMainView.h:723
-#: ui-test/bin/ui_WindowMainView.h:723
+#: bin/release/ui_WindowMainView.h:820
 msgctxt "WindowMainView|"
 msgid "Paste"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:724 bin/release/ui_WindowMainView.h:724
-#: ui-test/bin/ui_WindowMainView.h:724
+#: bin/release/ui_WindowMainView.h:821
 msgctxt "WindowMainView|"
 msgid "Delete"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:725 bin/release/ui_WindowMainView.h:725
-#: ui-test/bin/ui_WindowMainView.h:725
-msgctxt "WindowMainView|"
-msgid "Del"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:726 bin/release/ui_WindowMainView.h:726
-#: ui-test/bin/ui_WindowMainView.h:726
+#: bin/release/ui_WindowMainView.h:822
 msgctxt "WindowMainView|"
 msgid "Auto normalize mode"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:727 bin/release/ui_WindowMainView.h:727
-#: ui-test/bin/ui_WindowMainView.h:727
+#: bin/release/ui_WindowMainView.h:823
 msgctxt "WindowMainView|"
 msgid "Select all"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:728 bin/release/ui_WindowMainView.h:728
-#: ui-test/bin/ui_WindowMainView.h:728
+#: bin/release/ui_WindowMainView.h:824
 msgctxt "WindowMainView|"
 msgid "Select all events"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:729 bin/release/ui_WindowMainView.h:729
-#: ui-test/bin/ui_WindowMainView.h:729
+#: bin/release/ui_WindowMainView.h:825
 msgctxt "WindowMainView|"
 msgid "Control track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:730 bin/release/ui_WindowMainView.h:730
-#: ui-test/bin/ui_WindowMainView.h:730
+#: bin/release/ui_WindowMainView.h:826
 msgctxt "WindowMainView|"
 msgid "Mixer"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:731 bin/release/ui_WindowMainView.h:731
-#: ui-test/bin/ui_WindowMainView.h:731
+#: bin/release/ui_WindowMainView.h:827
 msgctxt "WindowMainView|"
 msgid "Waveform"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:732 bin/release/ui_WindowMainView.h:732
-#: ui-test/bin/ui_WindowMainView.h:732
+#: bin/release/ui_WindowMainView.h:828
 msgctxt "WindowMainView|"
 msgid "Icon palette"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:733 bin/release/ui_WindowMainView.h:733
-#: ui-test/bin/ui_WindowMainView.h:733
+#: bin/release/ui_WindowMainView.h:829
 msgctxt "WindowMainView|"
 msgid "Property window"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:734 bin/release/ui_WindowMainView.h:734
-#: ui-test/bin/ui_WindowMainView.h:734
+#: bin/release/ui_WindowMainView.h:830
 msgctxt "WindowMainView|"
 msgid "Navigation"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:735 bin/release/ui_WindowMainView.h:735
-#: ui-test/bin/ui_WindowMainView.h:735
+#: bin/release/ui_WindowMainView.h:831
 msgctxt "WindowMainView|"
 msgid "Grid line"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:736 bin/release/ui_WindowMainView.h:736
-#: ui-test/bin/ui_WindowMainView.h:736
+#: bin/release/ui_WindowMainView.h:832
 msgctxt "WindowMainView|"
 msgid "Start marker"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:737 bin/release/ui_WindowMainView.h:737
-#: ui-test/bin/ui_WindowMainView.h:737
+#: bin/release/ui_WindowMainView.h:833
 msgctxt "WindowMainView|"
 msgid "End marker"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:738 bin/release/ui_WindowMainView.h:738
-#: ui-test/bin/ui_WindowMainView.h:738
+#: bin/release/ui_WindowMainView.h:834
 msgctxt "WindowMainView|"
 msgid "Lyrics/Phoneme"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:739 bin/release/ui_WindowMainView.h:739
-#: ui-test/bin/ui_WindowMainView.h:739
+#: bin/release/ui_WindowMainView.h:835
 msgctxt "WindowMainView|"
 msgid "Note expression/Vibrato"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:740 bin/release/ui_WindowMainView.h:740
-#: ui-test/bin/ui_WindowMainView.h:740
+#: bin/release/ui_WindowMainView.h:836
 msgctxt "WindowMainView|"
 msgid "Pitch line"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:741 bin/release/ui_WindowMainView.h:741
-#: ui-test/bin/ui_WindowMainView.h:741
+#: bin/release/ui_WindowMainView.h:837
 msgctxt "WindowMainView|"
 msgid "Normalize notes"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:742 bin/release/ui_WindowMainView.h:742
-#: ui-test/bin/ui_WindowMainView.h:742
+#: bin/release/ui_WindowMainView.h:838
 msgctxt "WindowMainView|"
 msgid "Insert bars"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:743 bin/release/ui_WindowMainView.h:743
-#: ui-test/bin/ui_WindowMainView.h:743
+#: bin/release/ui_WindowMainView.h:839
 msgctxt "WindowMainView|"
 msgid "Delete bars"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:744 bin/release/ui_WindowMainView.h:744
-#: ui-test/bin/ui_WindowMainView.h:744
+#: bin/release/ui_WindowMainView.h:840
 msgctxt "WindowMainView|"
 msgid "Randomize"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:745 bin/release/ui_WindowMainView.h:745
-#: ui-test/bin/ui_WindowMainView.h:745
+#: bin/release/ui_WindowMainView.h:841
 msgctxt "WindowMainView|"
 msgid "Connect notes"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:746 bin/release/ui_WindowMainView.h:746
-#: ui-test/bin/ui_WindowMainView.h:746
+#: bin/release/ui_WindowMainView.h:842
 msgctxt "WindowMainView|"
 msgid "Insert lyrics"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:747 bin/release/ui_WindowMainView.h:747
-#: ui-test/bin/ui_WindowMainView.h:747
+#: bin/release/ui_WindowMainView.h:843
 msgctxt "WindowMainView|"
 msgid "Track on"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:748 bin/release/ui_WindowMainView.h:748
-#: ui-test/bin/ui_WindowMainView.h:748
+#: bin/release/ui_WindowMainView.h:844
 msgctxt "WindowMainView|"
 msgid "Add track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:749 bin/release/ui_WindowMainView.h:749
-#: ui-test/bin/ui_WindowMainView.h:749
+#: bin/release/ui_WindowMainView.h:845
 msgctxt "WindowMainView|"
 msgid "Copy track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:750 bin/release/ui_WindowMainView.h:750
-#: ui-test/bin/ui_WindowMainView.h:750
+#: bin/release/ui_WindowMainView.h:846
 msgctxt "WindowMainView|"
 msgid "Rename track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:751 bin/release/ui_WindowMainView.h:751
-#: ui-test/bin/ui_WindowMainView.h:751
+#: bin/release/ui_WindowMainView.h:847
 msgctxt "WindowMainView|"
 msgid "Delete track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:752 bin/release/ui_WindowMainView.h:752
-#: ui-test/bin/ui_WindowMainView.h:752
+#: bin/release/ui_WindowMainView.h:848
 msgctxt "WindowMainView|"
 msgid "Render current track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:753 bin/release/ui_WindowMainView.h:753
-#: ui-test/bin/ui_WindowMainView.h:753
+#: bin/release/ui_WindowMainView.h:849
 msgctxt "WindowMainView|"
 msgid "Render all tracks"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:754 bin/release/ui_WindowMainView.h:754
-#: ui-test/bin/ui_WindowMainView.h:754
+#: bin/release/ui_WindowMainView.h:850
 msgctxt "WindowMainView|"
 msgid "Overlay"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:755 bin/release/ui_WindowMainView.h:755
-#: ui-test/bin/ui_WindowMainView.h:755
+#: bin/release/ui_WindowMainView.h:851
 msgctxt "WindowMainView|"
 msgid "BGM"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:756 bin/release/ui_WindowMainView.h:756
-#: ui-test/bin/ui_WindowMainView.h:756
+#: bin/release/ui_WindowMainView.h:852
 msgctxt "WindowMainView|"
 msgid "VOCALOID1"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:757 bin/release/ui_WindowMainView.h:757
-#: ui-test/bin/ui_WindowMainView.h:757
+#: bin/release/ui_WindowMainView.h:853
 msgctxt "WindowMainView|"
 msgid "VOCALOID2"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:758 bin/release/ui_WindowMainView.h:758
-#: ui-test/bin/ui_WindowMainView.h:758
+#: bin/release/ui_WindowMainView.h:854
 msgctxt "WindowMainView|"
 msgid "UTAU"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:759 bin/release/ui_WindowMainView.h:759
-#: ui-test/bin/ui_WindowMainView.h:759
+#: bin/release/ui_WindowMainView.h:855
 msgctxt "WindowMainView|"
 msgid "vConnect-STAND"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:760 bin/release/ui_WindowMainView.h:760
-#: ui-test/bin/ui_WindowMainView.h:760
+#: bin/release/ui_WindowMainView.h:856
 msgctxt "WindowMainView|"
 msgid "Note expression property"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:761 bin/release/ui_WindowMainView.h:761
-#: ui-test/bin/ui_WindowMainView.h:761
+#: bin/release/ui_WindowMainView.h:857
 msgctxt "WindowMainView|"
 msgid "Note vibrato property"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:762 bin/release/ui_WindowMainView.h:762
-#: ui-test/bin/ui_WindowMainView.h:762
+#: bin/release/ui_WindowMainView.h:858
 msgctxt "WindowMainView|"
 msgid "Apply UTAU parameters"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:763 bin/release/ui_WindowMainView.h:763
-#: ui-test/bin/ui_WindowMainView.h:763
+#: bin/release/ui_WindowMainView.h:859
 msgctxt "WindowMainView|"
 msgid "Phoneme transformation"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:764 bin/release/ui_WindowMainView.h:764
-#: ui-test/bin/ui_WindowMainView.h:764
+#: bin/release/ui_WindowMainView.h:860
 msgctxt "WindowMainView|"
 msgid "User word dictionary"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:765 bin/release/ui_WindowMainView.h:765
-#: ui-test/bin/ui_WindowMainView.h:765
+#: bin/release/ui_WindowMainView.h:861
 msgctxt "WindowMainView|"
 msgid "Copy vibrato config to preset"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:766 bin/release/ui_WindowMainView.h:766
-#: ui-test/bin/ui_WindowMainView.h:766
+#: bin/release/ui_WindowMainView.h:862
 msgctxt "WindowMainView|"
 msgid "Sequence config"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:767 bin/release/ui_WindowMainView.h:767
-#: ui-test/bin/ui_WindowMainView.h:767
+#: bin/release/ui_WindowMainView.h:863
 msgctxt "WindowMainView|"
 msgid "Shortcut key"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:768 bin/release/ui_WindowMainView.h:768
-#: ui-test/bin/ui_WindowMainView.h:768
+#: bin/release/ui_WindowMainView.h:864
 msgctxt "WindowMainView|"
 msgid "Vibrato preset"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:769 bin/release/ui_WindowMainView.h:769
-#: ui-test/bin/ui_WindowMainView.h:769
+#: bin/release/ui_WindowMainView.h:865
 msgctxt "WindowMainView|"
 msgid "Singing style defaults"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:770 bin/release/ui_WindowMainView.h:770
-#: ui-test/bin/ui_WindowMainView.h:770
-msgctxt "WindowMainView|"
-msgid "1/4"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:771 bin/release/ui_WindowMainView.h:771
-#: ui-test/bin/ui_WindowMainView.h:771
-msgctxt "WindowMainView|"
-msgid "1/8"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:772 bin/release/ui_WindowMainView.h:772
-#: ui-test/bin/ui_WindowMainView.h:772
-msgctxt "WindowMainView|"
-msgid "1/16"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:773 bin/release/ui_WindowMainView.h:773
-#: ui-test/bin/ui_WindowMainView.h:773
-msgctxt "WindowMainView|"
-msgid "1/32"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:774 bin/release/ui_WindowMainView.h:774
-#: ui-test/bin/ui_WindowMainView.h:774
-msgctxt "WindowMainView|"
-msgid "1/64"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:775 bin/release/ui_WindowMainView.h:775
-#: ui-test/bin/ui_WindowMainView.h:775
-msgctxt "WindowMainView|"
-msgid "1/128"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:776 bin/release/ui_WindowMainView.h:776
-#: ui-test/bin/ui_WindowMainView.h:776
+#: bin/release/ui_WindowMainView.h:866
 msgctxt "WindowMainView|"
 msgid "Off"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:777 bin/release/ui_WindowMainView.h:777
-#: ui-test/bin/ui_WindowMainView.h:777
+#: bin/release/ui_WindowMainView.h:867
 msgctxt "WindowMainView|"
 msgid "Triplet"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:778 bin/release/ui_WindowMainView.h:778
-#: ui-test/bin/ui_WindowMainView.h:778
+#: bin/release/ui_WindowMainView.h:868
 msgctxt "WindowMainView|"
 msgid "Minimize"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:779 bin/release/ui_WindowMainView.h:779
-#: ui-test/bin/ui_WindowMainView.h:779
+#: bin/release/ui_WindowMainView.h:869
 msgctxt "WindowMainView|"
 msgid "Manual (PDF)"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:780 bin/release/ui_WindowMainView.h:780
-#: ui-test/bin/ui_WindowMainView.h:780
+#: bin/release/ui_WindowMainView.h:870
 msgctxt "WindowMainView|"
 msgid "Log"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:781 bin/release/ui_WindowMainView.h:781
-#: ui-test/bin/ui_WindowMainView.h:781
-msgctxt "WindowMainView|"
-msgid "Left"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:782 bin/release/ui_WindowMainView.h:782
-#: ui-test/bin/ui_WindowMainView.h:782
-msgctxt "WindowMainView|"
-msgid "Right"
-msgstr ""
-
-#: bin/debug/ui_WindowMainView.h:783 bin/release/ui_WindowMainView.h:783
-#: ui-test/bin/ui_WindowMainView.h:783
+#: bin/release/ui_WindowMainView.h:871
 msgctxt "WindowMainView|"
 msgid "Play"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:784 bin/release/ui_WindowMainView.h:784
-#: ui-test/bin/ui_WindowMainView.h:784
+#: bin/release/ui_WindowMainView.h:872
 msgctxt "WindowMainView|"
 msgid "Pointer"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:785 bin/release/ui_WindowMainView.h:785
-#: ui-test/bin/ui_WindowMainView.h:785
+#: bin/release/ui_WindowMainView.h:873
 msgctxt "WindowMainView|"
 msgid "Pencil"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:786 bin/release/ui_WindowMainView.h:786
-#: ui-test/bin/ui_WindowMainView.h:786
+#: bin/release/ui_WindowMainView.h:874
 msgctxt "WindowMainView|"
 msgid "Line"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:787 bin/release/ui_WindowMainView.h:787
-#: ui-test/bin/ui_WindowMainView.h:787
+#: bin/release/ui_WindowMainView.h:875
 msgctxt "WindowMainView|"
 msgid "Eraser"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:788 bin/release/ui_WindowMainView.h:788
-#: ui-test/bin/ui_WindowMainView.h:788
+#: bin/release/ui_WindowMainView.h:876
 msgctxt "WindowMainView|"
 msgid "MusicXML"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:789 bin/release/ui_WindowMainView.h:789
-#: ui-test/bin/ui_WindowMainView.h:789
+#: bin/release/ui_WindowMainView.h:877
 msgctxt "WindowMainView|"
 msgid "VSQ File"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:790 bin/release/ui_WindowMainView.h:790
-#: ui-test/bin/ui_WindowMainView.h:790
+#: bin/release/ui_WindowMainView.h:878
 msgctxt "WindowMainView|"
 msgid "File"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:791 bin/release/ui_WindowMainView.h:791
-#: ui-test/bin/ui_WindowMainView.h:791
+#: bin/release/ui_WindowMainView.h:879
 msgctxt "WindowMainView|"
 msgid "Export"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:792 bin/release/ui_WindowMainView.h:792
-#: ui-test/bin/ui_WindowMainView.h:792
+#: bin/release/ui_WindowMainView.h:880
 msgctxt "WindowMainView|"
 msgid "Edit"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:793 bin/release/ui_WindowMainView.h:793
-#: ui-test/bin/ui_WindowMainView.h:793
+#: bin/release/ui_WindowMainView.h:881
 msgctxt "WindowMainView|"
 msgid "View"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:794 bin/release/ui_WindowMainView.h:794
-#: ui-test/bin/ui_WindowMainView.h:794
+#: bin/release/ui_WindowMainView.h:882
 msgctxt "WindowMainView|"
 msgid "Job"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:795 bin/release/ui_WindowMainView.h:795
-#: ui-test/bin/ui_WindowMainView.h:795
+#: bin/release/ui_WindowMainView.h:883
 msgctxt "WindowMainView|"
 msgid "Track"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:796 bin/release/ui_WindowMainView.h:796
-#: ui-test/bin/ui_WindowMainView.h:796
+#: bin/release/ui_WindowMainView.h:884
 msgctxt "WindowMainView|"
 msgid "Renderer"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:797 bin/release/ui_WindowMainView.h:797
-#: ui-test/bin/ui_WindowMainView.h:797
+#: bin/release/ui_WindowMainView.h:885
 msgctxt "WindowMainView|"
 msgid "Lyrics"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:798 bin/release/ui_WindowMainView.h:798
-#: ui-test/bin/ui_WindowMainView.h:798
+#: bin/release/ui_WindowMainView.h:886
 msgctxt "WindowMainView|"
 msgid "Setting"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:799 bin/release/ui_WindowMainView.h:799
-#: ui-test/bin/ui_WindowMainView.h:799
+#: bin/release/ui_WindowMainView.h:887
 msgctxt "WindowMainView|"
 msgid "Quantize"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:800 bin/release/ui_WindowMainView.h:800
-#: ui-test/bin/ui_WindowMainView.h:800
+#: bin/release/ui_WindowMainView.h:888
 msgctxt "WindowMainView|"
 msgid "Window"
 msgstr ""
 
-#: bin/debug/ui_WindowMainView.h:801 bin/release/ui_WindowMainView.h:801
-#: ui-test/bin/ui_WindowMainView.h:801
+#: bin/release/ui_WindowMainView.h:889
 msgctxt "WindowMainView|"
 msgid "Help"
 msgstr ""
