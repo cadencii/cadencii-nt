@@ -170,15 +170,15 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="action_export_as_vsq_file"/>
-     <addaction name="action_export_as_musicxml"/>
+     <addaction name="menu_action_export_as_vsq_file"/>
+     <addaction name="menu_action_export_as_musicxml"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_2"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="separator"/>
-    <addaction name="action_open_vsq_vocaloid_midi"/>
+    <addaction name="menu_action_open_vsq_vocaloid_midi"/>
     <addaction name="actionOpen_UTAU_project_file"/>
     <addaction name="actionImport"/>
     <addaction name="menuExport"/>
@@ -189,13 +189,13 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="action_undo"/>
-    <addaction name="action_redo"/>
+    <addaction name="menu_action_undo"/>
+    <addaction name="menu_action_redo"/>
     <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
-    <addaction name="action_delete"/>
+    <addaction name="menu_action_delete"/>
     <addaction name="separator"/>
     <addaction name="actionAutoNormalizeMode"/>
     <addaction name="separator"/>
@@ -213,7 +213,7 @@
     <addaction name="actionPropertyWindow"/>
     <addaction name="actionNavigation"/>
     <addaction name="separator"/>
-    <addaction name="actionGridLine"/>
+    <addaction name="menu_action_toggle_grid_visible"/>
     <addaction name="separator"/>
     <addaction name="actionStartMarker"/>
     <addaction name="actionEndMarker"/>
@@ -280,13 +280,13 @@
      <property name="title">
       <string>Quantize</string>
      </property>
-     <addaction name="action_quantize_quarter"/>
-     <addaction name="action_quantize_eighth"/>
-     <addaction name="action_quantize_sixteenth"/>
-     <addaction name="action_quantize_thirty_second"/>
-     <addaction name="action_quantize_sixty_fourth"/>
-     <addaction name="action_quantize_hundred_twenty_eighth"/>
-     <addaction name="action_quantize_none"/>
+     <addaction name="menu_action_quantize_quarter"/>
+     <addaction name="menu_action_quantize_eighth"/>
+     <addaction name="menu_action_quantize_sixteenth"/>
+     <addaction name="menu_action_quantize_thirty_second"/>
+     <addaction name="menu_action_quantize_sixty_fourth"/>
+     <addaction name="menu_action_quantize_hundred_twenty_eighth"/>
+     <addaction name="menu_action_quantize_none"/>
      <addaction name="separator"/>
      <addaction name="actionTriplet"/>
     </widget>
@@ -356,20 +356,20 @@
    <addaction name="tool_action_redo"/>
    <addaction name="separator"/>
    <addaction name="action_24"/>
-   <addaction name="action_move_song_position_left"/>
-   <addaction name="action_move_song_position_right"/>
+   <addaction name="tool_action_move_song_position_left"/>
+   <addaction name="tool_action_move_song_position_right"/>
    <addaction name="toolActionToEnd"/>
    <addaction name="toolActionPlay"/>
    <addaction name="separator"/>
-   <addaction name="action_toggle_auto_scroll"/>
+   <addaction name="tool_action_toggle_auto_scroll"/>
    <addaction name="action_28"/>
    <addaction name="separator"/>
-   <addaction name="action_toggle_pointer_tool"/>
-   <addaction name="action_toggle_pencil_tool"/>
-   <addaction name="action_toggle_line_tool"/>
-   <addaction name="action_toggle_eraser_tool"/>
+   <addaction name="tool_action_toggle_pointer_tool"/>
+   <addaction name="tool_action_toggle_pencil_tool"/>
+   <addaction name="tool_action_toggle_line_tool"/>
+   <addaction name="tool_action_toggle_eraser_tool"/>
    <addaction name="separator"/>
-   <addaction name="action_toggle_grid_visible"/>
+   <addaction name="tool_action_toggle_grid_visible"/>
    <addaction name="action_30"/>
    <addaction name="action_31"/>
   </widget>
@@ -380,52 +380,100 @@
    </property>
   </action>
   <action name="action_16">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk__plus.png</normaloff>:/icons/resource/disk__plus.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNew">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionOpen_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSave_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save as</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_open_vsq_vocaloid_midi">
+  <action name="menu_action_open_vsq_vocaloid_midi">
    <property name="text">
     <string>Open VSQ/Vocaloid MIDI</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionOpen_UTAU_project_file">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open UTAU project file</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="actionImport">
    <property name="text">
     <string>Import</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionOpenRecent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open Recent</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_undo">
+  <action name="menu_action_undo">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -433,10 +481,10 @@
     <string>Undo</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Z</string>
+    <string notr="true">Ctrl+Z</string>
    </property>
   </action>
-  <action name="action_redo">
+  <action name="menu_action_redo">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -444,359 +492,716 @@
     <string>Redo</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
+    <string notr="true">Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Cut</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionCopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionPaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Paste</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_delete">
+  <action name="menu_action_delete">
    <property name="text">
     <string>Delete</string>
    </property>
    <property name="shortcut">
-    <string>Del</string>
+    <string notr="true">Del</string>
    </property>
   </action>
   <action name="actionAutoNormalizeMode">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Auto normalize mode</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSelectAll">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Select all</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSelectAllEvents">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Select all events</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionControlTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Control track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionMixer">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Mixer</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionWaveform">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Waveform</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionIconPalette">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Icon palette</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionPropertyWindow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Property window</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNavigation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Navigation</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="actionGridLine">
+  <action name="menu_action_toggle_grid_visible">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Grid line</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionStartMarker">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Start marker</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionEndMarker">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>End marker</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionLyricsPhoneme">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Lyrics/Phoneme</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNoteExpressionVibrato">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note expression/Vibrato</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionPitchLine">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Pitch line</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNormalizeNotes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Normalize notes</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionInsertBars">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Insert bars</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionDeleteBars">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Delete bars</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionRandomize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Randomize</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionConnectNotes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Connect notes</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionInsertLyrics">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Insert lyrics</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionTrackOn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Track on</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionAddTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Add track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionCopyTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionRenameTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Rename track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionDeleteTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Delete track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionRenderCurrentTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Render current track</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionRenderAllTracks">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Render all tracks</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionOverlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Overlay</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionBGM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>BGM</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionVOCALOID1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>VOCALOID1</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionVOCALOID2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>VOCALOID2</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionUTAU">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>UTAU</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionVConnect_STAND">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>vConnect-STAND</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNote_expression_property">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note expression property</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionNote_vibrato_property">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note vibrato property</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionApply_UTAU_parameters">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Apply UTAU parameters</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionPhoneme_transformation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Phoneme transformation</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionUser_word_dictionary">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>User word dictionary</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionCopy_vibrato_config_to_preset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy vibrato config to preset</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSequence_config">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Sequence config</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionShortcut_key">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Shortcut key</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionVibrato_preset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Vibrato preset</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionSinging_style_defaults">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Singing style defaults</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_quantize_quarter">
+  <action name="menu_action_quantize_quarter">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/4</string>
+    <string notr="true">1/4</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_eighth">
+  <action name="menu_action_quantize_eighth">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/8</string>
+    <string notr="true">1/8</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_sixteenth">
+  <action name="menu_action_quantize_sixteenth">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/16</string>
+    <string notr="true">1/16</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_thirty_second">
+  <action name="menu_action_quantize_thirty_second">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/32</string>
+    <string notr="true">1/32</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_sixty_fourth">
+  <action name="menu_action_quantize_sixty_fourth">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/64</string>
+    <string notr="true">1/64</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_hundred_twenty_eighth">
+  <action name="menu_action_quantize_hundred_twenty_eighth">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>1/128</string>
+    <string notr="true">1/128</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
-  <action name="action_quantize_none">
+  <action name="menu_action_quantize_none">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>Off</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionTriplet">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Triplet</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionMinimize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Minimize</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionManual_PDF">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Manual (PDF)</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="actionLog">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Log</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_17">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/folder_horizontal_open.png</normaloff>:/icons/resource/folder_horizontal_open.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_18">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk.png</normaloff>:/icons/resource/disk.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_19">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/scissors.png</normaloff>:/icons/resource/scissors.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_20">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/documents.png</normaloff>:/icons/resource/documents.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_21">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/clipboard_paste.png</normaloff>:/icons/resource/clipboard_paste.png</iconset>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="tool_action_undo">
@@ -807,6 +1212,9 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip_180.png</normaloff>:/icons/resource/arrow_skip_180.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="tool_action_redo">
    <property name="enabled">
@@ -816,32 +1224,44 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_skip.png</normaloff>:/icons/resource/arrow_skip.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_24">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop_180.png</normaloff>:/icons/resource/control_stop_180.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_move_song_position_left">
+  <action name="tool_action_move_song_position_left">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double_180.png</normaloff>:/icons/resource/control_double_180.png</iconset>
    </property>
    <property name="shortcut">
-    <string>Left</string>
+    <string notr="true">Left</string>
    </property>
   </action>
-  <action name="action_move_song_position_right">
+  <action name="tool_action_move_song_position_right">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_double.png</normaloff>:/icons/resource/control_double.png</iconset>
    </property>
    <property name="shortcut">
-    <string>Right</string>
+    <string notr="true">Right</string>
    </property>
   </action>
   <action name="toolActionPlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control.png</normaloff>:/icons/resource/control.png</iconset>
@@ -849,11 +1269,14 @@
    <property name="iconText">
     <string>Play</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
    </property>
   </action>
-  <action name="action_toggle_auto_scroll">
+  <action name="tool_action_toggle_auto_scroll">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -861,17 +1284,26 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_circle_double.png</normaloff>:/icons/resource/arrow_circle_double.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_28">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/arrow_return.png</normaloff>:/icons/resource/arrow_return.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_toggle_pointer_tool">
+  <action name="tool_action_toggle_pointer_tool">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -882,8 +1314,11 @@
    <property name="text">
     <string>Pointer</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_toggle_pencil_tool">
+  <action name="tool_action_toggle_pencil_tool">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -894,8 +1329,11 @@
    <property name="text">
     <string>Pencil</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_toggle_line_tool">
+  <action name="tool_action_toggle_line_tool">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -906,8 +1344,11 @@
    <property name="text">
     <string>Line</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_toggle_eraser_tool">
+  <action name="tool_action_toggle_eraser_tool">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -918,8 +1359,11 @@
    <property name="text">
     <string>Eraser</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_toggle_grid_visible">
+  <action name="tool_action_toggle_grid_visible">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -927,39 +1371,66 @@
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/ruler_crop.png</normaloff>:/icons/resource/ruler_crop.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_30">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/layer_shape_curve.png</normaloff>:/icons/resource/layer_shape_curve.png</iconset>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="action_31">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/piano.png</normaloff>:/icons/resource/piano.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="toolActionToEnd">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop.png</normaloff>:/icons/resource/control_stop.png</iconset>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_export_as_musicxml">
+  <action name="menu_action_export_as_musicxml">
    <property name="text">
     <string>MusicXML</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
-  <action name="action_export_as_vsq_file">
+  <action name="menu_action_export_as_vsq_file">
    <property name="text">
     <string>VSQ File</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
  </widget>

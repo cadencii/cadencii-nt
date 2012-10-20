@@ -28,24 +28,24 @@ namespace cadencii{
 
     class AppContainer{
     public:
-        cadencii::WindowMainView wv;
-        cadencii::PianorollTrackView pv;
-        cadencii::CurveControlChangeView cv;
-        cadencii::ConcreteBarCountView bv;
-        cadencii::ConcreteTempoView tempoView;
-        cadencii::ConcreteTimesigView timesigView;
-        cadencii::ConcretePropertyView propertyView;
-        cadencii::Controller c;
+        cadencii::WindowMainView windowMainView;
+        cadencii::PianorollTrackView pianorollTrackView;
+        cadencii::CurveControlChangeView curveControlChangeView;
+        cadencii::ConcreteBarCountView concreteBarCountView;
+        cadencii::ConcreteTempoView concreteTempoView;
+        cadencii::ConcreteTimesigView concreteTimesigView;
+        cadencii::ConcretePropertyView concretePropertyView;
+        cadencii::Controller controller;
 
     public:
         explicit AppContainer(){
-            c.setMainView( &wv );
-            c.setTrackView( &pv );
-            c.setControlChangeView( &cv );
-            c.setBarCountView( &bv );
-            c.setTempoView( &tempoView );
-            c.setTimesigView( &timesigView );
-            c.setPropertyView( &propertyView );
+            controller.setMainView( &windowMainView );
+            controller.setTrackView( &pianorollTrackView );
+            controller.setControlChangeView( &curveControlChangeView );
+            controller.setBarCountView( &concreteBarCountView );
+            controller.setTempoView( &concreteTempoView );
+            controller.setTimesigView( &concreteTimesigView );
+            controller.setPropertyView( &concretePropertyView );
         }
     };
 

@@ -1,0 +1,511 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+
+#: bin/release/ui_EditorWidgetBase.h:74
+msgctxt "EditorWidgetBase|"
+msgid "Form"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:807 bin/release/ui_WindowMainView.h:809
+msgctxt "WindowMainView|"
+msgid "Open"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:808
+msgctxt "WindowMainView|"
+msgid "New"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:810
+msgctxt "WindowMainView|"
+msgid "Save"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:811
+msgctxt "WindowMainView|"
+msgid "Save as"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:812
+msgctxt "WindowMainView|"
+msgid "Open VSQ/Vocaloid MIDI"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:813
+msgctxt "WindowMainView|"
+msgid "Open UTAU project file"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:814
+msgctxt "WindowMainView|"
+msgid "Import"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:815
+msgctxt "WindowMainView|"
+msgid "Open Recent"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:816
+msgctxt "WindowMainView|"
+msgid "Undo"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:817
+msgctxt "WindowMainView|"
+msgid "Redo"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:818
+msgctxt "WindowMainView|"
+msgid "Cut"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:819
+msgctxt "WindowMainView|"
+msgid "Copy"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:820
+msgctxt "WindowMainView|"
+msgid "Paste"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:821
+msgctxt "WindowMainView|"
+msgid "Delete"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:822
+msgctxt "WindowMainView|"
+msgid "Auto normalize mode"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:823
+msgctxt "WindowMainView|"
+msgid "Select all"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:824
+msgctxt "WindowMainView|"
+msgid "Select all events"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:825
+msgctxt "WindowMainView|"
+msgid "Control track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:826
+msgctxt "WindowMainView|"
+msgid "Mixer"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:827
+msgctxt "WindowMainView|"
+msgid "Waveform"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:828
+msgctxt "WindowMainView|"
+msgid "Icon palette"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:829
+msgctxt "WindowMainView|"
+msgid "Property window"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:830
+msgctxt "WindowMainView|"
+msgid "Navigation"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:831
+msgctxt "WindowMainView|"
+msgid "Grid line"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:832
+msgctxt "WindowMainView|"
+msgid "Start marker"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:833
+msgctxt "WindowMainView|"
+msgid "End marker"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:834
+msgctxt "WindowMainView|"
+msgid "Lyrics/Phoneme"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:835
+msgctxt "WindowMainView|"
+msgid "Note expression/Vibrato"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:836
+msgctxt "WindowMainView|"
+msgid "Pitch line"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:837
+msgctxt "WindowMainView|"
+msgid "Normalize notes"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:838
+msgctxt "WindowMainView|"
+msgid "Insert bars"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:839
+msgctxt "WindowMainView|"
+msgid "Delete bars"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:840
+msgctxt "WindowMainView|"
+msgid "Randomize"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:841
+msgctxt "WindowMainView|"
+msgid "Connect notes"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:842
+msgctxt "WindowMainView|"
+msgid "Insert lyrics"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:843
+msgctxt "WindowMainView|"
+msgid "Track on"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:844
+msgctxt "WindowMainView|"
+msgid "Add track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:845
+msgctxt "WindowMainView|"
+msgid "Copy track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:846
+msgctxt "WindowMainView|"
+msgid "Rename track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:847
+msgctxt "WindowMainView|"
+msgid "Delete track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:848
+msgctxt "WindowMainView|"
+msgid "Render current track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:849
+msgctxt "WindowMainView|"
+msgid "Render all tracks"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:850
+msgctxt "WindowMainView|"
+msgid "Overlay"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:851
+msgctxt "WindowMainView|"
+msgid "BGM"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:852
+msgctxt "WindowMainView|"
+msgid "VOCALOID1"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:853
+msgctxt "WindowMainView|"
+msgid "VOCALOID2"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:854
+msgctxt "WindowMainView|"
+msgid "UTAU"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:855
+msgctxt "WindowMainView|"
+msgid "vConnect-STAND"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:856
+msgctxt "WindowMainView|"
+msgid "Note expression property"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:857
+msgctxt "WindowMainView|"
+msgid "Note vibrato property"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:858
+msgctxt "WindowMainView|"
+msgid "Apply UTAU parameters"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:859
+msgctxt "WindowMainView|"
+msgid "Phoneme transformation"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:860
+msgctxt "WindowMainView|"
+msgid "User word dictionary"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:861
+msgctxt "WindowMainView|"
+msgid "Copy vibrato config to preset"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:862
+msgctxt "WindowMainView|"
+msgid "Sequence config"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:863
+msgctxt "WindowMainView|"
+msgid "Shortcut key"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:864
+msgctxt "WindowMainView|"
+msgid "Vibrato preset"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:865
+msgctxt "WindowMainView|"
+msgid "Singing style defaults"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:866
+msgctxt "WindowMainView|"
+msgid "Off"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:867
+msgctxt "WindowMainView|"
+msgid "Triplet"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:868
+msgctxt "WindowMainView|"
+msgid "Minimize"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:869
+msgctxt "WindowMainView|"
+msgid "Manual (PDF)"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:870
+msgctxt "WindowMainView|"
+msgid "Log"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:871
+msgctxt "WindowMainView|"
+msgid "Play"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:872
+msgctxt "WindowMainView|"
+msgid "Pointer"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:873
+msgctxt "WindowMainView|"
+msgid "Pencil"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:874
+msgctxt "WindowMainView|"
+msgid "Line"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:875
+msgctxt "WindowMainView|"
+msgid "Eraser"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:876
+msgctxt "WindowMainView|"
+msgid "MusicXML"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:877
+msgctxt "WindowMainView|"
+msgid "VSQ File"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:878
+msgctxt "WindowMainView|"
+msgid "File"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:879
+msgctxt "WindowMainView|"
+msgid "Export"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:880
+msgctxt "WindowMainView|"
+msgid "Edit"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:881
+msgctxt "WindowMainView|"
+msgid "View"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:882
+msgctxt "WindowMainView|"
+msgid "Job"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:883
+msgctxt "WindowMainView|"
+msgid "Track"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:884
+msgctxt "WindowMainView|"
+msgid "Renderer"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:885
+msgctxt "WindowMainView|"
+msgid "Lyrics"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:886
+msgctxt "WindowMainView|"
+msgid "Setting"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:887
+msgctxt "WindowMainView|"
+msgid "Quantize"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:888
+msgctxt "WindowMainView|"
+msgid "Window"
+msgstr ""
+
+#: bin/release/ui_WindowMainView.h:889
+msgctxt "WindowMainView|"
+msgid "Help"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:155
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Lyric"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:156
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Phrase"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:157
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Phonetic Symbol"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:158
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Consonant Adjustment"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:159
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Protect"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:166
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Note"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:167
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Length"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:168
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Note#"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:173
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Note Location"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:174
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Clock"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:175
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Measure"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:176
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Beat"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:177
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Tick"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:184 qt/gui/ConcretePropertyView.cpp:185
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Vibrato"
+msgstr ""
+
+#: qt/gui/ConcretePropertyView.cpp:186
+msgctxt "cadencii::ConcretePropertyView|"
+msgid "Vibrato Length"
+msgstr ""
+
+#: qt/gui/WindowMainView.cpp:269
+msgctxt "cadencii::WindowMainView|"
+msgid "MusicXML(*.xml)"
+msgstr ""
+
+#: qt/gui/WindowMainView.cpp:271 qt/gui/WindowMainView.cpp:317
+msgctxt "cadencii::WindowMainView|"
+msgid "All Files(*.*)"
+msgstr ""
+
+#: qt/gui/WindowMainView.cpp:315
+msgctxt "cadencii::WindowMainView|"
+msgid "VSQ Format(*.vsq)"
+msgstr ""
