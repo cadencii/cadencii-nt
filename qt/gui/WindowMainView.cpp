@@ -169,7 +169,8 @@ namespace cadencii{
 
     void WindowMainView::reflectGridVisibleSettings(){
         bool gridVisible = Settings::instance()->isGridVisible();
-        ui->action_toggle_grid_visible->setChecked( gridVisible );
+        ui->tool_action_toggle_grid_visible->setChecked( gridVisible );
+        ui->menu_action_toggle_grid_visible->setChecked( gridVisible );
     }
 
     void WindowMainView::reflectAutoScrollSettings(){
@@ -255,11 +256,6 @@ void cadencii::WindowMainView::on_action_move_song_position_right_triggered(){
     controllerAdapter->moveSongPositionStepped( false );
 }
 
-void cadencii::WindowMainView::on_action_toggle_grid_visible_toggled( bool arg1 ){
-    Settings::instance()->setGridVisible( arg1 );
-    updateWidget();
-}
-
 void cadencii::WindowMainView::on_action_toggle_auto_scroll_toggled( bool arg1 ){
     Settings::instance()->setAutoScroll( arg1 );
 }
@@ -320,4 +316,20 @@ void cadencii::WindowMainView::on_action_export_as_vsq_file_triggered(){
         controllerAdapter->exportAsVSQFile( filePath.toLocal8Bit().data() );
     }
     activateWindow();
+}
+
+void cadencii::WindowMainView::on_menu_action_toggle_grid_visible_toggled( bool arg1 ){
+    if( Settings::instance()->isGridVisible() != arg1 ){
+        Settings::instance()->setGridVisible( arg1 );
+        reflectGridVisibleSettings();
+        updateWidget();
+    }
+}
+
+void cadencii::WindowMainView::on_tool_action_toggle_grid_visible_toggled( bool arg1 ){
+    if( Settings::instance()->isGridVisible() != arg1 ){
+        Settings::instance()->setGridVisible( arg1 );
+        reflectGridVisibleSettings();
+        updateWidget();
+    }
 }

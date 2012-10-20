@@ -105,7 +105,6 @@ namespace cadencii{
         void on_action_quantize_none_toggled( bool arg1 );
         void on_action_move_song_position_left_triggered();
         void on_action_move_song_position_right_triggered();
-        void on_action_toggle_grid_visible_toggled( bool arg1 );
         void on_action_toggle_auto_scroll_toggled( bool arg1 );
         void on_action_export_as_musicxml_triggered();
         void on_action_toggle_pointer_tool_triggered();
@@ -118,6 +117,8 @@ namespace cadencii{
         void on_tool_action_redo_triggered();
         void on_action_delete_triggered();
         void on_action_export_as_vsq_file_triggered();
+        void on_menu_action_toggle_grid_visible_toggled(bool arg1);
+        void on_tool_action_toggle_grid_visible_toggled(bool arg1);
     };
 
 }

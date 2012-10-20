@@ -213,7 +213,7 @@
     <addaction name="actionPropertyWindow"/>
     <addaction name="actionNavigation"/>
     <addaction name="separator"/>
-    <addaction name="actionGridLine"/>
+    <addaction name="menu_action_toggle_grid_visible"/>
     <addaction name="separator"/>
     <addaction name="actionStartMarker"/>
     <addaction name="actionEndMarker"/>
@@ -369,7 +369,7 @@
    <addaction name="action_toggle_line_tool"/>
    <addaction name="action_toggle_eraser_tool"/>
    <addaction name="separator"/>
-   <addaction name="action_toggle_grid_visible"/>
+   <addaction name="tool_action_toggle_grid_visible"/>
    <addaction name="action_30"/>
    <addaction name="action_31"/>
   </widget>
@@ -635,9 +635,9 @@
     <string notr="true"/>
    </property>
   </action>
-  <action name="actionGridLine">
-   <property name="enabled">
-    <bool>false</bool>
+  <action name="menu_action_toggle_grid_visible">
+   <property name="checkable">
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Grid line</string>
@@ -1363,7 +1363,7 @@
     <string notr="true"/>
    </property>
   </action>
-  <action name="action_toggle_grid_visible">
+  <action name="tool_action_toggle_grid_visible">
    <property name="checkable">
     <bool>true</bool>
    </property>
