@@ -29,7 +29,7 @@ namespace cadencii{
 
     void ConcretePropertyView::statusChanged(){
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::vector<const VSQ_NS::Event *> *list = manager->getEventItemList();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
 
         if( list->empty() ){
             clear();
@@ -51,7 +51,7 @@ namespace cadencii{
         repaint();
     }
 
-    void ConcretePropertyView::updateTreeByEvent( const std::vector<const VSQ_NS::Event *> *list ){
+    void ConcretePropertyView::updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list ){
         addProperty( lyric );
         addProperty( note );
         addProperty( notelocation );
@@ -69,12 +69,13 @@ namespace cadencii{
         int notelocationTick = -1;
         int vibratoType = 0;
         int vibratoLength = -1;
-        int count = list->size();
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                = list->begin();
 
         // 複数のイベントのプロパティを表示する場合、すべてのイベントのプロパティが同じもののみ、
         // 値を表示する。イベント同士で値が違うものは、空欄とする
-        for( int i = 0; i < count; i++ ){
-            const VSQ_NS::Event *item = list->at( i );
+        for( ; i != list->end(); ++i ){
+            const VSQ_NS::Event *item = i->first;
             const VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
 
             VSQ_NS::tick_t clock = item->clock;
@@ -99,7 +100,7 @@ namespace cadencii{
                 }
             }
 
-            if( i == 0 ){
+            if( i == list->begin() ){
                 lyricPhrase = lyric.phrase;
                 lyricPhoneticSymbol = lyric.getPhoneticSymbol();
                 lyricConsonantAdjustment = lyric.getConsonantAdjustment();

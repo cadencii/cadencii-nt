@@ -18,6 +18,7 @@
 #include "vsq/Event.hpp"
 #include "ItemSelectionStatusListener.hpp"
 #include <set>
+#include <map>
 
 namespace cadencii{
 
@@ -32,9 +33,9 @@ namespace cadencii{
         std::set<void *> itemList;
 
         /**
-         * @brief 選択されたアイテムのうち、音符・歌手変更イベントへのポインタ
+         * @brief 選択されたアイテムのうち、音符・歌手変更イベントへのポインタ。これをキーとした、編集中アイテムの値を保持する
          */
-        std::vector<const VSQ_NS::Event *> eventItemList;
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event> eventItemList;
 
         /**
          * @brief アイテムの選択状態を監視するリスナーのリスト
@@ -57,7 +58,7 @@ namespace cadencii{
         void add( const VSQ_NS::Event *event ){
             if( !isContains( event ) ){
                 itemList.insert( (void *)event );
-                eventItemList.push_back( event );
+                eventItemList.insert( std::make_pair( event, *event ) );
                 notifyStatusChange();
             }
         }
@@ -70,7 +71,7 @@ namespace cadencii{
             std::set<void *>::iterator index = itemList.find( (void *)event );
             if( index != itemList.end() ){
                 itemList.erase( index );
-                eventItemList.erase( std::find( eventItemList.begin(), eventItemList.end(), event ) );
+                eventItemList.erase( event );
                 notifyStatusChange();
             }
         }
@@ -83,9 +84,10 @@ namespace cadencii{
         }
 
         /**
-         * @brief 選択状態の音符・歌手変更イベントのリストを取得する
+         * @brief 選択状態の音符・歌手変更イベントのマップを取得する。
+         * マップのキーは、選択状態の編集前のインスタンスを指すポインタ、値は編集操作中の値を格納する一時的インスタンス
          */
-        const std::vector<const VSQ_NS::Event *> *getEventItemList()const{
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *getEventItemList()const{
             return &eventItemList;
         }
 
