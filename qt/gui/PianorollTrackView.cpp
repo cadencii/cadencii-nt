@@ -133,7 +133,7 @@ namespace cadencii{
         ui->scrollArea->paintSongPosition( painter, rect );
 
         // 矩形選択の範囲を描画する
-        if( mouseStatus.isLeftButtonDown ){
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_SELECT_ITEM ){
             QRect selectRect = mouseStatus.rect();
             static QColor fillColor( 0, 0, 0, 100 );
             static QColor borderColor( 0, 0, 0, 200 );
@@ -321,8 +321,7 @@ namespace cadencii{
     }
 
     void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
-        mouseStatus.isMiddleButtonDown = true;
-        mouseStatus.isLeftButtonDown = false;
+        mouseStatus.mode = MouseStatus::MIDDLEBUTTON_SCROLL;
         mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
         mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
         mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
@@ -374,11 +373,11 @@ namespace cadencii{
     }
 
     void PianorollTrackView::onMouseMoveSlot( QMouseEvent *event ){
-        if( mouseStatus.isLeftButtonDown ){
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_SELECT_ITEM ){
             mouseStatus.endPosition = mapToScene( event->pos() );
             updateSelectedItem();
             updateWidget();
-        }else if( mouseStatus.isMiddleButtonDown ){
+        }else if( mouseStatus.mode == MouseStatus::MIDDLEBUTTON_SCROLL ){
             QPoint globalMousePos = ui->scrollArea->mapToGlobal( event->pos() );
             int deltaX = globalMousePos.x() - mouseStatus.globalStartPosition.x();
             int deltaY = globalMousePos.y() - mouseStatus.globalStartPosition.y();
@@ -391,8 +390,7 @@ namespace cadencii{
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
-        mouseStatus.isLeftButtonDown = false;
-        mouseStatus.isMiddleButtonDown = false;
+        mouseStatus.mode = MouseStatus::NONE;
         updateWidget();
     }
 
@@ -422,15 +420,13 @@ namespace cadencii{
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
-        isLeftButtonDown = false;
-        isMiddleButtonDown = false;
+        mode = NONE;
         horizontalScrollStartValue = 0;
         verticalScrollStartValue = 0;
     }
 
     void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
-        isLeftButtonDown = true;
-        isMiddleButtonDown = false;
+        mode = LEFTBUTTON_SELECT_ITEM;
         startPosition = mousePosition;
         endPosition = mousePosition;
     }

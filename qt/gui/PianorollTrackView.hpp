@@ -30,10 +30,26 @@ namespace cadencii{
          */
         class MouseStatus{
         public:
+            enum MouseStatusEnum{
+                /**
+                 * @brief 何もしてない
+                 */
+                NONE,
+                /**
+                 * @brief 左ボタンで範囲選択するモード
+                 */
+                LEFTBUTTON_SELECT_ITEM,
+                /**
+                 * @brief 中ボタンでスクロールするモード
+                 */
+                MIDDLEBUTTON_SCROLL
+            };
+
+        public:
             /**
-             * @brief マウスの左ボタンがおりているかどうか
+             * @brief モード
              */
-            bool isLeftButtonDown;
+            MouseStatusEnum mode;
             /**
              * @brief 最初にマウスがおりた位置。QGraphicsScene 基準の座標
              */
@@ -42,10 +58,6 @@ namespace cadencii{
              * @brief マウスが Up となった位置。QGraphicsScene 基準の座標
              */
             QPoint endPosition;
-            /**
-             * @brief マウスの真ん中ボタンがおりているかどうか
-             */
-            bool isMiddleButtonDown;
             /**
              * @brief 最初にマウスが降りた位置。グローバルなスクリーン座標
              */
