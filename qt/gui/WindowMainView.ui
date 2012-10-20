@@ -380,6 +380,9 @@
    </property>
   </action>
   <action name="action_16">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk__plus.png</normaloff>:/icons/resource/disk__plus.png</iconset>
@@ -389,6 +392,9 @@
    </property>
   </action>
   <action name="actionNew">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
@@ -397,6 +403,9 @@
    </property>
   </action>
   <action name="actionOpen_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open</string>
    </property>
@@ -405,6 +414,9 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -413,6 +425,9 @@
    </property>
   </action>
   <action name="actionSave_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save as</string>
    </property>
@@ -429,6 +444,9 @@
    </property>
   </action>
   <action name="actionOpen_UTAU_project_file">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open UTAU project file</string>
    </property>
@@ -445,6 +463,9 @@
    </property>
   </action>
   <action name="actionOpenRecent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Open Recent</string>
    </property>
@@ -475,6 +496,9 @@
    </property>
   </action>
   <action name="actionCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Cut</string>
    </property>
@@ -483,6 +507,9 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
@@ -491,6 +518,9 @@
    </property>
   </action>
   <action name="actionPaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Paste</string>
    </property>
@@ -507,6 +537,9 @@
    </property>
   </action>
   <action name="actionAutoNormalizeMode">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Auto normalize mode</string>
    </property>
@@ -515,6 +548,9 @@
    </property>
   </action>
   <action name="actionSelectAll">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Select all</string>
    </property>
@@ -523,6 +559,9 @@
    </property>
   </action>
   <action name="actionSelectAllEvents">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Select all events</string>
    </property>
@@ -531,6 +570,9 @@
    </property>
   </action>
   <action name="actionControlTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Control track</string>
    </property>
@@ -539,6 +581,9 @@
    </property>
   </action>
   <action name="actionMixer">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Mixer</string>
    </property>
@@ -547,6 +592,9 @@
    </property>
   </action>
   <action name="actionWaveform">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Waveform</string>
    </property>
@@ -555,6 +603,9 @@
    </property>
   </action>
   <action name="actionIconPalette">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Icon palette</string>
    </property>
@@ -563,6 +614,9 @@
    </property>
   </action>
   <action name="actionPropertyWindow">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Property window</string>
    </property>
@@ -571,6 +625,9 @@
    </property>
   </action>
   <action name="actionNavigation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Navigation</string>
    </property>
@@ -579,6 +636,9 @@
    </property>
   </action>
   <action name="actionGridLine">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Grid line</string>
    </property>
@@ -587,6 +647,9 @@
    </property>
   </action>
   <action name="actionStartMarker">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Start marker</string>
    </property>
@@ -595,6 +658,9 @@
    </property>
   </action>
   <action name="actionEndMarker">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>End marker</string>
    </property>
@@ -603,6 +669,9 @@
    </property>
   </action>
   <action name="actionLyricsPhoneme">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Lyrics/Phoneme</string>
    </property>
@@ -611,6 +680,9 @@
    </property>
   </action>
   <action name="actionNoteExpressionVibrato">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note expression/Vibrato</string>
    </property>
@@ -619,6 +691,9 @@
    </property>
   </action>
   <action name="actionPitchLine">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Pitch line</string>
    </property>
@@ -627,6 +702,9 @@
    </property>
   </action>
   <action name="actionNormalizeNotes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Normalize notes</string>
    </property>
@@ -635,6 +713,9 @@
    </property>
   </action>
   <action name="actionInsertBars">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Insert bars</string>
    </property>
@@ -643,6 +724,9 @@
    </property>
   </action>
   <action name="actionDeleteBars">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Delete bars</string>
    </property>
@@ -651,6 +735,9 @@
    </property>
   </action>
   <action name="actionRandomize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Randomize</string>
    </property>
@@ -659,6 +746,9 @@
    </property>
   </action>
   <action name="actionConnectNotes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Connect notes</string>
    </property>
@@ -667,6 +757,9 @@
    </property>
   </action>
   <action name="actionInsertLyrics">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Insert lyrics</string>
    </property>
@@ -675,6 +768,9 @@
    </property>
   </action>
   <action name="actionTrackOn">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Track on</string>
    </property>
@@ -683,6 +779,9 @@
    </property>
   </action>
   <action name="actionAddTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Add track</string>
    </property>
@@ -691,6 +790,9 @@
    </property>
   </action>
   <action name="actionCopyTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy track</string>
    </property>
@@ -699,6 +801,9 @@
    </property>
   </action>
   <action name="actionRenameTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Rename track</string>
    </property>
@@ -707,6 +812,9 @@
    </property>
   </action>
   <action name="actionDeleteTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Delete track</string>
    </property>
@@ -715,6 +823,9 @@
    </property>
   </action>
   <action name="actionRenderCurrentTrack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Render current track</string>
    </property>
@@ -723,6 +834,9 @@
    </property>
   </action>
   <action name="actionRenderAllTracks">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Render all tracks</string>
    </property>
@@ -731,6 +845,9 @@
    </property>
   </action>
   <action name="actionOverlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Overlay</string>
    </property>
@@ -739,6 +856,9 @@
    </property>
   </action>
   <action name="actionBGM">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>BGM</string>
    </property>
@@ -747,6 +867,9 @@
    </property>
   </action>
   <action name="actionVOCALOID1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>VOCALOID1</string>
    </property>
@@ -755,6 +878,9 @@
    </property>
   </action>
   <action name="actionVOCALOID2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>VOCALOID2</string>
    </property>
@@ -763,6 +889,9 @@
    </property>
   </action>
   <action name="actionUTAU">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>UTAU</string>
    </property>
@@ -771,6 +900,9 @@
    </property>
   </action>
   <action name="actionVConnect_STAND">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>vConnect-STAND</string>
    </property>
@@ -779,6 +911,9 @@
    </property>
   </action>
   <action name="actionNote_expression_property">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note expression property</string>
    </property>
@@ -787,6 +922,9 @@
    </property>
   </action>
   <action name="actionNote_vibrato_property">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Note vibrato property</string>
    </property>
@@ -795,6 +933,9 @@
    </property>
   </action>
   <action name="actionApply_UTAU_parameters">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Apply UTAU parameters</string>
    </property>
@@ -803,6 +944,9 @@
    </property>
   </action>
   <action name="actionPhoneme_transformation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Phoneme transformation</string>
    </property>
@@ -811,6 +955,9 @@
    </property>
   </action>
   <action name="actionUser_word_dictionary">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>User word dictionary</string>
    </property>
@@ -819,6 +966,9 @@
    </property>
   </action>
   <action name="actionCopy_vibrato_config_to_preset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Copy vibrato config to preset</string>
    </property>
@@ -827,6 +977,9 @@
    </property>
   </action>
   <action name="actionSequence_config">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Sequence config</string>
    </property>
@@ -835,6 +988,9 @@
    </property>
   </action>
   <action name="actionShortcut_key">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Shortcut key</string>
    </property>
@@ -843,6 +999,9 @@
    </property>
   </action>
   <action name="actionVibrato_preset">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Vibrato preset</string>
    </property>
@@ -851,6 +1010,9 @@
    </property>
   </action>
   <action name="actionSinging_style_defaults">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Singing style defaults</string>
    </property>
@@ -939,6 +1101,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Triplet</string>
    </property>
@@ -947,6 +1112,9 @@
    </property>
   </action>
   <action name="actionMinimize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Minimize</string>
    </property>
@@ -955,6 +1123,9 @@
    </property>
   </action>
   <action name="actionManual_PDF">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Manual (PDF)</string>
    </property>
@@ -963,6 +1134,9 @@
    </property>
   </action>
   <action name="actionLog">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Log</string>
    </property>
@@ -971,6 +1145,9 @@
    </property>
   </action>
   <action name="action_17">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/folder_horizontal_open.png</normaloff>:/icons/resource/folder_horizontal_open.png</iconset>
@@ -980,6 +1157,9 @@
    </property>
   </action>
   <action name="action_18">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk.png</normaloff>:/icons/resource/disk.png</iconset>
@@ -989,6 +1169,9 @@
    </property>
   </action>
   <action name="action_19">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/scissors.png</normaloff>:/icons/resource/scissors.png</iconset>
@@ -998,6 +1181,9 @@
    </property>
   </action>
   <action name="action_20">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/documents.png</normaloff>:/icons/resource/documents.png</iconset>
@@ -1007,6 +1193,9 @@
    </property>
   </action>
   <action name="action_21">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/clipboard_paste.png</normaloff>:/icons/resource/clipboard_paste.png</iconset>
@@ -1040,6 +1229,9 @@
    </property>
   </action>
   <action name="action_24">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop_180.png</normaloff>:/icons/resource/control_stop_180.png</iconset>
@@ -1067,6 +1259,9 @@
    </property>
   </action>
   <action name="toolActionPlay">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control.png</normaloff>:/icons/resource/control.png</iconset>
@@ -1096,6 +1291,9 @@
   <action name="action_28">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
@@ -1181,6 +1379,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/layer_shape_curve.png</normaloff>:/icons/resource/layer_shape_curve.png</iconset>
@@ -1193,6 +1394,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/piano.png</normaloff>:/icons/resource/piano.png</iconset>
@@ -1202,6 +1406,9 @@
    </property>
   </action>
   <action name="toolActionToEnd">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/control_stop.png</normaloff>:/icons/resource/control_stop.png</iconset>
