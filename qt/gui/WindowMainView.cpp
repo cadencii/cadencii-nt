@@ -148,13 +148,13 @@ namespace cadencii{
     void WindowMainView::reflectQuantizeModeSettings(){
         // quantizeMode
         QuantizeMode::QuantizeModeEnum quantizeMode = Settings::instance()->getQuantizeMode();
-        ui->action_quantize_quarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
-        ui->action_quantize_eighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
-        ui->action_quantize_sixteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
-        ui->action_quantize_thirty_second->setChecked( quantizeMode == QuantizeMode::THIRTY_SECOND );
-        ui->action_quantize_sixty_fourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
-        ui->action_quantize_hundred_twenty_eighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
-        ui->action_quantize_none->setChecked( quantizeMode == QuantizeMode::NONE );
+        ui->menu_action_quantize_quarter->setChecked( quantizeMode == QuantizeMode::QUARTER );
+        ui->menu_action_quantize_eighth->setChecked( quantizeMode == QuantizeMode::EIGHTH );
+        ui->menu_action_quantize_sixteenth->setChecked( quantizeMode == QuantizeMode::SIXTEENTH );
+        ui->menu_action_quantize_thirty_second->setChecked( quantizeMode == QuantizeMode::THIRTY_SECOND );
+        ui->menu_action_quantize_sixty_fourth->setChecked( quantizeMode == QuantizeMode::SIXTY_FOURTH );
+        ui->menu_action_quantize_hundred_twenty_eighth->setChecked( quantizeMode == QuantizeMode::HUNDRED_TWENTY_EIGHTH );
+        ui->menu_action_quantize_none->setChecked( quantizeMode == QuantizeMode::NONE );
         updateWidget();
     }
 
@@ -175,7 +175,7 @@ namespace cadencii{
 
     void WindowMainView::reflectAutoScrollSettings(){
         bool autoScroll = Settings::instance()->isAutoScroll();
-        ui->action_toggle_auto_scroll->setChecked( autoScroll );
+        ui->tool_action_toggle_auto_scroll->setChecked( autoScroll );
     }
 
     void WindowMainView::setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode ){
@@ -191,15 +191,15 @@ namespace cadencii{
 
     void WindowMainView::reflectToolKind(){
         ToolKind::ToolKindEnum kind = controllerAdapter->getToolKind();
-        ui->action_toggle_pointer_tool->setChecked( kind == ToolKind::POINTER );
-        ui->action_toggle_eraser_tool->setChecked( kind == ToolKind::ERASER );
-        ui->action_toggle_line_tool->setChecked( kind == ToolKind::LINE );
-        ui->action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
+        ui->tool_action_toggle_pointer_tool->setChecked( kind == ToolKind::POINTER );
+        ui->tool_action_toggle_eraser_tool->setChecked( kind == ToolKind::ERASER );
+        ui->tool_action_toggle_line_tool->setChecked( kind == ToolKind::LINE );
+        ui->tool_action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
     }
 
     void WindowMainView::notifyCommandHistoryChanged(){
-        ui->action_undo->setEnabled( controllerAdapter->canUndo() );
-        ui->action_redo->setEnabled( controllerAdapter->canRedo() );
+        ui->menu_action_undo->setEnabled( controllerAdapter->canUndo() );
+        ui->menu_action_redo->setEnabled( controllerAdapter->canRedo() );
         ui->tool_action_undo->setEnabled( controllerAdapter->canUndo() );
         ui->tool_action_redo->setEnabled( controllerAdapter->canRedo() );
         updateWidget();
@@ -211,7 +211,7 @@ namespace cadencii{
 
 }
 
-void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
+void cadencii::WindowMainView::on_menu_action_open_vsq_vocaloid_midi_triggered(){
     QString filePath = QFileDialog::getOpenFileName( this );
     QFile file( filePath );
     if( file.exists() && this->controllerAdapter ){
@@ -220,47 +220,47 @@ void cadencii::WindowMainView::on_action_open_vsq_vocaloid_midi_triggered(){
     this->activateWindow();
 }
 
-void cadencii::WindowMainView::on_action_quantize_quarter_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_quarter_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::QUARTER );
 }
 
-void cadencii::WindowMainView::on_action_quantize_eighth_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_eighth_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::EIGHTH );
 }
 
-void cadencii::WindowMainView::on_action_quantize_sixteenth_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_sixteenth_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::SIXTEENTH );
 }
 
-void cadencii::WindowMainView::on_action_quantize_thirty_second_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_thirty_second_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::THIRTY_SECOND );
 }
 
-void cadencii::WindowMainView::on_action_quantize_sixty_fourth_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_sixty_fourth_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::SIXTY_FOURTH );
 }
 
-void cadencii::WindowMainView::on_action_quantize_hundred_twenty_eighth_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_hundred_twenty_eighth_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::HUNDRED_TWENTY_EIGHTH );
 }
 
-void cadencii::WindowMainView::on_action_quantize_none_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_menu_action_quantize_none_toggled( bool arg1 ){
     setQuantizeMode( arg1, QuantizeMode::NONE );
 }
 
-void cadencii::WindowMainView::on_action_move_song_position_left_triggered(){
+void cadencii::WindowMainView::on_tool_action_move_song_position_left_triggered(){
     controllerAdapter->moveSongPositionStepped( true );
 }
 
-void cadencii::WindowMainView::on_action_move_song_position_right_triggered(){
+void cadencii::WindowMainView::on_tool_action_move_song_position_right_triggered(){
     controllerAdapter->moveSongPositionStepped( false );
 }
 
-void cadencii::WindowMainView::on_action_toggle_auto_scroll_toggled( bool arg1 ){
+void cadencii::WindowMainView::on_tool_action_toggle_auto_scroll_toggled( bool arg1 ){
     Settings::instance()->setAutoScroll( arg1 );
 }
 
-void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
+void cadencii::WindowMainView::on_menu_action_export_as_musicxml_triggered(){
     QString filter;
     filter += tr( "MusicXML(*.xml)" );
     filter += ";;";
@@ -270,27 +270,27 @@ void cadencii::WindowMainView::on_action_export_as_musicxml_triggered(){
     activateWindow();
 }
 
-void cadencii::WindowMainView::on_action_toggle_pointer_tool_triggered(){
+void cadencii::WindowMainView::on_tool_action_toggle_pointer_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::POINTER );
 }
 
-void cadencii::WindowMainView::on_action_toggle_pencil_tool_triggered(){
+void cadencii::WindowMainView::on_tool_action_toggle_pencil_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::PENCIL );
 }
 
-void cadencii::WindowMainView::on_action_toggle_line_tool_triggered(){
+void cadencii::WindowMainView::on_tool_action_toggle_line_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::LINE );
 }
 
-void cadencii::WindowMainView::on_action_toggle_eraser_tool_triggered(){
+void cadencii::WindowMainView::on_tool_action_toggle_eraser_tool_triggered(){
     controllerAdapter->setToolKind( ToolKind::ERASER );
 }
 
-void cadencii::WindowMainView::on_action_undo_triggered(){
+void cadencii::WindowMainView::on_menu_action_undo_triggered(){
     controllerAdapter->undo();
 }
 
-void cadencii::WindowMainView::on_action_redo_triggered(){
+void cadencii::WindowMainView::on_menu_action_redo_triggered(){
     controllerAdapter->redo();
 }
 
@@ -302,11 +302,11 @@ void cadencii::WindowMainView::on_tool_action_redo_triggered(){
     controllerAdapter->redo();
 }
 
-void cadencii::WindowMainView::on_action_delete_triggered(){
+void cadencii::WindowMainView::on_menu_action_delete_triggered(){
     controllerAdapter->removeSelectedItems();
 }
 
-void cadencii::WindowMainView::on_action_export_as_vsq_file_triggered(){
+void cadencii::WindowMainView::on_menu_action_export_as_vsq_file_triggered(){
     QString filter;
     filter += tr( "VSQ Format(*.vsq)" );
     filter += ";;";
