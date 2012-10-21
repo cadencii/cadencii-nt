@@ -303,6 +303,8 @@ namespace cadencii{
     /**
      * @todo Shift を押しながら音符イベントにマウスがおろされたとき、直前に選択した音符イベントがある場合、
      * この２つの音符イベントの間にある音符イベントをすべて選択状態とする動作を実装する
+     * @todo 既に選択されたアイテムをさらに MousePress した場合の処理を要検討。現状だと、Ctrl を押さないままアイテムを移動しようと
+     * すると、選択状態だった他のアイテムが選択から外れてしまう。
      */
     void PianorollTrackView::handleMouseLeftButtonPressByPointer( QMouseEvent *event ){
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
@@ -312,6 +314,8 @@ namespace cadencii{
                 manager->clear();
             }
             manager->add( noteEventOnMouse );
+            mouseStatus.startPosition = mapToScene( event->pos() );
+            mouseStatus.mode = MouseStatus::LEFTBUTTON_MOVE_ITEM;
         }else{
             mouseStatus.start( mapToScene( event->pos() ) );
             manager->clear();
@@ -393,11 +397,34 @@ namespace cadencii{
             ui->scrollArea->horizontalScrollBar()->setValue( mouseStatus.horizontalScrollStartValue - deltaX );
             ui->scrollArea->verticalScrollBar()->setValue( mouseStatus.verticalScrollStartValue - deltaY );
             updateWidget();
+        }else if( mouseStatus.mode == MouseStatus::LEFTBUTTON_MOVE_ITEM ){
+            QPoint currentMousePos = mapToScene( event->pos() );
+
+            // マウスの移動量から、クロック・ノートの移動量を算出
+            VSQ_NS::tick_t deltaClock = controllerAdapter->getTickFromX( currentMousePos.x() )
+                    - controllerAdapter->getTickFromX( mouseStatus.startPosition.x() );
+            int deltaNote = getNoteNumberFromY( currentMousePos.y(), trackHeight )
+                    - getNoteNumberFromY( mouseStatus.startPosition.y(), trackHeight );
+
+            // 選択されたアイテムすべてについて、移動を適用する
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList = manager->getEventItemList();
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
+                    = eventItemList->begin();
+            for( ; i != eventItemList->end(); ++i ){
+                const VSQ_NS::Event *originalItem = i->first;
+                VSQ_NS::Event editingItem = i->second;
+                editingItem.clock = originalItem->clock + deltaClock;
+                editingItem.note = originalItem->note + deltaNote;
+                i->second = editingItem;
+            }
+            updateWidget();
         }
     }
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
+        //TODO: mouseStatus.mode == MouseStatus.LEFTBUTTON_MOVE_ITEMS の場合の処理
         mouseStatus.mode = MouseStatus::NONE;
         updateWidget();
     }

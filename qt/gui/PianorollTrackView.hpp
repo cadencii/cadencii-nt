@@ -40,6 +40,10 @@ namespace cadencii{
                  */
                 LEFTBUTTON_SELECT_ITEM,
                 /**
+                 * @brief 左ボタンで音符イベントを移動するモード
+                 */
+                LEFTBUTTON_MOVE_ITEM,
+                /**
                  * @brief 中ボタンでスクロールするモード
                  */
                 MIDDLEBUTTON_SCROLL

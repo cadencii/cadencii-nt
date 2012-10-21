@@ -87,7 +87,7 @@ namespace cadencii{
          * @brief 選択状態の音符・歌手変更イベントのマップを取得する。
          * マップのキーは、選択状態の編集前のインスタンスを指すポインタ、値は編集操作中の値を格納する一時的インスタンス
          */
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *getEventItemList()const{
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event> *getEventItemList(){
             return &eventItemList;
         }
 
