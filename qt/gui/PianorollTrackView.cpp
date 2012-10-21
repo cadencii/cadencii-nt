@@ -242,19 +242,27 @@ namespace cadencii{
         static QColor borderColor = QColor( 125, 123, 124 );
 
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList = manager->getEventItemList();
 
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
             if( item->type != VSQ_NS::EventType::NOTE ) continue;
-            QRect itemRect = getNoteItemRect( item );
+            const VSQ_NS::Event *actualDrawItem = item;
+            QColor color;
+            if( manager->isContains( item ) ){
+                color = hilightFillColor;
+                actualDrawItem = &eventItemList->at( item );
+            }else{
+                color = fillColor;
+            }
+            QRect itemRect = getNoteItemRect( actualDrawItem );
 
             if( visibleArea.intersects( itemRect ) ){
-                QColor color = manager->isContains( item ) ? hilightFillColor : fillColor;
                 g->fillRect( itemRect, color );
                 g->setPen( borderColor );
                 g->drawRect( itemRect );
 
-                VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+                VSQ_NS::Lyric lyric = actualDrawItem->lyricHandle.getLyricAt( 0 );
                 g->setPen( QColor( 0, 0, 0 ) );
                 g->drawText( itemRect.left() + 1, itemRect.bottom() - 1,
                              QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
