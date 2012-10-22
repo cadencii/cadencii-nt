@@ -17,6 +17,7 @@
 
 #include "vsq/Event.hpp"
 #include "ItemSelectionStatusListener.hpp"
+#include "command/EditEventCommand.hpp"
 #include <set>
 #include <map>
 
@@ -24,6 +25,9 @@ namespace cadencii{
 
     /**
      * @brief 編集対象アイテムの選択状態を管理するクラス
+     * @todo 選択状態となっているアイテムがどのトラックに存在するかどうかを、このクラスが保持するべきなのではないか？
+     *       そして、後から別トラックのアイテムが追加されようとした際は、自動で選択状態をクリアし、
+     *       新たなアイテムだけ選択状態となるようにするべき。
      */
     class ItemSelectionManager{
     private:
@@ -113,6 +117,26 @@ namespace cadencii{
                 editingItem.note = originalItem->note + deltaNoteNumbers;
                 i->second = editingItem;
             }
+        }
+
+        /**
+         * @brief 選択されたアイテムが編集された状態を、SequenceModel に反映するためのコマンドを取得する
+         * @param trackIndex 選択されたアイテムが存在するトラックの番号
+         * @return コマンド
+         * @todo trackIndex 引数を削除できるよう努める
+         */
+        EditEventCommand getEditEventCommand( int trackIndex ){
+            std::map<int, VSQ_NS::Event> itemList;
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                    = eventItemList.begin();
+            for( ; i != eventItemList.end(); ++i ){
+                const VSQ_NS::Event *selectedItem = i->first;
+                VSQ_NS::Event editedItem = i->second;
+                int eventId = selectedItem->id;
+                editedItem.id = eventId;
+                itemList.insert( std::make_pair( eventId, editedItem ) );
+            }
+            return EditEventCommand( trackIndex, itemList );
         }
 
     private:
