@@ -401,23 +401,14 @@ namespace cadencii{
             QPoint currentMousePos = mapToScene( event->pos() );
 
             // マウスの移動量から、クロック・ノートの移動量を算出
-            VSQ_NS::tick_t deltaClock = controllerAdapter->getTickFromX( currentMousePos.x() )
+            VSQ_NS::tick_t deltaClocks = controllerAdapter->getTickFromX( currentMousePos.x() )
                     - controllerAdapter->getTickFromX( mouseStatus.startPosition.x() );
-            int deltaNote = getNoteNumberFromY( currentMousePos.y(), trackHeight )
+            int deltaNoteNumbers = getNoteNumberFromY( currentMousePos.y(), trackHeight )
                     - getNoteNumberFromY( mouseStatus.startPosition.y(), trackHeight );
 
             // 選択されたアイテムすべてについて、移動を適用する
             ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList = manager->getEventItemList();
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
-                    = eventItemList->begin();
-            for( ; i != eventItemList->end(); ++i ){
-                const VSQ_NS::Event *originalItem = i->first;
-                VSQ_NS::Event editingItem = i->second;
-                editingItem.clock = originalItem->clock + deltaClock;
-                editingItem.note = originalItem->note + deltaNote;
-                i->second = editingItem;
-            }
+            manager->moveItems( deltaClocks, deltaNoteNumbers );
             updateWidget();
         }
     }
