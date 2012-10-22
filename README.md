@@ -17,7 +17,7 @@ clone git repository.
 
 build with `make`,
 
-    qmake -o Makefile Cadencii.pro   # use qmake-q4, if you don't have qmake.
+    qmake -o Makefile Cadencii.pro   # use qmake-qt4, if you don't have qmake.
     make
 
 or open Cadencii.pro with QtCreator, and build.
