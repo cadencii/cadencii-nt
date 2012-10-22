@@ -407,6 +407,7 @@ namespace cadencii{
             manager->moveItems( deltaClocks, deltaNoteNumbers );
             updateWidget();
         }
+        mouseStatus.isMouseMoved = true;
     }
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
@@ -448,6 +449,7 @@ namespace cadencii{
         mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
         mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
         mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
+        mouseStatus.isMouseMoved = false;
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
@@ -469,6 +471,7 @@ namespace cadencii{
         horizontalScrollStartValue = 0;
         verticalScrollStartValue = 0;
         globalStartPosition = QPoint();
+        isMouseMoved = false;
     }
 
 }

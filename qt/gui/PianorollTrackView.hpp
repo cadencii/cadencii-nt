@@ -74,6 +74,10 @@ namespace cadencii{
              * @brief 垂直スクロールバーの、マウスが降りた時点での値
              */
             int verticalScrollStartValue;
+            /**
+             * @brief マウスが動いたかどうか
+             */
+            bool isMouseMoved;
 
         public:
             explicit MouseStatus();
