@@ -98,6 +98,23 @@ namespace cadencii{
             listenerList.push_back( listener );
         }
 
+        /**
+         * @brief 選択状態のアイテムを、指定した時間、指定したノート番号分だけ移動する
+         * @param deltaClocks 移動する時間
+         * @param deltaNoteNumbers 移動するノート番号
+         */
+        void moveItems( VSQ_NS::tick_t deltaClocks, int deltaNoteNumbers ){
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
+                    = eventItemList.begin();
+            for( ; i != eventItemList.end(); ++i ){
+                const VSQ_NS::Event *originalItem = i->first;
+                VSQ_NS::Event editingItem = i->second;
+                editingItem.clock = originalItem->clock + deltaClocks;
+                editingItem.note = originalItem->note + deltaNoteNumbers;
+                i->second = editingItem;
+            }
+        }
+
     private:
         /**
          * @brief すべてのリスナーに、選択状態が変化したことを通知する

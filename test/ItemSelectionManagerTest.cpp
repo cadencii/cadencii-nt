@@ -62,9 +62,30 @@ public:
         delete item;
     }
 
+    void testMoveItems(){
+        ItemSelectionManager manager;
+        Event *itemA = new Event( 0, EventType::NOTE );
+        itemA->clock = 480;
+        itemA->note = 50;
+        Event *itemB = new Event( 0, EventType::NOTE );
+        itemB->clock = 1920;
+        itemB->note = 52;
+        manager.add( itemA );
+        manager.add( itemB );
+
+        manager.moveItems( 10, 5 );
+
+        const map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = manager.getEventItemList();
+        CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + 10), itemList->at( itemA ).clock );
+        CPPUNIT_ASSERT_EQUAL( 50 + 5, itemList->at( itemA ).note );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + 10), itemList->at( itemB ).clock );
+        CPPUNIT_ASSERT_EQUAL( 52 + 5, itemList->at( itemB ).note );
+    }
+
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
     CPPUNIT_TEST( test );
     CPPUNIT_TEST( testAddRemove );
+    CPPUNIT_TEST( testMoveItems );
     CPPUNIT_TEST_SUITE_END();
 };
 
