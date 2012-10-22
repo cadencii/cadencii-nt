@@ -17,7 +17,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include "../../vsq/Event.hpp"
-#include "../../command/DeleteEventCommand.hpp"
+#include "../../command/EditEventCommand.hpp"
 
 namespace cadencii{
 
@@ -412,7 +412,13 @@ namespace cadencii{
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
-        //TODO: mouseStatus.mode == MouseStatus.LEFTBUTTON_MOVE_ITEMS の場合の処理
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_MOVE_ITEM ){
+            if( mouseStatus.isMouseMoved ){
+                ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+                EditEventCommand command = manager->getEditEventCommand( trackIndex );
+                controllerAdapter->execute( &command );
+            }
+        }
         mouseStatus.mode = MouseStatus::NONE;
         updateWidget();
     }
