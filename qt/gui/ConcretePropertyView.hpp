@@ -76,7 +76,7 @@ namespace cadencii{
         /**
          * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
          */
-        void updateTreeByEvent( const std::vector<const VSQ_NS::Event *> *list );
+        void updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list );
 
         /**
          * @brief QtProperty * 型のフィールドを初期化する

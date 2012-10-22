@@ -25,8 +25,7 @@ namespace cadencii{
     class EditEventCommand : public AbstractCommand{
     private:
         int track;
-        int eventId;
-        VSQ_NS::Event item;
+        std::map<int, VSQ_NS::Event> itemList;
 
     public:
         /**
@@ -37,18 +36,36 @@ namespace cadencii{
          */
         explicit EditEventCommand( int track, int eventId, const VSQ_NS::Event &item ){
             this->track = track;
-            this->eventId = eventId;
-            this->item = item;
+            itemList.insert( std::make_pair( eventId, item ) );
+        }
+
+        /**
+         * @brief 初期化する
+         * @todo public に昇格する
+         * @param track 編集対象のトラック
+         * @param itemList アイテムIDとVSQ_NS::Eventのインスタンスのマップ
+         */
+        explicit EditEventCommand( int track, const std::map<int, VSQ_NS::Event> &itemList ){
+            this->track = track;
+            this->itemList = itemList;
         }
 
         AbstractCommand *execute( VSQ_NS::Sequence *sequence ){
             VSQ_NS::Track *target = &sequence->track[track];
-            int index = target->getEvents()->findIndexFromId( eventId );
-            const VSQ_NS::Event original = *(target->getEvents()->get( index ));
-            VSQ_NS::Event replace = item;
-            replace.id = eventId;
-            target->getEvents()->set( index, replace );
-            return new EditEventCommand( track, eventId, original );
+            std::map<int, VSQ_NS::Event>::iterator i
+                    = itemList.begin();
+            std::map<int, VSQ_NS::Event> originalItemList;
+            for( ; i != itemList.end(); ++i ){
+                int eventId = i->first;
+                VSQ_NS::Event item = i->second;
+                int index = target->getEvents()->findIndexFromId( eventId );
+                const VSQ_NS::Event original = *(target->getEvents()->get( index ));
+                originalItemList.insert( std::make_pair( eventId, original ) );
+                VSQ_NS::Event replace = item;
+                replace.id = eventId;
+                target->getEvents()->set( index, replace );
+            }
+            return new EditEventCommand( track, originalItemList );
         }
     };
 

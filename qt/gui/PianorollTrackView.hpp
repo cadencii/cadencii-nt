@@ -30,10 +30,30 @@ namespace cadencii{
          */
         class MouseStatus{
         public:
+            enum MouseStatusEnum{
+                /**
+                 * @brief 何もしてない
+                 */
+                NONE,
+                /**
+                 * @brief 左ボタンで範囲選択するモード
+                 */
+                LEFTBUTTON_SELECT_ITEM,
+                /**
+                 * @brief 左ボタンで音符イベントを移動するモード
+                 */
+                LEFTBUTTON_MOVE_ITEM,
+                /**
+                 * @brief 中ボタンでスクロールするモード
+                 */
+                MIDDLEBUTTON_SCROLL
+            };
+
+        public:
             /**
-             * @brief マウスの左ボタンがおりているかどうか
+             * @brief モード
              */
-            bool isLeftButtonDown;
+            MouseStatusEnum mode;
             /**
              * @brief 最初にマウスがおりた位置。QGraphicsScene 基準の座標
              */
@@ -42,10 +62,6 @@ namespace cadencii{
              * @brief マウスが Up となった位置。QGraphicsScene 基準の座標
              */
             QPoint endPosition;
-            /**
-             * @brief マウスの真ん中ボタンがおりているかどうか
-             */
-            bool isMiddleButtonDown;
             /**
              * @brief 最初にマウスが降りた位置。グローバルなスクリーン座標
              */
@@ -58,20 +74,23 @@ namespace cadencii{
              * @brief 垂直スクロールバーの、マウスが降りた時点での値
              */
             int verticalScrollStartValue;
+            /**
+             * @brief マウスが動いたかどうか
+             */
+            bool isMouseMoved;
 
         public:
             explicit MouseStatus();
 
             /**
-             * @brief 指定したマウス位置を始点とし、マウスが降りたことにする
-             * @param mousePosition QGraphicsScene 基準の座標
-             */
-            void start( const QPoint &mousePosition );
-
-            /**
              * @brief startPosition と endPosition が成す矩形を取得する
              */
             inline QRect rect()const;
+
+            /**
+             * @brief ステータスをクリアする
+             */
+            void clear();
         };
 
     public:
@@ -191,6 +210,13 @@ namespace cadencii{
          * @brief 矩形選択の四角形内に入っているアイテムを選択し直す
          */
         void updateSelectedItem();
+
+        /**
+         * @brief mouseStatus フィールドの値を更新する
+         * @param status ステータスの種類
+         * @param マウスイベント
+         */
+        void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event );
 
         /**
          * @brief y 座標からノート番号を取得する
