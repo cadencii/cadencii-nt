@@ -314,10 +314,9 @@ namespace cadencii{
                 manager->clear();
             }
             manager->add( noteEventOnMouse );
-            mouseStatus.startPosition = mapToScene( event->pos() );
-            mouseStatus.mode = MouseStatus::LEFTBUTTON_MOVE_ITEM;
+            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
         }else{
-            mouseStatus.start( mapToScene( event->pos() ) );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
             manager->clear();
         }
         updateWidget();
@@ -327,16 +326,13 @@ namespace cadencii{
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         controllerAdapter->removeEvent( trackIndex, noteEventOnMouse );
         if( !noteEventOnMouse ){
-            mouseStatus.start( mapToScene( event->pos() ) );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
         }
         updateWidget();
     }
 
     void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
-        mouseStatus.mode = MouseStatus::MIDDLEBUTTON_SCROLL;
-        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
-        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
-        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
+        initMouseStatus( MouseStatus::MIDDLEBUTTON_SCROLL, event );
     }
 
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
@@ -445,16 +441,17 @@ namespace cadencii{
         }
     }
 
-    PianorollTrackView::MouseStatus::MouseStatus(){
-        mode = NONE;
-        horizontalScrollStartValue = 0;
-        verticalScrollStartValue = 0;
+    void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
+        mouseStatus.mode = status;
+        mouseStatus.startPosition = mapToScene( event->pos() );
+        mouseStatus.endPosition = mouseStatus.startPosition;
+        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
+        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
+        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
     }
 
-    void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
-        mode = LEFTBUTTON_SELECT_ITEM;
-        startPosition = mousePosition;
-        endPosition = mousePosition;
+    PianorollTrackView::MouseStatus::MouseStatus(){
+        clear();
     }
 
     QRect PianorollTrackView::MouseStatus::rect()const{
@@ -463,6 +460,15 @@ namespace cadencii{
         int width = std::abs( startPosition.x() - endPosition.x() );
         int height = std::abs( startPosition.y() - endPosition.y() );
         return QRect( x, y, width, height );
+    }
+
+    void PianorollTrackView::MouseStatus::clear(){
+        mode = NONE;
+        startPosition = QPoint();
+        endPosition = QPoint();
+        horizontalScrollStartValue = 0;
+        verticalScrollStartValue = 0;
+        globalStartPosition = QPoint();
     }
 
 }

@@ -79,15 +79,14 @@ namespace cadencii{
             explicit MouseStatus();
 
             /**
-             * @brief 指定したマウス位置を始点とし、マウスが降りたことにする
-             * @param mousePosition QGraphicsScene 基準の座標
-             */
-            void start( const QPoint &mousePosition );
-
-            /**
              * @brief startPosition と endPosition が成す矩形を取得する
              */
             inline QRect rect()const;
+
+            /**
+             * @brief ステータスをクリアする
+             */
+            void clear();
         };
 
     public:
@@ -207,6 +206,13 @@ namespace cadencii{
          * @brief 矩形選択の四角形内に入っているアイテムを選択し直す
          */
         void updateSelectedItem();
+
+        /**
+         * @brief mouseStatus フィールドの値を更新する
+         * @param status ステータスの種類
+         * @param マウスイベント
+         */
+        void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event );
 
         /**
          * @brief y 座標からノート番号を取得する
