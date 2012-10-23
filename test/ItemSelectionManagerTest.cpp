@@ -85,10 +85,33 @@ public:
         delete itemB;
     }
 
+    void testRevertSelectionStatusTo(){
+        ItemSelectionManager manager;
+        Event *itemA = new Event( 0, EventType::NOTE );
+        itemA->clock = 480;
+        itemA->note = 50;
+        Event *itemB = new Event( 0, EventType::NOTE );
+        itemB->clock = 1920;
+        itemB->note = 52;
+        manager.add( itemA );
+        manager.add( itemB );
+
+        ItemSelectionManager target;
+        target.revertSelectionStatusTo( manager );
+        CPPUNIT_ASSERT( true == target.isContains( itemA ) );
+        CPPUNIT_ASSERT( true == target.isContains( itemB ) );
+
+        CPPUNIT_ASSERT_EQUAL( (size_t)2, target.getEventItemList()->size() );
+
+        delete itemA;
+        delete itemB;
+    }
+
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
     CPPUNIT_TEST( test );
     CPPUNIT_TEST( testAddRemove );
     CPPUNIT_TEST( testMoveItems );
+    CPPUNIT_TEST( testRevertSelectionStatusTo );
     CPPUNIT_TEST_SUITE_END();
 };
 
