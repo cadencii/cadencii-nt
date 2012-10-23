@@ -80,6 +80,9 @@ public:
         CPPUNIT_ASSERT_EQUAL( 50 + 5, itemList->at( itemA ).note );
         CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + 10), itemList->at( itemB ).clock );
         CPPUNIT_ASSERT_EQUAL( 52 + 5, itemList->at( itemB ).note );
+
+        delete itemA;
+        delete itemB;
     }
 
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
