@@ -445,14 +445,7 @@ namespace cadencii{
 
         // 選択状態を最初の状態に戻す
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        manager->clear();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList
-                = mouseStatus.itemSelectionStatusAtFirst.getEventItemList();
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
-                = eventItemList->begin();
-        for( ; i != eventItemList->end(); ++i ){
-            manager->add( i->first );
-        }
+        manager->revertSelectionStatusTo( mouseStatus.itemSelectionStatusAtFirst );
 
         // 矩形に入っているアイテムを、選択状態とする。
         // ただし、矩形選択直前に選択状態となっているものは選択状態を解除する
