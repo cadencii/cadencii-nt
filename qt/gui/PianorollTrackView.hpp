@@ -78,6 +78,10 @@ namespace cadencii{
              * @brief マウスが動いたかどうか
              */
             bool isMouseMoved;
+            /**
+             * @brief 範囲選択開始直前の、アイテム選択状態
+             */
+            ItemSelectionManager itemSelectionStatusAtFirst;
 
         public:
             explicit MouseStatus();

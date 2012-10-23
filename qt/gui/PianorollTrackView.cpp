@@ -310,14 +310,13 @@ namespace cadencii{
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         if( noteEventOnMouse ){
-            if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
-                manager->clear();
-            }
             manager->add( noteEventOnMouse );
             initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
         }else{
             initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
-            manager->clear();
+            if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
+                manager->clear();
+            }
         }
         updateWidget();
     }
@@ -417,35 +416,63 @@ namespace cadencii{
                 ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
                 EditEventCommand command = manager->getEditEventCommand( trackIndex );
                 controllerAdapter->execute( &command );
+            }else{
+                ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+                const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
+                if( noteEventOnMouse ){
+                    if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
+                        manager->clear();
+                    }
+                    manager->add( noteEventOnMouse );
+                }
             }
         }
         mouseStatus.mode = MouseStatus::NONE;
         updateWidget();
     }
 
+    /**
+     * @todo パフォーマンス悪いので改善する。
+     * 例えば、以下の改善策がある。
+     * (1) 矩形内にアイテムが一つもなかった場合は、特に何もしない
+     * (2) manager->add, remove のたびに、propertyView が更新されるので、一括で変更できるようにする
+     */
     void PianorollTrackView::updateSelectedItem(){
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if( !sequence ){
             return;
         }
 
+        // 選択状態を最初の状態に戻す
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        manager->clear();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList
+                = mouseStatus.itemSelectionStatusAtFirst.getEventItemList();
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                = eventItemList->begin();
+        for( ; i != eventItemList->end(); ++i ){
+            manager->add( i->first );
+        }
+
+        // 矩形に入っているアイテムを、選択状態とする。
+        // ただし、矩形選択直前に選択状態となっているものは選択状態を解除する
+        QRect rect = mouseStatus.rect();
         const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
         int count = list->size();
-
-        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        QRect rect = mouseStatus.rect();
-
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
             if( item->type != VSQ_NS::EventType::NOTE ) continue;
             QRect itemRect = getNoteItemRect( item );
 
             if( rect.intersects( itemRect ) ){
-                manager->add( item );
-            }else{
-                manager->remove( item );
+                if( mouseStatus.itemSelectionStatusAtFirst.isContains( item ) ){
+                    manager->remove( item );
+                }else{
+                    manager->add( item );
+                }
             }
         }
+
     }
 
     void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
@@ -456,6 +483,7 @@ namespace cadencii{
         mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
         mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
         mouseStatus.isMouseMoved = false;
+        mouseStatus.itemSelectionStatusAtFirst = *controllerAdapter->getItemSelectionManager();
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
@@ -478,6 +506,7 @@ namespace cadencii{
         verticalScrollStartValue = 0;
         globalStartPosition = QPoint();
         isMouseMoved = false;
+        itemSelectionStatusAtFirst = ItemSelectionManager();
     }
 
 }
