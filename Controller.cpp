@@ -326,18 +326,19 @@ namespace cadencii{
         if( item ){
             // マウスの位置にイベントがあった場合
             std::vector<int> idList;
-            const std::vector<const VSQ_NS::Event *> *selectedItemList = itemSelectionManager.getEventItemList();
-            std::vector<const VSQ_NS::Event *>::const_iterator index
-                    = std::find( selectedItemList->begin(), selectedItemList->end(), item );
+            const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *selectedItemList
+                    = itemSelectionManager.getEventItemList();
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator index
+                    = selectedItemList->find( item );
             if( index == selectedItemList->end() ){
                 // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、マウス位置のイベントのみ削除する
                 idList.push_back( item->id );
             }else{
                 // マウスの位置のイベントが、選択されたイベントに含まれていた場合、選択されたイベントを全て削除する
-                std::vector<const VSQ_NS::Event *>::const_iterator i
+                std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
                         = selectedItemList->begin();
                 for( ; i != selectedItemList->end(); ++i ){
-                    idList.push_back( (*i)->id );
+                    idList.push_back( i->first->id );
                 }
             }
 
@@ -352,11 +353,11 @@ namespace cadencii{
 
     void Controller::removeSelectedItems(){
         //TODO: 音符・歌手イベント以外の選択ができるようになったら対応する
-        const std::vector<const VSQ_NS::Event *> *itemList = itemSelectionManager.getEventItemList();
-        std::vector<const VSQ_NS::Event *>::const_iterator i = itemList->begin();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = itemSelectionManager.getEventItemList();
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i = itemList->begin();
         std::vector<int> idList;
         for( ; i != itemList->end(); ++i ){
-            const VSQ_NS::Event *item = (*i);
+            const VSQ_NS::Event *item = i->first;
             idList.push_back( item->id );
         }
 

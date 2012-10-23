@@ -17,7 +17,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include "../../vsq/Event.hpp"
-#include "../../command/DeleteEventCommand.hpp"
+#include "../../command/EditEventCommand.hpp"
 
 namespace cadencii{
 
@@ -133,7 +133,7 @@ namespace cadencii{
         ui->scrollArea->paintSongPosition( painter, rect );
 
         // 矩形選択の範囲を描画する
-        if( mouseStatus.isLeftButtonDown ){
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_SELECT_ITEM ){
             QRect selectRect = mouseStatus.rect();
             static QColor fillColor( 0, 0, 0, 100 );
             static QColor borderColor( 0, 0, 0, 200 );
@@ -242,19 +242,27 @@ namespace cadencii{
         static QColor borderColor = QColor( 125, 123, 124 );
 
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList = manager->getEventItemList();
 
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
             if( item->type != VSQ_NS::EventType::NOTE ) continue;
-            QRect itemRect = getNoteItemRect( item );
+            const VSQ_NS::Event *actualDrawItem = item;
+            QColor color;
+            if( manager->isContains( item ) ){
+                color = hilightFillColor;
+                actualDrawItem = &eventItemList->at( item );
+            }else{
+                color = fillColor;
+            }
+            QRect itemRect = getNoteItemRect( actualDrawItem );
 
             if( visibleArea.intersects( itemRect ) ){
-                QColor color = manager->isContains( item ) ? hilightFillColor : fillColor;
                 g->fillRect( itemRect, color );
                 g->setPen( borderColor );
                 g->drawRect( itemRect );
 
-                VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+                VSQ_NS::Lyric lyric = actualDrawItem->lyricHandle.getLyricAt( 0 );
                 g->setPen( QColor( 0, 0, 0 ) );
                 g->drawText( itemRect.left() + 1, itemRect.bottom() - 1,
                              QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
@@ -295,6 +303,8 @@ namespace cadencii{
     /**
      * @todo Shift を押しながら音符イベントにマウスがおろされたとき、直前に選択した音符イベントがある場合、
      * この２つの音符イベントの間にある音符イベントをすべて選択状態とする動作を実装する
+     * @todo 既に選択されたアイテムをさらに MousePress した場合の処理を要検討。現状だと、Ctrl を押さないままアイテムを移動しようと
+     * すると、選択状態だった他のアイテムが選択から外れてしまう。
      */
     void PianorollTrackView::handleMouseLeftButtonPressByPointer( QMouseEvent *event ){
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
@@ -304,8 +314,9 @@ namespace cadencii{
                 manager->clear();
             }
             manager->add( noteEventOnMouse );
+            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
         }else{
-            mouseStatus.start( mapToScene( event->pos() ) );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
             manager->clear();
         }
         updateWidget();
@@ -315,17 +326,13 @@ namespace cadencii{
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         controllerAdapter->removeEvent( trackIndex, noteEventOnMouse );
         if( !noteEventOnMouse ){
-            mouseStatus.start( mapToScene( event->pos() ) );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
         }
         updateWidget();
     }
 
     void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
-        mouseStatus.isMiddleButtonDown = true;
-        mouseStatus.isLeftButtonDown = false;
-        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
-        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
-        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
+        initMouseStatus( MouseStatus::MIDDLEBUTTON_SCROLL, event );
     }
 
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
@@ -374,11 +381,11 @@ namespace cadencii{
     }
 
     void PianorollTrackView::onMouseMoveSlot( QMouseEvent *event ){
-        if( mouseStatus.isLeftButtonDown ){
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_SELECT_ITEM ){
             mouseStatus.endPosition = mapToScene( event->pos() );
             updateSelectedItem();
             updateWidget();
-        }else if( mouseStatus.isMiddleButtonDown ){
+        }else if( mouseStatus.mode == MouseStatus::MIDDLEBUTTON_SCROLL ){
             QPoint globalMousePos = ui->scrollArea->mapToGlobal( event->pos() );
             int deltaX = globalMousePos.x() - mouseStatus.globalStartPosition.x();
             int deltaY = globalMousePos.y() - mouseStatus.globalStartPosition.y();
@@ -386,13 +393,33 @@ namespace cadencii{
             ui->scrollArea->horizontalScrollBar()->setValue( mouseStatus.horizontalScrollStartValue - deltaX );
             ui->scrollArea->verticalScrollBar()->setValue( mouseStatus.verticalScrollStartValue - deltaY );
             updateWidget();
+        }else if( mouseStatus.mode == MouseStatus::LEFTBUTTON_MOVE_ITEM ){
+            QPoint currentMousePos = mapToScene( event->pos() );
+
+            // マウスの移動量から、クロック・ノートの移動量を算出
+            VSQ_NS::tick_t deltaClocks = controllerAdapter->getTickFromX( currentMousePos.x() )
+                    - controllerAdapter->getTickFromX( mouseStatus.startPosition.x() );
+            int deltaNoteNumbers = getNoteNumberFromY( currentMousePos.y(), trackHeight )
+                    - getNoteNumberFromY( mouseStatus.startPosition.y(), trackHeight );
+
+            // 選択されたアイテムすべてについて、移動を適用する
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            manager->moveItems( deltaClocks, deltaNoteNumbers );
+            updateWidget();
         }
+        mouseStatus.isMouseMoved = true;
     }
 
     void PianorollTrackView::onMouseReleaseSlot( QMouseEvent *event ){
         mouseStatus.endPosition = mapToScene( event->pos() );
-        mouseStatus.isLeftButtonDown = false;
-        mouseStatus.isMiddleButtonDown = false;
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_MOVE_ITEM ){
+            if( mouseStatus.isMouseMoved ){
+                ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+                EditEventCommand command = manager->getEditEventCommand( trackIndex );
+                controllerAdapter->execute( &command );
+            }
+        }
+        mouseStatus.mode = MouseStatus::NONE;
         updateWidget();
     }
 
@@ -421,18 +448,18 @@ namespace cadencii{
         }
     }
 
-    PianorollTrackView::MouseStatus::MouseStatus(){
-        isLeftButtonDown = false;
-        isMiddleButtonDown = false;
-        horizontalScrollStartValue = 0;
-        verticalScrollStartValue = 0;
+    void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
+        mouseStatus.mode = status;
+        mouseStatus.startPosition = mapToScene( event->pos() );
+        mouseStatus.endPosition = mouseStatus.startPosition;
+        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
+        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
+        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
+        mouseStatus.isMouseMoved = false;
     }
 
-    void PianorollTrackView::MouseStatus::start( const QPoint &mousePosition ){
-        isLeftButtonDown = true;
-        isMiddleButtonDown = false;
-        startPosition = mousePosition;
-        endPosition = mousePosition;
+    PianorollTrackView::MouseStatus::MouseStatus(){
+        clear();
     }
 
     QRect PianorollTrackView::MouseStatus::rect()const{
@@ -441,6 +468,16 @@ namespace cadencii{
         int width = std::abs( startPosition.x() - endPosition.x() );
         int height = std::abs( startPosition.y() - endPosition.y() );
         return QRect( x, y, width, height );
+    }
+
+    void PianorollTrackView::MouseStatus::clear(){
+        mode = NONE;
+        startPosition = QPoint();
+        endPosition = QPoint();
+        horizontalScrollStartValue = 0;
+        verticalScrollStartValue = 0;
+        globalStartPosition = QPoint();
+        isMouseMoved = false;
     }
 
 }

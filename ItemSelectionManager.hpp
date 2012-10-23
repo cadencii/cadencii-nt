@@ -17,12 +17,17 @@
 
 #include "vsq/Event.hpp"
 #include "ItemSelectionStatusListener.hpp"
+#include "command/EditEventCommand.hpp"
 #include <set>
+#include <map>
 
 namespace cadencii{
 
     /**
      * @brief 編集対象アイテムの選択状態を管理するクラス
+     * @todo 選択状態となっているアイテムがどのトラックに存在するかどうかを、このクラスが保持するべきなのではないか？
+     *       そして、後から別トラックのアイテムが追加されようとした際は、自動で選択状態をクリアし、
+     *       新たなアイテムだけ選択状態となるようにするべき。
      */
     class ItemSelectionManager{
     private:
@@ -32,9 +37,9 @@ namespace cadencii{
         std::set<void *> itemList;
 
         /**
-         * @brief 選択されたアイテムのうち、音符・歌手変更イベントへのポインタ
+         * @brief 選択されたアイテムのうち、音符・歌手変更イベントへのポインタ。これをキーとした、編集中アイテムの値を保持する
          */
-        std::vector<const VSQ_NS::Event *> eventItemList;
+        std::map<const VSQ_NS::Event *, VSQ_NS::Event> eventItemList;
 
         /**
          * @brief アイテムの選択状態を監視するリスナーのリスト
@@ -57,7 +62,7 @@ namespace cadencii{
         void add( const VSQ_NS::Event *event ){
             if( !isContains( event ) ){
                 itemList.insert( (void *)event );
-                eventItemList.push_back( event );
+                eventItemList.insert( std::make_pair( event, *event ) );
                 notifyStatusChange();
             }
         }
@@ -70,7 +75,7 @@ namespace cadencii{
             std::set<void *>::iterator index = itemList.find( (void *)event );
             if( index != itemList.end() ){
                 itemList.erase( index );
-                eventItemList.erase( std::find( eventItemList.begin(), eventItemList.end(), event ) );
+                eventItemList.erase( event );
                 notifyStatusChange();
             }
         }
@@ -83,9 +88,10 @@ namespace cadencii{
         }
 
         /**
-         * @brief 選択状態の音符・歌手変更イベントのリストを取得する
+         * @brief 選択状態の音符・歌手変更イベントのマップを取得する。
+         * マップのキーは、選択状態の編集前のインスタンスを指すポインタ、値は編集操作中の値を格納する一時的インスタンス
          */
-        const std::vector<const VSQ_NS::Event *> *getEventItemList()const{
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *getEventItemList()const{
             return &eventItemList;
         }
 
@@ -94,6 +100,43 @@ namespace cadencii{
          */
         void addStatusListener( ItemSelectionStatusListener *listener ){
             listenerList.push_back( listener );
+        }
+
+        /**
+         * @brief 選択状態のアイテムを、指定した時間、指定したノート番号分だけ移動する
+         * @param deltaClocks 移動する時間
+         * @param deltaNoteNumbers 移動するノート番号
+         */
+        void moveItems( VSQ_NS::tick_t deltaClocks, int deltaNoteNumbers ){
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
+                    = eventItemList.begin();
+            for( ; i != eventItemList.end(); ++i ){
+                const VSQ_NS::Event *originalItem = i->first;
+                VSQ_NS::Event editingItem = i->second;
+                editingItem.clock = originalItem->clock + deltaClocks;
+                editingItem.note = originalItem->note + deltaNoteNumbers;
+                i->second = editingItem;
+            }
+        }
+
+        /**
+         * @brief 選択されたアイテムが編集された状態を、SequenceModel に反映するためのコマンドを取得する
+         * @param trackIndex 選択されたアイテムが存在するトラックの番号
+         * @return コマンド
+         * @todo trackIndex 引数を削除できるよう努める
+         */
+        EditEventCommand getEditEventCommand( int trackIndex ){
+            std::map<int, VSQ_NS::Event> itemList;
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                    = eventItemList.begin();
+            for( ; i != eventItemList.end(); ++i ){
+                const VSQ_NS::Event *selectedItem = i->first;
+                VSQ_NS::Event editedItem = i->second;
+                int eventId = selectedItem->id;
+                editedItem.id = eventId;
+                itemList.insert( std::make_pair( eventId, editedItem ) );
+            }
+            return EditEventCommand( trackIndex, itemList );
         }
 
     private:
