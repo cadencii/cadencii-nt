@@ -310,13 +310,13 @@ namespace cadencii{
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         if( noteEventOnMouse ){
-            manager->add( noteEventOnMouse );
             initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
+            manager->add( noteEventOnMouse );
         }else{
-            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
             if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
                 manager->clear();
             }
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
         }
         updateWidget();
     }
@@ -423,7 +423,11 @@ namespace cadencii{
                     if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
                         manager->clear();
                     }
-                    manager->add( noteEventOnMouse );
+                    if( mouseStatus.itemSelectionStatusAtFirst.isContains( noteEventOnMouse ) ){
+                        manager->remove( noteEventOnMouse );
+                    }else{
+                        manager->add( noteEventOnMouse );
+                    }
                 }
             }
         }
@@ -435,6 +439,7 @@ namespace cadencii{
      * @todo パフォーマンス悪いので改善する。
      * 例えば、以下の改善策がある。
      * (1) 矩形内にアイテムが一つもなかった場合は、特に何もしない
+     * (2) 全件検索になっているので、たとえばイベントの並び順が時刻順となるよう保証するなどで対応する
      */
     void PianorollTrackView::updateSelectedItem(){
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
