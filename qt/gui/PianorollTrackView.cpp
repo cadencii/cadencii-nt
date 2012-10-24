@@ -435,7 +435,6 @@ namespace cadencii{
      * @todo パフォーマンス悪いので改善する。
      * 例えば、以下の改善策がある。
      * (1) 矩形内にアイテムが一つもなかった場合は、特に何もしない
-     * (2) manager->add, remove のたびに、propertyView が更新されるので、一括で変更できるようにする
      */
     void PianorollTrackView::updateSelectedItem(){
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
@@ -452,6 +451,8 @@ namespace cadencii{
         QRect rect = mouseStatus.rect();
         const VSQ_NS::Event::List *list = sequence->track[trackIndex].getConstEvents();
         int count = list->size();
+        std::set<const VSQ_NS::Event *> add;
+        std::set<const VSQ_NS::Event *> remove;
         for( int i = 0; i < count; i++ ){
             const VSQ_NS::Event *item = list->get( i );
             if( item->type != VSQ_NS::EventType::NOTE ) continue;
@@ -459,13 +460,14 @@ namespace cadencii{
 
             if( rect.intersects( itemRect ) ){
                 if( mouseStatus.itemSelectionStatusAtFirst.isContains( item ) ){
-                    manager->remove( item );
+                    remove.insert( item );
                 }else{
-                    manager->add( item );
+                    add.insert( item );
                 }
             }
         }
-
+        manager->add( add );
+        manager->remove( remove );
     }
 
     void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
