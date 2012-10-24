@@ -65,16 +65,40 @@ namespace cadencii{
         }
 
         /**
+         * @brief アイテムを選択状態にする
+         */
+        void add( const std::set<const VSQ_NS::Event *> eventList ){
+            std::set<const VSQ_NS::Event *>::const_iterator i
+                    = eventList.begin();
+            bool added = false;
+            for( ; i != eventList.end(); ++i ){
+                added |= silentAdd( *i );
+            }
+            if( added ) notifyStatusChange();
+        }
+
+        /**
          * @brief アイテムを選択状態から解除する
          * @param event 選択状態を解除するアイテム
          */
         void remove( const VSQ_NS::Event *event ){
-            std::set<void *>::iterator index = itemList.find( (void *)event );
-            if( index != itemList.end() ){
-                itemList.erase( index );
-                eventItemList.erase( event );
+            if( silentRemove( event ) ){
                 notifyStatusChange();
             }
+        }
+
+        /**
+         * @brief アイテムを選択状態から解除する
+         * @param event 選択状態を解除するアイテムのリスト
+         */
+        void remove( const std::set<const VSQ_NS::Event *> eventList ){
+            std::set<const VSQ_NS::Event *>::const_iterator i
+                    = eventList.begin();
+            bool removed = false;
+            for( ; i != eventList.end(); ++i ){
+                removed |= silentRemove( *i );
+            }
+            if( removed ) notifyStatusChange();
         }
 
         /**
@@ -179,6 +203,22 @@ namespace cadencii{
             if( !isContains( event ) ){
                 itemList.insert( (void *)event );
                 eventItemList.insert( std::make_pair( event, *event ) );
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        /**
+         * @brief notifyStatusChange メソッドを呼ぶことなく、アイテムを削除する
+         * @param item 削除するアイテム
+         * @return 削除されたかどうか。既に選択状態でなかった場合は false が返る
+         */
+        inline bool silentRemove( const VSQ_NS::Event *event ){
+            std::set<void *>::iterator index = itemList.find( (void *)event );
+            if( index != itemList.end() ){
+                itemList.erase( index );
+                eventItemList.erase( event );
                 return true;
             }else{
                 return false;
