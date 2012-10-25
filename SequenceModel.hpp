@@ -48,6 +48,7 @@ namespace cadencii{
          */
         void execute( AbstractCommand *command ){
             AbstractCommand *inverseCommand = command->execute( &sequence );
+            sortAllItems( &sequence );
             if( currentHistoryIndex == commandHistory.size() - 1 ){
                 // 新しいコマンドバッファを追加する場合
                 commandHistory.push_back( inverseCommand );
@@ -127,6 +128,21 @@ namespace cadencii{
                 delete (*i);
             }
             commandHistory.clear();
+        }
+
+        /**
+         * @brief シーケンス中の、時系列順に並べ替えが必要なすべての項目の並べ替えを行う
+         * @param sequence 編集対象のシーケンス
+         */
+        void sortAllItems( VSQ_NS::Sequence *sequence ){
+            // 各トラックのカーブと、シーケンスのtimesigList はそれぞれ自動でソートされるので気にしなくてよい
+            std::vector<VSQ_NS::Track>::iterator i = sequence->track.begin();
+            for( ; i != sequence->track.end(); ++i ){
+                VSQ_NS::Track *track = &(*i);
+                track->getEvents()->sort();
+            }
+            sequence->tempoList.updateTempoInfo();
+            sequence->updateTotalClocks();
         }
     };
 
