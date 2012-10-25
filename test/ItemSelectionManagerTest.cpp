@@ -1,6 +1,7 @@
 #include "Util.hpp"
 #include "../ItemSelectionManager.hpp"
 #include "../vsq/Event.hpp"
+#include <set>
 
 using namespace VSQ_NS;
 using namespace cadencii;
@@ -85,10 +86,55 @@ public:
         delete itemB;
     }
 
+    void testRevertSelectionStatusTo(){
+        ItemSelectionManager manager;
+        Event *itemA = new Event( 0, EventType::NOTE );
+        itemA->clock = 480;
+        itemA->note = 50;
+        Event *itemB = new Event( 0, EventType::NOTE );
+        itemB->clock = 1920;
+        itemB->note = 52;
+        manager.add( itemA );
+        manager.add( itemB );
+
+        ItemSelectionManager target;
+        target.revertSelectionStatusTo( manager );
+        CPPUNIT_ASSERT( true == target.isContains( itemA ) );
+        CPPUNIT_ASSERT( true == target.isContains( itemB ) );
+
+        CPPUNIT_ASSERT_EQUAL( (size_t)2, target.getEventItemList()->size() );
+
+        delete itemA;
+        delete itemB;
+    }
+
+    void testAddRemoveUsingList(){
+        ItemSelectionManager manager;
+        Event itemA( 0, EventType::NOTE );
+        itemA.clock = 480;
+        itemA.note = 50;
+        Event itemB( 0, EventType::NOTE );
+        itemB.clock = 1920;
+        itemB.note = 52;
+        std::set<const VSQ_NS::Event *> list;
+        list.insert( &itemA );
+        list.insert( &itemB );
+
+        manager.add( list );
+        CPPUNIT_ASSERT( true == manager.isContains( &itemA ) );
+        CPPUNIT_ASSERT( true == manager.isContains( &itemB ) );
+
+        manager.remove( list );
+        CPPUNIT_ASSERT( false == manager.isContains( &itemA ) );
+        CPPUNIT_ASSERT( false == manager.isContains( &itemB ) );
+    }
+
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
     CPPUNIT_TEST( test );
     CPPUNIT_TEST( testAddRemove );
     CPPUNIT_TEST( testMoveItems );
+    CPPUNIT_TEST( testRevertSelectionStatusTo );
+    CPPUNIT_TEST( testAddRemoveUsingList );
     CPPUNIT_TEST_SUITE_END();
 };
 

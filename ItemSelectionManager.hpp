@@ -51,8 +51,7 @@ namespace cadencii{
          * @brief アイテムの選択状態を解除する
          */
         void clear(){
-            itemList.clear();
-            eventItemList.clear();
+            silentClear();
             notifyStatusChange();
         }
 
@@ -60,11 +59,22 @@ namespace cadencii{
          * @brief アイテムを選択状態にする
          */
         void add( const VSQ_NS::Event *event ){
-            if( !isContains( event ) ){
-                itemList.insert( (void *)event );
-                eventItemList.insert( std::make_pair( event, *event ) );
+            if( silentAdd( event ) ){
                 notifyStatusChange();
             }
+        }
+
+        /**
+         * @brief アイテムを選択状態にする
+         */
+        void add( const std::set<const VSQ_NS::Event *> eventList ){
+            std::set<const VSQ_NS::Event *>::const_iterator i
+                    = eventList.begin();
+            bool added = false;
+            for( ; i != eventList.end(); ++i ){
+                added |= silentAdd( *i );
+            }
+            if( added ) notifyStatusChange();
         }
 
         /**
@@ -72,12 +82,23 @@ namespace cadencii{
          * @param event 選択状態を解除するアイテム
          */
         void remove( const VSQ_NS::Event *event ){
-            std::set<void *>::iterator index = itemList.find( (void *)event );
-            if( index != itemList.end() ){
-                itemList.erase( index );
-                eventItemList.erase( event );
+            if( silentRemove( event ) ){
                 notifyStatusChange();
             }
+        }
+
+        /**
+         * @brief アイテムを選択状態から解除する
+         * @param event 選択状態を解除するアイテムのリスト
+         */
+        void remove( const std::set<const VSQ_NS::Event *> eventList ){
+            std::set<const VSQ_NS::Event *>::const_iterator i
+                    = eventList.begin();
+            bool removed = false;
+            for( ; i != eventList.end(); ++i ){
+                removed |= silentRemove( *i );
+            }
+            if( removed ) notifyStatusChange();
         }
 
         /**
@@ -139,6 +160,21 @@ namespace cadencii{
             return EditEventCommand( trackIndex, itemList );
         }
 
+        /**
+         * @brief アイテムの選択状態を、指定された manager のインスタンスが表すものと同等にする
+         */
+        void revertSelectionStatusTo( const ItemSelectionManager &manager ){
+            silentClear();
+            const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList
+                    = manager.getEventItemList();
+            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                    = eventItemList->begin();
+            for( ; i != eventItemList->end(); ++i ){
+                silentAdd( i->first );
+            }
+            notifyStatusChange();
+        }
+
     private:
         /**
          * @brief すべてのリスナーに、選択状態が変化したことを通知する
@@ -147,6 +183,45 @@ namespace cadencii{
             std::vector<ItemSelectionStatusListener *>::iterator i = listenerList.begin();
             for( ; i != listenerList.end(); ++i ){
                 (*i)->statusChanged();
+            }
+        }
+
+        /**
+         * @brief notifyStatusChange メソッドを呼ぶことなく、ステータスをクリアする
+         */
+        inline void silentClear(){
+            itemList.clear();
+            eventItemList.clear();
+        }
+
+        /**
+         * @brief notifyStatusChange メソッドを呼ぶことなく、アイテムを追加する
+         * @param item 追加するアイテム
+         * @return 追加されたかどうか。既に選択状態になっていた場合は false が返る
+         */
+        inline bool silentAdd( const VSQ_NS::Event *event ){
+            if( !isContains( event ) ){
+                itemList.insert( (void *)event );
+                eventItemList.insert( std::make_pair( event, *event ) );
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        /**
+         * @brief notifyStatusChange メソッドを呼ぶことなく、アイテムを削除する
+         * @param item 削除するアイテム
+         * @return 削除されたかどうか。既に選択状態でなかった場合は false が返る
+         */
+        inline bool silentRemove( const VSQ_NS::Event *event ){
+            std::set<void *>::iterator index = itemList.find( (void *)event );
+            if( index != itemList.end() ){
+                itemList.erase( index );
+                eventItemList.erase( event );
+                return true;
+            }else{
+                return false;
             }
         }
     };
