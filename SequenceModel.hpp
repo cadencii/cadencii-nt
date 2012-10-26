@@ -35,6 +35,10 @@ namespace cadencii{
             currentHistoryIndex = -1;
         }
 
+        ~SequenceModel(){
+            clear();
+        }
+
         /**
          * @brief シーケンスのインスタンスへのポインターを取得する
          */
