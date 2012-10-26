@@ -256,6 +256,8 @@ namespace cadencii{
                 color = fillColor;
             }
             QRect itemRect = getNoteItemRect( actualDrawItem );
+            if( itemRect.right() < visibleArea.left() ) continue;
+            if( visibleArea.right() < itemRect.left() ) break;
 
             if( visibleArea.intersects( itemRect ) ){
                 g->fillRect( itemRect, color );
