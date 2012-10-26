@@ -256,6 +256,8 @@ namespace cadencii{
                 color = fillColor;
             }
             QRect itemRect = getNoteItemRect( actualDrawItem );
+            if( itemRect.right() < visibleArea.left() ) continue;
+            if( visibleArea.right() < itemRect.left() ) break;
 
             if( visibleArea.intersects( itemRect ) ){
                 g->fillRect( itemRect, color );
@@ -439,7 +441,6 @@ namespace cadencii{
      * @todo パフォーマンス悪いので改善する。
      * 例えば、以下の改善策がある。
      * (1) 矩形内にアイテムが一つもなかった場合は、特に何もしない
-     * (2) 全件検索になっているので、たとえばイベントの並び順が時刻順となるよう保証するなどで対応する
      */
     void PianorollTrackView::updateSelectedItem(){
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
@@ -462,6 +463,8 @@ namespace cadencii{
             const VSQ_NS::Event *item = list->get( i );
             if( item->type != VSQ_NS::EventType::NOTE ) continue;
             QRect itemRect = getNoteItemRect( item );
+            if( itemRect.right() < rect.left() ) continue;
+            if( rect.right() < itemRect.left() ) break;
 
             if( rect.intersects( itemRect ) ){
                 if( mouseStatus.itemSelectionStatusAtFirst.isContains( item ) ){
