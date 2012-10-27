@@ -13,28 +13,35 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include "ConcretePropertyView.hpp"
+#include "PropertyTreeUpdateWorker.hpp"
 #include <QtIntPropertyManager>
 #include <QtSpinBoxFactory>
 
 namespace cadencii{
 
     ConcretePropertyView::ConcretePropertyView( QWidget *parent ) :
-        QtTreePropertyBrowser( parent ), controllerAdapter( 0 ), treeUpdateWorker( this )
+        QtTreePropertyBrowser( parent ), controllerAdapter( 0 )
     {
         setFocusPolicy( Qt::NoFocus );
         setResizeMode( QtTreePropertyBrowser::Interactive );
         setIndentation( 10 );
         initProperties();
-        treeUpdateWorker.start();
+        treeUpdateWorker = new PropertyTreeUpdateWorker( this );
+        connect( treeUpdateWorker, SIGNAL(callUpdateTree()), this, SLOT(updateTree()) );
+        treeUpdateWorker->start();
+    }
+
+    ConcretePropertyView::~ConcretePropertyView(){
+        delete treeUpdateWorker;
     }
 
     void ConcretePropertyView::statusChanged(){
-        treeUpdateWorker.enqueueTreeUpdate();
+        treeUpdateWorker->enqueueTreeUpdate();
     }
 
     void ConcretePropertyView::setControllerAdapter( ControllerAdapter *adapter ){
         controllerAdapter = adapter;
-        treeUpdateWorker.setControllerAdapter( adapter );
+        treeUpdateWorker->setControllerAdapter( adapter );
     }
 
     void *ConcretePropertyView::getWidget(){
@@ -107,46 +114,16 @@ namespace cadencii{
         enumPropertyManager.setEnumNames( vibratoType, vibratoTypes );
     }
 
-    ConcretePropertyView::PropertyTreeUpdateWorker::PropertyTreeUpdateWorker( ConcretePropertyView *parent ) :
-        QThread( parent ), updateRequested( false ), parent( parent )
-    {
-    }
+    void ConcretePropertyView::updateTree(){
+        ConcretePropertyView *parent = this;
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
 
-    void ConcretePropertyView::PropertyTreeUpdateWorker::run(){
-        while( true ){
-            mutex.lock();
-            if( updateRequested ){
-                ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-                const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
-
-                if( list->empty() ){
-                    parent->clear();
-                    return;
-                }
-
-                updateTreeByEvent( list );
-                updateRequested = false;
-            }else{
-                msleep( SLEEP_INTERVAL_MILLI_SECONDS );
-            }
-            mutex.unlock();
-            {//TODO:
-                std::cout << "ConcretePropertyView::PropertyTreeUpdateWorker::run" << std::endl;
-            }
+        if( list->empty() ){
+            parent->clear();
+            return;
         }
-    }
 
-    void ConcretePropertyView::PropertyTreeUpdateWorker::setControllerAdapter( ControllerAdapter *adapter ){
-        controllerAdapter = adapter;
-    }
-
-    void ConcretePropertyView::PropertyTreeUpdateWorker::enqueueTreeUpdate(){
-        mutex.lock();
-        updateRequested = true;
-        mutex.unlock();
-    }
-
-    void ConcretePropertyView::PropertyTreeUpdateWorker::updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list ){
         parent->addProperty( parent->lyric );
         parent->addProperty( parent->note );
         parent->addProperty( parent->notelocation );

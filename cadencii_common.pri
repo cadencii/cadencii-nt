@@ -22,7 +22,8 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/ConcretePropertyView.cpp \
     $$PWD/command/DeleteEventCommand.cpp \
     $$PWD/command/AddEventCommand.cpp \
-    $$PWD/command/AbstractCommand.cpp
+    $$PWD/command/AbstractCommand.cpp \
+    $$PWD/qt/gui/PropertyTreeUpdateWorker.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -67,7 +68,8 @@ HEADERS  += \
     $$PWD/SequenceModel.hpp \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
-    $$PWD/qt/AppContainer.hpp
+    $$PWD/qt/AppContainer.hpp \
+    $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

@@ -24,38 +24,14 @@
 
 namespace cadencii{
 
+    class PropertyTreeUpdateWorker;
+
     class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView{
+        Q_OBJECT
+
+        friend class PropertyTreeUpdateWorker;
+
     private:
-        /**
-         * @brief プロパティツリーの更新を行うワーカースレッド
-         */
-        class PropertyTreeUpdateWorker : public QThread{
-        private:
-            static const int SLEEP_INTERVAL_MILLI_SECONDS = 10;
-            ConcretePropertyView *parent;
-            ControllerAdapter *controllerAdapter;
-            QMutex mutex;
-            bool updateRequested;
-
-        public:
-            PropertyTreeUpdateWorker( ConcretePropertyView *parent );
-
-            void run();
-
-            /**
-             * @brief ツリーの更新を要求する
-             */
-            void enqueueTreeUpdate();
-
-            void setControllerAdapter( ControllerAdapter * adapter );
-
-        private:
-            /**
-             * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
-             */
-            void updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list );
-        };
-
         ControllerAdapter *controllerAdapter;
 
         QtGroupPropertyManager groupManager;
@@ -93,10 +69,12 @@ namespace cadencii{
         QtProperty *vibratoType;
         QtProperty *vibratoLength;
 
-        PropertyTreeUpdateWorker treeUpdateWorker;
+        PropertyTreeUpdateWorker *treeUpdateWorker;
 
     public:
         ConcretePropertyView( QWidget *parent = 0 );
+
+        ~ConcretePropertyView();
 
         void setControllerAdapter( ControllerAdapter *adapter );
 
@@ -105,6 +83,12 @@ namespace cadencii{
         void updateWidget();
 
         void statusChanged();
+
+    public slots:
+        /**
+         * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
+         */
+        void updateTree();
 
     private:
         /**
