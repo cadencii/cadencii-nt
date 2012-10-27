@@ -17,7 +17,7 @@
 namespace cadencii{
 
     PropertyTreeUpdateWorker::PropertyTreeUpdateWorker( ConcretePropertyView *parent ) :
-        QThread( parent ), updateRequested( false ), parent( parent ), stopRequested( false )
+        QThread( parent ), updateRequested( false ), parent( parent ), stopRequested( false ), controllerAdapter( 0 )
     {
     }
 
