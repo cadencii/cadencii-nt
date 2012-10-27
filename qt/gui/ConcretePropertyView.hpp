@@ -19,11 +19,43 @@
 #include "../../vsq/Sequence.hpp"
 #include <QtTreePropertyBrowser>
 #include <QtIntPropertyManager>
+#include <QThread>
+#include <QMutex>
 
 namespace cadencii{
 
     class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView{
     private:
+        /**
+         * @brief プロパティツリーの更新を行うワーカースレッド
+         */
+        class PropertyTreeUpdateWorker : public QThread{
+        private:
+            static const int SLEEP_INTERVAL_MILLI_SECONDS = 10;
+            ConcretePropertyView *parent;
+            ControllerAdapter *controllerAdapter;
+            QMutex mutex;
+            bool updateRequested;
+
+        public:
+            PropertyTreeUpdateWorker( ConcretePropertyView *parent );
+
+            void run();
+
+            /**
+             * @brief ツリーの更新を要求する
+             */
+            void enqueueTreeUpdate();
+
+            void setControllerAdapter( ControllerAdapter * adapter );
+
+        private:
+            /**
+             * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
+             */
+            void updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list );
+        };
+
         ControllerAdapter *controllerAdapter;
 
         QtGroupPropertyManager groupManager;
@@ -61,6 +93,8 @@ namespace cadencii{
         QtProperty *vibratoType;
         QtProperty *vibratoLength;
 
+        PropertyTreeUpdateWorker treeUpdateWorker;
+
     public:
         ConcretePropertyView( QWidget *parent = 0 );
 
@@ -73,11 +107,6 @@ namespace cadencii{
         void statusChanged();
 
     private:
-        /**
-         * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
-         */
-        void updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list );
-
         /**
          * @brief QtProperty * 型のフィールドを初期化する
          */
