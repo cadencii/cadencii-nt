@@ -19,10 +19,18 @@
 #include "../../vsq/Sequence.hpp"
 #include <QtTreePropertyBrowser>
 #include <QtIntPropertyManager>
+#include <QThread>
+#include <QMutex>
 
 namespace cadencii{
 
+    class PropertyTreeUpdateWorker;
+
     class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView{
+        Q_OBJECT
+
+        friend class PropertyTreeUpdateWorker;
+
     private:
         ControllerAdapter *controllerAdapter;
 
@@ -61,8 +69,12 @@ namespace cadencii{
         QtProperty *vibratoType;
         QtProperty *vibratoLength;
 
+        PropertyTreeUpdateWorker *treeUpdateWorker;
+
     public:
         ConcretePropertyView( QWidget *parent = 0 );
+
+        ~ConcretePropertyView();
 
         void setControllerAdapter( ControllerAdapter *adapter );
 
@@ -72,12 +84,13 @@ namespace cadencii{
 
         void statusChanged();
 
-    private:
+    public slots:
         /**
          * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
          */
-        void updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list );
+        void updateTree();
 
+    private:
         /**
          * @brief QtProperty * 型のフィールドを初期化する
          */

@@ -13,6 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include "ConcretePropertyView.hpp"
+#include "PropertyTreeUpdateWorker.hpp"
 #include <QtIntPropertyManager>
 #include <QtSpinBoxFactory>
 
@@ -25,22 +26,22 @@ namespace cadencii{
         setResizeMode( QtTreePropertyBrowser::Interactive );
         setIndentation( 10 );
         initProperties();
+        treeUpdateWorker = new PropertyTreeUpdateWorker( this );
+        connect( treeUpdateWorker, SIGNAL(callUpdateTree()), this, SLOT(updateTree()) );
+        treeUpdateWorker->start();
+    }
+
+    ConcretePropertyView::~ConcretePropertyView(){
+        delete treeUpdateWorker;
     }
 
     void ConcretePropertyView::statusChanged(){
-        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
-
-        if( list->empty() ){
-            clear();
-            return;
-        }
-
-        updateTreeByEvent( list );
+        treeUpdateWorker->enqueueTreeUpdate();
     }
 
     void ConcretePropertyView::setControllerAdapter( ControllerAdapter *adapter ){
-        this->controllerAdapter = adapter;
+        controllerAdapter = adapter;
+        treeUpdateWorker->setControllerAdapter( adapter );
     }
 
     void *ConcretePropertyView::getWidget(){
@@ -51,11 +52,82 @@ namespace cadencii{
         repaint();
     }
 
-    void ConcretePropertyView::updateTreeByEvent( const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list ){
-        addProperty( lyric );
-        addProperty( note );
-        addProperty( notelocation );
-        addProperty( vibrato );
+    void ConcretePropertyView::initProperties(){
+        // Lyric
+        lyric = groupManager.addProperty( tr( "Lyric" ) );
+        lyricPhrase = stringPropertyManager.addProperty( tr( "Phrase" ) );
+        lyricPhoneticSymbol = stringPropertyManager.addProperty( tr( "Phonetic Symbol" ) );
+        lyricConsonantAdjustment = stringPropertyManager.addProperty( tr( "Consonant Adjustment" ) );
+        lyricProtect = enumPropertyManager.addProperty( tr( "Protect" ) );
+        lyric->addSubProperty( lyricPhrase );
+        lyric->addSubProperty( lyricPhoneticSymbol );
+        lyric->addSubProperty( lyricConsonantAdjustment );
+        lyric->addSubProperty( lyricProtect );
+
+        // Note
+        note = groupManager.addProperty( tr( "Note" ) );
+        noteLength = stringPropertyManager.addProperty( tr( "Length" ) );
+        noteNumber = stringPropertyManager.addProperty( tr( "Note#" ) );
+        note->addSubProperty( noteLength );
+        note->addSubProperty( noteNumber );
+
+        // Note Location
+        notelocation = groupManager.addProperty( tr( "Note Location" ) );
+        notelocationClock = stringPropertyManager.addProperty( tr( "Clock" ) );
+        notelocationMeasure = stringPropertyManager.addProperty( tr( "Measure" ) );
+        notelocationBeat = stringPropertyManager.addProperty( tr( "Beat" ) );
+        notelocationTick = stringPropertyManager.addProperty( tr( "Tick" ) );
+        notelocation->addSubProperty( notelocationClock );
+        notelocation->addSubProperty( notelocationMeasure );
+        notelocation->addSubProperty( notelocationBeat );
+        notelocation->addSubProperty( notelocationTick );
+
+        // Vibrato
+        vibrato = groupManager.addProperty( tr( "Vibrato" ) );
+        vibratoType = enumPropertyManager.addProperty( tr( "Vibrato" ) );
+        vibratoLength = stringPropertyManager.addProperty( tr( "Vibrato Length" ) );
+        vibrato->addSubProperty( vibratoType );
+        vibrato->addSubProperty( vibratoLength );
+
+        // enum で列挙する文字列の一覧を作成
+        QStringList types;
+        types << "" << "Off" << "On";
+        enumPropertyManager.setEnumNames( lyricProtect, types );
+        setFactoryForManager( &enumPropertyManager, new QtEnumEditorFactory() );
+
+        setFactoryForManager( &stringPropertyManager, new QtLineEditFactory() );
+
+        QStringList vibratoTypes;
+        std::vector<std::string> topTypes;
+        topTypes.push_back( "Normal" );
+        topTypes.push_back( "Extreme" );
+        topTypes.push_back( "Fast" );
+        topTypes.push_back( "Slight" );
+        vibratoTypes << "-";
+        for( std::vector<std::string>::iterator i = topTypes.begin(); i != topTypes.end(); ++i ){
+            for( int j = 1; j <= 4; j++ ){
+                std::ostringstream name;
+                name << "[" << (*i) << "] Type " << j;
+                vibratoTypes << name.str().c_str();
+            }
+        }
+        enumPropertyManager.setEnumNames( vibratoType, vibratoTypes );
+    }
+
+    void ConcretePropertyView::updateTree(){
+        ConcretePropertyView *parent = this;
+        ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
+
+        if( list->empty() ){
+            parent->clear();
+            return;
+        }
+
+        parent->addProperty( parent->lyric );
+        parent->addProperty( parent->note );
+        parent->addProperty( parent->notelocation );
+        parent->addProperty( parent->vibrato );
 
         std::string lyricPhrase = "";
         std::string lyricPhoneticSymbol = "";
@@ -133,84 +205,22 @@ namespace cadencii{
                 if( vibratoLength != vibLength ) vibratoLength = -1;
             }
 
-            stringPropertyManager.setValue( this->lyricPhrase, lyricPhrase.c_str() );
-            stringPropertyManager.setValue( this->lyricPhoneticSymbol, lyricPhoneticSymbol.c_str() );
-            stringPropertyManager.setValue( this->lyricConsonantAdjustment, lyricConsonantAdjustment.c_str() );
-            enumPropertyManager.setValue( this->lyricProtect, lyricProtect );
+            parent->stringPropertyManager.setValue( parent->lyricPhrase, lyricPhrase.c_str() );
+            parent->stringPropertyManager.setValue( parent->lyricPhoneticSymbol, lyricPhoneticSymbol.c_str() );
+            parent->stringPropertyManager.setValue( parent->lyricConsonantAdjustment, lyricConsonantAdjustment.c_str() );
+            parent->enumPropertyManager.setValue( parent->lyricProtect, lyricProtect );
 
-            stringPropertyManager.setValue( this->noteLength, 0 <= noteLength ? StringUtil::toString( noteLength ).c_str() : "" );
-            stringPropertyManager.setValue( this->noteNumber, 0 <= noteNumber ? StringUtil::toString( noteNumber ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->noteLength, 0 <= noteLength ? StringUtil::toString( noteLength ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->noteNumber, 0 <= noteNumber ? StringUtil::toString( noteNumber ).c_str() : "" );
 
-            stringPropertyManager.setValue( this->notelocationClock, 0 <= notelocationClock ? StringUtil::toString( notelocationClock ).c_str() : "" );
-            stringPropertyManager.setValue( this->notelocationMeasure, 0 <= notelocationMeasure ? StringUtil::toString( notelocationMeasure ).c_str() : "" );
-            stringPropertyManager.setValue( this->notelocationBeat, 0 <= notelocationBeat ? StringUtil::toString( notelocationBeat ).c_str() : "" );
-            stringPropertyManager.setValue( this->notelocationTick, 0 <= notelocationTick ? StringUtil::toString( notelocationTick ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->notelocationClock, 0 <= notelocationClock ? StringUtil::toString( notelocationClock ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->notelocationMeasure, 0 <= notelocationMeasure ? StringUtil::toString( notelocationMeasure ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->notelocationBeat, 0 <= notelocationBeat ? StringUtil::toString( notelocationBeat ).c_str() : "" );
+            parent->stringPropertyManager.setValue( parent->notelocationTick, 0 <= notelocationTick ? StringUtil::toString( notelocationTick ).c_str() : "" );
 
-            enumPropertyManager.setValue( this->vibratoType, vibratoType );
-            stringPropertyManager.setValue( this->vibratoLength, 0 <= vibratoLength ? StringUtil::toString( vibratoLength ).c_str() : "" );
+            parent->enumPropertyManager.setValue( parent->vibratoType, vibratoType );
+            parent->stringPropertyManager.setValue( parent->vibratoLength, 0 <= vibratoLength ? StringUtil::toString( vibratoLength ).c_str() : "" );
         }
-    }
-
-    void ConcretePropertyView::initProperties(){
-        // Lyric
-        lyric = groupManager.addProperty( tr( "Lyric" ) );
-        lyricPhrase = stringPropertyManager.addProperty( tr( "Phrase" ) );
-        lyricPhoneticSymbol = stringPropertyManager.addProperty( tr( "Phonetic Symbol" ) );
-        lyricConsonantAdjustment = stringPropertyManager.addProperty( tr( "Consonant Adjustment" ) );
-        lyricProtect = enumPropertyManager.addProperty( tr( "Protect" ) );
-        lyric->addSubProperty( lyricPhrase );
-        lyric->addSubProperty( lyricPhoneticSymbol );
-        lyric->addSubProperty( lyricConsonantAdjustment );
-        lyric->addSubProperty( lyricProtect );
-
-        // Note
-        note = groupManager.addProperty( tr( "Note" ) );
-        noteLength = stringPropertyManager.addProperty( tr( "Length" ) );
-        noteNumber = stringPropertyManager.addProperty( tr( "Note#" ) );
-        note->addSubProperty( noteLength );
-        note->addSubProperty( noteNumber );
-
-        // Note Location
-        notelocation = groupManager.addProperty( tr( "Note Location" ) );
-        notelocationClock = stringPropertyManager.addProperty( tr( "Clock" ) );
-        notelocationMeasure = stringPropertyManager.addProperty( tr( "Measure" ) );
-        notelocationBeat = stringPropertyManager.addProperty( tr( "Beat" ) );
-        notelocationTick = stringPropertyManager.addProperty( tr( "Tick" ) );
-        notelocation->addSubProperty( notelocationClock );
-        notelocation->addSubProperty( notelocationMeasure );
-        notelocation->addSubProperty( notelocationBeat );
-        notelocation->addSubProperty( notelocationTick );
-
-        // Vibrato
-        vibrato = groupManager.addProperty( tr( "Vibrato" ) );
-        vibratoType = enumPropertyManager.addProperty( tr( "Vibrato" ) );
-        vibratoLength = stringPropertyManager.addProperty( tr( "Vibrato Length" ) );
-        vibrato->addSubProperty( vibratoType );
-        vibrato->addSubProperty( vibratoLength );
-
-        // enum で列挙する文字列の一覧を作成
-        QStringList types;
-        types << "" << "Off" << "On";
-        enumPropertyManager.setEnumNames( lyricProtect, types );
-        setFactoryForManager( &enumPropertyManager, new QtEnumEditorFactory() );
-
-        setFactoryForManager( &stringPropertyManager, new QtLineEditFactory() );
-
-        QStringList vibratoTypes;
-        std::vector<std::string> topTypes;
-        topTypes.push_back( "Normal" );
-        topTypes.push_back( "Extreme" );
-        topTypes.push_back( "Fast" );
-        topTypes.push_back( "Slight" );
-        vibratoTypes << "-";
-        for( std::vector<std::string>::iterator i = topTypes.begin(); i != topTypes.end(); ++i ){
-            for( int j = 1; j <= 4; j++ ){
-                std::ostringstream name;
-                name << "[" << (*i) << "] Type " << j;
-                vibratoTypes << name.str().c_str();
-            }
-        }
-        enumPropertyManager.setEnumNames( vibratoType, vibratoTypes );
     }
 
 }
