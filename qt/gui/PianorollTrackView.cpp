@@ -18,6 +18,7 @@
 #include <QMouseEvent>
 #include "../../vsq/Event.hpp"
 #include "../../command/EditEventCommand.hpp"
+#include "../../command/AddEventCommand.hpp"
 
 namespace cadencii{
 
@@ -260,16 +261,25 @@ namespace cadencii{
             if( visibleArea.right() < itemRect.left() ) break;
 
             if( visibleArea.intersects( itemRect ) ){
-                g->fillRect( itemRect, color );
-                g->setPen( borderColor );
-                g->drawRect( itemRect );
-
-                VSQ_NS::Lyric lyric = actualDrawItem->lyricHandle.getLyricAt( 0 );
-                g->setPen( QColor( 0, 0, 0 ) );
-                g->drawText( itemRect.left() + 1, itemRect.bottom() - 1,
-                             QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
+                paintItem( g, actualDrawItem, itemRect, color, borderColor );
             }
         }
+
+        if( mouseStatus.mode == MouseStatus::LEFTBUTTON_ADD_ITEM ){
+            paintItem( g, &mouseStatus.addingNoteItem,
+                       getNoteItemRect( &mouseStatus.addingNoteItem ), fillColor, borderColor );
+        }
+    }
+
+    void PianorollTrackView::paintItem( QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect, const QColor &color, const QColor &borderColor ){
+        g->fillRect( itemRect, color );
+        g->setPen( borderColor );
+        g->drawRect( itemRect );
+
+        VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+        g->setPen( QColor( 0, 0, 0 ) );
+        g->drawText( itemRect.left() + 1, itemRect.bottom() - 1,
+                     QString::fromUtf8( (lyric.phrase + " [" + lyric.getPhoneticSymbol() + "]").c_str() ) );
     }
 
     int PianorollTrackView::getYFromNoteNumber( int noteNumber, int trackHeight ){
@@ -332,6 +342,21 @@ namespace cadencii{
         updateWidget();
     }
 
+    void PianorollTrackView::handleMouseLeftButtonPressByPencil( QMouseEvent *event ){
+        const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
+        if( noteEventOnMouse ){
+            //TODO: change to 'move note item' status
+        }else{
+            initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event );
+            QPoint mousePosition = mapToScene( event->pos() );
+            int note = getNoteNumberFromY( mousePosition.y(), trackHeight );
+            //TODO: quantize of clock
+            VSQ_NS::tick_t clock = controllerAdapter->getTickFromX( mousePosition.x() );
+            mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
+            mouseStatus.addingNoteItem.note = note;
+        }
+    }
+
     void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
         initMouseStatus( MouseStatus::MIDDLEBUTTON_SCROLL, event );
     }
@@ -375,6 +400,9 @@ namespace cadencii{
                 handleMouseLeftButtonPressByPointer( event );
             }else if( tool == ToolKind::ERASER ){
                 handleMouseLeftButtonPressByEraser( event );
+            }else if( tool == ToolKind::PENCIL || tool == ToolKind::LINE ){
+                // treat PENCIL and LINE as if equal
+                handleMouseLeftButtonPressByPencil( event );
             }
         }else if( button == Qt::MidButton ){
             handleMouseMiddleButtonPress( event );
@@ -407,6 +435,16 @@ namespace cadencii{
             ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
             manager->moveItems( deltaClocks, deltaNoteNumbers );
             updateWidget();
+        }else if( mouseStatus.mode == MouseStatus::LEFTBUTTON_ADD_ITEM ){
+            QPoint currentMousePos = mapToScene( event->pos() );
+            VSQ_NS::tick_t endClock = controllerAdapter->getTickFromX( currentMousePos.x() );
+            VSQ_NS::tick_t length = 0;
+            if( mouseStatus.addingNoteItem.clock < endClock ){
+                //TODO: quantize the length of note
+                length = endClock - mouseStatus.addingNoteItem.clock;
+            }
+            mouseStatus.addingNoteItem.setLength( length );
+            updateWidget();
         }
         mouseStatus.isMouseMoved = true;
     }
@@ -431,6 +469,13 @@ namespace cadencii{
                         manager->add( noteEventOnMouse );
                     }
                 }
+            }
+        }else if( mouseStatus.mode == MouseStatus::LEFTBUTTON_ADD_ITEM ){
+            if( 0 < mouseStatus.addingNoteItem.getLength() ){
+                std::vector<VSQ_NS::Event> eventList;
+                eventList.push_back( mouseStatus.addingNoteItem );
+                AddEventCommand command( trackIndex, eventList );
+                controllerAdapter->execute( &command );
             }
         }
         mouseStatus.mode = MouseStatus::NONE;
