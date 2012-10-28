@@ -30,7 +30,7 @@ namespace cadencii{
     public:
         cadencii::WindowMainView windowMainView;
         cadencii::PianorollTrackView pianorollTrackView;
-        cadencii::CurveControlChangeView curveControlChangeView;
+        cadencii::CurveControlChangeView *curveControlChangeView;
         cadencii::ConcreteBarCountView concreteBarCountView;
         cadencii::ConcreteTempoView concreteTempoView;
         cadencii::ConcreteTimesigView concreteTimesigView;
@@ -39,13 +39,21 @@ namespace cadencii{
 
     public:
         explicit AppContainer(){
+            curveControlChangeView = new CurveControlChangeView();
             controller.setMainView( &windowMainView );
             controller.setTrackView( &pianorollTrackView );
-            controller.setControlChangeView( &curveControlChangeView );
+            controller.setControlChangeView( curveControlChangeView );
             controller.setBarCountView( &concreteBarCountView );
             controller.setTempoView( &concreteTempoView );
             controller.setTimesigView( &concreteTimesigView );
             controller.setPropertyView( &concretePropertyView );
+        }
+
+        ~AppContainer(){
+            if( curveControlChangeView ){
+                delete curveControlChangeView;
+                curveControlChangeView = 0;
+            }
         }
     };
 

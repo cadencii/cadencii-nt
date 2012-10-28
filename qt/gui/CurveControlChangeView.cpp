@@ -46,6 +46,8 @@ namespace cadencii{
         trackTabRenderButtonBackgroundColor[15] = QColor( 43, 91, 12 );
         borderColor = QColor::fromRgb( 118, 123, 138 );
         singerEventBorderColor = QColor::fromRgb( 182, 182, 182 );
+
+        connect( ui->scrollArea, SIGNAL(onMousePress(QMouseEvent*)), this, SLOT(onMousePressSlot(QMouseEvent*)) );
     }
 
     CurveControlChangeView::~CurveControlChangeView(){
@@ -296,7 +298,7 @@ namespace cadencii{
         }
     }
 
-    void CurveControlChangeView::mousePressEvent( QMouseEvent *event ){
+    void CurveControlChangeView::onMousePressSlot( QMouseEvent *event ){
         if( acceptMousePressOnTrackList( event ) ){
             event->accept();
             return;
@@ -306,13 +308,11 @@ namespace cadencii{
     bool CurveControlChangeView::acceptMousePressOnTrackList( QMouseEvent *event ){
         QRect geometry = ui->scrollArea->geometry();
         QPoint mousePos = event->pos();
-        if( geometry.contains( mousePos ) &&
-            geometry.height() - LANE_HEIGHT <= mousePos.y() &&
+        if( geometry.height() - LANE_HEIGHT <= mousePos.y() &&
             mousePos.y() <= geometry.height() )
         {
-            int offset = mousePos.x() - geometry.x();
             int trackTabWidth = getTrackTabWidth();
-            int trackIndex = offset / trackTabWidth;
+            int trackIndex = mousePos.x() / trackTabWidth;
             const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             if( sequence ){
                 if( trackIndex != this->trackIndex && 0 <= trackIndex && trackIndex < sequence->track.size() ){

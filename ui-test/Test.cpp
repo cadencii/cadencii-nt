@@ -2,6 +2,7 @@
 #include "../qt/AppContainer.hpp"
 #include "../command/AddEventCommand.hpp"
 #include "Test.hpp"
+#include "CurveControlChangeViewStub.hpp"
 #include <QTextCodec>
 #include <QTestEventLoop>
 #include <QTest>
@@ -127,4 +128,40 @@ void Test::exportAsMusicXmlWithException(){
 
     AppContainer container;
     container.controller.exportAsMusicXml( "" );
+}
+
+void Test::changeTrackIndex(){
+    SettingsStub settings;
+    Settings::instance( &settings );
+
+    CurveControlChangeViewStub *stub = new CurveControlChangeViewStub();
+    AppContainer container;
+    container.controller.setControlChangeView( stub );
+    container.curveControlChangeView = stub;
+    container.controller.showMainView();
+
+    // トラックが 2 つある VSQ ファイルを読み込ませる。
+    // 読み込みに時間かかるかもしれないので、適当に待つ
+    container.controller.openVSQFile( "./fixture/two-tracks.vsq" );
+    int waitCount = 0;
+    const int MAX_WAIT_COUNT = 20;
+    while( container.controller.getSequence()->track.size() != 2 ){
+        QTestEventLoop::instance().enterLoop( 1 );
+        waitCount++;
+        QVERIFY( waitCount <= MAX_WAIT_COUNT );
+    }
+    QCOMPARE( container.controller.getSequence()->track.size(), (size_t)2 );
+    QCOMPARE( stub->getTrackIndex(), 0 );
+
+    // 2番目のトラックが表示されている領域をクリックしたことにする
+    int x = stub->getTrackTabWidthForTest() * 3 / 2;
+    int y = stub->height() - stub->getLaneHeight() / 2;
+    QPoint pressPosition( x, y );
+    QMouseEvent *event = new QMouseEvent( QMouseEvent::MouseButtonPress, pressPosition,
+                                          Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+    stub->callOnMousePressSlot( event );
+    delete event;
+    QTestEventLoop::instance().enterLoop( 1 );
+
+    QCOMPARE( stub->getTrackIndex(), 1 );
 }

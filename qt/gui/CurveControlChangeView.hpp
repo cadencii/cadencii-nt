@@ -22,6 +22,15 @@
 namespace cadencii{
 
     class CurveControlChangeView : public EditorWidgetBase, public ControlChangeView{
+        Q_OBJECT
+
+    protected:
+        int trackIndex;
+        /**
+         * @brief 歌手変更イベントを描画するレーン、トラック一覧を描画するレーンの高さ（共通）
+         */
+        static const int LANE_HEIGHT = 19;
+
     private:
         /**
          * @brief 歌手変更イベントの表示状態を表す
@@ -37,15 +46,10 @@ namespace cadencii{
             LEFT
         };
 
-        int trackIndex;
         /**
          * @brief 手前に表示している BPList
          */
         const VSQ_NS::BPList *front;
-        /**
-         * @brief 歌手変更イベントを描画するレーン、トラック一覧を描画するレーンの高さ（共通）
-         */
-        static const int LANE_HEIGHT = 19;
         /**
          * @brief コンポーネントの上端と、グラフの最大値の位置の距離
          */
@@ -110,10 +114,16 @@ namespace cadencii{
 
         void setControlChangeName( const std::string &name );
 
-        void mousePressEvent( QMouseEvent *event );
-
     protected:
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+
+        /**
+         * @brief トラック一覧のうち、トラック一つ分のタブの描画幅を取得する
+         */
+        int getTrackTabWidth();
+
+    protected slots:
+        void onMousePressSlot( QMouseEvent *event );
 
     private:
         void paintBPList( QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect );
@@ -144,11 +154,6 @@ namespace cadencii{
          * @brief トラック一覧のうち、トラック一つ分のタブを表示する
          */
         void paintTrackTab( QPainter *g, const QRect &destRect, const QString &name, bool selected, bool enabled, bool render_required, const QColor &hilight, const QColor &render_button_hilight );
-
-        /**
-         * @brief トラック一覧のうち、トラック一つ分のタブの描画幅を取得する
-         */
-        int getTrackTabWidth();
 
         /**
          * @brief トラックリスト部分への、MousePress イベントを処理する
