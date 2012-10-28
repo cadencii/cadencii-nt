@@ -13,7 +13,8 @@ include(../cadencii_common.pri)
 
 # Input
 HEADERS += \
-    Test.hpp
+    Test.hpp \
+    CurveControlChangeViewStub.hpp
 
 SOURCES += \
     main.cpp \

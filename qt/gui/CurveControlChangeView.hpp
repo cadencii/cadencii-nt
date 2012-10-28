@@ -22,6 +22,11 @@
 namespace cadencii{
 
     class CurveControlChangeView : public EditorWidgetBase, public ControlChangeView{
+        Q_OBJECT
+
+    protected:
+        int trackIndex;
+
     private:
         /**
          * @brief 歌手変更イベントの表示状態を表す
@@ -37,7 +42,6 @@ namespace cadencii{
             LEFT
         };
 
-        int trackIndex;
         /**
          * @brief 手前に表示している BPList
          */
@@ -110,10 +114,11 @@ namespace cadencii{
 
         void setControlChangeName( const std::string &name );
 
-        void mousePressEvent( QMouseEvent *event );
-
     protected:
         void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+
+    protected slots:
+        void onMousePressSlot( QMouseEvent *event );
 
     private:
         void paintBPList( QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect );

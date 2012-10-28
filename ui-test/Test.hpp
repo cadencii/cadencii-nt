@@ -41,4 +41,9 @@ private slots:
      * @brief 書き込みに失敗する場合であってもクラッシュしないこと
      */
     void exportAsMusicXmlWithException();
+
+    /**
+     * @brief トラックリストのクリックによって、トラックが切り替わること
+     */
+    void changeTrackIndex();
 };
