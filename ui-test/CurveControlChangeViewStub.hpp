@@ -19,6 +19,14 @@ namespace cadencii{
         void callOnMousePressSlot( QMouseEvent *event ){
             onMousePressSlot( event );
         }
+
+        int getTrackTabWidthForTest(){
+            return getTrackTabWidth();
+        }
+
+        int getLaneHeight(){
+            return LANE_HEIGHT;
+        }
     };
 
 }

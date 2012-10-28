@@ -154,7 +154,9 @@ void Test::changeTrackIndex(){
     QCOMPARE( stub->getTrackIndex(), 0 );
 
     // 2番目のトラックが表示されている領域をクリックしたことにする
-    QPoint pressPosition( 120, 250 );
+    int x = stub->getTrackTabWidthForTest() * 3 / 2;
+    int y = stub->height() - stub->getLaneHeight() / 2;
+    QPoint pressPosition( x, y );
     QMouseEvent *event = new QMouseEvent( QMouseEvent::MouseButtonPress, pressPosition,
                                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
     stub->callOnMousePressSlot( event );
