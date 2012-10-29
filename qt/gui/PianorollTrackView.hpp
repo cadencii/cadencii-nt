@@ -241,6 +241,11 @@ namespace cadencii{
         inline void paintItem( QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect, const QColor &color, const QColor &borderColor );
 
         /**
+         * @brief Quantize specified tick.
+         */
+        inline VSQ_NS::tick_t quantize( VSQ_NS::tick_t tick );
+
+        /**
          * @brief y 座標からノート番号を取得する
          * @param y 座標
          * @return ノート番号

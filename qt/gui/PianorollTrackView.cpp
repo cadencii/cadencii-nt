@@ -19,6 +19,8 @@
 #include "../../vsq/Event.hpp"
 #include "../../command/EditEventCommand.hpp"
 #include "../../command/AddEventCommand.hpp"
+#include "../../enum/QuantizeMode.hpp"
+#include "../../Settings.hpp"
 
 namespace cadencii{
 
@@ -350,8 +352,8 @@ namespace cadencii{
             initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event );
             QPoint mousePosition = mapToScene( event->pos() );
             int note = getNoteNumberFromY( mousePosition.y(), trackHeight );
-            //TODO: quantize of clock
             VSQ_NS::tick_t clock = controllerAdapter->getTickFromX( mousePosition.x() );
+            clock = quantize( clock );
             mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
             mouseStatus.addingNoteItem.note = note;
         }
@@ -440,8 +442,8 @@ namespace cadencii{
             VSQ_NS::tick_t endClock = controllerAdapter->getTickFromX( currentMousePos.x() );
             VSQ_NS::tick_t length = 0;
             if( mouseStatus.addingNoteItem.clock < endClock ){
-                //TODO: quantize the length of note
                 length = endClock - mouseStatus.addingNoteItem.clock;
+                length = quantize( length );
             }
             mouseStatus.addingNoteItem.setLength( length );
             updateWidget();
@@ -521,6 +523,23 @@ namespace cadencii{
         }
         manager->add( add );
         manager->remove( remove );
+    }
+
+    VSQ_NS::tick_t PianorollTrackView::quantize( vsq::tick_t tick ){
+        QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
+        bool triplet = false; //TODO: consider triplet mode.
+
+        VSQ_NS::tick_t unitTick = QuantizeMode::getQuantizeUnitTick( mode );
+        if( triplet && 1 < unitTick ){
+            unitTick = unitTick * 2 / 3;
+        }
+
+        VSQ_NS::tick_t odd = tick % unitTick;
+        VSQ_NS::tick_t newTick = tick - odd;
+        if( odd > unitTick / 2 ){
+            newTick += unitTick;
+        }
+        return newTick;
     }
 
     void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
