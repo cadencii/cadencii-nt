@@ -148,7 +148,10 @@ namespace cadencii{
         // 値を表示する。イベント同士で値が違うものは、空欄とする
         for( ; i != list->end(); ++i ){
             const VSQ_NS::Event *item = i->first;
-            const VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+            VSQ_NS::Lyric lyric( "a", "a" );
+            if( 0 < item->lyricHandle.getLyricCount() ){
+                lyric = item->lyricHandle.getLyricAt( 0 );
+            }
 
             VSQ_NS::tick_t clock = item->clock;
             const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
