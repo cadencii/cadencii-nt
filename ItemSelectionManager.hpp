@@ -30,16 +30,17 @@ namespace cadencii{
      *       新たなアイテムだけ選択状態となるようにするべき。
      */
     class ItemSelectionManager{
+    protected:
+        /**
+         * @brief A list of note or singer event, before editing.
+         */
+        std::map<int, VSQ_NS::Event> originalEventItemList;
+
     private:
         /**
          * @brief 選択されたアイテムのうち、音符・歌手変更イベント。イベントの id をキーとした、編集中アイテムの値を保持する
          */
         std::map<int, VSQ_NS::Event> eventItemList;
-
-        /**
-         * @brief A list of note or singer event, before editing.
-         */
-        std::map<int, VSQ_NS::Event> originalEventItemList;
 
         /**
          * @brief アイテムの選択状態を監視するリスナーのリスト
@@ -164,6 +165,30 @@ namespace cadencii{
                 silentAdd( &i->second );
             }
             notifyStatusChange();
+        }
+
+        /**
+         * @brief Update contents of selected items.
+         * @param trackIndex Index of track.
+         * @param sequence An instance of Sequence.
+         */
+        void updateSelectedContents( int trackIndex, const VSQ_NS::Sequence *sequence ){
+            const VSQ_NS::Track *track = &sequence->track[trackIndex];
+            const VSQ_NS::Event::List *list = track->getConstEvents();
+            std::map<int, VSQ_NS::Event>::iterator i
+                    = eventItemList.begin();
+            bool modified = false;
+            for( ; i != eventItemList.end(); ++i ){
+                int id = i->first;
+                const VSQ_NS::Event *item = list->findFromId( id );
+                if( item ){
+                    originalEventItemList[id] = *item;
+                }else{
+                    modified = true;
+                    silentRemove( item );
+                }
+            }
+            if( modified ) notifyStatusChange();
         }
 
     private:
