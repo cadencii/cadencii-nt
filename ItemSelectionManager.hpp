@@ -32,14 +32,14 @@ namespace cadencii{
     class ItemSelectionManager{
     private:
         /**
-         * @brief 選択されたアイテムへのポインタ
+         * @brief 選択されたアイテムのうち、音符・歌手変更イベント。イベントの id をキーとした、編集中アイテムの値を保持する
          */
-        std::set<void *> itemList;
+        std::map<int, VSQ_NS::Event> eventItemList;
 
         /**
-         * @brief 選択されたアイテムのうち、音符・歌手変更イベントへのポインタ。これをキーとした、編集中アイテムの値を保持する
+         * @brief A list of note or singer event, before editing.
          */
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event> eventItemList;
+        std::map<int, VSQ_NS::Event> originalEventItemList;
 
         /**
          * @brief アイテムの選択状態を監視するリスナーのリスト
@@ -105,14 +105,14 @@ namespace cadencii{
          * @brief アイテムが選択状態担っているかどうかを取得する
          */
         bool isContains( const VSQ_NS::Event *event )const{
-            return itemList.find( (void *)event ) != itemList.end();
+            return eventItemList.find( event->id ) != eventItemList.end();
         }
 
         /**
          * @brief 選択状態の音符・歌手変更イベントのマップを取得する。
-         * マップのキーは、選択状態の編集前のインスタンスを指すポインタ、値は編集操作中の値を格納する一時的インスタンス
+         * マップのキーは、イベントの id、値は編集操作中の値を格納する一時的インスタンス
          */
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *getEventItemList()const{
+        const std::map<int, VSQ_NS::Event> *getEventItemList()const{
             return &eventItemList;
         }
 
@@ -129,13 +129,14 @@ namespace cadencii{
          * @param deltaNoteNumbers 移動するノート番号
          */
         void moveItems( VSQ_NS::tick_t deltaClocks, int deltaNoteNumbers ){
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
+            std::map<int, VSQ_NS::Event>::iterator i
                     = eventItemList.begin();
             for( ; i != eventItemList.end(); ++i ){
-                const VSQ_NS::Event *originalItem = i->first;
+                int id = i->first;
                 VSQ_NS::Event editingItem = i->second;
-                editingItem.clock = originalItem->clock + deltaClocks;
-                editingItem.note = originalItem->note + deltaNoteNumbers;
+                VSQ_NS::Event originalItem = originalEventItemList.at( id );
+                editingItem.clock = originalItem.clock + deltaClocks;
+                editingItem.note = originalItem.note + deltaNoteNumbers;
                 i->second = editingItem;
             }
         }
@@ -147,17 +148,7 @@ namespace cadencii{
          * @todo trackIndex 引数を削除できるよう努める
          */
         EditEventCommand getEditEventCommand( int trackIndex ){
-            std::map<int, VSQ_NS::Event> itemList;
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
-                    = eventItemList.begin();
-            for( ; i != eventItemList.end(); ++i ){
-                const VSQ_NS::Event *selectedItem = i->first;
-                VSQ_NS::Event editedItem = i->second;
-                int eventId = selectedItem->id;
-                editedItem.id = eventId;
-                itemList.insert( std::make_pair( eventId, editedItem ) );
-            }
-            return EditEventCommand( trackIndex, itemList );
+            return EditEventCommand( trackIndex, eventItemList );
         }
 
         /**
@@ -165,12 +156,12 @@ namespace cadencii{
          */
         void revertSelectionStatusTo( const ItemSelectionManager &manager ){
             silentClear();
-            const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList
+            const std::map<int, VSQ_NS::Event> *eventItemList
                     = manager.getEventItemList();
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+            std::map<int, VSQ_NS::Event>::const_iterator i
                     = eventItemList->begin();
             for( ; i != eventItemList->end(); ++i ){
-                silentAdd( i->first );
+                silentAdd( &i->second );
             }
             notifyStatusChange();
         }
@@ -190,8 +181,8 @@ namespace cadencii{
          * @brief notifyStatusChange メソッドを呼ぶことなく、ステータスをクリアする
          */
         inline void silentClear(){
-            itemList.clear();
             eventItemList.clear();
+            originalEventItemList.clear();
         }
 
         /**
@@ -201,8 +192,8 @@ namespace cadencii{
          */
         inline bool silentAdd( const VSQ_NS::Event *event ){
             if( !isContains( event ) ){
-                itemList.insert( (void *)event );
-                eventItemList.insert( std::make_pair( event, *event ) );
+                eventItemList.insert( std::make_pair( event->id, *event ) );
+                originalEventItemList.insert( std::make_pair( event->id, *event ) );
                 return true;
             }else{
                 return false;
@@ -215,14 +206,7 @@ namespace cadencii{
          * @return 削除されたかどうか。既に選択状態でなかった場合は false が返る
          */
         inline bool silentRemove( const VSQ_NS::Event *event ){
-            std::set<void *>::iterator index = itemList.find( (void *)event );
-            if( index != itemList.end() ){
-                itemList.erase( index );
-                eventItemList.erase( event );
-                return true;
-            }else{
-                return false;
-            }
+            return 0 < eventItemList.erase( event->id ) + originalEventItemList.erase( event->id );
         }
     };
 

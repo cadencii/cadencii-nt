@@ -44,6 +44,10 @@ namespace cadencii{
                  */
                 LEFTBUTTON_MOVE_ITEM,
                 /**
+                 * @brief Add note item mode.
+                 */
+                LEFTBUTTON_ADD_ITEM,
+                /**
                  * @brief 中ボタンでスクロールするモード
                  */
                 MIDDLEBUTTON_SCROLL
@@ -82,6 +86,10 @@ namespace cadencii{
              * @brief 範囲選択開始直前の、アイテム選択状態
              */
             ItemSelectionManager itemSelectionStatusAtFirst;
+            /**
+             * @brief Note item status, adding by mouse dragging.
+             */
+            VSQ_NS::Event addingNoteItem;
 
         public:
             explicit MouseStatus();
@@ -187,6 +195,11 @@ namespace cadencii{
         void handleMouseLeftButtonPressByEraser( QMouseEvent *event );
 
         /**
+         * @brief Handle MousePress event by left button with PENCIL tool or LINE tool.
+         */
+        void handleMouseLeftButtonPressByPencil( QMouseEvent *event );
+
+        /**
          * @brief 中ボタンでの MousePress イベントを処理する
          */
         void handleMouseMiddleButtonPress( QMouseEvent *event );
@@ -221,6 +234,16 @@ namespace cadencii{
          * @param マウスイベント
          */
         void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event );
+
+        /**
+         * @brief Draw a note item.
+         */
+        inline void paintItem( QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect, const QColor &color, const QColor &borderColor );
+
+        /**
+         * @brief Quantize specified tick.
+         */
+        inline VSQ_NS::tick_t quantize( VSQ_NS::tick_t tick );
 
         /**
          * @brief y 座標からノート番号を取得する

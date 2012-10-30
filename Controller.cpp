@@ -326,19 +326,19 @@ namespace cadencii{
         if( item ){
             // マウスの位置にイベントがあった場合
             std::vector<int> idList;
-            const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *selectedItemList
+            const std::map<int, VSQ_NS::Event> *selectedItemList
                     = itemSelectionManager.getEventItemList();
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator index
-                    = selectedItemList->find( item );
+            std::map<int, VSQ_NS::Event>::const_iterator index
+                    = selectedItemList->find( item->id );
             if( index == selectedItemList->end() ){
                 // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、マウス位置のイベントのみ削除する
                 idList.push_back( item->id );
             }else{
                 // マウスの位置のイベントが、選択されたイベントに含まれていた場合、選択されたイベントを全て削除する
-                std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+                std::map<int, VSQ_NS::Event>::const_iterator i
                         = selectedItemList->begin();
                 for( ; i != selectedItemList->end(); ++i ){
-                    idList.push_back( i->first->id );
+                    idList.push_back( i->first );
                 }
             }
 
@@ -353,12 +353,11 @@ namespace cadencii{
 
     void Controller::removeSelectedItems(){
         //TODO: 音符・歌手イベント以外の選択ができるようになったら対応する
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = itemSelectionManager.getEventItemList();
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i = itemList->begin();
+        const std::map<int, VSQ_NS::Event> *itemList = itemSelectionManager.getEventItemList();
+        std::map<int, VSQ_NS::Event>::const_iterator i = itemList->begin();
         std::vector<int> idList;
         for( ; i != itemList->end(); ++i ){
-            const VSQ_NS::Event *item = i->first;
-            idList.push_back( item->id );
+            idList.push_back( i->first );
         }
 
         itemSelectionManager.clear();

@@ -117,7 +117,7 @@ namespace cadencii{
     void ConcretePropertyView::updateTree(){
         ConcretePropertyView *parent = this;
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
+        const std::map<int, VSQ_NS::Event> *list = manager->getEventItemList();
 
         if( list->empty() ){
             parent->clear();
@@ -141,16 +141,19 @@ namespace cadencii{
         int notelocationTick = -1;
         int vibratoType = 0;
         int vibratoLength = -1;
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
+        std::map<int, VSQ_NS::Event>::const_iterator i
                 = list->begin();
 
         // 複数のイベントのプロパティを表示する場合、すべてのイベントのプロパティが同じもののみ、
         // 値を表示する。イベント同士で値が違うものは、空欄とする
         for( ; i != list->end(); ++i ){
-            const VSQ_NS::Event *item = i->first;
-            const VSQ_NS::Lyric lyric = item->lyricHandle.getLyricAt( 0 );
+            VSQ_NS::Event item = i->second;
+            VSQ_NS::Lyric lyric( "a", "a" );
+            if( 0 < item.lyricHandle.getLyricCount() ){
+                lyric = item.lyricHandle.getLyricAt( 0 );
+            }
 
-            VSQ_NS::tick_t clock = item->clock;
+            VSQ_NS::tick_t clock = item.clock;
             const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
             int premeasure = sequence->getPreMeasure();
             int measure = sequence->timesigList.getBarCountFromClock( clock ) - premeasure + 1;
@@ -164,11 +167,11 @@ namespace cadencii{
 
             int vibType = 0;
             int vibLength = -1;
-            if( item->vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO ){
-                if( item->vibratoHandle.iconId.length() == 9 && 0 < item->getLength() ){
-                    std::string vibTypeString = item->vibratoHandle.iconId.substr( 6 );
+            if( item.vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO ){
+                if( item.vibratoHandle.iconId.length() == 9 && 0 < item.getLength() ){
+                    std::string vibTypeString = item.vibratoHandle.iconId.substr( 6 );
                     vibType = StringUtil::parseInt<int>( vibTypeString, 16 );
-                    vibLength = item->vibratoHandle.getLength() * 100 / item->getLength();
+                    vibLength = item.vibratoHandle.getLength() * 100 / item.getLength();
                 }
             }
 
@@ -177,8 +180,8 @@ namespace cadencii{
                 lyricPhoneticSymbol = lyric.getPhoneticSymbol();
                 lyricConsonantAdjustment = lyric.getConsonantAdjustment();
                 lyricProtect = lyric.isProtected ? 2 : 1;
-                noteLength = item->getLength();
-                noteNumber = item->note;
+                noteLength = item.getLength();
+                noteNumber = item.note;
 
                 notelocationClock = clock;
                 notelocationMeasure = measure;
@@ -193,8 +196,8 @@ namespace cadencii{
                 if( lyricConsonantAdjustment != lyric.getConsonantAdjustment() ) lyricConsonantAdjustment = "";
                 if( lyricProtect != (lyric.isProtected ? 2 : 1) ) lyricProtect = 0;
 
-                if( noteLength != item->getLength() ) noteLength = -1;
-                if( noteNumber != item->note ) noteNumber = -1;
+                if( noteLength != item.getLength() ) noteLength = -1;
+                if( noteNumber != item.note ) noteNumber = -1;
 
                 if( notelocationClock != clock ) notelocationClock = -1;
                 if( notelocationMeasure != measure ) notelocationMeasure = -1;
