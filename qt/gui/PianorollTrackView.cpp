@@ -347,7 +347,13 @@ namespace cadencii{
     void PianorollTrackView::handleMouseLeftButtonPressByPencil( QMouseEvent *event ){
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         if( noteEventOnMouse ){
-            //TODO: change to 'move note item' status
+            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
+                manager->clear();
+            }
+            manager->add( noteEventOnMouse );
+            updateWidget();
         }else{
             initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event );
             QPoint mousePosition = mapToScene( event->pos() );
