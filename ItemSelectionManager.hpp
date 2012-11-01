@@ -174,7 +174,7 @@ namespace cadencii{
          */
         void updateSelectedContents( int trackIndex, const VSQ_NS::Sequence *sequence ){
             const VSQ_NS::Track *track = &sequence->track[trackIndex];
-            const VSQ_NS::Event::List *list = track->getConstEvents();
+            const VSQ_NS::Event::List *list = track->events();
             std::map<int, VSQ_NS::Event>::iterator i
                     = eventItemList.begin();
             bool modified = false;

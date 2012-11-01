@@ -145,16 +145,16 @@ public:
         Event itemA( 0, EventType::NOTE );
         itemA.clock = 480;
         itemA.note = 50;
-        int id = sequence.track[0].getEvents()->add( itemA );
+        int id = sequence.track[0].events()->add( itemA );
         itemA.id = id;
 
         ItemSelectionManagerStub manager;
         manager.add( &itemA );
 
         // edit note item in the sequence.
-        int i = sequence.track[0].getEvents()->findIndexFromId( id );
+        int i = sequence.track[0].events()->findIndexFromId( id );
         itemA.clock = 1920;
-        sequence.track[0].getEvents()->set( i, itemA );
+        sequence.track[0].events()->set( i, itemA );
 
         {
             // assert status before calling updateSelectedContents.

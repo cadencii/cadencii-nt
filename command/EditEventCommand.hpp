@@ -58,12 +58,12 @@ namespace cadencii{
             for( ; i != itemList.end(); ++i ){
                 int eventId = i->first;
                 VSQ_NS::Event item = i->second;
-                int index = target->getEvents()->findIndexFromId( eventId );
-                const VSQ_NS::Event original = *(target->getEvents()->get( index ));
+                int index = target->events()->findIndexFromId( eventId );
+                const VSQ_NS::Event original = *(target->events()->get( index ));
                 originalItemList.insert( std::make_pair( eventId, original ) );
                 VSQ_NS::Event replace = item;
                 replace.id = eventId;
-                target->getEvents()->set( index, replace );
+                target->events()->set( index, replace );
             }
             return new EditEventCommand( track, originalItemList );
         }

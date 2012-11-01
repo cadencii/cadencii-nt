@@ -50,12 +50,12 @@ void Test::removeSelectedEvents(){
 
         // デフォルトで追加されている歌手変更イベントと、追加した音符イベントで
         // 合計 3 つのイベントがあるはず
-        QCOMPARE( 3, container.controller.getSequence()->track[0].getConstEvents()->size() );
+        QCOMPARE( 3, container.controller.getSequence()->track[0].events()->size() );
     }
 
     // 今しがた追加した音符を選択状態にする
     {
-        const Event::List *events = container.controller.getSequence()->track[0].getConstEvents();
+        const Event::List *events = container.controller.getSequence()->track[0].events();
         for( int i = 0; i < events->size(); i++ ){
             const Event *item = events->get( i );
             if( 480 == item->clock ||
@@ -72,7 +72,7 @@ void Test::removeSelectedEvents(){
     container.controller.removeSelectedItems();
 
     // 音符が 1 個に減っていること
-    QCOMPARE( 1, container.controller.getSequence()->track[0].getConstEvents()->size() );
+    QCOMPARE( 1, container.controller.getSequence()->track[0].events()->size() );
 
     // 選択状態を管理するマネージャに、音符がもはや選択されていないこと
     QCOMPARE( (size_t)0, manager->getEventItemList()->size() );
@@ -101,8 +101,8 @@ void Test::avoidCrashByZeroLengthEvent(){
     // 追加したイベントを取得
     const Track *track = &container.controller.getSequence()->track[0];
     const Event *targetEvent = 0;
-    for( int i = 0; i < track->getConstEvents()->size(); i++ ){
-        const Event *item = track->getConstEvents()->get( i );
+    for( int i = 0; i < track->events()->size(); i++ ){
+        const Event *item = track->events()->get( i );
         if( item->clock == 480 ){
             targetEvent = item;
             break;
