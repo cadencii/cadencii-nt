@@ -70,7 +70,7 @@ public:
         delete item;
     }
 
-    void testMoveItems(){
+    void moveItems(){
         ItemSelectionManager manager;
         Event *itemA = new Event( 0, EventType::NOTE );
         itemA->clock = 480;
@@ -93,6 +93,89 @@ public:
 
         delete itemA;
         delete itemB;
+    }
+
+    void moveItemsWithRejected(){
+        {
+            ItemSelectionManager manager;
+            Event *itemA = new Event( 0, EventType::NOTE );
+            itemA->clock = 480;
+            itemA->note = 50;
+            itemA->id = 1;
+            Event *itemB = new Event( 0, EventType::NOTE );
+            itemB->clock = 1920;
+            itemB->note = 52;
+            itemB->id = 2;
+            manager.add( itemA );
+            manager.add( itemB );
+
+            manager.moveItems( -481, 1 );
+            // moveItems method rejected because clock goes little than 0
+            int actualDeltaClock = -480;
+            int actualDeltaNoteNumber = 1;
+            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+
+            delete itemA;
+            delete itemB;
+        }
+
+        {
+            ItemSelectionManager manager;
+            Event *itemA = new Event( 0, EventType::NOTE );
+            itemA->clock = 480;
+            itemA->note = 50;
+            itemA->id = 1;
+            Event *itemB = new Event( 0, EventType::NOTE );
+            itemB->clock = 1920;
+            itemB->note = 52;
+            itemB->id = 2;
+            manager.add( itemA );
+            manager.add( itemB );
+
+            manager.moveItems( 1, 76 );
+            // moveItems method rejected because note goes larger than 127.
+            int actualDeltaClock = 1;
+            int actualDeltaNoteNumber = 75;
+            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+
+            delete itemA;
+            delete itemB;
+        }
+
+        {
+            ItemSelectionManager manager;
+            Event *itemA = new Event( 0, EventType::NOTE );
+            itemA->clock = 480;
+            itemA->note = 50;
+            itemA->id = 1;
+            Event *itemB = new Event( 0, EventType::NOTE );
+            itemB->clock = 1920;
+            itemB->note = 52;
+            itemB->id = 2;
+            manager.add( itemA );
+            manager.add( itemB );
+
+            manager.moveItems( 2, -51 );
+            // moveItems method rejected because note goes little than 0.
+            int actualDeltaClock = 2;
+            int actualDeltaNoteNumber = -50;
+            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+
+            delete itemA;
+            delete itemB;
+        }
     }
 
     void testRevertSelectionStatusTo(){
@@ -179,7 +262,8 @@ public:
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
     CPPUNIT_TEST( test );
     CPPUNIT_TEST( testAddRemove );
-    CPPUNIT_TEST( testMoveItems );
+    CPPUNIT_TEST( moveItems );
+    CPPUNIT_TEST( moveItemsWithRejected );
     CPPUNIT_TEST( testRevertSelectionStatusTo );
     CPPUNIT_TEST( testAddRemoveUsingList );
     CPPUNIT_TEST( updateSelectedItemContents );

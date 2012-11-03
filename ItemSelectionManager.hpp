@@ -130,15 +130,48 @@ namespace cadencii{
          * @param deltaNoteNumbers 移動するノート番号
          */
         void moveItems( VSQ_NS::tick_t deltaClocks, int deltaNoteNumbers ){
-            std::map<int, VSQ_NS::Event>::iterator i
-                    = eventItemList.begin();
-            for( ; i != eventItemList.end(); ++i ){
-                int id = i->first;
-                VSQ_NS::Event editingItem = i->second;
-                VSQ_NS::Event originalItem = originalEventItemList.at( id );
-                editingItem.clock = originalItem.clock + deltaClocks;
-                editingItem.note = originalItem.note + deltaNoteNumbers;
-                i->second = editingItem;
+            {
+                int minimumClock;
+                int minimumNoteNumber;
+                int maximumNoteNumber;
+                std::map<int, VSQ_NS::Event>::iterator i
+                        = eventItemList.begin();
+                for( ; i != eventItemList.end(); ++i ){
+                    int id = i->first;
+                    VSQ_NS::Event originalItem = originalEventItemList.at( id );
+                    int clock = originalItem.clock + deltaClocks;
+                    int noteNumber = originalItem.note + deltaNoteNumbers;
+                    if( i == eventItemList.begin() ){
+                        minimumClock = clock;
+                        minimumNoteNumber = noteNumber;
+                        maximumNoteNumber = noteNumber;
+                    }else{
+                        minimumClock = std::min( minimumClock, clock );
+                        minimumNoteNumber = std::min( minimumNoteNumber, noteNumber );
+                        maximumNoteNumber = std::max( maximumNoteNumber, noteNumber );
+                    }
+                }
+                if( minimumClock < 0 ){
+                    deltaClocks -= minimumClock;
+                }
+                if( minimumNoteNumber < VSQ_NS::Event::MIN_NOTE_NUMBER ){
+                    deltaNoteNumbers -= (minimumNoteNumber - VSQ_NS::Event::MIN_NOTE_NUMBER);
+                }else if( VSQ_NS::Event::MAX_NOTE_NUMBER < maximumNoteNumber ){
+                    deltaNoteNumbers -= (maximumNoteNumber - VSQ_NS::Event::MAX_NOTE_NUMBER);
+                }
+            }
+
+            {
+                std::map<int, VSQ_NS::Event>::iterator i
+                        = eventItemList.begin();
+                for( ; i != eventItemList.end(); ++i ){
+                    int id = i->first;
+                    VSQ_NS::Event editingItem = i->second;
+                    VSQ_NS::Event originalItem = originalEventItemList.at( id );
+                    editingItem.clock = originalItem.clock + deltaClocks;
+                    editingItem.note = originalItem.note + deltaNoteNumbers;
+                    i->second = editingItem;
+                }
             }
         }
 
