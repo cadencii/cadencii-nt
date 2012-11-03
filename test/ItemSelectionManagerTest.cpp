@@ -24,6 +24,13 @@ public:
     }
 };
 
+class ItemSelectionManagerStub : public ItemSelectionManager{
+public:
+    const std::map<int, VSQ_NS::Event> *getOriginalItemList(){
+        return &originalEventItemList;
+    }
+};
+
 class ItemSelectionManagerTest : public CppUnit::TestCase{
 public:
     void test(){
@@ -133,12 +140,49 @@ public:
         CPPUNIT_ASSERT( false == manager.isContains( &itemB ) );
     }
 
+    void updateSelectedItemContents(){
+        Sequence sequence;
+        Event itemA( 0, EventType::NOTE );
+        itemA.clock = 480;
+        itemA.note = 50;
+        int id = sequence.track[0].events()->add( itemA );
+        itemA.id = id;
+
+        ItemSelectionManagerStub manager;
+        manager.add( &itemA );
+
+        // edit note item in the sequence.
+        int i = sequence.track[0].events()->findIndexFromId( id );
+        itemA.clock = 1920;
+        sequence.track[0].events()->set( i, itemA );
+
+        {
+            // assert status before calling updateSelectedContents.
+            const map<int, VSQ_NS::Event> *originalItemList = manager.getOriginalItemList();
+            map<int, VSQ_NS::Event>::const_iterator index = originalItemList->find( id );
+            CPPUNIT_ASSERT( index != originalItemList->end() );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)480, index->second.clock );
+        }
+
+        // call test target.
+        manager.updateSelectedContents( 0, &sequence );
+
+        {
+            // assert status after calling updateSelectedContents.
+            const map<int, VSQ_NS::Event> *originalItemList = manager.getOriginalItemList();
+            map<int, VSQ_NS::Event>::const_iterator index = originalItemList->find( id );
+            CPPUNIT_ASSERT( index != originalItemList->end() );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)1920, index->second.clock );
+        }
+    }
+
     CPPUNIT_TEST_SUITE( ItemSelectionManagerTest );
     CPPUNIT_TEST( test );
     CPPUNIT_TEST( testAddRemove );
     CPPUNIT_TEST( testMoveItems );
     CPPUNIT_TEST( testRevertSelectionStatusTo );
     CPPUNIT_TEST( testAddRemoveUsingList );
+    CPPUNIT_TEST( updateSelectedItemContents );
     CPPUNIT_TEST_SUITE_END();
 };
 

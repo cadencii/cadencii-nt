@@ -143,7 +143,7 @@ namespace cadencii{
             std::vector<VSQ_NS::Track>::iterator i = sequence->track.begin();
             for( ; i != sequence->track.end(); ++i ){
                 VSQ_NS::Track *track = &(*i);
-                track->getEvents()->sort();
+                track->events()->sort();
             }
             sequence->tempoList.updateTempoInfo();
             sequence->updateTotalClocks();

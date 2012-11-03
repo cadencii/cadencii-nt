@@ -9,12 +9,12 @@ public:
     void testExecute(){
         Sequence sequence( "foo", 1, 4, 4, 500000 );
         Track track( "name", "singer" );
-        track.getEvents()->clear();
+        track.events()->clear();
         Event singer( 0, EventType::SINGER );
-        track.getEvents()->add( singer, 1 );
+        track.events()->add( singer, 1 );
         Event note( 1920, EventType::NOTE );
         note.note = 60;
-        track.getEvents()->add( note, 2 );
+        track.events()->add( note, 2 );
         sequence.track[0] = track;
 
         Event editedNote = note;
@@ -22,10 +22,10 @@ public:
         EditEventCommand command( 0, 2, editedNote );
         AbstractCommand *inverseCommand = command.execute( &sequence );
 
-        CPPUNIT_ASSERT_EQUAL( 61, sequence.track[0].getEvents()->findFromId( 2 )->note );
+        CPPUNIT_ASSERT_EQUAL( 61, sequence.track[0].events()->findFromId( 2 )->note );
 
         AbstractCommand *garbage = inverseCommand->execute( &sequence );
-        CPPUNIT_ASSERT_EQUAL( 60, sequence.track[0].getEvents()->findFromId( 2 )->note );
+        CPPUNIT_ASSERT_EQUAL( 60, sequence.track[0].events()->findFromId( 2 )->note );
 
         delete inverseCommand;
         delete garbage;

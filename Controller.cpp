@@ -314,6 +314,10 @@ namespace cadencii{
 
     void Controller::execute( AbstractCommand *command ){
         model.execute( command );
+
+        // update value of selected items.
+        itemSelectionManager.updateSelectedContents( trackIndex, model.getSequence() );
+
         if( mainView ) mainView->notifyCommandHistoryChanged();
         if( propertyView ) propertyView->statusChanged();
     }

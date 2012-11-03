@@ -362,7 +362,7 @@ namespace cadencii{
         // 順に描画する
         VSQ_NS::EventListIndexIterator i =
                 track.getIndexIterator( VSQ_NS::EventListIndexIteratorKind::SINGER );
-        const VSQ_NS::Event::List *events = track.getConstEvents();
+        const VSQ_NS::Event::List *events = track.events();
         while( i.hasNext() ){
             int index = i.next();
             const VSQ_NS::Event *item = events->get( index );

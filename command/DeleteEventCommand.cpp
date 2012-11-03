@@ -23,7 +23,7 @@ namespace cadencii{
     }
 
     AbstractCommand *DeleteEventCommand::execute( VSQ_NS::Sequence *sequence ){
-        VSQ_NS::Event::List *list = sequence->track[track].getEvents();
+        VSQ_NS::Event::List *list = sequence->track[track].events();
         std::vector<VSQ_NS::Event> eventList;
 
         std::vector<int>::const_iterator i = idList.begin();

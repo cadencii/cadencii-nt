@@ -12,14 +12,14 @@ public:
     {
         sequence = Sequence( "foo", 1, 4, 4, 500000 );
         Track track( "name", "singer" );
-        track.getEvents()->clear();
+        track.events()->clear();
         Event singer( 0, EventType::SINGER );
-        track.getEvents()->add( singer, 1 );
+        track.events()->add( singer, 1 );
         Event note( 1920, EventType::NOTE );
         note.note = 60;
-        track.getEvents()->add( note, 2 );
+        track.events()->add( note, 2 );
         Event note2( 1921, EventType::NOTE );
-        track.getEvents()->add( note2, 3 );
+        track.events()->add( note2, 3 );
         sequence.track[0] = track;
         sequence.updateTotalClocks();
     }
@@ -30,7 +30,7 @@ public:
     void test(){
         SequenceModelStub model;
 
-        Event editedNote = *model.getSequence()->track[0].getConstEvents()->findFromId( 2 );
+        Event editedNote = *model.getSequence()->track[0].events()->findFromId( 2 );
         editedNote.note = 61;
         EditEventCommand *command = new EditEventCommand( 0, 2, editedNote );
 
@@ -39,19 +39,19 @@ public:
 
         model.execute( command );
 
-        CPPUNIT_ASSERT_EQUAL( 61, model.getSequence()->track[0].getConstEvents()->findFromId( 2 )->note );
+        CPPUNIT_ASSERT_EQUAL( 61, model.getSequence()->track[0].events()->findFromId( 2 )->note );
         CPPUNIT_ASSERT( true == model.canUndo() );
         CPPUNIT_ASSERT( false == model.canRedo() );
 
         model.undo();
 
-        CPPUNIT_ASSERT_EQUAL( 60, model.getSequence()->track[0].getConstEvents()->findFromId( 2 )->note );
+        CPPUNIT_ASSERT_EQUAL( 60, model.getSequence()->track[0].events()->findFromId( 2 )->note );
         CPPUNIT_ASSERT( false == model.canUndo() );
         CPPUNIT_ASSERT( true == model.canRedo() );
 
         model.redo();
 
-        CPPUNIT_ASSERT_EQUAL( 61, model.getSequence()->track[0].getConstEvents()->findFromId( 2 )->note );
+        CPPUNIT_ASSERT_EQUAL( 61, model.getSequence()->track[0].events()->findFromId( 2 )->note );
         CPPUNIT_ASSERT( true == model.canUndo() );
         CPPUNIT_ASSERT( false == model.canRedo() );
 
@@ -67,9 +67,9 @@ public:
      */
     void testSortAfterExecute(){
         SequenceModelStub model;
-        const VSQ_NS::Event::List *list = model.getSequence()->track[0].getConstEvents();
+        const VSQ_NS::Event::List *list = model.getSequence()->track[0].events();
 
-        Event editedNote = *model.getSequence()->track[0].getConstEvents()->findFromId( 2 );
+        Event editedNote = *model.getSequence()->track[0].events()->findFromId( 2 );
         editedNote.clock = 1922;
         // 編集前
         // clock=0, SINGER, id=1
