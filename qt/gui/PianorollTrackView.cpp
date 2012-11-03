@@ -355,6 +355,13 @@ namespace cadencii{
             manager->add( noteEventOnMouse );
             updateWidget();
         }else{
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            bool repaint = false;
+            if( !manager->getEventItemList()->empty() ){
+                manager->clear();
+                repaint = true;
+            }
+
             initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event, noteEventOnMouse );
             QPoint mousePosition = mapToScene( event->pos() );
             int note = getNoteNumberFromY( mousePosition.y(), trackHeight );
@@ -362,6 +369,8 @@ namespace cadencii{
             clock = quantize( clock );
             mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
             mouseStatus.addingNoteItem.note = note;
+
+            if( repaint ) updateWidget();
         }
     }
 
