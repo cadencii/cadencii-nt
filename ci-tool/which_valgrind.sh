@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function which_valgrind { (
-    local valgrind=$(which valgrind64)
+    local valgrind=$(which valgrind64 2>/dev/null)
 
     if [ -z "$valgrind" ]; then
-        valgrind=$(which valgrind)
+        valgrind=$(which valgrind 2>/dev/null)
     fi
 
     if [ -z "$valgrind" ]; then
