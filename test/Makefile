@@ -13,5 +13,5 @@ run: $(TARGETS)
 	done
 
 clean:
-	rm -f *.exe **/*.exe
+	rm -rf *.exe *.exe.dSYM **/*.exe **/*.exe.dSYM
 

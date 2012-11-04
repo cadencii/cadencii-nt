@@ -324,13 +324,13 @@ namespace cadencii{
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         if( noteEventOnMouse ){
-            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
+            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event, noteEventOnMouse );
             manager->add( noteEventOnMouse );
         }else{
             if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
                 manager->clear();
             }
-            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event, noteEventOnMouse );
         }
         updateWidget();
     }
@@ -339,7 +339,7 @@ namespace cadencii{
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         controllerAdapter->removeEvent( trackIndex, noteEventOnMouse );
         if( !noteEventOnMouse ){
-            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event );
+            initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event, noteEventOnMouse );
         }
         updateWidget();
     }
@@ -347,7 +347,7 @@ namespace cadencii{
     void PianorollTrackView::handleMouseLeftButtonPressByPencil( QMouseEvent *event ){
         const VSQ_NS::Event *noteEventOnMouse = findNoteEventAt( event->pos() );
         if( noteEventOnMouse ){
-            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event );
+            initMouseStatus( MouseStatus::LEFTBUTTON_MOVE_ITEM, event, noteEventOnMouse );
             ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
             if( (event->modifiers() & Qt::ControlModifier) != Qt::ControlModifier ){
                 manager->clear();
@@ -355,18 +355,27 @@ namespace cadencii{
             manager->add( noteEventOnMouse );
             updateWidget();
         }else{
-            initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event );
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            bool repaint = false;
+            if( !manager->getEventItemList()->empty() ){
+                manager->clear();
+                repaint = true;
+            }
+
+            initMouseStatus( MouseStatus::LEFTBUTTON_ADD_ITEM, event, noteEventOnMouse );
             QPoint mousePosition = mapToScene( event->pos() );
             int note = getNoteNumberFromY( mousePosition.y(), trackHeight );
             VSQ_NS::tick_t clock = controllerAdapter->getTickFromX( mousePosition.x() );
             clock = quantize( clock );
             mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
             mouseStatus.addingNoteItem.note = note;
+
+            if( repaint ) updateWidget();
         }
     }
 
     void PianorollTrackView::handleMouseMiddleButtonPress( QMouseEvent *event ){
-        initMouseStatus( MouseStatus::MIDDLEBUTTON_SCROLL, event );
+        initMouseStatus( MouseStatus::MIDDLEBUTTON_SCROLL, event, 0 );
     }
 
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt( const QPoint &mousePosition ){
@@ -436,6 +445,10 @@ namespace cadencii{
             // マウスの移動量から、クロック・ノートの移動量を算出
             VSQ_NS::tick_t deltaClocks = controllerAdapter->getTickFromX( currentMousePos.x() )
                     - controllerAdapter->getTickFromX( mouseStatus.startPosition.x() );
+            if( mouseStatus.noteOnMouse ){
+                VSQ_NS::tick_t editedNoteClock = quantize( mouseStatus.noteOnMouse->clock + deltaClocks );
+                deltaClocks = editedNoteClock - mouseStatus.noteOnMouse->clock;
+            }
             int deltaNoteNumbers = getNoteNumberFromY( currentMousePos.y(), trackHeight )
                     - getNoteNumberFromY( mouseStatus.startPosition.y(), trackHeight );
 
@@ -548,7 +561,7 @@ namespace cadencii{
         return newTick;
     }
 
-    void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event ){
+    void PianorollTrackView::initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event, const VSQ_NS::Event *noteOnMouse ){
         mouseStatus.mode = status;
         mouseStatus.startPosition = mapToScene( event->pos() );
         mouseStatus.endPosition = mouseStatus.startPosition;
@@ -557,6 +570,7 @@ namespace cadencii{
         mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal( event->pos() );
         mouseStatus.isMouseMoved = false;
         mouseStatus.itemSelectionStatusAtFirst = *controllerAdapter->getItemSelectionManager();
+        mouseStatus.noteOnMouse = noteOnMouse;
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
@@ -580,6 +594,7 @@ namespace cadencii{
         globalStartPosition = QPoint();
         isMouseMoved = false;
         itemSelectionStatusAtFirst = ItemSelectionManager();
+        noteOnMouse = 0;
     }
 
 }

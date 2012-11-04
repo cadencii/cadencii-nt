@@ -1,7 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-g++ ${WORKSPACE}/test/*Test.cpp ${WORKSPACE}/test/**/*Test.cpp ${WORKSPACE}/test/main.cpp -g -lcppunit -o ${WORKSPACE}/test/a.out
-valgrind --leak-check=yes --xml=yes --xml-file=${WORKSPACE}/valgrind.xml ${WORKSPACE}/test/a.out -o ${WORKSPACE}/test/hoge.xml -f ${WORKSPACE}/test
-RUBY=${HOME}/.rvm/rubies/ruby-1.9.3-p286/bin/ruby
-${RUBY} ${WORKSPACE}/ci-tool/filter_valgrind_result.rb ${WORKSPACE}/valgrind.xml
+function run_valgrind { (
+    local workspace=$(cd $(dirname $0)/../; pwd)
+    . ${workspace}/ci-tool/which_ruby.sh
+    . ${workspace}/ci-tool/which_valgrind.sh
+    local ruby=$(which_ruby)
+    local valgrind=$(which_valgrind)
+
+    g++ ${workspace}/test/*Test.cpp ${workspace}/test/**/*Test.cpp ${workspace}/test/main.cpp -g -lcppunit -o ${workspace}/test/a.out
+    $valgrind --leak-check=yes --xml=yes --xml-file=${workspace}/valgrind.xml ${workspace}/test/a.out -o ${workspace}/test/hoge.xml -f ${workspace}/test
+    $ruby ${workspace}/ci-tool/filter_valgrind_result.rb ${workspace}/valgrind.xml
+) }
+
+run_valgrind
 

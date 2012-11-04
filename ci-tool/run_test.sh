@@ -1,6 +1,12 @@
-#!/bin/sh
-rm -f ${WORKSPACE}/test/cppunit.xml
-rm -f ${WORKSPACE}/coverage.xml
-g++ ${WORKSPACE}/test/*.cpp ${WORKSPACE}/test/**/*.cpp -w -coverage -ldl -lcppunit -o ${WORKSPACE}/test.exe
-${WORKSPACE}/test.exe -o ${WORKSPACE}/test/cppunit.xml -f ${WORKSPACE}/test
+#!/bin/bash
+
+function run_test { (
+    local workspace=$(cd $(dirname $0)/../; pwd)
+    rm -f ${workspace}/test/cppunit.xml
+    rm -f ${workspace}/coverage.xml
+    g++ ${workspace}/test/*.cpp ${workspace}/test/**/*.cpp -w -coverage -ldl -lcppunit -o ${workspace}/test.exe
+    ${workspace}/test.exe -o ${workspace}/test/cppunit.xml -f ${workspace}/test
+) }
+
+run_test
 

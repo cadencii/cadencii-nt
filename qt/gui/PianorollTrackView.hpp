@@ -90,6 +90,10 @@ namespace cadencii{
              * @brief Note item status, adding by mouse dragging.
              */
             VSQ_NS::Event addingNoteItem;
+            /**
+             * @brief Note item at mouse pressed position.
+             */
+            const VSQ_NS::Event *noteOnMouse;
 
         public:
             explicit MouseStatus();
@@ -166,6 +170,7 @@ namespace cadencii{
          * @param mutex ミューテックス
          */
         void setMutex( QMutex *mutex );
+
     private slots:
         void onMousePressSlot( QMouseEvent *event );
 
@@ -229,11 +234,12 @@ namespace cadencii{
         void updateSelectedItem();
 
         /**
-         * @brief mouseStatus フィールドの値を更新する
-         * @param status ステータスの種類
-         * @param マウスイベント
+         * @brief Update 'mouseStatus' field.
+         * @param status A kind of mouse status.
+         * @param event A mouse event.
+         * @param noteOnMouse Note item at mouse pressed position.
          */
-        void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event );
+        void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event, const VSQ_NS::Event *noteOnMouse );
 
         /**
          * @brief Draw a note item.
