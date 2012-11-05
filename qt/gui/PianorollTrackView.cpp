@@ -33,7 +33,7 @@ namespace cadencii{
         trackIndex = 0;
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
-        lyricEdit = new QLineEdit( ui->scrollArea->viewport() );
+        lyricEdit = new LyricEditWidget( ui->scrollArea->viewport() );
         lyricEdit->setVisible( false );
 
         // キーボードのキーの音名を作成
@@ -515,7 +515,7 @@ namespace cadencii{
         const VSQ_NS::Event *noteOnMouse = findNoteEventAt( event->pos() );
         if( noteOnMouse ){
             lyricEdit->setVisible( true );
-            lyricEditPosition = getLyricEditPosition( noteOnMouse );
+            lyricEdit->scenePosition = getLyricEditPosition( noteOnMouse );
             updateLyricEditComponentPosition();
         }
     }
@@ -597,7 +597,7 @@ namespace cadencii{
     void PianorollTrackView::updateLyricEditComponentPosition(){
         int x = ui->scrollArea->horizontalScrollBar()->value();
         int y = ui->scrollArea->verticalScrollBar()->value();
-        lyricEdit->move( lyricEditPosition.x() - x, lyricEditPosition.y() - y );
+        lyricEdit->move( lyricEdit->scenePosition.x() - x, lyricEdit->scenePosition.y() - y );
     }
 
     QPoint PianorollTrackView::getLyricEditPosition( const VSQ_NS::Event *noteEvent ){

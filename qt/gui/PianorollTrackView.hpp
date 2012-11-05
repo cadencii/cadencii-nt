@@ -17,6 +17,7 @@
 
 #include "EditorWidgetBase.hpp"
 #include "../../gui/TrackView.hpp"
+#include "pianoroll_track_view/LyricEditWidget.hpp"
 #include <QGraphicsScene>
 #include <QLineEdit>
 
@@ -133,11 +134,7 @@ namespace cadencii{
         /**
          * @brief A component for editing lyric.
          */
-        QLineEdit *lyricEdit;
-        /**
-         * @brief Position of 'lyricEdit' component, based on scene geometry.
-         */
-        QPoint lyricEditPosition;
+        LyricEditWidget *lyricEdit;
 
     public:
         PianorollTrackView( QWidget *parent = 0 );
