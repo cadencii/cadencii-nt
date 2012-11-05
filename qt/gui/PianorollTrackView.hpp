@@ -18,6 +18,7 @@
 #include "EditorWidgetBase.hpp"
 #include "../../gui/TrackView.hpp"
 #include <QGraphicsScene>
+#include <QLineEdit>
 
 namespace cadencii{
 
@@ -129,6 +130,14 @@ namespace cadencii{
         QString *keyNames;
         int trackIndex;
         MouseStatus mouseStatus;
+        /**
+         * @brief A component for editing lyric.
+         */
+        QLineEdit *lyricEdit;
+        /**
+         * @brief Position of 'lyricEdit' component, based on scene geometry.
+         */
+        QPoint lyricEditPosition;
 
     public:
         PianorollTrackView( QWidget *parent = 0 );
@@ -177,6 +186,13 @@ namespace cadencii{
         void onMouseMoveSlot( QMouseEvent *event );
 
         void onMouseReleaseSlot( QMouseEvent *event );
+
+        void onMouseDoubleClickSlot( QMouseEvent *event );
+
+        /**
+         * @brief Called when graphics scene was scrolled.
+         */
+        void onContentScroll( int value );
 
     private:
         /**
@@ -250,6 +266,18 @@ namespace cadencii{
          * @brief Quantize specified tick.
          */
         inline VSQ_NS::tick_t quantize( VSQ_NS::tick_t tick );
+
+        /**
+         * @brief Update 'lyricEdit' component position.
+         */
+        inline void updateLyricEditComponentPosition();
+
+        /**
+         * @brief Get component position for specified note event.
+         * @param noteEvent A note event.
+         * @return Component position.
+         */
+        inline QPoint getLyricEditPosition( const VSQ_NS::Event *noteEvent );
 
         /**
          * @brief y 座標からノート番号を取得する

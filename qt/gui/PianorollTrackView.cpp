@@ -16,6 +16,7 @@
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
 #include <QMouseEvent>
+#include <QLineEdit>
 #include "../../vsq/Event.hpp"
 #include "../../command/EditEventCommand.hpp"
 #include "../../command/AddEventCommand.hpp"
@@ -32,6 +33,8 @@ namespace cadencii{
         trackIndex = 0;
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        lyricEdit = new QLineEdit( ui->scrollArea->viewport() );
+        lyricEdit->setVisible( false );
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -47,10 +50,15 @@ namespace cadencii{
         connect( ui->scrollArea, SIGNAL(onMousePress(QMouseEvent*)), this, SLOT(onMousePressSlot(QMouseEvent*)) );
         connect( ui->scrollArea, SIGNAL(onMouseMove(QMouseEvent*)), this, SLOT(onMouseMoveSlot(QMouseEvent*)) );
         connect( ui->scrollArea, SIGNAL(onMouseRelease(QMouseEvent*)), this, SLOT(onMouseReleaseSlot(QMouseEvent*)) );
+        connect( ui->scrollArea, SIGNAL(onMouseDoubleClick(QMouseEvent*)), this, SLOT(onMouseDoubleClickSlot(QMouseEvent*)) );
+
+        connect( ui->scrollArea->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
+        connect( ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
     }
 
     PianorollTrackView::~PianorollTrackView(){
         delete [] keyNames;
+        delete lyricEdit;
     }
 
     void *PianorollTrackView::getWidget(){
@@ -503,6 +511,15 @@ namespace cadencii{
         updateWidget();
     }
 
+    void PianorollTrackView::onMouseDoubleClickSlot( QMouseEvent *event ){
+        const VSQ_NS::Event *noteOnMouse = findNoteEventAt( event->pos() );
+        if( noteOnMouse ){
+            lyricEdit->setVisible( true );
+            lyricEditPosition = getLyricEditPosition( noteOnMouse );
+            updateLyricEditComponentPosition();
+        }
+    }
+
     /**
      * @todo パフォーマンス悪いので改善する。
      * 例えば、以下の改善策がある。
@@ -571,6 +588,22 @@ namespace cadencii{
         mouseStatus.isMouseMoved = false;
         mouseStatus.itemSelectionStatusAtFirst = *controllerAdapter->getItemSelectionManager();
         mouseStatus.noteOnMouse = noteOnMouse;
+    }
+
+    void PianorollTrackView::onContentScroll( int value ){
+        updateLyricEditComponentPosition();
+    }
+
+    void PianorollTrackView::updateLyricEditComponentPosition(){
+        int x = ui->scrollArea->horizontalScrollBar()->value();
+        int y = ui->scrollArea->verticalScrollBar()->value();
+        lyricEdit->move( lyricEditPosition.x() - x, lyricEditPosition.y() - y );
+    }
+
+    QPoint PianorollTrackView::getLyricEditPosition( const VSQ_NS::Event *noteEvent ){
+        QRect noteRect = getNoteItemRect( noteEvent );
+        int y = noteRect.y() - (lyricEdit->height() - noteRect.height()) / 2;
+        return QPoint( noteRect.x(), y );
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){
