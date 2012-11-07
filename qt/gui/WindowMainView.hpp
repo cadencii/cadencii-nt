@@ -29,6 +29,7 @@ namespace cadencii{
     private:
         Ui::WindowMainView *ui;
         ControllerAdapter *controllerAdapter;
+        bool isApplicationShortcutDisabled;
 
     public:
         explicit WindowMainView( QWidget *parent = 0 );
@@ -55,6 +56,8 @@ namespace cadencii{
         void notifyCommandHistoryChanged();
 
         void showWidget();
+
+        void setApplicationShortcutEnabled(bool value);
 
     private:
         /**

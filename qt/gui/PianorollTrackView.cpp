@@ -54,6 +54,10 @@ namespace cadencii{
 
         connect( ui->scrollArea->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
         connect( ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
+
+        connect(lyricEdit, SIGNAL(onCommit()), this, SLOT(onLyricEditCommitSlot()));
+        connect(lyricEdit, SIGNAL(onHide()), this, SLOT(onLyricEditHideSlot()));
+        connect(lyricEdit, SIGNAL(onMove(bool)), this, SLOT(onLyricEditMoveSlot(bool)));
     }
 
     PianorollTrackView::~PianorollTrackView(){
@@ -339,6 +343,7 @@ namespace cadencii{
                 manager->clear();
             }
             initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event, noteEventOnMouse );
+            hideLyricEdit();
         }
         updateWidget();
     }
@@ -377,6 +382,8 @@ namespace cadencii{
             clock = quantize( clock );
             mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
             mouseStatus.addingNoteItem.note = note;
+
+            hideLyricEdit();
 
             if( repaint ) updateWidget();
         }
@@ -514,9 +521,7 @@ namespace cadencii{
     void PianorollTrackView::onMouseDoubleClickSlot( QMouseEvent *event ){
         const VSQ_NS::Event *noteOnMouse = findNoteEventAt( event->pos() );
         if( noteOnMouse ){
-            lyricEdit->setVisible( true );
-            lyricEdit->scenePosition = getLyricEditPosition( noteOnMouse );
-            updateLyricEditComponentPosition();
+            showLyricEdit(noteOnMouse);
         }
     }
 
@@ -604,6 +609,60 @@ namespace cadencii{
         QRect noteRect = getNoteItemRect( noteEvent );
         int y = noteRect.y() - (lyricEdit->height() - noteRect.height()) / 2;
         return QPoint( noteRect.x(), y );
+    }
+
+    void PianorollTrackView::onLyricEditCommitSlot() {
+        //TODO: not implemented
+    }
+
+    void PianorollTrackView::onLyricEditHideSlot() {
+        hideLyricEdit();
+    }
+
+    void PianorollTrackView::onLyricEditMoveSlot(bool isBackward) {
+        if (!lyricEdit->event) return;
+
+        int id = lyricEdit->event->id;
+        const VSQ_NS::Track *track = &controllerAdapter->getSequence()->track[trackIndex];
+        const VSQ_NS::Event::List *events = track->events();
+        int index = events->findIndexFromId(id);
+
+        // find forward/backward note item.
+        const VSQ_NS::Event *moveTo = 0;
+        int step = isBackward ? -1 : 1;
+        int i = index + step;
+        while (0 <= i && i < events->size()) {
+            const VSQ_NS::Event *item = events->get(i);
+            if (VSQ_NS::EventType::NOTE == item->type) {
+                moveTo = item;
+                break;
+            }
+            i += step;
+        }
+
+        if (moveTo) {
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            manager->clear();
+            manager->add(moveTo);
+            showLyricEdit(moveTo);
+        } else {
+            hideLyricEdit();
+        }
+    }
+
+    void PianorollTrackView::showLyricEdit(const VSQ_NS::Event *note) {
+        controllerAdapter->setApplicationShortcutEnabled(false);
+        lyricEdit->event = note;
+        lyricEdit->setVisible(true);
+        lyricEdit->setFocus();
+        lyricEdit->scenePosition = getLyricEditPosition(note);
+        updateLyricEditComponentPosition();
+    }
+
+    void PianorollTrackView::hideLyricEdit() {
+        lyricEdit->setVisible(false);
+        lyricEdit->event = 0;
+        controllerAdapter->setApplicationShortcutEnabled(true);
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){

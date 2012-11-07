@@ -145,6 +145,11 @@ namespace cadencii{
          * @brief 選択されたアイテムを削除する
          */
         virtual void removeSelectedItems() = 0;
+
+        /**
+         * @brief Set whether or not to activate the shortcut for the entire application.
+         */
+        virtual void setApplicationShortcutEnabled(bool enabled) = 0;
     };
 
 }

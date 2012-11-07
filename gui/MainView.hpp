@@ -62,6 +62,11 @@ namespace cadencii{
          * @brief ビューを表示する
          */
         virtual void showWidget() = 0;
+
+        /**
+         * @brief Set whether or not to activate the shortcut for the entire application.
+         */
+        virtual void setApplicationShortcutEnabled(bool value) = 0;
     };
 
 }

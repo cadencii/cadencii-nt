@@ -191,6 +191,21 @@ namespace cadencii{
          */
         void onContentScroll( int value );
 
+        /**
+         * @brief Called when lyric is to be edited.
+         */
+        void onLyricEditCommitSlot();
+
+        /**
+         * @brief Called when text box is to be moved.
+         */
+        void onLyricEditHideSlot();
+
+        /**
+         * @brief Called when text box is to be hidden.
+         */
+        void onLyricEditMoveSlot(bool);
+
     private:
         /**
          * ピアノロールのバックグラウンドを描画する
@@ -253,6 +268,16 @@ namespace cadencii{
          * @param noteOnMouse Note item at mouse pressed position.
          */
         void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event, const VSQ_NS::Event *noteOnMouse );
+
+        /**
+         * @brief Show lyricEdit widget on the pianoroll.
+         */
+        void showLyricEdit(const VSQ_NS::Event *note);
+
+        /**
+         * @brief Hide lyricEdit widget.
+         */
+        void hideLyricEdit();
 
         /**
          * @brief Draw a note item.
