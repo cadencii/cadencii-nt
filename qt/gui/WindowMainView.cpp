@@ -103,10 +103,6 @@ namespace cadencii{
         ui->propertyView = widget;
         widget->setParent( ui->splitter_4 );
         ui->splitter_4->insertWidget( 0, widget );
-
-        // ウィンドウ開いた時に propertyView にフォーカスが当たっていると
-        // ださいので。本当は ConcretePropertyView でなんとかしたい。
-        ui->pianoRoll->setFocus();
     }
 
     void WindowMainView::setupPianorollWidget(){

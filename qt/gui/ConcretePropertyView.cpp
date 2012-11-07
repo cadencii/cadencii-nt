@@ -29,6 +29,18 @@ namespace cadencii{
         treeUpdateWorker = new PropertyTreeUpdateWorker( this );
         connect( treeUpdateWorker, SIGNAL(callUpdateTree()), this, SLOT(updateTree()) );
         treeUpdateWorker->start();
+        setNoFocus();
+    }
+
+    void ConcretePropertyView::setNoFocus() {
+        const QObjectList children = this->children();
+        for( QObjectList::const_iterator i = children.begin(); i != children.end(); ++i ){
+            QObject *child = *i;
+            if (child->isWidgetType()) {
+                QWidget *widget = static_cast<QWidget *>(child);
+                widget->setFocusPolicy(Qt::NoFocus);
+            }
+        }
     }
 
     ConcretePropertyView::~ConcretePropertyView(){
