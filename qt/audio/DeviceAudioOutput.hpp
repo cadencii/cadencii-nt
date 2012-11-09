@@ -26,11 +26,11 @@ namespace audio {
      */
     class DeviceAudioOutput : public AudioOutput {
     protected:
-        const static int unitBufferLength = 12800;
+        const static int kUnitBufferLength = 12800;
         QAudioOutput *out;
         QIODevice *device;
         QAudioFormat format;
-        char buffer[unitBufferLength];
+        char buffer[kUnitBufferLength];
 
     public:
         explicit DeviceAudioOutput(int sampleRate) :
@@ -42,7 +42,7 @@ namespace audio {
             format.setSampleType(QAudioFormat::SignedInt);
             out = new QAudioOutput(format);
             device = 0;
-            memset(buffer, 0, sizeof(char) * unitBufferLength);
+            memset(buffer, 0, sizeof(char) * kUnitBufferLength);
         }
 
         ~DeviceAudioOutput() {
@@ -56,7 +56,7 @@ namespace audio {
             int remain = length;
             int finished = 0;
             while (0 < remain) {
-                int amount = unitBufferLength / 4 <= remain ? unitBufferLength / 4 : remain;
+                int amount = kUnitBufferLength / 4 <= remain ? kUnitBufferLength / 4 : remain;
                 int index = 0;
                 for (int i = 0; i < amount; i++) {
                     int16_t leftData = (int16_t)(left[i + finished + offset] * 32767);

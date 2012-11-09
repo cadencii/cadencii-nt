@@ -305,10 +305,10 @@ namespace audio {
          * @brief 16 bit per sample と見なして、ストリームから波形を読み込み、内部バッファに格納する
          */
         inline void fillin16() {
-            const int bufferLength
+            const int kBufferLength
                     = kUnitBufferLength * bytesPerSample * channels;
-            char temporaryBuffer[bufferLength];
-            stream.read(temporaryBuffer, bufferLength);
+            char temporaryBuffer[kBufferLength];
+            stream.read(temporaryBuffer, kBufferLength);
             int actualBufferLegnth
                     = stream.gcount() / bytesPerSample / channels;
             const double coeff = 1.0 / 32768.0;
@@ -342,10 +342,10 @@ namespace audio {
          * @brief 8 bit per sample と見なして、ストリームから波形を読み込み、内部バッファに格納する
          */
         inline void fillin8() {
-            const int bufferLength
+            const int kBufferLength
                 = kUnitBufferLength * bytesPerSample * channels;
-            char temporaryBuffer[bufferLength];
-            stream.read(temporaryBuffer, bufferLength);
+            char temporaryBuffer[kBufferLength];
+            stream.read(temporaryBuffer, kBufferLength);
             int actualBufferLegnth
                 = stream.gcount() / bytesPerSample / channels;
             const double coeff = 1.0 / 128.0;
