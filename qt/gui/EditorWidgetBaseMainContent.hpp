@@ -57,6 +57,8 @@ namespace cadencii{
 
         void mouseReleaseEvent( QMouseEvent *event );
 
+        void mouseDoubleClickEvent( QMouseEvent *event );
+
         void drawForeground( QPainter *painter, const QRectF &rect );
 
         /**
@@ -113,6 +115,11 @@ namespace cadencii{
          * @brief ui->PianoRoll での MouseRelease イベントが起きたとき呼ばれる
          */
         void onMouseRelease( QMouseEvent *event );
+
+        /**
+         * @brief Emitted when mouse double click event on ui->pianoRoll.
+         */
+        void onMouseDoubleClick( QMouseEvent *event );
     };
 
 }

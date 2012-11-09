@@ -17,7 +17,9 @@
 
 #include "EditorWidgetBase.hpp"
 #include "../../gui/TrackView.hpp"
+#include "pianoroll_track_view/LyricEditWidget.hpp"
 #include <QGraphicsScene>
+#include <QLineEdit>
 
 namespace cadencii{
 
@@ -129,6 +131,10 @@ namespace cadencii{
         QString *keyNames;
         int trackIndex;
         MouseStatus mouseStatus;
+        /**
+         * @brief A component for editing lyric.
+         */
+        LyricEditWidget *lyricEdit;
 
     public:
         PianorollTrackView( QWidget *parent = 0 );
@@ -177,6 +183,28 @@ namespace cadencii{
         void onMouseMoveSlot( QMouseEvent *event );
 
         void onMouseReleaseSlot( QMouseEvent *event );
+
+        void onMouseDoubleClickSlot( QMouseEvent *event );
+
+        /**
+         * @brief Called when graphics scene was scrolled.
+         */
+        void onContentScroll( int value );
+
+        /**
+         * @brief Called when lyric is to be edited.
+         */
+        void onLyricEditCommitSlot();
+
+        /**
+         * @brief Called when text box is to be moved.
+         */
+        void onLyricEditHideSlot();
+
+        /**
+         * @brief Called when text box is to be hidden.
+         */
+        void onLyricEditMoveSlot(bool);
 
     private:
         /**
@@ -242,6 +270,16 @@ namespace cadencii{
         void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event, const VSQ_NS::Event *noteOnMouse );
 
         /**
+         * @brief Show lyricEdit widget on the pianoroll.
+         */
+        void showLyricEdit(const VSQ_NS::Event *note);
+
+        /**
+         * @brief Hide lyricEdit widget.
+         */
+        void hideLyricEdit();
+
+        /**
          * @brief Draw a note item.
          */
         inline void paintItem( QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect, const QColor &color, const QColor &borderColor );
@@ -250,6 +288,18 @@ namespace cadencii{
          * @brief Quantize specified tick.
          */
         inline VSQ_NS::tick_t quantize( VSQ_NS::tick_t tick );
+
+        /**
+         * @brief Update 'lyricEdit' component position.
+         */
+        inline void updateLyricEditComponentPosition();
+
+        /**
+         * @brief Get component position for specified note event.
+         * @param noteEvent A note event.
+         * @return Component position.
+         */
+        inline QPoint getLyricEditPosition( const VSQ_NS::Event *noteEvent );
 
         /**
          * @brief y 座標からノート番号を取得する

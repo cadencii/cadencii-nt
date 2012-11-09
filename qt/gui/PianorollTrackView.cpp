@@ -16,11 +16,13 @@
 #include "ui_EditorWidgetBase.h"
 #include <QScrollBar>
 #include <QMouseEvent>
+#include <QLineEdit>
 #include "../../vsq/Event.hpp"
 #include "../../command/EditEventCommand.hpp"
 #include "../../command/AddEventCommand.hpp"
 #include "../../enum/QuantizeMode.hpp"
 #include "../../Settings.hpp"
+#include "../../vsq/PhoneticSymbolDictionary.hpp"
 
 namespace cadencii{
 
@@ -32,6 +34,8 @@ namespace cadencii{
         trackIndex = 0;
         ui->scrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
         ui->scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+        lyricEdit = new LyricEditWidget( ui->scrollArea->viewport() );
+        lyricEdit->setVisible( false );
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
@@ -47,10 +51,19 @@ namespace cadencii{
         connect( ui->scrollArea, SIGNAL(onMousePress(QMouseEvent*)), this, SLOT(onMousePressSlot(QMouseEvent*)) );
         connect( ui->scrollArea, SIGNAL(onMouseMove(QMouseEvent*)), this, SLOT(onMouseMoveSlot(QMouseEvent*)) );
         connect( ui->scrollArea, SIGNAL(onMouseRelease(QMouseEvent*)), this, SLOT(onMouseReleaseSlot(QMouseEvent*)) );
+        connect( ui->scrollArea, SIGNAL(onMouseDoubleClick(QMouseEvent*)), this, SLOT(onMouseDoubleClickSlot(QMouseEvent*)) );
+
+        connect( ui->scrollArea->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
+        connect( ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(onContentScroll(int)) );
+
+        connect(lyricEdit, SIGNAL(onCommit()), this, SLOT(onLyricEditCommitSlot()));
+        connect(lyricEdit, SIGNAL(onHide()), this, SLOT(onLyricEditHideSlot()));
+        connect(lyricEdit, SIGNAL(onMove(bool)), this, SLOT(onLyricEditMoveSlot(bool)));
     }
 
     PianorollTrackView::~PianorollTrackView(){
         delete [] keyNames;
+        delete lyricEdit;
     }
 
     void *PianorollTrackView::getWidget(){
@@ -331,6 +344,7 @@ namespace cadencii{
                 manager->clear();
             }
             initMouseStatus( MouseStatus::LEFTBUTTON_SELECT_ITEM, event, noteEventOnMouse );
+            hideLyricEdit();
         }
         updateWidget();
     }
@@ -369,6 +383,8 @@ namespace cadencii{
             clock = quantize( clock );
             mouseStatus.addingNoteItem = VSQ_NS::Event( clock, VSQ_NS::EventType::NOTE );
             mouseStatus.addingNoteItem.note = note;
+
+            hideLyricEdit();
 
             if( repaint ) updateWidget();
         }
@@ -503,6 +519,13 @@ namespace cadencii{
         updateWidget();
     }
 
+    void PianorollTrackView::onMouseDoubleClickSlot( QMouseEvent *event ){
+        const VSQ_NS::Event *noteOnMouse = findNoteEventAt( event->pos() );
+        if( noteOnMouse ){
+            showLyricEdit(noteOnMouse);
+        }
+    }
+
     /**
      * @todo パフォーマンス悪いので改善する。
      * 例えば、以下の改善策がある。
@@ -571,6 +594,118 @@ namespace cadencii{
         mouseStatus.isMouseMoved = false;
         mouseStatus.itemSelectionStatusAtFirst = *controllerAdapter->getItemSelectionManager();
         mouseStatus.noteOnMouse = noteOnMouse;
+    }
+
+    void PianorollTrackView::onContentScroll( int value ){
+        updateLyricEditComponentPosition();
+    }
+
+    void PianorollTrackView::updateLyricEditComponentPosition(){
+        int x = ui->scrollArea->horizontalScrollBar()->value();
+        int y = ui->scrollArea->verticalScrollBar()->value();
+        lyricEdit->move( lyricEdit->scenePosition.x() - x, lyricEdit->scenePosition.y() - y );
+    }
+
+    QPoint PianorollTrackView::getLyricEditPosition( const VSQ_NS::Event *noteEvent ){
+        QRect noteRect = getNoteItemRect( noteEvent );
+        int y = noteRect.y() - (lyricEdit->height() - noteRect.height()) / 2;
+        return QPoint( noteRect.x(), y );
+    }
+
+    void PianorollTrackView::onLyricEditCommitSlot() {
+        const VSQ_NS::Event *event = lyricEdit->event();
+        if (!event) return;
+
+        VSQ_NS::Lyric originalLyric = event->lyricHandle.getLyricCount() == 0
+                ? VSQ_NS::Lyric("a", "a")
+                : event->lyricHandle.getLyricAt(0);
+
+        //TODO: separate into phrases
+
+        std::string word;
+        std::string symbol;
+        if (lyricEdit->symbolEditMode) {
+            word = originalLyric.phrase;
+            symbol = lyricEdit->text().toStdString();
+        } else {
+            word = lyricEdit->text().toStdString();
+
+            if (originalLyric.isProtected) {
+                symbol = originalLyric.getPhoneticSymbol();
+            } else {
+                symbol = "a";
+                const VSQ_NS::PhoneticSymbolDictionary::Element *element
+                        = VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+                if (element) symbol = element->symbol();
+            }
+        }
+
+        VSQ_NS::Lyric lyric(word, symbol);
+        lyric.isProtected = lyricEdit->symbolEditMode
+                ? true
+                : originalLyric.isProtected;
+        VSQ_NS::Event edited = *lyricEdit->event();
+        if (edited.lyricHandle.getLyricCount() == 0) {
+            edited.lyricHandle.addLyric(lyric);
+        } else {
+            edited.lyricHandle.setLyricAt(0, lyric);
+        }
+
+        if (edited.lyricHandle.getLyricCount() != event->lyricHandle.getLyricCount() ||
+                !lyric.equals(originalLyric)) {
+            EditEventCommand command(trackIndex, lyricEdit->event()->id, edited);
+            controllerAdapter->execute(&command);
+        }
+    }
+
+    void PianorollTrackView::onLyricEditHideSlot() {
+        hideLyricEdit();
+    }
+
+    void PianorollTrackView::onLyricEditMoveSlot(bool isBackward) {
+        if (!lyricEdit->event()) return;
+
+        int id = lyricEdit->event()->id;
+        const VSQ_NS::Track *track = &controllerAdapter->getSequence()->track[trackIndex];
+        const VSQ_NS::Event::List *events = track->events();
+        int index = events->findIndexFromId(id);
+
+        // find forward/backward note item.
+        const VSQ_NS::Event *moveTo = 0;
+        int step = isBackward ? -1 : 1;
+        int i = index + step;
+        while (0 <= i && i < events->size()) {
+            const VSQ_NS::Event *item = events->get(i);
+            if (VSQ_NS::EventType::NOTE == item->type) {
+                moveTo = item;
+                break;
+            }
+            i += step;
+        }
+
+        if (moveTo) {
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            manager->clear();
+            manager->add(moveTo);
+            showLyricEdit(moveTo);
+        } else {
+            hideLyricEdit();
+        }
+    }
+
+    void PianorollTrackView::showLyricEdit(const VSQ_NS::Event *note) {
+        controllerAdapter->setApplicationShortcutEnabled(false);
+        lyricEdit->setupText(note);
+        lyricEdit->setVisible(true);
+        lyricEdit->setFocus();
+        lyricEdit->scenePosition = getLyricEditPosition(note);
+        updateLyricEditComponentPosition();
+    }
+
+    void PianorollTrackView::hideLyricEdit() {
+        lyricEdit->setVisible(false);
+        lyricEdit->setupText(0);
+        controllerAdapter->setApplicationShortcutEnabled(true);
     }
 
     PianorollTrackView::MouseStatus::MouseStatus(){

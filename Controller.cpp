@@ -369,4 +369,8 @@ namespace cadencii{
         execute( command );
     }
 
+    void Controller::setApplicationShortcutEnabled(bool enabled) {
+        if (mainView) mainView->setApplicationShortcutEnabled(enabled);
+    }
+
 }

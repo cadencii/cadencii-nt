@@ -28,6 +28,7 @@ namespace cadencii{
     {
         ui->setupUi( this );
         controllerAdapter = 0;
+        setApplicationShortcutEnabled(true);
         reflectSettings();
     }
 
@@ -103,10 +104,6 @@ namespace cadencii{
         ui->propertyView = widget;
         widget->setParent( ui->splitter_4 );
         ui->splitter_4->insertWidget( 0, widget );
-
-        // ウィンドウ開いた時に propertyView にフォーカスが当たっていると
-        // ださいので。本当は ConcretePropertyView でなんとかしたい。
-        ui->pianoRoll->setFocus();
     }
 
     void WindowMainView::setupPianorollWidget(){
@@ -197,16 +194,26 @@ namespace cadencii{
         ui->tool_action_toggle_pencil_tool->setChecked( kind == ToolKind::PENCIL );
     }
 
-    void WindowMainView::notifyCommandHistoryChanged(){
-        ui->menu_action_undo->setEnabled( controllerAdapter->canUndo() );
-        ui->menu_action_redo->setEnabled( controllerAdapter->canRedo() );
-        ui->tool_action_undo->setEnabled( controllerAdapter->canUndo() );
-        ui->tool_action_redo->setEnabled( controllerAdapter->canRedo() );
+    void WindowMainView::notifyCommandHistoryChanged() {
+        ui->menu_action_undo->setEnabled(!isApplicationShortcutDisabled && controllerAdapter->canUndo());
+        ui->menu_action_redo->setEnabled(!isApplicationShortcutDisabled && controllerAdapter->canRedo());
+        ui->tool_action_undo->setEnabled(!isApplicationShortcutDisabled && controllerAdapter->canUndo());
+        ui->tool_action_redo->setEnabled(!isApplicationShortcutDisabled && controllerAdapter->canRedo());
         updateWidget();
     }
 
     void WindowMainView::showWidget(){
         show();
+    }
+
+    void WindowMainView::setApplicationShortcutEnabled(bool value) {
+        // Forbid shortcut key events pass to actions.
+        isApplicationShortcutDisabled = !value;
+        ui->menu_action_delete->setEnabled(value);
+        ui->menu_action_redo->setEnabled(value && (controllerAdapter ? controllerAdapter->canRedo() : true));
+        ui->menu_action_undo->setEnabled(value && (controllerAdapter ? controllerAdapter->canUndo() : true));
+        ui->tool_action_redo->setEnabled(value && (controllerAdapter ? controllerAdapter->canRedo() : true));
+        ui->tool_action_undo->setEnabled(value && (controllerAdapter ? controllerAdapter->canUndo() : true));
     }
 
 }

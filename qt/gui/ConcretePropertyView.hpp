@@ -95,6 +95,11 @@ namespace cadencii{
          * @brief QtProperty * 型のフィールドを初期化する
          */
         void initProperties();
+
+        /**
+         * @brief Forbid focus on this widget.
+         */
+        void setNoFocus();
     };
 
 }

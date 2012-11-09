@@ -154,4 +154,7 @@ namespace cadencii{
         emit onMouseRelease( event );
     }
 
+    void EditorWidgetBaseMainContent::mouseDoubleClickEvent( QMouseEvent *event ){
+        emit onMouseDoubleClick( event );
+    }
 }

@@ -103,6 +103,8 @@ namespace cadencii{
 
         void removeSelectedItems();
 
+        void setApplicationShortcutEnabled(bool enabled);
+
         void notifyItemSelectionChange()throw();
 
         /**
