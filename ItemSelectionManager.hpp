@@ -85,7 +85,7 @@ namespace cadencii {
          * @param event 選択状態を解除するアイテム
          */
         void remove(const VSQ_NS::Event *event) {
-            if (silentRemove(event)) {
+            if (silentRemove(event->id)) {
                 notifyStatusChange();
             }
         }
@@ -99,7 +99,8 @@ namespace cadencii {
                     = eventList.begin();
             bool removed = false;
             for (; i != eventList.end(); ++i) {
-                removed |= silentRemove(*i);
+                const VSQ_NS::Event *event = *i;
+                removed |= silentRemove(event->id);
             }
             if (removed) notifyStatusChange();
         }
@@ -220,7 +221,7 @@ namespace cadencii {
                     originalEventItemList[id] = *item;
                 } else {
                     modified = true;
-                    silentRemove(item);
+                    silentRemove(id);
                 }
             }
             if (modified) notifyStatusChange();
@@ -262,11 +263,11 @@ namespace cadencii {
 
         /**
          * @brief notifyStatusChange メソッドを呼ぶことなく、アイテムを削除する
-         * @param item 削除するアイテム
+         * @param eventId Event id of event to be deleted.
          * @return 削除されたかどうか。既に選択状態でなかった場合は false が返る
          */
-        inline bool silentRemove(const VSQ_NS::Event *event) {
-            return 0 < eventItemList.erase(event->id) + originalEventItemList.erase(event->id);
+        inline bool silentRemove(int eventId) {
+            return 0 < eventItemList.erase(eventId) + originalEventItemList.erase(eventId);
         }
     };
 }

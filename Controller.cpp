@@ -305,12 +305,14 @@ namespace cadencii {
 
     void Controller::redo() {
         model.redo();
+        itemSelectionManager.updateSelectedContents(trackIndex, model.getSequence());
         if (mainView) mainView->notifyCommandHistoryChanged();
         if (propertyView) propertyView->statusChanged();
     }
 
     void Controller::undo() {
         model.undo();
+        itemSelectionManager.updateSelectedContents(trackIndex, model.getSequence());
         if (mainView) mainView->notifyCommandHistoryChanged();
         if (propertyView) propertyView->statusChanged();
     }
