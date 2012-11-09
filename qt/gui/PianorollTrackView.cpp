@@ -22,6 +22,7 @@
 #include "../../command/AddEventCommand.hpp"
 #include "../../enum/QuantizeMode.hpp"
 #include "../../Settings.hpp"
+#include "../../vsq/PhoneticSymbolDictionary.hpp"
 
 namespace cadencii{
 
@@ -612,7 +613,49 @@ namespace cadencii{
     }
 
     void PianorollTrackView::onLyricEditCommitSlot() {
-        //TODO: not implemented
+        const VSQ_NS::Event *event = lyricEdit->event();
+        if (!event) return;
+
+        VSQ_NS::Lyric originalLyric = event->lyricHandle.getLyricCount() == 0
+                ? VSQ_NS::Lyric("a", "a")
+                : event->lyricHandle.getLyricAt(0);
+
+        //TODO: separate into phrases
+
+        std::string word;
+        std::string symbol;
+        if (lyricEdit->symbolEditMode) {
+            word = originalLyric.phrase;
+            symbol = lyricEdit->text().toStdString();
+        } else {
+            word = lyricEdit->text().toStdString();
+
+            if (originalLyric.isProtected) {
+                symbol = originalLyric.getPhoneticSymbol();
+            } else {
+                symbol = "a";
+                const VSQ_NS::PhoneticSymbolDictionary::Element *element
+                        = VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+                if (element) symbol = element->symbol();
+            }
+        }
+
+        VSQ_NS::Lyric lyric(word, symbol);
+        lyric.isProtected = lyricEdit->symbolEditMode
+                ? true
+                : originalLyric.isProtected;
+        VSQ_NS::Event edited = *lyricEdit->event();
+        if (edited.lyricHandle.getLyricCount() == 0) {
+            edited.lyricHandle.addLyric(lyric);
+        } else {
+            edited.lyricHandle.setLyricAt(0, lyric);
+        }
+
+        if (edited.lyricHandle.getLyricCount() != event->lyricHandle.getLyricCount() ||
+                !lyric.equals(originalLyric)) {
+            EditEventCommand command(trackIndex, lyricEdit->event()->id, edited);
+            controllerAdapter->execute(&command);
+        }
     }
 
     void PianorollTrackView::onLyricEditHideSlot() {
@@ -620,9 +663,9 @@ namespace cadencii{
     }
 
     void PianorollTrackView::onLyricEditMoveSlot(bool isBackward) {
-        if (!lyricEdit->event) return;
+        if (!lyricEdit->event()) return;
 
-        int id = lyricEdit->event->id;
+        int id = lyricEdit->event()->id;
         const VSQ_NS::Track *track = &controllerAdapter->getSequence()->track[trackIndex];
         const VSQ_NS::Event::List *events = track->events();
         int index = events->findIndexFromId(id);
@@ -652,7 +695,7 @@ namespace cadencii{
 
     void PianorollTrackView::showLyricEdit(const VSQ_NS::Event *note) {
         controllerAdapter->setApplicationShortcutEnabled(false);
-        lyricEdit->event = note;
+        lyricEdit->setupText(note);
         lyricEdit->setVisible(true);
         lyricEdit->setFocus();
         lyricEdit->scenePosition = getLyricEditPosition(note);
@@ -661,7 +704,7 @@ namespace cadencii{
 
     void PianorollTrackView::hideLyricEdit() {
         lyricEdit->setVisible(false);
-        lyricEdit->event = 0;
+        lyricEdit->setupText(0);
         controllerAdapter->setApplicationShortcutEnabled(true);
     }
 

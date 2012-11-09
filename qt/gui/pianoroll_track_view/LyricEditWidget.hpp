@@ -34,13 +34,23 @@ namespace cadencii {
         QPoint scenePosition;
 
         /**
+         * @brief Symbol edit mode.
+         */
+        bool symbolEditMode;
+
+    private:
+        /**
          * @brief Note event corresponding lyric.
          */
-        const VSQ_NS::Event *event;
+        const VSQ_NS::Event *_event;
+
+        std::string word;
+
+        std::string phoneticSymbol;
 
     public:
         explicit LyricEditWidget(QWidget *parent = 0) :
-            QLineEdit(parent), event(0)
+            QLineEdit(parent), _event(0), symbolEditMode(false)
         {
         }
 
@@ -55,9 +65,35 @@ namespace cadencii {
             } else if (Qt::Key_Return == key) {
                 emit onCommit();
                 emit onHide();
+            } else if (Qt::Key_Alt == key) {
+                flipSymbolEditMode();
             } else {
                 QLineEdit::keyPressEvent(event);
             }
+        }
+
+        /**
+         * @brief Setup text from specified note event.
+         */
+        void setupText(const VSQ_NS::Event *event) {
+            _event = event;
+            if (!_event) return;
+
+            word = "a";
+            phoneticSymbol = "a";
+            if (event->lyricHandle.getLyricCount() > 0) {
+                VSQ_NS::Lyric lyric = event->lyricHandle.getLyricAt(0);
+                word = lyric.phrase;
+                phoneticSymbol = lyric.getPhoneticSymbol();
+            }
+            setText(QString::fromStdString(symbolEditMode ? phoneticSymbol :word));
+        }
+
+        /**
+         * @brief Get a instance of note event, associated to this widget.
+         */
+        const VSQ_NS::Event *event() {
+            return _event;
         }
 
     signals:
@@ -75,6 +111,28 @@ namespace cadencii {
          * @brief Emitted when text box to be hidden.
          */
         void onHide();
+
+    private:
+        void flipSymbolEditMode() {
+            static QPalette normal;
+            static QPalette symbolMode;
+            static bool isInitialized = false;
+            if (!isInitialized) {
+                symbolMode.setColor(QPalette::Base, QColor::fromRgb(192, 192, 192));
+                isInitialized = true;
+            }
+
+            if (symbolEditMode) {
+                phoneticSymbol = text().toStdString();
+                setText(QString::fromStdString(word));
+                setPalette(symbolMode);
+            } else {
+                word = text().toStdString();
+                setText(QString::fromStdString(phoneticSymbol));
+                setPalette(normal);
+            }
+            symbolEditMode = !symbolEditMode;
+        }
     };
 
 }

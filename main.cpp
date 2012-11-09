@@ -17,6 +17,8 @@
 #include <QtGui/QApplication>
 #include <QTextCodec>
 
+#include "vsq/PhoneticSymbolDictionary.hpp"
+
 int main( int argc, char *argv[] ){
     QApplication a( argc, argv );
 
