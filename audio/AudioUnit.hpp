@@ -15,19 +15,18 @@
 #ifndef __AudioUnit_hpp__
 #define __AudioUnit_hpp__
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
-    class AudioUnit{
+    class AudioUnit {
     protected:
         int sampleRate;
 
     public:
-        explicit AudioUnit( int sampleRate ){
+        explicit AudioUnit(int sampleRate) {
             this->sampleRate = sampleRate;
         }
     };
-
 }
 }
 

@@ -23,25 +23,28 @@
 #include "PropertyView.hpp"
 #include "../enum/ToolKind.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     class ControllerAdapter;
 
-    class MainView{
+    class MainView {
     public:
-        virtual void setTrackView( TrackView *trackView ) = 0;
+        virtual ~MainView() {
+        }
 
-        virtual void setControlChangeView( ControlChangeView *controlChangeView ) = 0;
+        virtual void setTrackView(TrackView *trackView) = 0;
 
-        virtual void setBarCountView( BarCountView *barCountView ) = 0;
+        virtual void setControlChangeView(ControlChangeView *controlChangeView) = 0;
 
-        virtual void setTempoView( TempoView *tempoView ) = 0;
+        virtual void setBarCountView(BarCountView *barCountView) = 0;
 
-        virtual void setTimesigView( TimesigView *timesigView ) = 0;
+        virtual void setTempoView(TempoView *tempoView) = 0;
 
-        virtual void setPropertyView( PropertyView *propertyView ) = 0;
+        virtual void setTimesigView(TimesigView *timesigView) = 0;
 
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+        virtual void setPropertyView(PropertyView *propertyView) = 0;
+
+        virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 
         /**
          * @brief ウィジェットを再描画する
@@ -51,7 +54,7 @@ namespace cadencii{
         /**
          * @brief 選択されたツールの種類を設定する
          */
-        virtual void setToolKind( ToolKind::ToolKindEnum kind ) = 0;
+        virtual void setToolKind(ToolKind::ToolKindEnum kind) = 0;
 
         /**
          * @brief コマンドの操作履歴のステータスが変更したことを通知する
@@ -68,7 +71,6 @@ namespace cadencii{
          */
         virtual void setApplicationShortcutEnabled(bool value) = 0;
     };
-
 }
 
 #endif

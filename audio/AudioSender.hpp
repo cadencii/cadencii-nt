@@ -17,17 +17,16 @@
 
 #include "AudioUnit.hpp"
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
     /**
      * @brief オーディオ波形を要求に応じて生成するオブジェクトを表す抽象クラス
      */
-    class AudioSender : public AudioUnit{
+    class AudioSender : public AudioUnit {
     public:
-        explicit AudioSender( int sampleRate ) :
-            AudioUnit( sampleRate )
-        {
+        explicit AudioSender(int sampleRate) :
+            AudioUnit(sampleRate) {
         }
 
         /**
@@ -36,9 +35,8 @@ namespace audio{
          * @param[out] right 右チャンネルのバッファー
          * @param[in] length 要求する波形の長さ
          */
-        virtual void pull( double *left, double *right, int length ) = 0;
+        virtual void pull(double *left, double *right, int length) = 0;
     };
-
 }
 }
 

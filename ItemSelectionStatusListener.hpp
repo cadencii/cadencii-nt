@@ -15,19 +15,21 @@
 #ifndef __cadencii_ItemSelectionStatusListener_hpp__
 #define __cadencii_ItemSelectionStatusListener_hpp__
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief アイテムの選択状態をモニターする
      */
-    class ItemSelectionStatusListener{
+    class ItemSelectionStatusListener {
     public:
+        virtual ~ItemSelectionStatusListener() {
+        }
+
         /**
          * @brief アイテムの選択状態が変化した場合に呼ばれる
          */
         virtual void statusChanged() = 0;
     };
-
 }
 
 #endif

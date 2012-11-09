@@ -15,9 +15,10 @@
 #ifndef CADENCII_QT_GUI_PIANOROLL_TRACK_VIEW_LYRICEDITWIDGET_HPP_
 #define CADENCII_QT_GUI_PIANOROLL_TRACK_VIEW_LYRICEDITWIDGET_HPP_
 
-#include "../../../vsq/Event.hpp"
 #include <QLineEdit>
 #include <QKeyEvent>
+#include <string>
+#include "../../../vsq/Event.hpp"
 
 namespace cadencii {
 
@@ -50,8 +51,7 @@ namespace cadencii {
 
     public:
         explicit LyricEditWidget(QWidget *parent = 0) :
-            QLineEdit(parent), _event(0), symbolEditMode(false)
-        {
+            QLineEdit(parent), _event(0), symbolEditMode(false) {
         }
 
         void keyPressEvent(QKeyEvent *event) {
@@ -134,7 +134,6 @@ namespace cadencii {
             symbolEditMode = !symbolEditMode;
         }
     };
-
 }
 
 #endif

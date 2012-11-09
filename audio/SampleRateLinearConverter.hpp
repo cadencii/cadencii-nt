@@ -15,17 +15,17 @@
 #ifndef __cadencii_audio_SampleRateConverter_hpp__
 #define __cadencii_audio_SampleRateConverter_hpp__
 
-#include "AudioFilter.hpp"
 #include <stdint.h>
 #include <cmath>
+#include "AudioFilter.hpp"
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
     /**
      * @brief サンプリングレートを線形補間により変換するフィルター
      */
-    class SampleRateLinearConverter : public AudioFilter{
+    class SampleRateLinearConverter : public AudioFilter {
     protected:
         AudioReceiver *receiver;
         /**
@@ -71,18 +71,17 @@ namespace audio{
          * @param[in] convertFrom 変換前のサンプリングレート(sec^-1)
          * @param[in] convertTo 変換後のサンプリングレート(sec^-1)
          */
-        explicit SampleRateLinearConverter( int convertFrom, int convertTo ) :
-            AudioFilter( convertTo ), receiver( 0 )
-        {
+        explicit SampleRateLinearConverter(int convertFrom, int convertTo) :
+            AudioFilter(convertTo), receiver(0) {
             bRate = convertFrom;
             aRate = convertTo;
             bFinished = 0;
             aFinished = 0;
             unitBufferLength = 4096;
-            if( aRate == bRate ){
+            if (aRate == bRate) {
                 bufferLeft = 0;
                 bufferRight = 0;
-            }else{
+            } else {
                 bufferLeft = new double[unitBufferLength];
                 bufferRight = new double[unitBufferLength];
             }
@@ -90,27 +89,27 @@ namespace audio{
             lastRight = 0;
         }
 
-        ~SampleRateLinearConverter(){
-            if( bufferLeft ){
+        ~SampleRateLinearConverter() {
+            if (bufferLeft) {
                 delete [] bufferLeft;
                 bufferLeft = 0;
             }
-            if( bufferRight ){
+            if (bufferRight) {
                 delete [] bufferRight;
                 bufferRight = 0;
             }
         }
 
-        void setReceiver( AudioReceiver *receiver ){
+        void setReceiver(AudioReceiver *receiver) {
             this->receiver = receiver;
         }
 
-        void flush(){/* do nothing */}
+        void flush() {/* do nothing */}
 
-        void push( double *left, double *right, int length, int offset ){
-            if( !receiver ) return;
-            if( aRate == bRate ){
-                receiver->push( left, right, length, offset );
+        void push(double *left, double *right, int length, int offset) {
+            if (!receiver) return;
+            if (aRate == bRate) {
+                receiver->push(left, right, length, offset);
                 return;
             }
 
@@ -118,26 +117,37 @@ namespace audio{
             int bufferIndex = 0;
 
             // 何サンプル目まで変換するか
-            uint64_t aEndSample = (uint64_t)std::floor( (bFinished + length - 1) / (double)bRate * aRate );
+            uint64_t aEndSample = static_cast<uint64_t>(std::floor(
+                (bFinished + length - 1) / static_cast<double>(bRate) * aRate));
             int finished = 0;
-            for( uint64_t aSample = aFinished; aSample <= aEndSample; ++aSample ){
-                uint64_t bSample = (uint64_t)std::floor( aSample / (double)aRate * bRate );
-                double deltaSecond = aSample / (double)aRate - bSample / (double)bRate;
-                bufferLeft[bufferIndex] = getInterpolatedValue( left, offset, lastLeft, bSample, deltaSecond );
-                bufferRight[bufferIndex] = getInterpolatedValue( right, offset, lastRight, bSample, deltaSecond );
+            for (uint64_t aSample = aFinished;
+                 aSample <= aEndSample; ++aSample) {
+                uint64_t bSample
+                    = static_cast<uint64_t>(std::floor(
+                        aSample / static_cast<double>(aRate) * bRate));
+                double deltaSecond
+                    = aSample / static_cast<double>(aRate)
+                        - bSample / static_cast<double>(bRate);
+                bufferLeft[bufferIndex]
+                    = getInterpolatedValue(left, offset, lastLeft,
+                                           bSample, deltaSecond);
+                bufferRight[bufferIndex]
+                    = getInterpolatedValue(right, offset, lastRight,
+                                           bSample, deltaSecond);
                 finished++;
                 bufferIndex++;
 
                 // flush buffers
-                if( unitBufferLength == bufferIndex ){
+                if (unitBufferLength == bufferIndex) {
                     bufferIndex = 0;
-                    receiver->push( bufferLeft, bufferRight, unitBufferLength, 0 );
+                    receiver->push(bufferLeft, bufferRight,
+                                   unitBufferLength, 0);
                 }
             }
 
             // flush buffers
-            if( 0 < bufferIndex ){
-                receiver->push( bufferLeft, bufferRight, bufferIndex, 0 );
+            if (0 < bufferIndex) {
+                receiver->push(bufferLeft, bufferRight, bufferIndex, 0);
             }
 
             lastLeft = left[offset + length - 1];
@@ -157,21 +167,22 @@ namespace audio{
          * @return 補間後の値
          */
         inline double getInterpolatedValue(
-                double *incomingBuffer, int incomingBufferOffset, double incomingBufferLastValue,
-                uint64_t outgoingBufferIndex, double deltaSecond
-        ){
+                double *incomingBuffer,
+                int incomingBufferOffset, double incomingBufferLastValue,
+                uint64_t outgoingBufferIndex, double deltaSecond) {
             // interpolate using `i` and `i + 1` th value of incoming buffer
             int i = outgoingBufferIndex + incomingBufferOffset - bFinished;
 
             // value of `i + 1` th incoming buffer
             double y_ip1 = incomingBuffer[i + 1];
 
-            // value of `i` th incoming buffer
-            // select from last-value if `i` is out of the range of incoming buffer
+            // value of `i` th incoming buffer.
+            // select from last-value if `i` is out of the range
+            // of incoming buffer
             double y_i;
-            if( outgoingBufferIndex < bFinished ){
+            if (outgoingBufferIndex < bFinished) {
                 y_i = incomingBufferLastValue;
-            }else{
+            } else {
                 y_i = incomingBuffer[i];
             }
 
@@ -180,7 +191,6 @@ namespace audio{
             return y_i + a * deltaSecond;
         }
     };
-
 }
 }
 

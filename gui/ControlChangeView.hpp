@@ -15,16 +15,20 @@
 #ifndef __ControlChangeView_hpp__
 #define __ControlChangeView_hpp__
 
+#include <string>
 #include "../ControllerAdapter.hpp"
 #include "../vsq/TimesigList.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief 画面へのコントロールチェンジの描画を担当するviewとの仲立ちを行うための抽象クラス
      */
-    class ControlChangeView{
+    class ControlChangeView {
     public:
+        virtual ~ControlChangeView() {
+        }
+
         /**
          * @brief ウィジェットの実体を返す
          * @return ウィジェットの実体
@@ -35,26 +39,26 @@ namespace cadencii{
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
+        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
 
         /**
          * @brief 表示するトラックの番号を指定する
          * @param index トラックの番号
          */
-        virtual void setTrackIndex( int index ) = 0;
+        virtual void setTrackIndex(int index) = 0;
 
         /**
          * @brief 表示するコントロールチェンジの名前を取得する
          */
-        virtual void setControlChangeName( const std::string &name ) = 0;
+        virtual void setControlChangeName(const std::string &name) = 0;
 
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+        virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 
         /**
          * @brief ウィジェットを再描画する
          */
         virtual void updateWidget() = 0;
     };
-
 }
+
 #endif

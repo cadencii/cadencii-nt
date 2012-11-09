@@ -19,39 +19,41 @@
 #include "../../gui/MainView.hpp"
 #include "../../enum/QuantizeMode.hpp"
 
-namespace Ui{
+namespace Ui {
     class WindowMainView;
 }
 
-namespace cadencii{
-    class WindowMainView : public QMainWindow, public MainView{
+namespace cadencii {
+    class WindowMainView : public QMainWindow, public MainView {
         Q_OBJECT
+
     private:
         Ui::WindowMainView *ui;
         ControllerAdapter *controllerAdapter;
         bool isApplicationShortcutDisabled;
 
     public:
-        explicit WindowMainView( QWidget *parent = 0 );
+        explicit WindowMainView(QWidget *parent = 0);
+
         ~WindowMainView();
 
-        void setTrackView( TrackView *trackView );
+        void setTrackView(TrackView *trackView);
 
-        void setControlChangeView( ControlChangeView *controlChangeView );
+        void setControlChangeView(ControlChangeView *controlChangeView);
 
-        void setBarCountView( BarCountView *barCountView );
+        void setBarCountView(BarCountView *barCountView);
 
-        void setTempoView( TempoView *tempoView );
+        void setTempoView(TempoView *tempoView);
 
-        void setTimesigView( TimesigView *timesigView );
+        void setTimesigView(TimesigView *timesigView);
 
-        void setPropertyView( PropertyView *propertyView );
+        void setPropertyView(PropertyView *propertyView);
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+        void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
         void updateWidget();
 
-        void setToolKind( ToolKind::ToolKindEnum kind );
+        void setToolKind(ToolKind::ToolKindEnum kind);
 
         void notifyCommandHistoryChanged();
 
@@ -90,7 +92,7 @@ namespace cadencii{
          * @param checked クオンタイズモードを変更する QAction のチェックが入っているかどうか
          * @param mode クオンタイズモード
          */
-        void setQuantizeMode( bool checked, QuantizeMode::QuantizeModeEnum mode );
+        void setQuantizeMode(bool checked, QuantizeMode::QuantizeModeEnum mode);
 
         /**
          * @brief ツールの選択状態を画面に反映する
@@ -99,16 +101,16 @@ namespace cadencii{
 
     private slots:
         void on_menu_action_open_vsq_vocaloid_midi_triggered();
-        void on_menu_action_quantize_quarter_toggled( bool arg1 );
-        void on_menu_action_quantize_eighth_toggled( bool arg1 );
-        void on_menu_action_quantize_sixteenth_toggled( bool arg1 );
-        void on_menu_action_quantize_thirty_second_toggled( bool arg1 );
-        void on_menu_action_quantize_sixty_fourth_toggled( bool arg1 );
-        void on_menu_action_quantize_hundred_twenty_eighth_toggled( bool arg1 );
-        void on_menu_action_quantize_none_toggled( bool arg1 );
+        void on_menu_action_quantize_quarter_toggled(bool arg1);
+        void on_menu_action_quantize_eighth_toggled(bool arg1);
+        void on_menu_action_quantize_sixteenth_toggled(bool arg1);
+        void on_menu_action_quantize_thirty_second_toggled(bool arg1);
+        void on_menu_action_quantize_sixty_fourth_toggled(bool arg1);
+        void on_menu_action_quantize_hundred_twenty_eighth_toggled(bool arg1);
+        void on_menu_action_quantize_none_toggled(bool arg1);
         void on_tool_action_move_song_position_left_triggered();
         void on_tool_action_move_song_position_right_triggered();
-        void on_tool_action_toggle_auto_scroll_toggled( bool arg1 );
+        void on_tool_action_toggle_auto_scroll_toggled(bool arg1);
         void on_menu_action_export_as_musicxml_triggered();
         void on_tool_action_toggle_pointer_tool_triggered();
         void on_tool_action_toggle_pencil_tool_triggered();
@@ -123,6 +125,6 @@ namespace cadencii{
         void on_menu_action_toggle_grid_visible_toggled(bool arg1);
         void on_tool_action_toggle_grid_visible_toggled(bool arg1);
     };
-
 }
-#endif // __WindowMainView_h__
+
+#endif

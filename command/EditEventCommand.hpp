@@ -15,14 +15,15 @@
 #ifndef __cadencii_command_EditEventCommand_hpp__
 #define __cadencii_command_EditEventCommand_hpp__
 
+#include <map>
 #include "AbstractCommand.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief 音符・歌手イベントを編集する
      */
-    class EditEventCommand : public AbstractCommand{
+    class EditEventCommand : public AbstractCommand {
     private:
         int track;
         std::map<int, VSQ_NS::Event> itemList;
@@ -34,9 +35,9 @@ namespace cadencii{
          * @param eventId 編集対象のイベントID(=Event::id)
          * @param item 編集後のイベント
          */
-        explicit EditEventCommand( int track, int eventId, const VSQ_NS::Event &item ){
+        explicit EditEventCommand(int track, int eventId, const VSQ_NS::Event &item) {
             this->track = track;
-            itemList.insert( std::make_pair( eventId, item ) );
+            itemList.insert(std::make_pair(eventId, item));
         }
 
         /**
@@ -45,30 +46,29 @@ namespace cadencii{
          * @param track 編集対象のトラック
          * @param itemList アイテムIDとVSQ_NS::Eventのインスタンスのマップ
          */
-        explicit EditEventCommand( int track, const std::map<int, VSQ_NS::Event> &itemList ){
+        explicit EditEventCommand(int track, const std::map<int, VSQ_NS::Event> &itemList) {
             this->track = track;
             this->itemList = itemList;
         }
 
-        AbstractCommand *execute( VSQ_NS::Sequence *sequence ){
+        AbstractCommand *execute(VSQ_NS::Sequence *sequence)  {
             VSQ_NS::Track *target = &sequence->track[track];
             std::map<int, VSQ_NS::Event>::iterator i
                     = itemList.begin();
             std::map<int, VSQ_NS::Event> originalItemList;
-            for( ; i != itemList.end(); ++i ){
+            for (; i != itemList.end(); ++i) {
                 int eventId = i->first;
                 VSQ_NS::Event item = i->second;
-                int index = target->events()->findIndexFromId( eventId );
-                const VSQ_NS::Event original = *(target->events()->get( index ));
-                originalItemList.insert( std::make_pair( eventId, original ) );
+                int index = target->events()->findIndexFromId(eventId);
+                const VSQ_NS::Event original = *(target->events()->get(index));
+                originalItemList.insert(std::make_pair(eventId, original));
                 VSQ_NS::Event replace = item;
                 replace.id = eventId;
-                target->events()->set( index, replace );
+                target->events()->set(index, replace);
             }
-            return new EditEventCommand( track, originalItemList );
+            return new EditEventCommand(track, originalItemList);
         }
     };
-
 }
 
 #endif

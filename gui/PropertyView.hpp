@@ -19,20 +19,22 @@
 #include "../ItemSelectionStatusListener.hpp"
 #include "../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief 編集可能なアイテムのプロパティーを編集するビュー
      */
-    class PropertyView : public ItemSelectionStatusListener{
+    class PropertyView : public ItemSelectionStatusListener {
     public:
-        virtual void setControllerAdapter( ControllerAdapter *adapter ) = 0;
+        virtual ~PropertyView() {
+        }
+
+        virtual void setControllerAdapter(ControllerAdapter *adapter) = 0;
 
         virtual void updateWidget() = 0;
 
         virtual void *getWidget() = 0;
     };
-
 }
 
 #endif

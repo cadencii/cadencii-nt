@@ -14,17 +14,19 @@
  */
 #ifndef __cadencii_PropertyTreeUpdateWorker_hpp__
 #define __cadencii_PropertyTreeUpdateWorker_hpp__
-#include "ConcretePropertyView.hpp"
+
 #include <QThread>
 #include <QMutex>
+#include "ConcretePropertyView.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief プロパティツリーの更新を行うワーカースレッド
      */
-    class PropertyTreeUpdateWorker : public QThread{
+    class PropertyTreeUpdateWorker : public QThread {
         Q_OBJECT
+
     private:
         static const int SLEEP_INTERVAL_MILLI_SECONDS = 100;
         ConcretePropertyView *parent;
@@ -37,7 +39,7 @@ namespace cadencii{
         void callUpdateTree();
 
     public:
-        PropertyTreeUpdateWorker( ConcretePropertyView *parent );
+        explicit PropertyTreeUpdateWorker(ConcretePropertyView *parent);
 
         ~PropertyTreeUpdateWorker();
 
@@ -48,9 +50,8 @@ namespace cadencii{
          */
         void enqueueTreeUpdate();
 
-        void setControllerAdapter( ControllerAdapter * adapter );
+        void setControllerAdapter(ControllerAdapter * adapter);
     };
-
 }
 
 #endif

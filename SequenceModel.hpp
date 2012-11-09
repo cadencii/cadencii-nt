@@ -15,34 +15,34 @@
 #ifndef __cadencii_SequenceModel_hpp__
 #define __cadencii_SequenceModel_hpp__
 
+#include <vector>
 #include "vsq/Sequence.hpp"
 #include "command/AbstractCommand.hpp"
-#include <vector>
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief Sequence の操作を仲介するモデル
      */
-    class SequenceModel{
+    class SequenceModel {
     protected:
         VSQ_NS::Sequence sequence;
         std::vector<AbstractCommand *> commandHistory;
         int currentHistoryIndex;
 
     public:
-        SequenceModel(){
+        SequenceModel() {
             currentHistoryIndex = -1;
         }
 
-        ~SequenceModel(){
+        ~SequenceModel() {
             clear();
         }
 
         /**
          * @brief シーケンスのインスタンスへのポインターを取得する
          */
-        const VSQ_NS::Sequence *getSequence()const{
+        const VSQ_NS::Sequence *getSequence()const {
             return &sequence;
         }
 
@@ -50,25 +50,25 @@ namespace cadencii{
          * @brief シーケンスを操作するコマンドを実行し、操作履歴を登録する
          * @param command 実行するコマンド。command はこのメソッド内では delete されない
          */
-        void execute( AbstractCommand *command ){
-            AbstractCommand *inverseCommand = command->execute( &sequence );
-            sortAllItems( &sequence );
-            if( currentHistoryIndex == commandHistory.size() - 1 ){
+        void execute(AbstractCommand *command) {
+            AbstractCommand *inverseCommand = command->execute(&sequence);
+            sortAllItems(&sequence);
+            if (currentHistoryIndex == commandHistory.size() - 1) {
                 // 新しいコマンドバッファを追加する場合
-                commandHistory.push_back( inverseCommand );
+                commandHistory.push_back(inverseCommand);
                 currentHistoryIndex = commandHistory.size() - 1;
-            }else{
+            } else {
                 // 既にあるコマンドバッファを上書きする場合
                 {
                     const AbstractCommand *oldCommand = commandHistory[currentHistoryIndex + 1];
                     commandHistory[currentHistoryIndex + 1] = inverseCommand;
                     delete oldCommand;
                 }
-                for( int i = commandHistory.size() - 1; i >= currentHistoryIndex + 2; i-- ){
+                for (int i = commandHistory.size() - 1; i >= currentHistoryIndex + 2; i--) {
                     const AbstractCommand *oldCommand = commandHistory[i];
                     std::vector<AbstractCommand *>::iterator iterator = commandHistory.begin();
-                    std::advance( iterator, i );
-                    commandHistory.erase( iterator );
+                    std::advance(iterator, i);
+                    commandHistory.erase(iterator);
                     delete oldCommand;
                 }
                 currentHistoryIndex++;
@@ -78,23 +78,27 @@ namespace cadencii{
         /**
          * @brief undo できるかどうかを取得する
          */
-        bool canUndo(){
-            return (!commandHistory.empty()) && 0 <= currentHistoryIndex && currentHistoryIndex < commandHistory.size();
+        bool canUndo() {
+            return (!commandHistory.empty()) &&
+                    0 <= currentHistoryIndex &&
+                    currentHistoryIndex < commandHistory.size();
         }
 
         /**
          * @brief redo できるかどうかを取得する
          */
-        bool canRedo(){
-            return (!commandHistory.empty()) && 0 <= currentHistoryIndex + 1 && currentHistoryIndex + 1 < commandHistory.size();
+        bool canRedo() {
+            return (!commandHistory.empty()) &&
+                    0 <= currentHistoryIndex + 1 &&
+                    currentHistoryIndex + 1 < commandHistory.size();
         }
 
         /**
          * @brief 編集操作を一つ元に戻す
          */
-        void undo(){
+        void undo() {
             AbstractCommand *undoCommand = commandHistory[currentHistoryIndex];
-            AbstractCommand *reverseCommand = undoCommand->execute( &sequence );
+            AbstractCommand *reverseCommand = undoCommand->execute(&sequence);
 
             commandHistory[currentHistoryIndex] = reverseCommand;
             delete undoCommand;
@@ -104,9 +108,9 @@ namespace cadencii{
         /**
          * @brief 編集操作を一つやり直す
          */
-        void redo(){
+        void redo() {
             AbstractCommand *redoCommand = commandHistory[currentHistoryIndex + 1];
-            AbstractCommand *reverseCommand = redoCommand->execute( &sequence );
+            AbstractCommand *reverseCommand = redoCommand->execute(&sequence);
 
             commandHistory[currentHistoryIndex + 1] = reverseCommand;
             delete redoCommand;
@@ -116,7 +120,7 @@ namespace cadencii{
         /**
          * @brief 操作履歴を初期化し、シーケンスを設定する
          */
-        void reset( const VSQ_NS::Sequence &sequence ){
+        void reset(const VSQ_NS::Sequence &sequence) {
             clear();
             this->sequence = sequence;
         }
@@ -125,10 +129,10 @@ namespace cadencii{
         /**
          * @brief 編集操作履歴を消去する
          */
-        void clear(){
+        void clear() {
             currentHistoryIndex = -1;
             std::vector<AbstractCommand *>::iterator i = commandHistory.begin();
-            for( ; i != commandHistory.end(); ++i ){
+            for (; i != commandHistory.end(); ++i) {
                 delete (*i);
             }
             commandHistory.clear();
@@ -138,10 +142,11 @@ namespace cadencii{
          * @brief シーケンス中の、時系列順に並べ替えが必要なすべての項目の並べ替えを行う
          * @param sequence 編集対象のシーケンス
          */
-        void sortAllItems( VSQ_NS::Sequence *sequence ){
-            // 各トラックのカーブと、シーケンスのtimesigList はそれぞれ自動でソートされるので気にしなくてよい
+        void sortAllItems(VSQ_NS::Sequence *sequence) {
+            // 各トラックのカーブと、シーケンスのtimesigList はそれぞれ自動でソートされるので
+            // 気にしなくてよい
             std::vector<VSQ_NS::Track>::iterator i = sequence->track.begin();
-            for( ; i != sequence->track.end(); ++i ){
+            for (; i != sequence->track.end(); ++i) {
                 VSQ_NS::Track *track = &(*i);
                 track->events()->sort();
             }
@@ -149,7 +154,6 @@ namespace cadencii{
             sequence->updateTotalClocks();
         }
     };
-
 }
 
 #endif

@@ -12,22 +12,20 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "qt/ConcreteSettings.hpp"
-#include "qt/AppContainer.hpp"
 #include <QtGui/QApplication>
 #include <QTextCodec>
+#include "qt/ConcreteSettings.hpp"
+#include "qt/AppContainer.hpp"
 
-#include "vsq/PhoneticSymbolDictionary.hpp"
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
 
-int main( int argc, char *argv[] ){
-    QApplication a( argc, argv );
-
-    QTextCodec *codec = QTextCodec::codecForName( "UTF-8" );
-    QTextCodec::setCodecForCStrings( codec );
-    QTextCodec::setCodecForTr( codec );
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForCStrings(codec);
+    QTextCodec::setCodecForTr(codec);
 
     cadencii::ConcreteSettings settings;
-    cadencii::Settings::instance( &settings );
+    cadencii::Settings::instance(&settings);
 
     cadencii::AppContainer container;
     container.controller.showMainView();

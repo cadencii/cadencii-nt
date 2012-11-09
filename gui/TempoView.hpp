@@ -18,10 +18,13 @@
 #include "../ControllerAdapter.hpp"
 #include "../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class TempoView{
+    class TempoView {
     public:
+        virtual ~TempoView() {
+        }
+
         /**
          * @brief ウィジェットの実体を返す
          * @return ウィジェットの実体
@@ -31,20 +34,19 @@ namespace cadencii{
         /**
          * @brief ControllerAdapter のインスタンスを設定する
          */
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+        virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 
         /**
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
+        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
 
         /**
          * @brief ウィジェットを再描画する
          */
         virtual void updateWidget() = 0;
     };
-
 }
 
 #endif

@@ -14,9 +14,8 @@
  */
 #include "AbstractCommand.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    AbstractCommand::~AbstractCommand(){
+    AbstractCommand::~AbstractCommand() {
     }
-
 }
