@@ -15,10 +15,10 @@
 #ifndef __cadencii_audio_WavFileReader_hpp__
 #define __cadencii_audio_WavFileReader_hpp__
 
-#include <string.h>
 #include <stdint.h>
+#include <cstring>
+#include <cstdio>
 #include <string>
-#include <fstream>
 #include "AudioSender.hpp"
 #include "../vsq/BitConverter.hpp"
 
@@ -52,9 +52,9 @@ namespace audio {
          */
         int bufferIndex;
         /**
-         * @brief ファイルストリーム
+         * @brief A file stream.
          */
-        std::basic_ifstream<char> stream;
+        FILE *stream;
         /**
          * @brief チャンネル数
          */
@@ -145,7 +145,7 @@ namespace audio {
          */
         void close() {
             if (isReady) {
-                stream.close();
+                fclose(stream);
                 isReady = false;
             }
         }
@@ -173,113 +173,114 @@ namespace audio {
          * @return フォーマット情報の読み込みに成功した場合に true を返す
          */
         bool open(const std::string &filePath) {
-            stream.open(filePath.c_str(), std::ios::binary);
+            stream = fopen(filePath.c_str(), "rb");
+            if (!stream) return false;
 
             // RIFF
             char buf[4];
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4 || buf[0] != 'R' ||
+            size_t readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4 || buf[0] != 'R' ||
                     buf[1] != 'I' || buf[2] != 'F' || buf[3] != 'F') {
-                stream.close();
+                fclose(stream);
                 return false;
             }
 
             // ファイルサイズ - 8最後に記入
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4) {
+                fclose(stream);
                 return false;
             }
 
             // WAVE
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4 || buf[0] != 'W' ||
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4 || buf[0] != 'W' ||
                     buf[1] != 'A' || buf[2] != 'V' || buf[3] != 'E') {
-                stream.close();
+                fclose(stream);
                 return false;
             }
 
             // fmt
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4 || buf[0] != 'f' ||
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4 || buf[0] != 'f' ||
                     buf[1] != 'm' || buf[2] != 't' || buf[3] != ' ') {
-                stream.close();
+                fclose(stream);
                 return false;
             }
 
             // fmt チャンクのサイズ
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4) {
+                fclose(stream);
                 return false;
             }
             uint64_t chunksize
                     = (uint64_t)VSQ_NS::BitConverter::makeUInt32LE(buf);
             uint64_t fmt_chunk_end_location
-                    = (uint64_t)stream.tellg() + chunksize;
+                    = (uint64_t)ftell(stream) + chunksize;
 
             // format ID
-            stream.read(buf, sizeof(char) * 2);
-            if (stream.gcount() != 2) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 2, stream);
+            if (readCount != 2) {
+                fclose(stream);
                 return false;
             }
 
             // チャンネル数
-            stream.read(buf, sizeof(char) * 2);
-            if (stream.gcount() != 2) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 2, stream);
+            if (readCount != 2) {
+                fclose(stream);
                 return false;
             }
             channels = buf[1] << 8 | buf[0];
 
             // サンプリングレート
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4) {
+                fclose(stream);
                 return false;
             }
             sampleRate = static_cast<int>(
                         VSQ_NS::BitConverter::makeUInt32LE(buf));
 
             // データ速度
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4) {
+                fclose(stream);
                 return false;
             }
 
             // ブロックサイズ
-            stream.read(buf, sizeof(char) * 2);
-            if (stream.gcount() != 2) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 2, stream);
+            if (readCount != 2) {
+                fclose(stream);
                 return false;
             }
 
             // サンプルあたりのビット数
-            stream.read(buf, sizeof(char) * 2);
-            if (stream.gcount() != 2) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 2, stream);
+            if (readCount != 2) {
+                fclose(stream);
                 return false;
             }
             int bit_per_sample = buf[1] << 8 | buf[0];
             bytesPerSample = bit_per_sample / 8;
 
             // 拡張部分
-            stream.seekg(fmt_chunk_end_location, std::ios::beg);
+            fseek(stream, fmt_chunk_end_location, SEEK_SET);
 
             // data
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4 || buf[0] != 'd' ||
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4 || buf[0] != 'd' ||
                     buf[1] != 'a' || buf[2] != 't' || buf[3] != 'a') {
-                stream.close();
+                fclose(stream);
                 return false;
             }
 
             // size of data chunk
-            stream.read(buf, sizeof(char) * 4);
-            if (stream.gcount() != 4) {
-                stream.close();
+            readCount = fread(buf, sizeof(char), 4, stream);
+            if (readCount != 4) {
+                fclose(stream);
                 return false;
             }
             uint32_t size = static_cast<uint32_t>(
@@ -308,9 +309,9 @@ namespace audio {
             const int kBufferLength
                     = kUnitBufferLength * bytesPerSample * channels;
             char temporaryBuffer[kBufferLength];
-            stream.read(temporaryBuffer, kBufferLength);
+            size_t readCount = fread(temporaryBuffer, sizeof(char), kBufferLength, stream);
             int actualBufferLegnth
-                    = stream.gcount() / bytesPerSample / channels;
+                    = readCount / bytesPerSample / channels;
             const double coeff = 1.0 / 32768.0;
             char *temporaryBufferIndex = temporaryBuffer;
             if (channels == 2) {
@@ -345,9 +346,9 @@ namespace audio {
             const int kBufferLength
                 = kUnitBufferLength * bytesPerSample * channels;
             char temporaryBuffer[kBufferLength];
-            stream.read(temporaryBuffer, kBufferLength);
+            size_t readCount = fread(temporaryBuffer, sizeof(char), kBufferLength, stream);
             int actualBufferLegnth
-                = stream.gcount() / bytesPerSample / channels;
+                = readCount / bytesPerSample / channels;
             const double coeff = 1.0 / 128.0;
             int temporaryBufferIndex = 0;
             if (channels == 2) {
