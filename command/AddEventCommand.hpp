@@ -15,14 +15,15 @@
 #ifndef __cadencii_AddEventCommand_hpp__
 #define __cadencii_AddEventCommand_hpp__
 
+#include <vector>
 #include "DeleteEventCommand.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief イベントを追加する
      */
-    class AddEventCommand : public AbstractCommand{
+    class AddEventCommand : public AbstractCommand {
     private:
         /**
          * @brief 追加先のトラック番号
@@ -40,12 +41,10 @@ namespace cadencii{
          * @param track 追加先のトラック番号
          * @param eventList 追加するイベント乗り周防t
          */
-        explicit AddEventCommand( int track, const std::vector<VSQ_NS::Event> &eventList );
+        explicit AddEventCommand(int track, const std::vector<VSQ_NS::Event> &eventList);
 
-        AbstractCommand *execute( VSQ_NS::Sequence *sequence );
+        AbstractCommand *execute(VSQ_NS::Sequence *sequence);
     };
-
 }
-
 
 #endif

@@ -15,6 +15,7 @@
 #ifndef __Controller_hpp__
 #define __Controller_hpp__
 
+#include <string>
 #include "gui/MainView.hpp"
 #include "gui/TrackView.hpp"
 #include "gui/ControlChangeView.hpp"
@@ -24,9 +25,9 @@
 #include "enum/QuantizeMode.hpp"
 #include "SequenceModel.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class Controller : public ControllerAdapter{
+    class Controller : public ControllerAdapter {
     private:
         TrackView *trackView;
         MainView *mainView;
@@ -57,31 +58,31 @@ namespace cadencii{
     public:
         explicit Controller();
 
-        void openVSQFile( const string &filePath )throw();
+        void openVSQFile(const string &filePath)throw();
 
-        void drawOffsetChanged( void *sender, VSQ_NS::tick_t offset )throw();
+        void drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw();
 
         /**
          * @brief 表示するトラックのインデックスを設定する
          * @param トラックのインデックス
          */
-        void setTrackIndex( void *sender, int index )throw();
+        void setTrackIndex(void *sender, int index)throw();
 
         VSQ_NS::tick_t getSongPosition()throw();
 
-        int getXFromTick( VSQ_NS::tick_t tick )throw();
+        int getXFromTick(VSQ_NS::tick_t tick)throw();
 
-        double getTickFromX( int x )throw();
+        double getTickFromX(int x)throw();
 
-        void moveSongPositionStepped( bool isBackward )throw();
+        void moveSongPositionStepped(bool isBackward)throw();
 
         int getPreferedComponentWidth()throw();
 
-        void exportAsMusicXml( const std::string &filePath )throw();
+        void exportAsMusicXml(const std::string &filePath)throw();
 
-        void exportAsVSQFile( const string &filePath )throw();
+        void exportAsVSQFile(const string &filePath)throw();
 
-        void setToolKind( ToolKind::ToolKindEnum kind )throw();
+        void setToolKind(ToolKind::ToolKindEnum kind)throw();
 
         ToolKind::ToolKindEnum getToolKind()throw();
 
@@ -97,11 +98,13 @@ namespace cadencii{
 
         bool canRedo();
 
-        void execute( AbstractCommand *command );
+        void execute(AbstractCommand *command);
 
-        void removeEvent( int trackIndex, const VSQ_NS::Event *item );
+        void removeEvent(int trackIndex, const VSQ_NS::Event *item);
 
         void removeSelectedItems();
+
+        void setApplicationShortcutEnabled(bool enabled);
 
         void notifyItemSelectionChange()throw();
 
@@ -109,43 +112,43 @@ namespace cadencii{
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー
          */
-        void setTrackView( TrackView *trackView )throw();
+        void setTrackView(TrackView *trackView)throw();
 
         /**
          * @brief コントロールチェンジのビューを設定する
          * @param [in] controlChangeView ビュー
          */
-        void setControlChangeView( ControlChangeView *controlChangeView )throw();
+        void setControlChangeView(ControlChangeView *controlChangeView)throw();
 
         /**
          * @brief 小節数のビューを設定する
          * @param [in] barCountView ビュー
          */
-        void setBarCountView( BarCountView *barCountView )throw();
+        void setBarCountView(BarCountView *barCountView)throw();
 
         /**
          * @brief テンポ変更イベントのビューを設定する
          * @param [in] tempoView ビュー
          */
-        void setTempoView( TempoView *tempoView )throw();
+        void setTempoView(TempoView *tempoView)throw();
 
         /**
          * @brief 拍子変更イベントのビューを設定する
          * @param [in] timesigView ビュー
          */
-        void setTimesigView( TimesigView *timesigView )throw();
+        void setTimesigView(TimesigView *timesigView)throw();
 
         /**
          * @brief メインのビューを設定する
          * @param[in] mainView ビュー
          */
-        void setMainView( MainView *mainView )throw();
+        void setMainView(MainView *mainView)throw();
 
         /**
          * @brief プロパティーのビューを設定する
          * @param[in] propertyView ビュー
          */
-        void setPropertyView( PropertyView *propertyView )throw();
+        void setPropertyView(PropertyView *propertyView)throw();
 
         /**
          * @brief メインのビューを表示する
@@ -158,14 +161,14 @@ namespace cadencii{
          * @todo 三連符かどうかのフラグを渡せるようにする
          * @todo テスト
          */
-        VSQ_NS::tick_t getQuantizedTick( VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode );
+        VSQ_NS::tick_t getQuantizedTick(VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode);
 
     private:
         /**
          * @brief sequence のインスタンスを置き換えたのち、各コンポーネントに sequence のインスタンスが置き換わったことを通知する
          * @param sequence 置き換わるインスタンス
          */
-        void setupSequence( const VSQ_NS::Sequence &sequence );
+        void setupSequence(const VSQ_NS::Sequence &sequence);
 
         /**
          * @brief すべてのウィジェットを再描画する
@@ -176,9 +179,8 @@ namespace cadencii{
          * @brief ソングポジションを設定する
          * @param songPosition ソングポジション
          */
-        void setSongPosition( VSQ_NS::tick_t songPosition );
+        void setSongPosition(VSQ_NS::tick_t songPosition);
     };
-
 }
 
 #endif

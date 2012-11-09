@@ -17,24 +17,27 @@
 
 #include "enum/QuantizeMode.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief カスタマイズ可能な、アプリの設定項目を保持する
      */
-    class Settings{
+    class Settings {
     public:
         /**
          * @brief 設定項目を取得する。引数 newInstance が指定された場合、設定項目のインスタンスを置き換える
          * @param newInstance 置き換える設定項目のインスタンス
          * @return 設定項目
          */
-        static Settings *instance( Settings *newInstance = 0 ){
+        static Settings *instance(Settings *newInstance = 0) {
             static Settings *settings;
-            if( newInstance ){
+            if (newInstance) {
                 settings = newInstance;
             }
             return settings;
+        }
+
+        virtual ~Settings() {
         }
 
         /**
@@ -45,7 +48,7 @@ namespace cadencii{
         /**
          * @brief クオンタイズモードを設定する
          */
-        virtual void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode ) = 0;
+        virtual void setQuantizeMode(QuantizeMode::QuantizeModeEnum mode) = 0;
 
         /**
          * @brief グリッド線を表示するかどうかを取得する
@@ -57,7 +60,7 @@ namespace cadencii{
          * @brief グリッド線を表示するかどうかを設定する
          * @param isVisible 表示する場合は true を、それ以外は false を設定する
          */
-        virtual void setGridVisible( bool isVisible ) = 0;
+        virtual void setGridVisible(bool isVisible) = 0;
 
         /**
          * @brief ソングポジションの移動時に、ソングポジションが可視状態となるよう自動でスクロールするかどうかを取得する
@@ -69,7 +72,7 @@ namespace cadencii{
          * @brief ソングポジションの移動時に、ソングポジションが可視状態となるよう自動でスクロールするかどうかを設定する
          * @param isAutoScroll 自動スクロールするかどうか
          */
-        virtual void setAutoScroll( bool isAutoScroll ) = 0;
+        virtual void setAutoScroll(bool isAutoScroll) = 0;
 
         /**
          * @brief 設定項目を保存する
@@ -81,7 +84,6 @@ namespace cadencii{
          */
         virtual bool isUnderUnitTest() = 0;
     };
-
 }
 
 #endif

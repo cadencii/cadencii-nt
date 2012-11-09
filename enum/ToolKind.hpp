@@ -15,14 +15,14 @@
 #ifndef __cadencii_enum_ToolKind_hpp__
 #define __cadencii_enum_ToolKind_hpp__
 
-namespace cadencii{
+namespace cadencii {
 
-    class ToolKind{
+    class ToolKind {
     public:
         /**
          * @brief 編集ツールを表す列挙型
          */
-        enum ToolKindEnum{
+        enum ToolKindEnum {
             /**
              * @brief 矢印ツール
              */
@@ -41,7 +41,6 @@ namespace cadencii{
             ERASER
         };
     };
-
 }
 
 #endif

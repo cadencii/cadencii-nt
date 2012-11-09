@@ -15,22 +15,24 @@
 #ifndef __PianorollTrackView_hpp__
 #define __PianorollTrackView_hpp__
 
+#include <QGraphicsScene>
+#include <QLineEdit>
 #include "EditorWidgetBase.hpp"
 #include "../../gui/TrackView.hpp"
-#include <QGraphicsScene>
+#include "pianoroll_track_view/LyricEditWidget.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class PianorollTrackView : public EditorWidgetBase, public TrackView{
+    class PianorollTrackView : public EditorWidgetBase, public TrackView {
         Q_OBJECT
 
     private:
         /**
          * @brief マウスの状態
          */
-        class MouseStatus{
+        class MouseStatus {
         public:
-            enum MouseStatusEnum{
+            enum MouseStatusEnum {
                 /**
                  * @brief 何もしてない
                  */
@@ -129,31 +131,35 @@ namespace cadencii{
         QString *keyNames;
         int trackIndex;
         MouseStatus mouseStatus;
+        /**
+         * @brief A component for editing lyric.
+         */
+        LyricEditWidget *lyricEdit;
 
     public:
-        PianorollTrackView( QWidget *parent = 0 );
+        explicit PianorollTrackView(QWidget *parent = 0);
 
         ~PianorollTrackView();
 
-        void setTimesigList( VSQ_NS::TimesigList *timesigList );
+        void setTimesigList(VSQ_NS::TimesigList *timesigList);
 
         void *getWidget();
 
-        void setDrawOffset( VSQ_NS::tick_t drawOffset );
+        void setDrawOffset(VSQ_NS::tick_t drawOffset);
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+        void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
-        void paintMainContent( QPainter *painter, const QRect &rect );
+        void paintMainContent(QPainter *painter, const QRect &rect);
 
-        void paintSubContent( QPainter *painter, const QRect &rect );
+        void paintSubContent(QPainter *painter, const QRect &rect);
 
         void *getScrollEventSender();
 
         QSize getPreferedSceneSize();
 
-        void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1 );
+        void ensureNoteVisible(VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1);
 
-        void setTrackIndex( int index );
+        void setTrackIndex(int index);
 
         void updateWidget();
 
@@ -163,70 +169,92 @@ namespace cadencii{
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する
          * @param trackHeight レーンの高さ(ピクセル単位)
          */
-        void setTrackHeight( int trackHeight );
+        void setTrackHeight(int trackHeight);
 
         /**
          * @brief ミューテックスを設定する
          * @param mutex ミューテックス
          */
-        void setMutex( QMutex *mutex );
+        void setMutex(QMutex *mutex);
 
     private slots:
-        void onMousePressSlot( QMouseEvent *event );
+        void onMousePressSlot(QMouseEvent *event);
 
-        void onMouseMoveSlot( QMouseEvent *event );
+        void onMouseMoveSlot(QMouseEvent *event);
 
-        void onMouseReleaseSlot( QMouseEvent *event );
+        void onMouseReleaseSlot(QMouseEvent *event);
+
+        void onMouseDoubleClickSlot(QMouseEvent *event);
+
+        /**
+         * @brief Called when graphics scene was scrolled.
+         */
+        void onContentScroll(int value);
+
+        /**
+         * @brief Called when lyric is to be edited.
+         */
+        void onLyricEditCommitSlot();
+
+        /**
+         * @brief Called when text box is to be moved.
+         */
+        void onLyricEditHideSlot();
+
+        /**
+         * @brief Called when text box is to be hidden.
+         */
+        void onLyricEditMoveSlot(bool isBackward);
 
     private:
         /**
          * ピアノロールのバックグラウンドを描画する
          */
-        void paintBackground( QPainter *g, QRect visibleArea );
+        void paintBackground(QPainter *g, QRect visibleArea);
 
         /**
          * アイテムを描画する
          */
-        void paintItems( QPainter *g, QRect visibleArea );
+        void paintItems(QPainter *g, QRect visibleArea);
 
         /**
          * @brief POINTER ツールによる、左ボタンでの MousePress イベントを処理する
          */
-        void handleMouseLeftButtonPressByPointer( QMouseEvent *event );
+        void handleMouseLeftButtonPressByPointer(QMouseEvent *event);
 
         /**
          * @brief ERASER ツールによる、左ボタンでの MousePress イベントを処理する
          */
-        void handleMouseLeftButtonPressByEraser( QMouseEvent *event );
+        void handleMouseLeftButtonPressByEraser(QMouseEvent *event);
 
         /**
          * @brief Handle MousePress event by left button with PENCIL tool or LINE tool.
          */
-        void handleMouseLeftButtonPressByPencil( QMouseEvent *event );
+        void handleMouseLeftButtonPressByPencil(QMouseEvent *event);
 
         /**
          * @brief 中ボタンでの MousePress イベントを処理する
          */
-        void handleMouseMiddleButtonPress( QMouseEvent *event );
+        void handleMouseMiddleButtonPress(QMouseEvent *event);
 
         /**
          * @brief このウィジェットの指定された位置における音符イベントを探す
          * @param mousePosition このウィジェットローカル座標基準の位置
          * @return 音符イベント。見つからなければ null を返す
          */
-        const VSQ_NS::Event *findNoteEventAt( const QPoint &mousePosition );
+        const VSQ_NS::Event *findNoteEventAt(const QPoint &mousePosition);
 
         /**
          * @brief 指定された音符イベントの、描画の際の形状を取得する。
          * @param 形状を取得する音符イベント
          * @return 形状。座標は、QGraphicsScene の座標を用いる
          */
-        QRect getNoteItemRect( const VSQ_NS::Event *item );
+        QRect getNoteItemRect(const VSQ_NS::Event *item);
 
         /**
          * @brief ui->scrollArea 基準の座標を、scene の座標に変換する
          */
-        inline QPoint mapToScene( const QPoint &mousePos );
+        inline QPoint mapToScene(const QPoint &mousePos);
 
         /**
          * @brief 矩形選択の四角形内に入っているアイテムを選択し直す
@@ -239,47 +267,72 @@ namespace cadencii{
          * @param event A mouse event.
          * @param noteOnMouse Note item at mouse pressed position.
          */
-        void initMouseStatus( MouseStatus::MouseStatusEnum status, const QMouseEvent *event, const VSQ_NS::Event *noteOnMouse );
+        void initMouseStatus(
+                MouseStatus::MouseStatusEnum status, const QMouseEvent *event,
+                const VSQ_NS::Event *noteOnMouse);
+
+        /**
+         * @brief Show lyricEdit widget on the pianoroll.
+         */
+        void showLyricEdit(const VSQ_NS::Event *note);
+
+        /**
+         * @brief Hide lyricEdit widget.
+         */
+        void hideLyricEdit();
 
         /**
          * @brief Draw a note item.
          */
-        inline void paintItem( QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect, const QColor &color, const QColor &borderColor );
+        inline void paintItem(
+                QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect,
+                const QColor &color, const QColor &borderColor);
 
         /**
          * @brief Quantize specified tick.
          */
-        inline VSQ_NS::tick_t quantize( VSQ_NS::tick_t tick );
+        inline VSQ_NS::tick_t quantize(VSQ_NS::tick_t tick);
+
+        /**
+         * @brief Update 'lyricEdit' component position.
+         */
+        inline void updateLyricEditComponentPosition();
+
+        /**
+         * @brief Get component position for specified note event.
+         * @param noteEvent A note event.
+         * @return Component position.
+         */
+        inline QPoint getLyricEditPosition(const VSQ_NS::Event *noteEvent);
 
         /**
          * @brief y 座標からノート番号を取得する
          * @param y 座標
          * @return ノート番号
          */
-        static int getNoteNumberFromY( int y, int trackHeight );
+        static int getNoteNumberFromY(int y, int trackHeight);
 
         /**
          * @brief ノート番号から、描画時の y 座標を取得する
          * @param noteNumber ノート番号
          * @param trackHeight ノートの描画高さ
          */
-        static int getYFromNoteNumber( int noteNumber, int trackHeight );
+        static int getYFromNoteNumber(int noteNumber, int trackHeight);
 
         /**
          * @brief ノート番号から、音名を表す番号を取得する。Cであれば0, C#であれば1など
          * @param noteNumber ノート番号
          * @return 音名を表す番号
          */
-        static int getNoteModuration( int noteNumber );
+        static int getNoteModuration(int noteNumber);
 
         /**
          * @brief ノート番号から、その音高が何オクターブめかを取得する。
          * @param noteNumber ノート番号
          * @return 何オクターブめかを表す番号
          */
-        static int getNoteOctave( int noteNumber );
+        static int getNoteOctave(int noteNumber);
     };
-
 }
 
 #endif

@@ -18,35 +18,36 @@
 #include "../../qt/gui/EditorWidgetBase.hpp"
 #include "../../gui/TimesigView.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class ConcreteTimesigView : public EditorWidgetBase, public TimesigView{
+    class ConcreteTimesigView : public EditorWidgetBase, public TimesigView {
     private:
         QColor backgroundColor;
         QColor lineColor;
 
     public:
-        ConcreteTimesigView( QWidget *parent = 0 );
+        explicit ConcreteTimesigView(QWidget *parent = 0);
 
         ~ConcreteTimesigView();
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+        void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
-        void setDrawOffset( VSQ_NS::tick_t drawOffset );
+        void setDrawOffset(VSQ_NS::tick_t drawOffset);
 
         void *getWidget();
 
         void *getScrollEventSender();
 
-        void paintMainContent( QPainter *painter, const QRect &rect );
+        void paintMainContent(QPainter *painter, const QRect &rect);
 
-        void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+        void drawMeasureLine(
+                QPainter *painter, const QRect &rect, int x,
+                const VSQ_NS::MeasureLine &measureLine);
 
-        void paintSubContent( QPainter *painter, const QRect &rect );
+        void paintSubContent(QPainter *painter, const QRect &rect);
 
         void updateWidget();
     };
-
 }
 
 #endif

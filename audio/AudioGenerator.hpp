@@ -15,35 +15,33 @@
 #ifndef __cadencii_audio_AudioGenerator_hpp__
 #define __cadencii_audio_AudioGenerator_hpp__
 
-#include "AudioReceiver.hpp"
 #include <stdint.h>
+#include "AudioReceiver.hpp"
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
     /**
      * @brief AudioGenerator は、オーディオ波形を生成するオブジェクトを表す抽象クラスです
      */
-    class AudioGenerator : public AudioUnit{
+    class AudioGenerator : public AudioUnit {
     public:
-        explicit AudioGenerator( int sampleRate ) :
-            AudioUnit( sampleRate )
-        {
+        explicit AudioGenerator(int sampleRate) :
+            AudioUnit(sampleRate) {
         }
 
         /**
          * @brief オーディオ波形の受け取り先を設定する
          * @param[in] receiver オーディオ波形の受け取り先
          */
-        virtual void setReceiver( AudioReceiver *receiver ) = 0;
+        virtual void setReceiver(AudioReceiver *receiver) = 0;
 
         /**
          * @brief オーディオ波形の生成を開始する
          * @param[in] length 生成するサンプル数
          */
-        virtual void start( uint64_t length ) = 0;
+        virtual void start(uint64_t length) = 0;
     };
-
 }
 }
 

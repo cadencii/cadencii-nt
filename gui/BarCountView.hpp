@@ -18,17 +18,20 @@
 #include "../ControllerAdapter.hpp"
 #include "../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief 小節数の表示を行う View
      */
-    class BarCountView{
+    class BarCountView {
     public:
+        virtual ~BarCountView() {
+        }
+
         /**
          * @brief ControllerAdapter のインスタンスを設定する
          */
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+        virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 
         /**
          * @brief ウィジェットの実体を返す
@@ -40,14 +43,13 @@ namespace cadencii{
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
+        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
 
         /**
          * @brief ウィジェットを再描画する
          */
         virtual void updateWidget() = 0;
     };
-
 }
 
 #endif

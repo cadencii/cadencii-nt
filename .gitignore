@@ -1,6 +1,7 @@
 *.pro.user
 .DS_Store
 *.exe
+*.exe.dSYM
 *.o
 moc_*.cpp
 qrc_*.cpp

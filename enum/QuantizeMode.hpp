@@ -15,16 +15,17 @@
 #ifndef __QuantizeMode_hpp__
 #define __QuantizeMode_hpp__
 
+#include <string>
 #include "../vsq/StringUtil.hpp"
 #include "../vsq/vsqglobal.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief クオンタイズのモードを表す列挙子型
      */
-    namespace QuantizeMode{
-        enum QuantizeModeEnum{
+    namespace QuantizeMode {
+        enum QuantizeModeEnum {
             /**
              * @brief クオンタイズを行わない
              */
@@ -60,30 +61,30 @@ namespace cadencii{
          * @param value 変換対象の列挙子型
          * @return 文字列表現
          */
-        static std::string toString( QuantizeModeEnum value ){
-            switch( value ){
-                case NONE:{
+        static std::string toString(QuantizeModeEnum value) {
+            switch (value) {
+                case NONE: {
                     return "NONE";
                 }
-                case QUARTER:{
+                case QUARTER: {
                     return "QUARTER";
                 }
-                case EIGHTH:{
+                case EIGHTH: {
                     return "EIGHTH";
                 }
-                case SIXTEENTH:{
+                case SIXTEENTH: {
                     return "SIXTEENTH";
                 }
-                case THIRTY_SECOND:{
+                case THIRTY_SECOND: {
                     return "THIRTY_SECOND";
                 }
-                case SIXTY_FOURTH:{
+                case SIXTY_FOURTH: {
                     return "SIXTY_FOURTH";
                 }
-                case HUNDRED_TWENTY_EIGHTH:{
+                case HUNDRED_TWENTY_EIGHTH: {
                     return "HUNDRED_TWENTY_EIGHTH";
                 }
-                default:{
+                default: {
                     return "";
                 }
             }
@@ -94,23 +95,23 @@ namespace cadencii{
          * @param text 文字列
          * @return 文字列に該当する QuantizeModeEnum の値。該当するものがない場合は、NONE を返す
          */
-        static QuantizeModeEnum fromString( const std::string &text ){
-            std::string lower = StringUtil::toLower( text );
-            if( lower == "none" ){
+        static QuantizeModeEnum fromString(const std::string &text) {
+            std::string lower = StringUtil::toLower(text);
+            if (lower == "none") {
                 return QuantizeMode::NONE;
-            }else if( lower == "quarter" ){
+            } else if (lower == "quarter") {
                 return QuantizeMode::QUARTER;
-            }else if( lower == "eighth" ){
+            } else if (lower == "eighth") {
                 return QuantizeMode::EIGHTH;
-            }else if( lower == "sixteenth" ){
+            } else if (lower == "sixteenth") {
                 return QuantizeMode::SIXTEENTH;
-            }else if( lower == "thirty_second" ){
+            } else if (lower == "thirty_second") {
                 return QuantizeMode::THIRTY_SECOND;
-            }else if( lower == "sixty_fourth" ){
+            } else if (lower == "sixty_fourth") {
                 return QuantizeMode::SIXTY_FOURTH;
-            }else if( lower == "hundred_twenty_eighth" ){
+            } else if (lower == "hundred_twenty_eighth") {
                 return QuantizeMode::HUNDRED_TWENTY_EIGHTH;
-            }else{
+            } else {
                 return QuantizeMode::NONE;
             }
         }
@@ -120,38 +121,38 @@ namespace cadencii{
          * @param mode クオンタイズ
          * @return 単位時間
          */
-        static VSQ_NS::tick_t getQuantizeUnitTick( QuantizeModeEnum mode ){
+        static VSQ_NS::tick_t getQuantizeUnitTick(QuantizeModeEnum mode) {
             VSQ_NS::tick_t result;
-            switch( mode ){
-                case NONE:{
+            switch (mode) {
+                case NONE: {
                     result = 1;
                     break;
                 }
-                case QUARTER:{
+                case QUARTER: {
                     result = 480;
                     break;
                 }
-                case EIGHTH:{
+                case EIGHTH: {
                     result = 240;
                     break;
                 }
-                case SIXTEENTH:{
+                case SIXTEENTH: {
                     result = 120;
                     break;
                 }
-                case THIRTY_SECOND:{
+                case THIRTY_SECOND: {
                     result = 60;
                     break;
                 }
-                case SIXTY_FOURTH:{
+                case SIXTY_FOURTH: {
                     result = 30;
                     break;
                 }
-                case HUNDRED_TWENTY_EIGHTH:{
+                case HUNDRED_TWENTY_EIGHTH: {
                     result = 15;
                     break;
                 }
-                default:{
+                default: {
                     result = 1;
                     break;
                 }
@@ -159,7 +160,6 @@ namespace cadencii{
             return result;
         }
     }
-
 }
 
 #endif

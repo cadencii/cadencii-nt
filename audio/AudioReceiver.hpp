@@ -17,17 +17,16 @@
 
 #include "AudioUnit.hpp"
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
     /**
      * @brief オーディオ波形を受信するオブジェクトを表す抽象クラス
      */
-    class AudioReceiver : public AudioUnit{
+    class AudioReceiver : public AudioUnit {
     public:
-        explicit AudioReceiver( int sampleRate ) :
-            AudioUnit( sampleRate )
-        {
+        explicit AudioReceiver(int sampleRate) :
+            AudioUnit(sampleRate) {
         }
 
         /**
@@ -37,14 +36,17 @@ namespace audio{
          * @param[in] データの個数
          * @param[in] オフセット。データの offset 個目からのデータを渡す
          */
-        virtual void push( double *left, double *right, int length, int offset = 0 ) = 0;
+        virtual void push(
+            double *left,
+            double *right,
+            int length,
+            int offset = 0) = 0;
 
         /**
          * @brief バッファーなどにたまっているオーディオ波形をすべて処理し、バッファーなどを空にする
          */
         virtual void flush() = 0;
     };
-
 }
 }
 

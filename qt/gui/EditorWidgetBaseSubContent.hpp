@@ -15,27 +15,26 @@
 #ifndef __EditorWidgetBaseSubContent_hpp__
 #define __EditorWidgetBaseSubContent_hpp__
 
-#include "EditorWidgetBase.hpp"
 #include <QWidget>
+#include "EditorWidgetBase.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class EditorWidgetBaseSubContent : public QWidget{
+    class EditorWidgetBaseSubContent : public QWidget {
         Q_OBJECT
 
     private:
         EditorWidgetBase *parentWidget;
 
     public:
-        EditorWidgetBaseSubContent( QWidget *parent = 0 );
+        explicit EditorWidgetBaseSubContent(QWidget *parent = 0);
 
         ~EditorWidgetBaseSubContent();
 
-        void paintEvent( QPaintEvent *event );
+        void paintEvent(QPaintEvent *event);
 
-        void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
+        void setEditorWidgetBase(EditorWidgetBase *editorWidgetBase);
     };
-
 }
 
 #endif

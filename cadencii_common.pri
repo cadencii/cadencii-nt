@@ -69,7 +69,8 @@ HEADERS  += \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp
+    $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp \
+    $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

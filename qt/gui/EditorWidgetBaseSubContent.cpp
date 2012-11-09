@@ -15,27 +15,25 @@
 #include "EditorWidgetBaseSubContent.hpp"
 #include "ui_EditorWidgetBase.h"
 
-namespace cadencii{
+namespace cadencii {
 
-    EditorWidgetBaseSubContent::EditorWidgetBaseSubContent( QWidget *parent ) :
-        QWidget( parent )
-    {
+    EditorWidgetBaseSubContent::EditorWidgetBaseSubContent(QWidget *parent) :
+        QWidget(parent) {
         parentWidget = 0;
     }
 
-    EditorWidgetBaseSubContent::~EditorWidgetBaseSubContent(){
+    EditorWidgetBaseSubContent::~EditorWidgetBaseSubContent() {
     }
 
-    void EditorWidgetBaseSubContent::setEditorWidgetBase( EditorWidgetBase *editorWidgetBase ){
+    void EditorWidgetBaseSubContent::setEditorWidgetBase(EditorWidgetBase *editorWidgetBase) {
         parentWidget = editorWidgetBase;
     }
 
-    void EditorWidgetBaseSubContent::paintEvent( QPaintEvent *event ){
-        QWidget::paintEvent( event );
-        if( parentWidget ){
-            QPainter p( this );
-            parentWidget->paintSubContent( &p, geometry() );
+    void EditorWidgetBaseSubContent::paintEvent(QPaintEvent *event) {
+        QWidget::paintEvent(event);
+        if (parentWidget) {
+            QPainter p(this);
+            parentWidget->paintSubContent(&p, geometry());
         }
     }
-
 }

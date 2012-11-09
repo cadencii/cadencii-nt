@@ -15,20 +15,20 @@
 #ifndef __EditorWidgetBaseMainContent_hpp__
 #define __EditorWidgetBaseMainContent_hpp__
 
-#include <map>
 #include <QWidget>
 #include <QMutex>
 #include <QGraphicsView>
+#include <map>
 #include "../../ControllerAdapter.hpp"
 #include "../../vsq/TimesigList.hpp"
 #include "../../vsq/MeasureLineIterator.hpp"
 #include "../../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     class EditorWidgetBase;
 
-    class EditorWidgetBaseMainContent : public QGraphicsView{
+    class EditorWidgetBaseMainContent : public QGraphicsView {
         friend class EditorWidgetBase;
 
         Q_OBJECT
@@ -42,22 +42,24 @@ namespace cadencii{
         bool deconstructStarted;
 
     public:
-        explicit EditorWidgetBaseMainContent( QWidget *parent = 0 );
+        explicit EditorWidgetBaseMainContent(QWidget *parent = 0);
 
         ~EditorWidgetBaseMainContent();
 
-        void setEditorWidgetBase( EditorWidgetBase *editorWidgetBase );
+        void setEditorWidgetBase(EditorWidgetBase *editorWidgetBase);
 
-        void mousePressEvent( QMouseEvent *event );
+        void mousePressEvent(QMouseEvent *event);
 
         /**
          * オーバーライドする。再描画処理が追加される
          */
-        void mouseMoveEvent( QMouseEvent *e );
+        void mouseMoveEvent(QMouseEvent *e);
 
-        void mouseReleaseEvent( QMouseEvent *event );
+        void mouseReleaseEvent(QMouseEvent *event);
 
-        void drawForeground( QPainter *painter, const QRectF &rect );
+        void mouseDoubleClickEvent(QMouseEvent *event);
+
+        void drawForeground(QPainter *painter, const QRectF &rect);
 
         /**
          * スクロールされた結果、可視状態となっている領域を取得する
@@ -67,7 +69,7 @@ namespace cadencii{
         /**
          * @brief ソングポジションを設定する
          */
-        void setSongPosition( VSQ_NS::tick_t songPosition );
+        void setSongPosition(VSQ_NS::tick_t songPosition);
 
         /**
          * @brief ソングポジションを取得する
@@ -78,9 +80,9 @@ namespace cadencii{
          * @brief ミューテックスを設定する
          * @param mutex ミューテックス
          */
-        void setMutex( QMutex *mutex );
+        void setMutex(QMutex *mutex);
 
-        void scrollContentsBy( int dx, int dy );
+        void scrollContentsBy(int dx, int dy);
 
         /**
          * @brief 仮想スクリーンの幅を取得する
@@ -94,26 +96,30 @@ namespace cadencii{
          */
         int getSceneHeight();
 
-        void paintMeasureLines( QPainter *g, QRect visibleArea );
+        void paintMeasureLines(QPainter *g, QRect visibleArea);
 
-        void paintSongPosition( QPainter *g, QRect visibleArea );
+        void paintSongPosition(QPainter *g, QRect visibleArea);
 
     signals:
         /**
          * @brief ui->PianoRoll での MousePress イベントが起きたとき呼ばれる
          */
-        void onMousePress( QMouseEvent *event );
+        void onMousePress(QMouseEvent *event);
 
         /**
          * @brief ui->PianoRoll での MouseMove イベントが起きたとき呼ばれる
          */
-        void onMouseMove( QMouseEvent *event );
+        void onMouseMove(QMouseEvent *event);
 
         /**
          * @brief ui->PianoRoll での MouseRelease イベントが起きたとき呼ばれる
          */
-        void onMouseRelease( QMouseEvent *event );
-    };
+        void onMouseRelease(QMouseEvent *event);
 
+        /**
+         * @brief Emitted when mouse double click event on ui->pianoRoll.
+         */
+        void onMouseDoubleClick(QMouseEvent *event);
+    };
 }
 #endif

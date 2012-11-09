@@ -24,9 +24,9 @@
 #include "qt/gui/ConcretePropertyView.hpp"
 #include "Controller.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class AppContainer{
+    class AppContainer {
     public:
         cadencii::WindowMainView windowMainView;
         cadencii::PianorollTrackView pianorollTrackView;
@@ -38,25 +38,24 @@ namespace cadencii{
         cadencii::Controller controller;
 
     public:
-        explicit AppContainer(){
+        explicit AppContainer() {
             curveControlChangeView = new CurveControlChangeView();
-            controller.setMainView( &windowMainView );
-            controller.setTrackView( &pianorollTrackView );
-            controller.setControlChangeView( curveControlChangeView );
-            controller.setBarCountView( &concreteBarCountView );
-            controller.setTempoView( &concreteTempoView );
-            controller.setTimesigView( &concreteTimesigView );
-            controller.setPropertyView( &concretePropertyView );
+            controller.setMainView(&windowMainView);
+            controller.setTrackView(&pianorollTrackView);
+            controller.setControlChangeView(curveControlChangeView);
+            controller.setBarCountView(&concreteBarCountView);
+            controller.setTempoView(&concreteTempoView);
+            controller.setTimesigView(&concreteTimesigView);
+            controller.setPropertyView(&concretePropertyView);
         }
 
-        ~AppContainer(){
-            if( curveControlChangeView ){
+        ~AppContainer() {
+            if (curveControlChangeView) {
                 delete curveControlChangeView;
                 curveControlChangeView = 0;
             }
         }
     };
-
 }
 
 #endif

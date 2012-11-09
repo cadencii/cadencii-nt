@@ -18,15 +18,15 @@
 #include "../../gui/TempoView.hpp"
 #include "../../qt/gui/EditorWidgetBase.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class ConcreteTempoView : public EditorWidgetBase, public TempoView{
+    class ConcreteTempoView : public EditorWidgetBase, public TempoView {
     private:
         QColor backgroundColor;
         QColor lineColor;
 
     public:
-        ConcreteTempoView( QWidget *parent = 0 );
+        explicit ConcreteTempoView(QWidget *parent = 0);
 
         ~ConcreteTempoView();
 
@@ -34,19 +34,20 @@ namespace cadencii{
 
         void *getWidget();
 
-        void setControllerAdapter( ControllerAdapter *controllerAdapter );
+        void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
-        void setDrawOffset( VSQ_NS::tick_t drawOffset );
+        void setDrawOffset(VSQ_NS::tick_t drawOffset);
 
-        void paintMainContent( QPainter *painter, const QRect &rect );
+        void paintMainContent(QPainter *painter, const QRect &rect);
 
-        void paintSubContent( QPainter *painter, const QRect &rect );
+        void paintSubContent(QPainter *painter, const QRect &rect);
 
-        void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+        void drawMeasureLine(
+                QPainter *painter, const QRect &rect, int x,
+                const VSQ_NS::MeasureLine &measureLine);
 
         void updateWidget();
     };
-
 }
 
 #endif

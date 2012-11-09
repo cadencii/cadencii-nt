@@ -15,12 +15,12 @@
 #ifndef __ConcreteSettings_hpp__
 #define __ConcreteSettings_hpp__
 
-#include "../Settings.hpp"
 #include <QSettings>
+#include "../Settings.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
-    class ConcreteSettings : public Settings{
+    class ConcreteSettings : public Settings {
     protected:
         QuantizeMode::QuantizeModeEnum quantizeMode;
         bool gridVisible;
@@ -35,21 +35,20 @@ namespace cadencii{
 
         QuantizeMode::QuantizeModeEnum getQuantizeMode();
 
-        void setQuantizeMode( QuantizeMode::QuantizeModeEnum mode );
+        void setQuantizeMode(QuantizeMode::QuantizeModeEnum mode);
 
         bool isGridVisible();
 
-        void setGridVisible( bool isVisible );
+        void setGridVisible(bool isVisible);
 
         bool isAutoScroll();
 
-        void setAutoScroll( bool isAutoScroll );
+        void setAutoScroll(bool isAutoScroll);
 
         void save();
 
         bool isUnderUnitTest();
     };
-
 }
 
 #endif

@@ -15,53 +15,58 @@
 #ifndef __cadencii_audio_AudioFilter_hpp__
 #define __cadencii_audio_AudioFilter_hpp__
 
+#include <vector>
+#include <algorithm>
 #include "AudioFilter.hpp"
 #include "AudioSender.hpp"
-#include <vector>
 
-namespace cadencii{
-namespace audio{
+namespace cadencii {
+namespace audio {
 
     /**
      * @brief AudioFilter を Sender として動作させるためのクラス
      */
-    class FilterDriver : public AudioSender{
+    class FilterDriver : public AudioSender {
     private:
-        class MemoryReceiver : public AudioReceiver{
+        class MemoryReceiver : public AudioReceiver {
         private:
             std::vector<double> bufferLeft;
             std::vector<double> bufferRight;
 
         public:
-            explicit MemoryReceiver( int sampleRate ) :
-                AudioReceiver( sampleRate )
-            {
+            explicit MemoryReceiver(int sampleRate) :
+                AudioReceiver(sampleRate) {
             }
 
-            void push( double *left, double *right, int length, int offset ){
-                for( int i = 0; i < length; i++ ){
-                    bufferLeft.push_back( left[i + offset] );
-                    bufferRight.push_back( right[i + offset] );
+            void push(double *left, double *right, int length, int offset) {
+                for (int i = 0; i < length; i++) {
+                    bufferLeft.push_back(left[i + offset]);
+                    bufferRight.push_back(right[i + offset]);
                 }
             }
 
-            void flush(){
+            void flush() {
             }
 
-            int getBuffer( double *left, double *right, int length ){
-                int result = std::min( length, (int)std::min( bufferLeft.size(), bufferRight.size() ) );
-                for( int i = 0; i < result; i++ ){
+            int getBuffer(double *left, double *right, int length) {
+                int result = std::min(
+                    length,
+                    static_cast<int>(std::min(bufferLeft.size(),
+                                              bufferRight.size())));
+                for (int i = 0; i < result; i++) {
                     left[i] = bufferLeft[i];
                     right[i] = bufferRight[i];
                 }
-                if( 0 < result ){
-                    std::vector<double>::iterator leftIterator = bufferLeft.begin();
-                    std::advance( leftIterator, result );
-                    bufferLeft.erase( bufferLeft.begin(), leftIterator );
+                if (0 < result) {
+                    std::vector<double>::iterator leftIterator
+                            = bufferLeft.begin();
+                    std::advance(leftIterator, result);
+                    bufferLeft.erase(bufferLeft.begin(), leftIterator);
 
-                    std::vector<double>::iterator rightIterator = bufferRight.begin();
-                    std::advance( rightIterator, result );
-                    bufferRight.erase( bufferRight.begin(), rightIterator );
+                    std::vector<double>::iterator rightIterator
+                            = bufferRight.begin();
+                    std::advance(rightIterator, result);
+                    bufferRight.erase(bufferRight.begin(), rightIterator);
                 }
                 return result;
             }
@@ -77,11 +82,10 @@ namespace audio{
         double *temporaryBufferRight;
 
     public:
-        explicit FilterDriver( int sampleRate, AudioFilter *filter ) :
-            AudioSender( sampleRate ), receiver( sampleRate )
-        {
+        explicit FilterDriver(int sampleRate, AudioFilter *filter) :
+            AudioSender(sampleRate), receiver(sampleRate) {
             this->filter = filter;
-            this->filter->setReceiver( &receiver );
+            this->filter->setReceiver(&receiver);
             unitBufferLength = 4096;
             bufferLeft = new double[unitBufferLength];
             bufferRight = new double[unitBufferLength];
@@ -90,40 +94,45 @@ namespace audio{
             sender = 0;
         }
 
-        ~FilterDriver(){
+        ~FilterDriver() {
             delete [] bufferLeft;
             delete [] bufferRight;
             delete [] temporaryBufferLeft;
             delete [] temporaryBufferRight;
         }
 
-        void setSender( AudioSender *sender ){
+        void setSender(AudioSender *sender) {
             this->sender = sender;
         }
 
-        void pull( double *left, double *right, int length ){
+        void pull(double *left, double *right, int length) {
             int remain = length;
             int finished = 0;
-            while( 0 < remain ){
-                int amount = unitBufferLength <= remain ? unitBufferLength : remain;
-                sender->pull( bufferLeft, bufferRight, amount );
-                filter->push( bufferLeft, bufferRight, amount, 0 );
+            while (0 < remain) {
+                int amount = unitBufferLength <= remain
+                        ? unitBufferLength
+                        : remain;
+                sender->pull(bufferLeft, bufferRight, amount);
+                filter->push(bufferLeft, bufferRight, amount, 0);
 
-                int actualReceivedBufferLength;
-                while( 0 < (actualReceivedBufferLength = receiver.getBuffer( temporaryBufferLeft, temporaryBufferRight, amount )) ){
-                    for( int i = 0; i < actualReceivedBufferLength; i++ ){
+                int actualReceivedBufferLength
+                        = receiver.getBuffer(temporaryBufferLeft,
+                                             temporaryBufferRight, amount);
+                while (0 < actualReceivedBufferLength) {
+                    for (int i = 0; i < actualReceivedBufferLength; i++) {
                         left[i + finished] = temporaryBufferLeft[i];
                         right[i + finished] = temporaryBufferRight[i];
                     }
                     remain -= actualReceivedBufferLength;
                     finished += actualReceivedBufferLength;
                     amount -= actualReceivedBufferLength;
+                    actualReceivedBufferLength
+                            = receiver.getBuffer(temporaryBufferLeft,
+                                                 temporaryBufferRight, amount);
                 }
             }
         }
-
     };
-
 }
 }
 

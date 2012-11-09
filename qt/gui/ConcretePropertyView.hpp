@@ -15,18 +15,18 @@
 #ifndef __cadencii_qt_gui_ConcretePropertyView_hpp__
 #define __cadencii_qt_gui_ConcretePropertyView_hpp__
 
-#include "../../gui/PropertyView.hpp"
-#include "../../vsq/Sequence.hpp"
 #include <QtTreePropertyBrowser>
 #include <QtIntPropertyManager>
 #include <QThread>
 #include <QMutex>
+#include "../../gui/PropertyView.hpp"
+#include "../../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     class PropertyTreeUpdateWorker;
 
-    class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView{
+    class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView {
         Q_OBJECT
 
         friend class PropertyTreeUpdateWorker;
@@ -72,11 +72,11 @@ namespace cadencii{
         PropertyTreeUpdateWorker *treeUpdateWorker;
 
     public:
-        ConcretePropertyView( QWidget *parent = 0 );
+        explicit ConcretePropertyView(QWidget *parent = 0);
 
         ~ConcretePropertyView();
 
-        void setControllerAdapter( ControllerAdapter *adapter );
+        void setControllerAdapter(ControllerAdapter *adapter);
 
         void *getWidget();
 
@@ -95,8 +95,12 @@ namespace cadencii{
          * @brief QtProperty * 型のフィールドを初期化する
          */
         void initProperties();
-    };
 
+        /**
+         * @brief Forbid focus on this widget.
+         */
+        void setNoFocus();
+    };
 }
 
 #endif

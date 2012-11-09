@@ -19,20 +19,24 @@
 #include "../vsq/TimesigList.hpp"
 #include "../vsq/Sequence.hpp"
 
-namespace cadencii{
+namespace cadencii {
 
     /**
      * @brief 画面へのトラック描画を担当するviewとの仲立ちを行うための抽象クラス
      */
-    class TrackView{
+    class TrackView {
     public:
+        virtual ~TrackView() {
+        }
+
         /**
          * @brief 指定した位置の音符が可視となるようスクロールする
          * @param tick 時刻
          * @param length 音符の長さ
          * @param noteNumber ノート番号。負の値が指定された場合、縦方向のスクロールは行わない
          */
-        virtual void ensureNoteVisible( VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1 ) = 0;
+        virtual void ensureNoteVisible(
+            VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1) = 0;
 
         /**
          * @brief ウィジェットの実体を返す
@@ -44,15 +48,15 @@ namespace cadencii{
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset( VSQ_NS::tick_t drawOffset ) = 0;
+        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
 
         /**
          * @brief 表示するトラックの番号を指定する
          * @param index トラックの番号
          */
-        virtual void setTrackIndex( int index ) = 0;
+        virtual void setTrackIndex(int index) = 0;
 
-        virtual void setControllerAdapter( ControllerAdapter *controllerAdapter ) = 0;
+        virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 
         /**
          * @brief ウィジェットを再描画する
@@ -65,6 +69,6 @@ namespace cadencii{
          */
         virtual int getTrackViewWidth() = 0;
     };
-
 }
+
 #endif

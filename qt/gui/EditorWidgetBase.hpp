@@ -15,21 +15,21 @@
 #ifndef __EditorWidgetBase_hpp__
 #define __EditorWidgetBase_hpp__
 
-#include <map>
 #include <QScrollArea>
 #include <QMutex>
+#include <map>
 #include "../../vsq/MeasureLineIterator.hpp"
 #include "../../vsq/TimesigList.hpp"
 #include "../../vsq/Sequence.hpp"
 #include "../../qt/gui/EditorWidgetBaseMainContent.hpp"
 #include "../../gui/TrackView.hpp"
 
-namespace Ui{
+namespace Ui {
     class EditorWidgetBase;
 }
 
-namespace cadencii{
-    class EditorWidgetBase : public QWidget{
+namespace cadencii {
+    class EditorWidgetBase : public QWidget {
         friend class EditorWidgetBaseMainContent;
         friend class EditorWidgetBaseSubContent;
 
@@ -42,7 +42,7 @@ namespace cadencii{
         ControllerAdapter *controllerAdapter;
 
     public:
-        explicit EditorWidgetBase( QWidget *parent = 0 );
+        explicit EditorWidgetBase(QWidget *parent = 0);
 
         ~EditorWidgetBase();
 
@@ -57,15 +57,17 @@ namespace cadencii{
          */
         bool isAutoScroll();
 
-        void setDrawOffsetInternal( VSQ_NS::tick_t drawOffset );
+        void setDrawOffsetInternal(VSQ_NS::tick_t drawOffset);
 
     protected:
-        virtual void paintSubContent( QPainter *painter, const QRect &rect ){}
+        virtual void paintSubContent(QPainter *painter, const QRect &rect) {
+        }
 
         /**
          * @brief メインペインを描画する
          */
-        virtual void paintMainContent( QPainter *painter, const QRect &rect ){}
+        virtual void paintMainContent(QPainter *painter, const QRect &rect) {
+        }
 
         /**
          * @brief スクロールを ControllerAdapter に通知する際の、通知元のとして渡すウィジェットのポインタを取得する
@@ -94,8 +96,9 @@ namespace cadencii{
          * @param x 小節、拍子の x 座標
          * @param measureLine 小節・拍子線の情報を格納した MeasureLine のインスタンスが指定される
          */
-        virtual void drawMeasureLine( QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine );
+        virtual void drawMeasureLine(
+                QPainter *painter, const QRect &rect, int x,
+                const VSQ_NS::MeasureLine &measureLine);
     };
-
 }
-#endif // __EditorWidgetBase_h__
+#endif
