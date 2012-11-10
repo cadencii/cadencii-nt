@@ -632,6 +632,7 @@ namespace cadencii {
         int x = ui->scrollArea->horizontalScrollBar()->value();
         int y = ui->scrollArea->verticalScrollBar()->value();
         lyricEdit->move(lyricEdit->scenePosition.x() - x, lyricEdit->scenePosition.y() - y);
+        updateWidget();
     }
 
     QPoint PianorollTrackView::getLyricEditPosition(const VSQ_NS::Event *noteEvent) {
@@ -683,6 +684,7 @@ namespace cadencii {
                 !lyric.equals(originalLyric)) {
             EditEventCommand command(trackIndex, lyricEdit->event()->id, edited);
             controllerAdapter->execute(&command);
+            updateWidget();
         }
     }
 
