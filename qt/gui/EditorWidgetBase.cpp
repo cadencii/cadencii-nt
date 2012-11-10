@@ -81,9 +81,13 @@ namespace cadencii {
         painter->drawLine(x, rect.top(), x, rect.bottom());
     }
 
-    QSize EditorWidgetBase::getPreferedMainContentSceneSize() {
-        int width = controllerAdapter->getPreferedComponentWidth();
+    QSize EditorWidgetBase::getPreferredMainContentSceneSize() {
+        int width = controllerAdapter->getPreferredComponentWidth();
         int height = this->height();
         return QSize(width, height);
+    }
+
+    QSize EditorWidgetBase::getPreferredSubContentSceneSize() {
+        return ui->keyboard->size();
     }
 }

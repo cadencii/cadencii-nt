@@ -76,7 +76,7 @@ namespace cadencii {
 
         void moveSongPositionStepped(bool isBackward)throw();
 
-        int getPreferedComponentWidth()throw();
+        int getPreferredComponentWidth()throw();
 
         void exportAsMusicXml(const std::string &filePath)throw();
 

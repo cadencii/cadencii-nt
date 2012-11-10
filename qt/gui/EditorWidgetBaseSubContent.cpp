@@ -43,6 +43,9 @@ namespace cadencii {
     void EditorWidgetBaseSubContent::drawForeground(QPainter *painter, const QRectF &rect) {
         if (!parentWidget) return;
 
+        QSize preferredSize = parentWidget->getPreferredSubContentSceneSize();
+        scene->setSceneRect(0, 0, preferredSize.width(), preferredSize.height());
+
         QRect visibleArea(
                 static_cast<int>(rect.x()), static_cast<int>(rect.y()),
                 static_cast<int>(rect.width()), static_cast<int>(rect.height()));

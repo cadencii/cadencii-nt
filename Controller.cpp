@@ -206,9 +206,9 @@ namespace cadencii {
         if (x < minX) {
             newSongPosition = getTickFromX(minX);
         }
-        int preferedComponentWidth = getPreferedComponentWidth();
-        if (preferedComponentWidth < x) {
-            newSongPosition = getTickFromX(preferedComponentWidth);
+        int preferredComponentWidth = getPreferredComponentWidth();
+        if (preferredComponentWidth < x) {
+            newSongPosition = getTickFromX(preferredComponentWidth);
         }
         if (newSongPosition != songPosition) {
             setSongPosition(newSongPosition);
@@ -237,7 +237,7 @@ namespace cadencii {
         if (propertyView) propertyView->updateWidget();
     }
 
-    int Controller::getPreferedComponentWidth()throw() {
+    int Controller::getPreferredComponentWidth()throw() {
         VSQ_NS::tick_t totalClocks = model.getSequence()->getTotalClocks();
         int result = getXFromTick(totalClocks);
         if (trackView) {

@@ -77,7 +77,12 @@ namespace cadencii {
         /**
          * @brief Get preferred scene size for main content.
          */
-        virtual QSize getPreferedMainContentSceneSize();
+        virtual QSize getPreferredMainContentSceneSize();
+
+        /**
+         * @brief Get preferred scene size for sub content.
+         */
+        virtual QSize getPreferredSubContentSceneSize();
 
         /**
          * @brief スクロール領域が縦方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する
