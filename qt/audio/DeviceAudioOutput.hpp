@@ -26,7 +26,7 @@ namespace audio {
      */
     class DeviceAudioOutput : public AudioOutput {
     protected:
-        const static int kUnitBufferLength = 12800;
+        static const int kUnitBufferLength = 12800;
         QAudioOutput *out;
         QIODevice *device;
         QAudioFormat format;

@@ -27,7 +27,7 @@ namespace audio {
      */
     class AudioMixer : public AudioReceiver {
     protected:
-        const static int unitBufferLength = 1024;
+        static const int unitBufferLength = 1024;
         AudioReceiver *receiver;
         std::vector<AudioSender *> sourceList;
         double *bufferLeft;

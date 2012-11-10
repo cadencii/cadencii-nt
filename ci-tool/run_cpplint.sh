@@ -4,6 +4,7 @@ function run_cpplint { (
     local workspace=$(cd $(dirname $0)/../; pwd)
     local result="${workspace}/cpplint_result.txt"
     rm -f ${result}
+    touch ${result}
 
     for \
         file \

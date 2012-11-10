@@ -87,6 +87,7 @@ namespace cadencii {
                 phoneticSymbol = lyric.getPhoneticSymbol();
             }
             setText(QString::fromStdString(symbolEditMode ? phoneticSymbol :word));
+            selectAll();
         }
 
         /**
@@ -122,6 +123,7 @@ namespace cadencii {
                 isInitialized = true;
             }
 
+            symbolEditMode = !symbolEditMode;
             if (symbolEditMode) {
                 phoneticSymbol = text().toStdString();
                 setText(QString::fromStdString(word));
@@ -131,7 +133,7 @@ namespace cadencii {
                 setText(QString::fromStdString(phoneticSymbol));
                 setPalette(normal);
             }
-            symbolEditMode = !symbolEditMode;
+            selectAll();
         }
     };
 }
