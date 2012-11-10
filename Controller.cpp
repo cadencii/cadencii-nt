@@ -372,7 +372,8 @@ namespace cadencii {
 
     void Controller::removeSelectedItems() {
         // TODO(kbinani): 音符・歌手イベント以外の選択ができるようになったら対応する
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = itemSelectionManager.getEventItemList();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList
+                = itemSelectionManager.getEventItemList();
         std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i = itemList->begin();
         std::vector<int> idList;
         for (; i != itemList->end(); ++i) {

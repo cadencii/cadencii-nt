@@ -278,7 +278,8 @@ namespace cadencii {
         static QColor borderColor = QColor(125, 123, 124);
 
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList = manager->getEventItemList();
+        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemList
+                = manager->getEventItemList();
 
         for (int i = 0; i < count; i++) {
             const VSQ_NS::Event *item = list->get(i);
