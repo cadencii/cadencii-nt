@@ -20,18 +20,23 @@
 
 namespace cadencii {
 
-    class EditorWidgetBaseSubContent : public QWidget {
+    class EditorWidgetBaseSubContent : public QGraphicsView {
         Q_OBJECT
+
+    protected:
+        QGraphicsScene *scene;
 
     private:
         EditorWidgetBase *parentWidget;
+
+        bool deconstructStarted;
 
     public:
         explicit EditorWidgetBaseSubContent(QWidget *parent = 0);
 
         ~EditorWidgetBaseSubContent();
 
-        void paintEvent(QPaintEvent *event);
+        void drawForeground(QPainter *painter, const QRectF &rect);
 
         void setEditorWidgetBase(EditorWidgetBase *editorWidgetBase);
     };

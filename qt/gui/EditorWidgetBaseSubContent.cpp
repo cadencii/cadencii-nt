@@ -18,22 +18,34 @@
 namespace cadencii {
 
     EditorWidgetBaseSubContent::EditorWidgetBaseSubContent(QWidget *parent) :
-        QWidget(parent) {
+        QGraphicsView(parent) {
+        deconstructStarted = false;
+        scene = new QGraphicsScene();
+        setScene(scene);
         parentWidget = 0;
+
+        setMouseTracking(true);
+        setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
+        scene->setSceneRect(0, 0, 0, 0);
     }
 
     EditorWidgetBaseSubContent::~EditorWidgetBaseSubContent() {
+        deconstructStarted = true;
+        delete scene;
     }
 
     void EditorWidgetBaseSubContent::setEditorWidgetBase(EditorWidgetBase *editorWidgetBase) {
         parentWidget = editorWidgetBase;
     }
 
-    void EditorWidgetBaseSubContent::paintEvent(QPaintEvent *event) {
-        QWidget::paintEvent(event);
-        if (parentWidget) {
-            QPainter p(this);
-            parentWidget->paintSubContent(&p, geometry());
-        }
+    void EditorWidgetBaseSubContent::drawForeground(QPainter *painter, const QRectF &rect) {
+        if (!parentWidget) return;
+
+        QRect visibleArea(
+                static_cast<int>(rect.x()), static_cast<int>(rect.y()),
+                static_cast<int>(rect.width()), static_cast<int>(rect.height()));
+        parentWidget->paintSubContent(painter, visibleArea);
     }
 }
