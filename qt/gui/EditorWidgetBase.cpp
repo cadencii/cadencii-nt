@@ -81,7 +81,7 @@ namespace cadencii {
         painter->drawLine(x, rect.top(), x, rect.bottom());
     }
 
-    QSize EditorWidgetBase::getPreferedSceneSize() {
+    QSize EditorWidgetBase::getPreferedMainContentSceneSize() {
         int width = controllerAdapter->getPreferedComponentWidth();
         int height = this->height();
         return QSize(width, height);
