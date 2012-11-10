@@ -51,4 +51,8 @@ namespace cadencii {
                 static_cast<int>(rect.width()), static_cast<int>(rect.height()));
         parentWidget->paintSubContent(painter, visibleArea);
     }
+
+    void EditorWidgetBaseSubContent::mousePressEvent(QMouseEvent *event) {
+        emit onMousePress(event);
+    }
 }

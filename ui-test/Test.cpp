@@ -159,7 +159,7 @@ void Test::changeTrackIndex(){
     QPoint pressPosition( x, y );
     QMouseEvent *event = new QMouseEvent( QMouseEvent::MouseButtonPress, pressPosition,
                                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
-    stub->callOnMousePressSlot( event );
+    stub->callOnMainContentMousePressSlot(event);
     delete event;
     QTestEventLoop::instance().enterLoop( 1 );
 

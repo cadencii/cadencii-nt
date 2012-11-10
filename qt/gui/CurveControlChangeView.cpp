@@ -17,6 +17,7 @@
 #include <QMouseEvent>
 #include <algorithm>
 #include <string>
+#include <vector>
 #include "ui_EditorWidgetBase.h"
 #include "CurveControlChangeView.hpp"
 #include "../../vsq/Track.hpp"
@@ -29,6 +30,9 @@ namespace cadencii {
         controlChangeName = "dyn";
         front = defaultSequence.track[0].getCurve(controlChangeName);
         ui->scrollArea->setBackgroundBrush(QBrush(Qt::darkGray));
+        ui->keyboard->setBackgroundBrush(QBrush(Qt::lightGray));
+        ui->keyboard->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->keyboard->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         trackTabHilightBackgroundColor = new QColor[16];
         trackTabHilightBackgroundColor[0] = QColor(181, 220, 16);
@@ -68,7 +72,9 @@ namespace cadencii {
         singerEventBorderColor = QColor::fromRgb(182, 182, 182);
 
         connect(ui->scrollArea, SIGNAL(onMousePress(QMouseEvent *)),
-                this, SLOT(onMousePressSlot(QMouseEvent *)));
+                this, SLOT(onMainContentMousePressSlot(QMouseEvent *)));
+        connect(ui->keyboard, SIGNAL(onMousePress(QMouseEvent *)),
+                this, SLOT(onSubContentMousePressSlot(QMouseEvent *)));
     }
 
     CurveControlChangeView::~CurveControlChangeView() {
@@ -115,6 +121,39 @@ namespace cadencii {
 
         // 歌手変更イベントを描く
         paintSingerList(painter);
+    }
+
+    void CurveControlChangeView::paintSubContent(QPainter *painter, const QRect &rect) {
+        if (!controllerAdapter) return;
+
+        static QColor borderColor(41, 46, 55);
+        static QColor normalTextColor(0, 0, 0);
+        static QColor hilightTextColor(255, 255, 255);
+        static QColor hilightBackgroundColor(108, 108, 108);
+
+        const std::vector<std::string> *controlChangeNameList
+                = getCurrentCurveNameList();
+
+        static QTextOption option(Qt::AlignLeft | Qt::AlignVCenter);
+        const int boxPadding = 2;
+
+        int count = controlChangeNameList->size();
+        for (int i = 0; i < count; i++) {
+            std::string name = controlChangeNameList->at(i);
+            QRectF borderRect = getCurveNameRect(i);
+            QRectF textRect(borderRect.x() + boxPadding,
+                            borderRect.y() + boxPadding,
+                            borderRect.width() - 2 * boxPadding,
+                            borderRect.height() - 2 * boxPadding);
+            bool isSelected = StringUtil::toLower(name) == StringUtil::toLower(controlChangeName);
+            if (isSelected) {
+                painter->fillRect(borderRect, hilightBackgroundColor);
+            }
+            painter->setPen(borderColor);
+            painter->drawRect(borderRect);
+            painter->setPen(isSelected ? hilightTextColor : normalTextColor);
+            painter->drawText(textRect, QString::fromStdString(name), option);
+        }
     }
 
     void CurveControlChangeView::setTrackIndex(int index) {
@@ -333,7 +372,7 @@ namespace cadencii {
         }
     }
 
-    void CurveControlChangeView::onMousePressSlot(QMouseEvent *event) {
+    void CurveControlChangeView::onMainContentMousePressSlot(QMouseEvent *event) {
         if (acceptMousePressOnTrackList(event)) {
             event->accept();
             return;
@@ -442,5 +481,41 @@ namespace cadencii {
 
     void CurveControlChangeView::updateWidget() {
         repaint();
+    }
+
+    QSize CurveControlChangeView::getPreferredSubContentSceneSize() {
+        const std::vector<std::string> *controlChangeNameList = getCurrentCurveNameList();
+        int width = ui->keyboard->width();
+        int height = 2 * CURVE_NAME_MARGIN
+                + (CURVE_NAME_HEIGHT + CURVE_NAME_SPACE) * controlChangeNameList->size();
+        return QSize(width, height);
+    }
+
+    QRectF CurveControlChangeView::getCurveNameRect(int index) {
+        return QRectF(CURVE_NAME_MARGIN,
+                      CURVE_NAME_MARGIN + index * (CURVE_NAME_HEIGHT + CURVE_NAME_SPACE),
+                      ui->keyboard->width() - 2 * CURVE_NAME_MARGIN,
+                      CURVE_NAME_HEIGHT);
+    }
+
+    const std::vector<std::string> *CurveControlChangeView::getCurrentCurveNameList() {
+        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const VSQ_NS::Track *track = &sequence->track[trackIndex];
+        return track->curveNameList();
+    }
+
+    void CurveControlChangeView::onSubContentMousePressSlot(QMouseEvent *event) {
+        QPointF point = ui->keyboard->mapToScene(event->pos());
+        const std::vector<std::string> *curveNameList = getCurrentCurveNameList();
+        int count = curveNameList->size();
+        for (int i = 0; i < count; i++) {
+            QRectF rect = getCurveNameRect(i);
+            if (rect.contains(point)) {
+                std::string name = curveNameList->at(i);
+                setControlChangeName(name);
+                updateWidget();
+                break;
+            }
+        }
     }
 }

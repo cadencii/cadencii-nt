@@ -17,6 +17,7 @@
 
 #include <QGraphicsScene>
 #include <string>
+#include <vector>
 #include "EditorWidgetBase.hpp"
 #include "../../gui/ControlChangeView.hpp"
 
@@ -72,6 +73,19 @@ namespace cadencii {
          */
         static const int SINGER_ITEM_WIDTH = 66;
         /**
+         * @brief Height control curve name box.
+         */
+        static const int CURVE_NAME_HEIGHT = 18;
+        /**
+         * @brief Mergin between control curve name box and component border.
+         */
+        static const int CURVE_NAME_MARGIN = 5;
+        /**
+         * @brief Vertical margin between control curve name boxes.
+         */
+        static const int CURVE_NAME_SPACE = 4;
+
+        /**
          * @brief デフォルトで描画するシーケンス
          */
         VSQ_NS::Sequence defaultSequence;
@@ -109,11 +123,15 @@ namespace cadencii {
 
         void paintMainContent(QPainter *painter, const QRect &rect);
 
+        void paintSubContent(QPainter *painter, const QRect &rect);
+
         void *getScrollEventSender();
 
         void setTrackIndex(int index);
 
         void setControlChangeName(const std::string &name);
+
+        QSize getPreferredSubContentSceneSize();
 
     protected:
         void drawMeasureLine(
@@ -126,7 +144,15 @@ namespace cadencii {
         int getTrackTabWidth();
 
     protected slots:
-        void onMousePressSlot(QMouseEvent *event);
+        /**
+         * @brief Receive mouse press signal from main content.
+         */
+        void onMainContentMousePressSlot(QMouseEvent *event);
+
+        /**
+         * @brief Receive mouse press signal from sub content.
+         */
+        void onSubContentMousePressSlot(QMouseEvent *event);
 
     private:
         void paintBPList(QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect);
@@ -181,6 +207,17 @@ namespace cadencii {
                 int x, int y, SingerItemState state);
 
         void updateWidget();
+
+        /**
+         * @brief Get draw rectangle.
+         * @param index An index, couted from above.
+         */
+        inline QRectF getCurveNameRect(int index);
+
+        /**
+         * @brief Get a list of curve name for current track.
+         */
+        inline const std::vector<std::string> *getCurrentCurveNameList();
     };
 }
 

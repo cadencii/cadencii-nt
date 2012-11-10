@@ -16,8 +16,8 @@ namespace cadencii{
             return trackIndex;
         }
 
-        void callOnMousePressSlot( QMouseEvent *event ){
-            onMousePressSlot( event );
+        void callOnMainContentMousePressSlot(QMouseEvent *event) {
+            onMainContentMousePressSlot(event);
         }
 
         int getTrackTabWidthForTest(){
