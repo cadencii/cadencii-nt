@@ -24,13 +24,6 @@ public:
     }
 };
 
-class ItemSelectionManagerStub : public ItemSelectionManager{
-public:
-    const std::map<int, VSQ_NS::Event> *getOriginalItemList(){
-        return &originalEventItemList;
-    }
-};
-
 class ItemSelectionManagerTest : public CppUnit::TestCase{
 public:
     void test(){
@@ -85,11 +78,11 @@ public:
 
         manager.moveItems( 10, 5 );
 
-        const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
-        CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + 10), itemList->at( itemA->id ).clock );
-        CPPUNIT_ASSERT_EQUAL( 50 + 5, itemList->at( itemA->id ).note );
-        CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + 10), itemList->at( itemB->id ).clock );
-        CPPUNIT_ASSERT_EQUAL( 52 + 5, itemList->at( itemB->id ).note );
+        const map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = manager.getEventItemList();
+        CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + 10), itemList->at( itemA ).clock );
+        CPPUNIT_ASSERT_EQUAL( 50 + 5, itemList->at( itemA ).note );
+        CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + 10), itemList->at( itemB ).clock );
+        CPPUNIT_ASSERT_EQUAL( 52 + 5, itemList->at( itemB ).note );
 
         delete itemA;
         delete itemB;
@@ -113,11 +106,11 @@ public:
             // moveItems method rejected because clock goes little than 0
             int actualDeltaClock = -480;
             int actualDeltaNoteNumber = 1;
-            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+            const map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB ).note );
 
             delete itemA;
             delete itemB;
@@ -140,11 +133,11 @@ public:
             // moveItems method rejected because note goes larger than 127.
             int actualDeltaClock = 1;
             int actualDeltaNoteNumber = 75;
-            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+            const map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB ).note );
 
             delete itemA;
             delete itemB;
@@ -167,11 +160,11 @@ public:
             // moveItems method rejected because note goes little than 0.
             int actualDeltaClock = 2;
             int actualDeltaNoteNumber = -50;
-            const map<int, VSQ_NS::Event> *itemList = manager.getEventItemList();
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA->id ).note );
-            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB->id ).clock );
-            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB->id ).note );
+            const map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList = manager.getEventItemList();
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(480 + actualDeltaClock), itemList->at( itemA ).clock );
+            CPPUNIT_ASSERT_EQUAL( 50 + actualDeltaNoteNumber, itemList->at( itemA ).note );
+            CPPUNIT_ASSERT_EQUAL( (tick_t)(1920 + actualDeltaClock), itemList->at( itemB ).clock );
+            CPPUNIT_ASSERT_EQUAL( 52 + actualDeltaNoteNumber, itemList->at( itemB ).note );
 
             delete itemA;
             delete itemB;
@@ -231,7 +224,7 @@ public:
         int id = sequence.track[0].events()->add( itemA );
         itemA.id = id;
 
-        ItemSelectionManagerStub manager;
+        ItemSelectionManager manager;
         manager.add( &itemA );
 
         // edit note item in the sequence.
@@ -241,9 +234,9 @@ public:
 
         {
             // assert status before calling updateSelectedContents.
-            const map<int, VSQ_NS::Event> *originalItemList = manager.getOriginalItemList();
-            map<int, VSQ_NS::Event>::const_iterator index = originalItemList->find( id );
-            CPPUNIT_ASSERT( index != originalItemList->end() );
+            const map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemlist = manager.getEventItemList();
+            map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator index = eventItemlist->find(&itemA);
+            CPPUNIT_ASSERT( index != eventItemlist->end() );
             CPPUNIT_ASSERT_EQUAL( (tick_t)480, index->second.clock );
         }
 
@@ -252,9 +245,9 @@ public:
 
         {
             // assert status after calling updateSelectedContents.
-            const map<int, VSQ_NS::Event> *originalItemList = manager.getOriginalItemList();
-            map<int, VSQ_NS::Event>::const_iterator index = originalItemList->find( id );
-            CPPUNIT_ASSERT( index != originalItemList->end() );
+            const map<const VSQ_NS::Event *, VSQ_NS::Event> *eventItemlist = manager.getEventItemList();
+            map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator index = eventItemlist->find(&itemA);
+            CPPUNIT_ASSERT( index != eventItemlist->end() );
             CPPUNIT_ASSERT_EQUAL( (tick_t)1920, index->second.clock );
         }
     }
