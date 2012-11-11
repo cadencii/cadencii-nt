@@ -49,6 +49,10 @@ namespace cadencii {
 
         void setPropertyView(PropertyView *propertyView);
 
+        void setSingerListView(SingerListView *singerListView);
+
+        void setTrackListView(TrackListView *trackListView);
+
         void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
         void updateWidget();

@@ -36,9 +36,9 @@ namespace cadencii {
         mutex = 0;
         trackHeight = DEFAULT_TRACK_HEIGHT;
         trackIndex = 0;
-        ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        lyricEdit = new LyricEditWidget(ui->scrollArea->viewport());
+        ui->mainContent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui->mainContent->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        lyricEdit = new LyricEditWidget(ui->mainContent->viewport());
         lyricEdit->setVisible(false);
 
         // キーボードのキーの音名を作成
@@ -52,18 +52,18 @@ namespace cadencii {
             oss << name << order;
             keyNames[noteNumber - NOTE_MIN] = QString(oss.str().c_str());
         }
-        connect(ui->scrollArea, SIGNAL(onMousePress(QMouseEvent *)),
+        connect(ui->mainContent, SIGNAL(onMousePress(QMouseEvent *)),
                 this, SLOT(onMousePressSlot(QMouseEvent *)));
-        connect(ui->scrollArea, SIGNAL(onMouseMove(QMouseEvent *)),
+        connect(ui->mainContent, SIGNAL(onMouseMove(QMouseEvent *)),
                 this, SLOT(onMouseMoveSlot(QMouseEvent *)));
-        connect(ui->scrollArea, SIGNAL(onMouseRelease(QMouseEvent *)),
+        connect(ui->mainContent, SIGNAL(onMouseRelease(QMouseEvent *)),
                 this, SLOT(onMouseReleaseSlot(QMouseEvent *)));
-        connect(ui->scrollArea, SIGNAL(onMouseDoubleClick(QMouseEvent *)),
+        connect(ui->mainContent, SIGNAL(onMouseDoubleClick(QMouseEvent *)),
                 this, SLOT(onMouseDoubleClickSlot(QMouseEvent *)));
 
-        connect(ui->scrollArea->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+        connect(ui->mainContent->horizontalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(onContentScroll(int)));
-        connect(ui->scrollArea->verticalScrollBar(), SIGNAL(valueChanged(int)),
+        connect(ui->mainContent->verticalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(onContentScroll(int)));
 
         connect(lyricEdit, SIGNAL(onCommit()), this, SLOT(onLyricEditCommitSlot()));
@@ -93,9 +93,9 @@ namespace cadencii {
         return static_cast<TrackView *>(this);
     }
 
-    QSize PianorollTrackView::getPreferedSceneSize() {
-        QScrollBar *scrollBar = ui->scrollArea->verticalScrollBar();
-        int width = controllerAdapter->getPreferedComponentWidth() - scrollBar->width();
+    QSize PianorollTrackView::getPreferredMainContentSceneSize() {
+        QScrollBar *scrollBar = ui->mainContent->verticalScrollBar();
+        int width = controllerAdapter->getPreferredComponentWidth() - scrollBar->width();
         int height = trackHeight * (NOTE_MAX - NOTE_MIN + 1);
         return QSize(width, height);
     }
@@ -105,15 +105,15 @@ namespace cadencii {
         int left = controllerAdapter->getXFromTick(tick);
         int right = controllerAdapter->getXFromTick(tick + length);
 
-        QRect visibleArea = ui->scrollArea->getVisibleArea();
-        QScrollBar *horizontalScrollBar = ui->scrollArea->horizontalScrollBar();
-        QScrollBar *verticalScrollBar = ui->scrollArea->verticalScrollBar();
+        QRect visibleArea = ui->mainContent->getVisibleArea();
+        QScrollBar *horizontalScrollBar = ui->mainContent->horizontalScrollBar();
+        QScrollBar *verticalScrollBar = ui->mainContent->verticalScrollBar();
         int dx = 0;
         int newValue = verticalScrollBar->value();
         if (visibleArea.right() < right) {
-            dx = ui->scrollArea->width() - (right - left);
+            dx = ui->mainContent->width() - (right - left);
         } else if (left < visibleArea.left()) {
-            dx = -ui->scrollArea->width() + (right - left);
+            dx = -ui->mainContent->width() + (right - left);
         }
         if (0 <= noteNumber) {
             int top = getYFromNoteNumber(noteNumber, trackHeight);
@@ -150,7 +150,7 @@ namespace cadencii {
 
     void PianorollTrackView::paintMainContent(QPainter *painter, const QRect &rect) {
         paintBackground(painter, rect);
-        ui->scrollArea->paintMeasureLines(painter, rect);
+        ui->mainContent->paintMeasureLines(painter, rect);
         if (mutex) {
             mutex->lock();
             paintItems(painter, rect);
@@ -158,7 +158,7 @@ namespace cadencii {
         } else {
             paintItems(painter, rect);
         }
-        ui->scrollArea->paintSongPosition(painter, rect);
+        ui->mainContent->paintSongPosition(painter, rect);
 
         // 矩形選択の範囲を描画する
         if (mouseStatus.mode == MouseStatus::LEFTBUTTON_SELECT_ITEM) {
@@ -195,7 +195,7 @@ namespace cadencii {
         // カーソル位置でのノート番号を取得する
         QPoint cursor = QCursor::pos();
         QPoint pianoroll = mapToGlobal(QPoint(0, 0));
-        int top = ui->scrollArea->getVisibleArea().top();
+        int top = ui->mainContent->getVisibleArea().top();
         int noteAtCursor = getNoteNumberFromY(cursor.y() - pianoroll.y() + top, trackHeight);
 
         painter->fillRect(0, 0, rect.width(), rect.height(),
@@ -348,7 +348,7 @@ namespace cadencii {
     }
 
     int PianorollTrackView::getTrackViewWidth() {
-        return ui->scrollArea->width();
+        return ui->mainContent->width();
     }
 
     /**
@@ -445,7 +445,7 @@ namespace cadencii {
     }
 
     QPoint PianorollTrackView::mapToScene(const QPoint &mousePos) {
-        return ui->scrollArea->mapToScene(mousePos).toPoint();
+        return ui->mainContent->mapToScene(mousePos).toPoint();
     }
 
     void PianorollTrackView::onMousePressSlot(QMouseEvent *event) {
@@ -472,13 +472,13 @@ namespace cadencii {
             updateSelectedItem();
             updateWidget();
         } else if (mouseStatus.mode == MouseStatus::MIDDLEBUTTON_SCROLL) {
-            QPoint globalMousePos = ui->scrollArea->mapToGlobal(event->pos());
+            QPoint globalMousePos = ui->mainContent->mapToGlobal(event->pos());
             int deltaX = globalMousePos.x() - mouseStatus.globalStartPosition.x();
             int deltaY = globalMousePos.y() - mouseStatus.globalStartPosition.y();
 
-            ui->scrollArea->horizontalScrollBar()
+            ui->mainContent->horizontalScrollBar()
                           ->setValue(mouseStatus.horizontalScrollStartValue - deltaX);
-            ui->scrollArea->verticalScrollBar()
+            ui->mainContent->verticalScrollBar()
                           ->setValue(mouseStatus.verticalScrollStartValue - deltaY);
             updateWidget();
         } else if (mouseStatus.mode == MouseStatus::LEFTBUTTON_MOVE_ITEM) {
@@ -617,9 +617,9 @@ namespace cadencii {
         mouseStatus.mode = status;
         mouseStatus.startPosition = mapToScene(event->pos());
         mouseStatus.endPosition = mouseStatus.startPosition;
-        mouseStatus.horizontalScrollStartValue = ui->scrollArea->horizontalScrollBar()->value();
-        mouseStatus.verticalScrollStartValue = ui->scrollArea->verticalScrollBar()->value();
-        mouseStatus.globalStartPosition = ui->scrollArea->mapToGlobal(event->pos());
+        mouseStatus.horizontalScrollStartValue = ui->mainContent->horizontalScrollBar()->value();
+        mouseStatus.verticalScrollStartValue = ui->mainContent->verticalScrollBar()->value();
+        mouseStatus.globalStartPosition = ui->mainContent->mapToGlobal(event->pos());
         mouseStatus.isMouseMoved = false;
         mouseStatus.itemSelectionStatusAtFirst = *controllerAdapter->getItemSelectionManager();
         mouseStatus.noteOnMouse = noteOnMouse;
@@ -630,8 +630,8 @@ namespace cadencii {
     }
 
     void PianorollTrackView::updateLyricEditComponentPosition() {
-        int x = ui->scrollArea->horizontalScrollBar()->value();
-        int y = ui->scrollArea->verticalScrollBar()->value();
+        int x = ui->mainContent->horizontalScrollBar()->value();
+        int y = ui->mainContent->verticalScrollBar()->value();
         lyricEdit->move(lyricEdit->scenePosition.x() - x, lyricEdit->scenePosition.y() - y);
         updateWidget();
     }

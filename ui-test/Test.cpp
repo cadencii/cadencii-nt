@@ -2,7 +2,7 @@
 #include "../qt/AppContainer.hpp"
 #include "../command/AddEventCommand.hpp"
 #include "Test.hpp"
-#include "CurveControlChangeViewStub.hpp"
+#include "ConcreteTrackListViewStub.hpp"
 #include <QTextCodec>
 #include <QTestEventLoop>
 #include <QTest>
@@ -134,10 +134,10 @@ void Test::changeTrackIndex(){
     SettingsStub settings;
     Settings::instance( &settings );
 
-    CurveControlChangeViewStub *stub = new CurveControlChangeViewStub();
+    ConcreteTrackListViewStub *stub = new ConcreteTrackListViewStub();
     AppContainer container;
-    container.controller.setControlChangeView( stub );
-    container.curveControlChangeView = stub;
+    container.controller.setTrackListView(stub);
+    container.concreteTrackListView = stub;
     container.controller.showMainView();
 
     // トラックが 2 つある VSQ ファイルを読み込ませる。
@@ -155,11 +155,11 @@ void Test::changeTrackIndex(){
 
     // 2番目のトラックが表示されている領域をクリックしたことにする
     int x = stub->getTrackTabWidthForTest() * 3 / 2;
-    int y = stub->height() - stub->getLaneHeight() / 2;
+    int y = stub->height() - stub->height() / 2;
     QPoint pressPosition( x, y );
     QMouseEvent *event = new QMouseEvent( QMouseEvent::MouseButtonPress, pressPosition,
                                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
-    stub->callOnMousePressSlot( event );
+    stub->callOnMousePressSlot(event);
     delete event;
     QTestEventLoop::instance().enterLoop( 1 );
 

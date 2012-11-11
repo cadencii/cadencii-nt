@@ -23,7 +23,9 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/command/DeleteEventCommand.cpp \
     $$PWD/command/AddEventCommand.cpp \
     $$PWD/command/AbstractCommand.cpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.cpp
+    $$PWD/qt/gui/PropertyTreeUpdateWorker.cpp \
+    $$PWD/qt/gui/ConcreteSingerListView.cpp \
+    $$PWD/qt/gui/ConcreteTrackListView.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -70,7 +72,11 @@ HEADERS  += \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
     $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp \
-    $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp
+    $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp \
+    $$PWD/gui/SingerListView.hpp \
+    $$PWD/qt/gui/ConcreteSingerListView.hpp \
+    $$PWD/gui/TrackListView.hpp \
+    $$PWD/qt/gui/ConcreteTrackListView.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

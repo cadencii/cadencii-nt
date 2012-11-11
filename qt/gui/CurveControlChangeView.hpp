@@ -17,6 +17,7 @@
 
 #include <QGraphicsScene>
 #include <string>
+#include <vector>
 #include "EditorWidgetBase.hpp"
 #include "../../gui/ControlChangeView.hpp"
 
@@ -27,26 +28,8 @@ namespace cadencii {
 
     protected:
         int trackIndex;
-        /**
-         * @brief 歌手変更イベントを描画するレーン、トラック一覧を描画するレーンの高さ（共通）
-         */
-        static const int LANE_HEIGHT = 19;
 
     private:
-        /**
-         * @brief 歌手変更イベントの表示状態を表す
-         */
-        enum SingerItemState {
-            /**
-             * @brief デフォルト
-             */
-            DEFAULT,
-            /**
-             * @brief 左端に、薄い色で表示された状態
-             */
-            LEFT
-        };
-
         /**
          * @brief 手前に表示している BPList
          */
@@ -58,19 +41,20 @@ namespace cadencii {
         /**
          * @brief コンポーネントの下端と、グラフの最小の位置の距離
          */
-        static const int MARGIN_BOTTOM = 42;
+        static const int MARGIN_BOTTOM = 8;
         /**
-         * @brief RENDERボタンの幅(px)
+         * @brief Height control curve name box.
          */
-        static const int RENDER_BUTTON_WIDTH = 10;
+        static const int CURVE_NAME_HEIGHT = 18;
         /**
-         * @brief トラック一覧のうち、トラック一つ分のタブの最大描画幅
+         * @brief Mergin between control curve name box and component border.
          */
-        static const int TRACK_TAB_MAX_WIDTH = 80;
+        static const int CURVE_NAME_MARGIN = 5;
         /**
-         * @brief 歌手変更イベントの表示矩形の幅
+         * @brief Vertical margin between control curve name boxes.
          */
-        static const int SINGER_ITEM_WIDTH = 66;
+        static const int CURVE_NAME_SPACE = 4;
+
         /**
          * @brief デフォルトで描画するシーケンス
          */
@@ -80,21 +64,9 @@ namespace cadencii {
          */
         std::string controlChangeName;
         /**
-         * @brief トラックの背景部分の塗りつぶし色。16トラックそれぞれで異なる
-         */
-        QColor *trackTabHilightBackgroundColor;
-        /**
-         * @brief トラックをレンダリングするためのボタンの背景色。16トラックそれぞれで異なる
-         */
-        QColor *trackTabRenderButtonBackgroundColor;
-        /**
          * @brief コンポーネント間の区切り線の色
          */
         QColor borderColor;
-        /**
-         * @brief 歌手変更を表すボックスの枠線の色
-         */
-        QColor singerEventBorderColor;
 
     public:
         explicit CurveControlChangeView(QWidget *parent = 0);
@@ -109,24 +81,26 @@ namespace cadencii {
 
         void paintMainContent(QPainter *painter, const QRect &rect);
 
+        void paintSubContent(QPainter *painter, const QRect &rect);
+
         void *getScrollEventSender();
 
         void setTrackIndex(int index);
 
         void setControlChangeName(const std::string &name);
 
+        QSize getPreferredSubContentSceneSize();
+
     protected:
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
                 const VSQ_NS::MeasureLine &measureLine);
 
-        /**
-         * @brief トラック一覧のうち、トラック一つ分のタブの描画幅を取得する
-         */
-        int getTrackTabWidth();
-
     protected slots:
-        void onMousePressSlot(QMouseEvent *event);
+        /**
+         * @brief Receive mouse press signal from sub content.
+         */
+        void onSubContentMousePressSlot(QMouseEvent *event);
 
     private:
         void paintBPList(QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect);
@@ -147,40 +121,18 @@ namespace cadencii {
          */
         int getValueFromY(int max, int min, int y);
 
-        /**
-         * @brief トラック一覧の部分を描画する
-         * @param painter 描画に使う QPainter
-         */
-        void paintTrackList(QPainter *painter);
-
-        /**
-         * @brief トラック一覧のうち、トラック一つ分のタブを表示する
-         */
-        void paintTrackTab(
-                QPainter *g, const QRect &destRect, const QString &name,
-                bool selected, bool enabled, bool render_required,
-                const QColor &hilight, const QColor &render_button_hilight);
-
-        /**
-         * @brief トラックリスト部分への、MousePress イベントを処理する
-         * @param event マウスイベント
-         * @return 処理された場合は true、マウスの位置が範囲該当で処理されなかった場合は false を返す
-         */
-        bool acceptMousePressOnTrackList(QMouseEvent *event);
-
-        /**
-         * @brief 歌手の一覧を描画する
-         */
-        void paintSingerList(QPainter *painter);
-
-        /**
-         * @brief 歌手変更イベントを指定された位置に描画する
-         */
-        void paintSinger(
-                QPainter *painter, const VSQ_NS::Event *singerEvent,
-                int x, int y, SingerItemState state);
-
         void updateWidget();
+
+        /**
+         * @brief Get draw rectangle.
+         * @param index An index, couted from above.
+         */
+        inline QRectF getCurveNameRect(int index);
+
+        /**
+         * @brief Get a list of curve name for current track.
+         */
+        inline const std::vector<std::string> *getCurrentCurveNameList();
     };
 }
 

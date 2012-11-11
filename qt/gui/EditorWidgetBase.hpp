@@ -75,9 +75,14 @@ namespace cadencii {
         virtual void *getScrollEventSender() = 0;
 
         /**
-         * @brief シーンの適切なサイズを取得する
+         * @brief Get preferred scene size for main content.
          */
-        virtual QSize getPreferedSceneSize();
+        virtual QSize getPreferredMainContentSceneSize();
+
+        /**
+         * @brief Get preferred scene size for sub content.
+         */
+        virtual QSize getPreferredSubContentSceneSize();
 
         /**
          * @brief スクロール領域が縦方向にスクロールしたことを PianorollContentScroller -> Pianoroll に通知する

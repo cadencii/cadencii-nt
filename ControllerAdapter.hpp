@@ -89,7 +89,7 @@ namespace cadencii {
          * スクロールバーによるコンポーネントの部分表示は考慮せず、単純に、シーケンスをすべて表示するのに必要な幅を返す
          * @return コンポーネントに要求される横幅(ピクセル単位)
          */
-        virtual int getPreferedComponentWidth()throw() = 0;
+        virtual int getPreferredComponentWidth()throw() = 0;
 
         /**
          * @brief 選択されているツール種類を取得する

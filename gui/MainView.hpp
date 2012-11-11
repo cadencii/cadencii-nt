@@ -21,6 +21,8 @@
 #include "TempoView.hpp"
 #include "TimesigView.hpp"
 #include "PropertyView.hpp"
+#include "SingerListView.hpp"
+#include "TrackListView.hpp"
 #include "../enum/ToolKind.hpp"
 
 namespace cadencii {
@@ -43,6 +45,10 @@ namespace cadencii {
         virtual void setTimesigView(TimesigView *timesigView) = 0;
 
         virtual void setPropertyView(PropertyView *propertyView) = 0;
+
+        virtual void setSingerListView(SingerListView *singerListView) = 0;
+
+        virtual void setTrackListView(TrackListView *trackListView) = 0;
 
         virtual void setControllerAdapter(ControllerAdapter *controllerAdapter) = 0;
 

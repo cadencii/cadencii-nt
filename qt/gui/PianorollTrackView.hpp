@@ -155,7 +155,7 @@ namespace cadencii {
 
         void *getScrollEventSender();
 
-        QSize getPreferedSceneSize();
+        QSize getPreferredMainContentSceneSize();
 
         void ensureNoteVisible(VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1);
 

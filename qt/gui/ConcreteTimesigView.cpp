@@ -25,7 +25,7 @@ namespace cadencii {
         const int height = 19;
         setMinimumHeight(height);
         setMaximumHeight(height);
-        ui->scrollArea->setBackgroundBrush(QBrush(backgroundColor));
+        ui->mainContent->setBackgroundBrush(QBrush(backgroundColor));
     }
 
     ConcreteTimesigView::~ConcreteTimesigView() {
@@ -49,7 +49,7 @@ namespace cadencii {
 
     void ConcreteTimesigView::paintMainContent(QPainter *painter, const QRect &rect) {
         // 小節ごとの線
-        ui->scrollArea->paintMeasureLines(painter, rect);
+        ui->mainContent->paintMeasureLines(painter, rect);
 
         // 直下のコンポーネントとの区切り線
         painter->setPen(lineColor);
@@ -79,7 +79,7 @@ namespace cadencii {
         }
 
         // ソングポジション
-        ui->scrollArea->paintSongPosition(painter, rect);
+        ui->mainContent->paintSongPosition(painter, rect);
     }
 
     void ConcreteTimesigView::drawMeasureLine(

@@ -20,6 +20,8 @@
 #include "gui/TrackView.hpp"
 #include "gui/ControlChangeView.hpp"
 #include "gui/PropertyView.hpp"
+#include "gui/SingerListView.hpp"
+#include "gui/TrackListView.hpp"
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
@@ -36,6 +38,8 @@ namespace cadencii {
         TempoView *tempoView;
         TimesigView *timesigView;
         PropertyView *propertyView;
+        SingerListView *singerListView;
+        TrackListView *trackListView;
         SequenceModel model;
         VSQ_NS::tick_t songPosition;
         int trackIndex;
@@ -76,7 +80,7 @@ namespace cadencii {
 
         void moveSongPositionStepped(bool isBackward)throw();
 
-        int getPreferedComponentWidth()throw();
+        int getPreferredComponentWidth()throw();
 
         void exportAsMusicXml(const std::string &filePath)throw();
 
@@ -149,6 +153,18 @@ namespace cadencii {
          * @param[in] propertyView ビュー
          */
         void setPropertyView(PropertyView *propertyView)throw();
+
+        /**
+         * @brief Set a view of singer list.
+         * @param singerListView [in] A view instance.
+         */
+        void setSingerListView(SingerListView *singerListView);
+
+        /**
+         * @brief Set a view of track list.
+         * @param trackListView [in] A view instance.
+         */
+        void setTrackListView(TrackListView *trackListView);
 
         /**
          * @brief メインのビューを表示する

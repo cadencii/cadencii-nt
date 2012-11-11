@@ -22,6 +22,8 @@
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
 #include "qt/gui/ConcretePropertyView.hpp"
+#include "qt/gui/ConcreteSingerListView.hpp"
+#include "qt/gui/ConcreteTrackListView.hpp"
 #include "Controller.hpp"
 
 namespace cadencii {
@@ -35,11 +37,14 @@ namespace cadencii {
         cadencii::ConcreteTempoView concreteTempoView;
         cadencii::ConcreteTimesigView concreteTimesigView;
         cadencii::ConcretePropertyView concretePropertyView;
+        cadencii::ConcreteSingerListView concreteSingerListView;
+        cadencii::ConcreteTrackListView *concreteTrackListView;
         cadencii::Controller controller;
 
     public:
         explicit AppContainer() {
             curveControlChangeView = new CurveControlChangeView();
+            concreteTrackListView = new ConcreteTrackListView();
             controller.setMainView(&windowMainView);
             controller.setTrackView(&pianorollTrackView);
             controller.setControlChangeView(curveControlChangeView);
@@ -47,12 +52,18 @@ namespace cadencii {
             controller.setTempoView(&concreteTempoView);
             controller.setTimesigView(&concreteTimesigView);
             controller.setPropertyView(&concretePropertyView);
+            controller.setSingerListView(&concreteSingerListView);
+            controller.setTrackListView(concreteTrackListView);
         }
 
         ~AppContainer() {
             if (curveControlChangeView) {
                 delete curveControlChangeView;
                 curveControlChangeView = 0;
+            }
+            if (concreteTrackListView) {
+                delete concreteTrackListView;
+                concreteTrackListView = 0;
             }
         }
     };

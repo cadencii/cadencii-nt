@@ -148,6 +148,12 @@
        <item>
         <widget class="cadencii::CurveControlChangeView" name="curveView" native="true"/>
        </item>
+       <item>
+        <widget class="cadencii::ConcreteSingerListView" name="singerListView" native="true"/>
+       </item>
+       <item>
+        <widget class="cadencii::ConcreteTrackListView" name="trackListView" native="true"/>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -1460,6 +1466,16 @@
    <class>cadencii::CurveControlChangeView</class>
    <extends>QWidget</extends>
    <header>qt/gui/CurveControlChangeView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::ConcreteSingerListView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/ConcreteSingerListView.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>cadencii::ConcreteTrackListView</class>
+   <extends>QWidget</extends>
+   <header>qt/gui/ConcreteTrackListView.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>

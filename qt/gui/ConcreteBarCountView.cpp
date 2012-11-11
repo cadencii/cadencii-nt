@@ -22,7 +22,7 @@ namespace cadencii {
         const int height = 20;
         setMinimumHeight(height);
         setMaximumHeight(height);
-        ui->scrollArea->setBackgroundBrush(QBrush(Qt::lightGray));
+        ui->mainContent->setBackgroundBrush(QBrush(Qt::lightGray));
         lineColor = QColor::fromRgb(104, 104, 104);
     }
 
@@ -42,13 +42,13 @@ namespace cadencii {
     }
 
     void ConcreteBarCountView::paintMainContent(QPainter *painter, const QRect &rect) {
-        ui->scrollArea->paintMeasureLines(painter, rect);
+        ui->mainContent->paintMeasureLines(painter, rect);
 
         // 直下のコンポーネントとの区切り線
         painter->setPen(lineColor);
         painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 
-        ui->scrollArea->paintSongPosition(painter, rect);
+        ui->mainContent->paintSongPosition(painter, rect);
     }
 
     void ConcreteBarCountView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
