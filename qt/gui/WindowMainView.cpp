@@ -97,6 +97,30 @@ namespace cadencii {
         setupPianorollWidget();
     }
 
+    void WindowMainView::setSingerListView(SingerListView *singerListView) {
+        ConcreteSingerListView *widget
+                = static_cast<ConcreteSingerListView *>(singerListView->getWidget());
+        ui->verticalLayout3->addWidget(widget);
+        if (ui->singerListView) {
+            ui->verticalLayout3->removeWidget(ui->singerListView);
+            delete ui->singerListView;
+        }
+
+        ui->singerListView = widget;
+    }
+
+    void WindowMainView::setTrackListView(TrackListView *trackListView) {
+        ConcreteTrackListView *widget
+                = static_cast<ConcreteTrackListView *>(trackListView->getWidget());
+        ui->verticalLayout3->addWidget(widget);
+        if (ui->trackListView) {
+            ui->verticalLayout3->removeWidget(ui->trackListView);
+            delete ui->trackListView;
+        }
+
+        ui->trackListView = widget;
+    }
+
     void WindowMainView::setPropertyView(PropertyView *propertyView) {
         ConcretePropertyView *widget
                 = static_cast<ConcretePropertyView *>(propertyView->getWidget());

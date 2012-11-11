@@ -122,6 +122,26 @@ namespace cadencii {
         }
     }
 
+    void Controller::setSingerListView(SingerListView *singerListView) {
+        this->singerListView = singerListView;
+        if (this->singerListView) {
+            this->singerListView->setControllerAdapter(this);
+        }
+        if (mainView) {
+            mainView->setSingerListView(this->singerListView);
+        }
+    }
+
+    void Controller::setTrackListView(TrackListView *trackListView) {
+        this->trackListView = trackListView;
+        if (this->trackListView) {
+            this->trackListView->setControllerAdapter(this);
+        }
+        if (mainView) {
+            mainView->setTrackListView(this->trackListView);
+        }
+    }
+
     void Controller::openVSQFile(const std::string &filePath)throw() {
         VSQ_NS::VSQFileReader reader;
         VSQ_NS::FileInputStream stream(filePath);
@@ -145,25 +165,36 @@ namespace cadencii {
             if (barCountView) barCountView->setDrawOffset(offset);
             if (tempoView) tempoView->setDrawOffset(offset);
             if (timesigView) timesigView->setDrawOffset(offset);
+            if (singerListView) singerListView->setDrawOffset(offset);
         } else if (sender == static_cast<void *>(controlChangeView)) {
             if (trackView) trackView->setDrawOffset(offset);
             if (barCountView) barCountView->setDrawOffset(offset);
             if (tempoView) tempoView->setDrawOffset(offset);
             if (timesigView) timesigView->setDrawOffset(offset);
+            if (singerListView) singerListView->setDrawOffset(offset);
         } else if (sender == static_cast<void *>(barCountView)) {
             if (controlChangeView) controlChangeView->setDrawOffset(offset);
             if (trackView) trackView->setDrawOffset(offset);
             if (tempoView) tempoView->setDrawOffset(offset);
             if (timesigView) timesigView->setDrawOffset(offset);
+            if (singerListView) singerListView->setDrawOffset(offset);
         } else if (sender == static_cast<void *>(tempoView)) {
             if (controlChangeView) controlChangeView->setDrawOffset(offset);
             if (trackView) trackView->setDrawOffset(offset);
             if (barCountView) barCountView->setDrawOffset(offset);
             if (timesigView) timesigView->setDrawOffset(offset);
+            if (singerListView) singerListView->setDrawOffset(offset);
         } else if (sender == static_cast<void *>(timesigView)) {
             if (controlChangeView) controlChangeView->setDrawOffset(offset);
             if (trackView) trackView->setDrawOffset(offset);
             if (barCountView) barCountView->setDrawOffset(offset);
+            if (tempoView) tempoView->setDrawOffset(offset);
+            if (singerListView) singerListView->setDrawOffset(offset);
+        } else if (sender == static_cast<void *>(singerListView)) {
+            if (controlChangeView) controlChangeView->setDrawOffset(offset);
+            if (trackView) trackView->setDrawOffset(offset);
+            if (barCountView) barCountView->setDrawOffset(offset);
+            if (timesigView) timesigView->setDrawOffset(offset);
             if (tempoView) tempoView->setDrawOffset(offset);
         }
     }
@@ -186,6 +217,8 @@ namespace cadencii {
         //                setTrackIndexを呼ぶか振り分ける処理が必要
         trackView->setTrackIndex(index);
         controlChangeView->setTrackIndex(index);
+        trackListView->setTrackIndex(index);
+        singerListView->setTrackIndex(index);
         itemSelectionManager.clear();
         if (mainView) mainView->notifyCommandHistoryChanged();
     }
@@ -235,6 +268,8 @@ namespace cadencii {
         if (trackView) trackView->updateWidget();
         if (controlChangeView) controlChangeView->updateWidget();
         if (propertyView) propertyView->updateWidget();
+        if (singerListView) singerListView->updateWidget();
+        if (trackListView) trackListView->updateWidget();
     }
 
     int Controller::getPreferredComponentWidth()throw() {
