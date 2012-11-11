@@ -13,6 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <QMouseEvent>
+#include <string>
 #include "ui_EditorWidgetBase.h"
 #include "ConcreteTrackListView.hpp"
 

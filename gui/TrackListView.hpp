@@ -24,6 +24,9 @@ namespace cadencii {
      */
     class TrackListView {
     public:
+        virtual ~TrackListView() {
+        }
+
         /**
          * @brief Set an instance of adapter.
          */

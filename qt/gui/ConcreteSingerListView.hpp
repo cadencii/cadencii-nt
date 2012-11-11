@@ -47,7 +47,6 @@ namespace cadencii {
         int trackIndex;
 
     public:
-
         explicit ConcreteSingerListView(QWidget *parent = 0);
 
         void *getWidget();

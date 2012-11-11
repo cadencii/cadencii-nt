@@ -24,6 +24,9 @@ namespace cadencii {
      */
     class SingerListView {
     public:
+        virtual ~SingerListView() {
+        }
+
         /**
          * @brief Set an instance of adapter.
          */
