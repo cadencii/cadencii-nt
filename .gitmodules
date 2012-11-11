@@ -1,3 +1,6 @@
 [submodule "vsq"]
 	path = vsq
 	url = https://github.com/kbinani/libvsq.git
+[submodule "qt-solutions"]
+	path = qt-solutions
+	url = https://github.com/kbinani/qt-solutions.git
