@@ -29,10 +29,10 @@ namespace cadencii {
         trackIndex = 0;
         controlChangeName = "dyn";
         front = defaultSequence.track[0].getCurve(controlChangeName);
-        ui->scrollArea->setBackgroundBrush(QBrush(Qt::darkGray));
-        ui->keyboard->setBackgroundBrush(QBrush(Qt::lightGray));
-        ui->keyboard->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        ui->keyboard->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->mainContent->setBackgroundBrush(QBrush(Qt::darkGray));
+        ui->subContent->setBackgroundBrush(QBrush(Qt::lightGray));
+        ui->subContent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->subContent->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         trackTabHilightBackgroundColor = new QColor[16];
         trackTabHilightBackgroundColor[0] = QColor(181, 220, 16);
@@ -71,9 +71,9 @@ namespace cadencii {
         borderColor = QColor::fromRgb(118, 123, 138);
         singerEventBorderColor = QColor::fromRgb(182, 182, 182);
 
-        connect(ui->scrollArea, SIGNAL(onMousePress(QMouseEvent *)),
+        connect(ui->mainContent, SIGNAL(onMousePress(QMouseEvent *)),
                 this, SLOT(onMainContentMousePressSlot(QMouseEvent *)));
-        connect(ui->keyboard, SIGNAL(onMousePress(QMouseEvent *)),
+        connect(ui->subContent, SIGNAL(onMousePress(QMouseEvent *)),
                 this, SLOT(onSubContentMousePressSlot(QMouseEvent *)));
     }
 
@@ -110,11 +110,11 @@ namespace cadencii {
                            rect.right(), MARGIN_TOP);
 
         // グラフ部分の本体を描く
-        ui->scrollArea->paintMeasureLines(painter, rect);
+        ui->mainContent->paintMeasureLines(painter, rect);
         if (front) {
             paintBPList(painter, front, rect);
         }
-        ui->scrollArea->paintSongPosition(painter, rect);
+        ui->mainContent->paintSongPosition(painter, rect);
 
         // トラック一覧の部分を描く
         paintTrackList(painter);
@@ -203,7 +203,7 @@ namespace cadencii {
 
         // スクリーンのサイズが、コンポーネントのサイズよりも小さい場合を考慮し、
         // 大きい方を左端の座標とする。
-        int width = std::max(ui->scrollArea->getSceneWidth(), ui->scrollArea->width());
+        int width = std::max(ui->mainContent->getSceneWidth(), ui->mainContent->width());
         path.lineTo(width, y);
         path.lineTo(width, height - MARGIN_BOTTOM);
         painter->fillPath(path, QColor(100, 149, 237, 150));
@@ -213,10 +213,10 @@ namespace cadencii {
 
         // カーソルが描画範囲に入っていれば、カーソル位置での値を描く。
         QPoint globalCursorPos = QCursor::pos();
-        QPoint globalTopLeftCornerPos = ui->scrollArea->mapToGlobal(QPoint(0, 0));
+        QPoint globalTopLeftCornerPos = ui->mainContent->mapToGlobal(QPoint(0, 0));
         QPoint viewportCursorPos = QPoint(globalCursorPos.x() - globalTopLeftCornerPos.x(),
                                           globalCursorPos.y() - globalTopLeftCornerPos.y());
-        QPoint sceneCursorPos = ui->scrollArea->mapToScene(viewportCursorPos).toPoint();
+        QPoint sceneCursorPos = ui->mainContent->mapToScene(viewportCursorPos).toPoint();
         if (MARGIN_TOP <= sceneCursorPos.y() &&
                 sceneCursorPos.y() <= height - MARGIN_BOTTOM &&
                 rect.contains(sceneCursorPos)) {
@@ -266,12 +266,12 @@ namespace cadencii {
 
     void CurveControlChangeView::paintTrackList(QPainter *painter) {
         painter->setPen(borderColor);
-        int height = ui->scrollArea->getSceneHeight();
-        int width = ui->scrollArea->getSceneWidth();
+        int height = ui->mainContent->getSceneHeight();
+        int width = ui->mainContent->getSceneWidth();
         if (width < this->width()) {
             width = this->width();
         }
-        QRect visibleArea = ui->scrollArea->getVisibleArea();
+        QRect visibleArea = ui->mainContent->getVisibleArea();
         painter->fillRect(visibleArea.left(), height - LANE_HEIGHT,
                      width, LANE_HEIGHT, Qt::gray);
         painter->drawLine(0, height - LANE_HEIGHT,
@@ -380,7 +380,7 @@ namespace cadencii {
     }
 
     bool CurveControlChangeView::acceptMousePressOnTrackList(QMouseEvent *event) {
-        QRect geometry = ui->scrollArea->geometry();
+        QRect geometry = ui->mainContent->geometry();
         QPoint mousePos = event->pos();
         if (geometry.height() - LANE_HEIGHT <= mousePos.y() &&
             mousePos.y() <= geometry.height()) {
@@ -400,9 +400,9 @@ namespace cadencii {
     }
 
     void CurveControlChangeView::paintSingerList(QPainter *painter) {
-        QRect visibleArea = ui->scrollArea->getVisibleArea();
-        int height = ui->scrollArea->getSceneHeight();
-        int width = ui->scrollArea->getSceneWidth();
+        QRect visibleArea = ui->mainContent->getVisibleArea();
+        int height = ui->mainContent->getSceneHeight();
+        int width = ui->mainContent->getSceneWidth();
         if (width < this->width()) {
             width = this->width();
         }
@@ -485,7 +485,7 @@ namespace cadencii {
 
     QSize CurveControlChangeView::getPreferredSubContentSceneSize() {
         const std::vector<std::string> *controlChangeNameList = getCurrentCurveNameList();
-        int width = ui->keyboard->width();
+        int width = ui->subContent->width();
         int height = 2 * CURVE_NAME_MARGIN
                 + (CURVE_NAME_HEIGHT + CURVE_NAME_SPACE) * controlChangeNameList->size();
         return QSize(width, height);
@@ -494,7 +494,7 @@ namespace cadencii {
     QRectF CurveControlChangeView::getCurveNameRect(int index) {
         return QRectF(CURVE_NAME_MARGIN,
                       CURVE_NAME_MARGIN + index * (CURVE_NAME_HEIGHT + CURVE_NAME_SPACE),
-                      ui->keyboard->width() - 2 * CURVE_NAME_MARGIN,
+                      ui->subContent->width() - 2 * CURVE_NAME_MARGIN,
                       CURVE_NAME_HEIGHT);
     }
 
@@ -505,7 +505,7 @@ namespace cadencii {
     }
 
     void CurveControlChangeView::onSubContentMousePressSlot(QMouseEvent *event) {
-        QPointF point = ui->keyboard->mapToScene(event->pos());
+        QPointF point = ui->subContent->mapToScene(event->pos());
         const std::vector<std::string> *curveNameList = getCurrentCurveNameList();
         int count = curveNameList->size();
         for (int i = 0; i < count; i++) {

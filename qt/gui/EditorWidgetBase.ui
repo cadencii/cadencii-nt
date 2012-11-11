@@ -24,7 +24,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="cadencii::EditorWidgetBaseSubContent" name="keyboard">
+    <widget class="cadencii::EditorWidgetBaseSubContent" name="subContent">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -49,7 +49,7 @@
     </widget>
    </item>
    <item>
-    <widget class="cadencii::EditorWidgetBaseMainContent" name="scrollArea">
+    <widget class="cadencii::EditorWidgetBaseMainContent" name="mainContent">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>1</horstretch>
