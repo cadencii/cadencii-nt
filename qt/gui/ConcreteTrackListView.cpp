@@ -24,6 +24,7 @@ namespace cadencii {
         setMinimumHeight(height);
         setMaximumHeight(height);
 
+        trackIndex = 0;
         ui->mainContent->setBackgroundBrush(QBrush(Qt::gray));
         ui->subContent->setBackgroundBrush(QBrush(Qt::gray));
 
