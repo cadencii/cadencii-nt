@@ -67,6 +67,8 @@ namespace cadencii {
                 emit onHide();
             } else if (Qt::Key_Alt == key) {
                 flipSymbolEditMode();
+            } else if (Qt::Key_Escape == key) {
+                emit onHide();
             } else {
                 QLineEdit::keyPressEvent(event);
             }
