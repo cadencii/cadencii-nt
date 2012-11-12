@@ -3,4 +3,4 @@
 	url = https://github.com/kbinani/libvsq.git
 [submodule "qt-solutions"]
 	path = qt-solutions
-	url = git://gitorious.org/qt-solutions/qt-solutions.git
+	url = https://github.com/kbinani/qt-solutions.git
