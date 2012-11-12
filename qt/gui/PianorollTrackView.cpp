@@ -549,6 +549,11 @@ namespace cadencii {
     void PianorollTrackView::onMouseDoubleClickSlot(QMouseEvent *event) {
         const VSQ_NS::Event *noteOnMouse = findNoteEventAt(event->pos());
         if (noteOnMouse) {
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            if (!manager->isContains(noteOnMouse) || manager->getEventItemList()->size() != 1) {
+                manager->clear();
+                manager->add(noteOnMouse);
+            }
             showLyricEdit(noteOnMouse);
         }
     }
