@@ -453,6 +453,10 @@ namespace cadencii {
         Qt::MouseButton button = event->button();
 
         if (button == Qt::LeftButton) {
+            if (lyricEdit->isVisible()) {
+                hideLyricEdit();
+            }
+
             if (tool == ToolKind::POINTER) {
                 handleMouseLeftButtonPressByPointer(event);
             } else if (tool == ToolKind::ERASER) {
