@@ -21,7 +21,7 @@
 #include "qt/gui/ConcreteBarCountView.hpp"
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
-#include "qt/gui/ConcretePropertyView.hpp"
+#include "qt/gui/concrete_property_view/ConcretePropertyView.hpp"
 #include "qt/gui/ConcreteSingerListView.hpp"
 #include "qt/gui/ConcreteTrackListView.hpp"
 #include "Controller.hpp"

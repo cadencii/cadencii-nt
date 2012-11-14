@@ -19,11 +19,11 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/ConcreteTempoView.cpp \
     $$PWD/qt/gui/ConcreteTimesigView.cpp \
     $$PWD/qt/ConcreteSettings.cpp \
-    $$PWD/qt/gui/ConcretePropertyView.cpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyView.cpp \
     $$PWD/command/DeleteEventCommand.cpp \
     $$PWD/command/AddEventCommand.cpp \
     $$PWD/command/AbstractCommand.cpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.cpp \
+    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.cpp \
     $$PWD/qt/gui/ConcreteSingerListView.cpp \
     $$PWD/qt/gui/ConcreteTrackListView.cpp
 
@@ -63,7 +63,7 @@ HEADERS  += \
     $$PWD/enum/ToolKind.hpp \
     $$PWD/ItemSelectionManager.hpp \
     $$PWD/gui/PropertyView.hpp \
-    $$PWD/qt/gui/ConcretePropertyView.hpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyView.hpp \
     $$PWD/ItemSelectionStatusListener.hpp \
     $$PWD/command/AbstractCommand.hpp \
     $$PWD/command/EditEventCommand.hpp \
@@ -71,12 +71,13 @@ HEADERS  += \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp \
+    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.hpp \
     $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp \
     $$PWD/gui/SingerListView.hpp \
     $$PWD/qt/gui/ConcreteSingerListView.hpp \
     $$PWD/gui/TrackListView.hpp \
-    $$PWD/qt/gui/ConcreteTrackListView.hpp
+    $$PWD/qt/gui/ConcreteTrackListView.hpp \
+    gui/PropertyValueProxy.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

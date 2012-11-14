@@ -15,7 +15,7 @@
 #include <QFileDialog>
 #include <string>
 #include "WindowMainView.hpp"
-#include "ConcretePropertyView.hpp"
+#include "concrete_property_view/ConcretePropertyView.hpp"
 #include "ui_WindowMainView.h"
 #include "../../Controller.hpp"
 #include "../../enum/QuantizeMode.hpp"
