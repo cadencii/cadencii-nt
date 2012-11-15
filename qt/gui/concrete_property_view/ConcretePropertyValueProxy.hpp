@@ -15,6 +15,7 @@
 #ifndef CADENCII_QT_GUI_CONCRETE_PROPERTY_VIEW_CONCRETEPROPERTYVALUEPROXY_HPP_
 #define CADENCII_QT_GUI_CONCRETE_PROPERTY_VIEW_CONCRETEPROPERTYVALUEPROXY_HPP_
 
+#include <string>
 #include "../../gui/PropertyValueProxy.hpp"
 
 namespace cadencii {

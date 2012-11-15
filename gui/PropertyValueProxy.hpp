@@ -68,6 +68,9 @@ namespace cadencii {
             setupDefaultKey(&vibratoLength);
         }
 
+        virtual ~PropertyValueProxy() {
+        }
+
         /**
          * @brief Start setting up property tree.
          */
@@ -135,16 +138,21 @@ namespace cadencii {
         void commit() {
             setLyricPhrase(isDefault[&lyricPhrase] ? "" : lyricPhrase);
             setLyricPhoneticSymbol(isDefault[&lyricPhoneticSymbol] ? "" : lyricPhoneticSymbol);
-            setLyricConsonantAdjustment(isDefault[&lyricConsonantAdjustment] ? "" : lyricConsonantAdjustment);
+            setLyricConsonantAdjustment(
+                isDefault[&lyricConsonantAdjustment] ? "" : lyricConsonantAdjustment);
             setLyricProtect(isDefault[&lyricProtect] ? 0 : lyricProtect);
 
             setNoteLength(isDefault[&noteLength] ? "" : StringUtil::toString(noteLength));
             setNoteNumber(isDefault[&noteNumber] ? "" : StringUtil::toString(noteNumber));
 
-            setNotelocationClock(isDefault[&notelocationClock] ? "" : StringUtil::toString(notelocationClock));
-            setNotelocationMeasure(isDefault[&notelocationMeasure] ? "" : StringUtil::toString(notelocationMeasure));
-            setNotelocationBeat(isDefault[&notelocationBeat] ? "" : StringUtil::toString(notelocationBeat));
-            setNotelocationTick(isDefault[&notelocationTick] ? "" : StringUtil::toString(notelocationTick));
+            setNotelocationClock(
+                isDefault[&notelocationClock] ? "" : StringUtil::toString(notelocationClock));
+            setNotelocationMeasure(
+                isDefault[&notelocationMeasure] ? "" : StringUtil::toString(notelocationMeasure));
+            setNotelocationBeat(
+                isDefault[&notelocationBeat] ? "" : StringUtil::toString(notelocationBeat));
+            setNotelocationTick(
+                isDefault[&notelocationTick] ? "" : StringUtil::toString(notelocationTick));
 
             setVibratoType(isDefault[&vibratoType] ? 0 : vibratoType);
             setVibratoLength(isDefault[&vibratoLength] ? "" : StringUtil::toString(vibratoLength));
