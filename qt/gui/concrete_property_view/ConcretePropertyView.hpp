@@ -37,6 +37,10 @@ namespace cadencii {
             ConcretePropertyView *parent;
 
         public:
+            Proxy() :
+                PropertyValueProxy(), parent(0) {
+            }
+
             void setParent(ConcretePropertyView *parent) {
                 this->parent = parent;
             }
