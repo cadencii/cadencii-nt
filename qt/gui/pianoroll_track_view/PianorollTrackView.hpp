@@ -12,14 +12,14 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __PianorollTrackView_hpp__
-#define __PianorollTrackView_hpp__
+#ifndef CADENCII_QT_GUI_PIANOROLL_TRACK_VIEW_PIANOROLLTRACKVIEW_HPP_
+#define CADENCII_QT_GUI_PIANOROLL_TRACK_VIEW_PIANOROLLTRACKVIEW_HPP_
 
 #include <QGraphicsScene>
 #include <QLineEdit>
-#include "EditorWidgetBase.hpp"
+#include "../EditorWidgetBase.hpp"
 #include "../../gui/TrackView.hpp"
-#include "pianoroll_track_view/LyricEditWidget.hpp"
+#include "LyricEditWidget.hpp"
 
 namespace cadencii {
 

@@ -14,7 +14,7 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/EditorWidgetBaseMainContent.cpp \
     $$PWD/qt/gui/EditorWidgetBaseSubContent.cpp \
     $$PWD/qt/gui/CurveControlChangeView.cpp \
-    $$PWD/qt/gui/PianorollTrackView.cpp \
+    $$PWD/qt/gui/pianoroll_track_view/PianorollTrackView.cpp \
     $$PWD/qt/gui/ConcreteBarCountView.cpp \
     $$PWD/qt/gui/ConcreteTempoView.cpp \
     $$PWD/qt/gui/ConcreteTimesigView.cpp \
@@ -39,7 +39,7 @@ HEADERS  += \
     $$PWD/qt/gui/EditorWidgetBaseMainContent.hpp \
     $$PWD/qt/gui/EditorWidgetBaseSubContent.hpp \
     $$PWD/qt/gui/CurveControlChangeView.hpp \
-    $$PWD/qt/gui/PianorollTrackView.hpp \
+    $$PWD/qt/gui/pianoroll_track_view/PianorollTrackView.hpp \
     $$PWD/gui/BarCountView.hpp \
     $$PWD/qt/gui/ConcreteBarCountView.hpp \
     $$PWD/gui/TempoView.hpp \
