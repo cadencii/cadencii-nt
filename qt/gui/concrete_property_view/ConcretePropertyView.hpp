@@ -22,6 +22,7 @@
 #include "../../gui/PropertyView.hpp"
 #include "../../gui/PropertyValueProxy.hpp"
 #include "../../vsq/Sequence.hpp"
+#include "ConcretePropertyValueProxy.hpp"
 
 namespace cadencii {
 
@@ -31,101 +32,10 @@ namespace cadencii {
         Q_OBJECT
 
         friend class PropertyTreeUpdateWorker;
-
-        class Proxy : public PropertyValueProxy {
-        private:
-            ConcretePropertyView *parent;
-
-        public:
-            Proxy() :
-                PropertyValueProxy(), parent(0) {
-            }
-
-            void setParent(ConcretePropertyView *parent) {
-                this->parent = parent;
-            }
-
-            void setLyricPhrase(const std::string &lyricPhrase) {
-                parent->stringPropertyManager.setValue(
-                    parent->lyricPhrase,
-                    lyricPhrase.c_str()
-                );
-            }
-
-            void setLyricPhoneticSymbol(const std::string &lyricPhoneticSymbol) {
-                parent->stringPropertyManager.setValue(
-                    parent->lyricPhoneticSymbol,
-                    lyricPhoneticSymbol.c_str()
-                );
-            }
-
-            void setLyricConsonantAdjustment(const std::string &lyricConsonantAdjustment) {
-                parent->stringPropertyManager.setValue(
-                    parent->lyricConsonantAdjustment,
-                    lyricConsonantAdjustment.c_str()
-                );
-            }
-
-            void setLyricProtect(int lyricProtect) {
-                parent->enumPropertyManager.setValue(parent->lyricProtect, lyricProtect);
-            }
-
-            void setNoteLength(const std::string &noteLength) {
-                parent->stringPropertyManager.setValue(
-                    parent->noteLength,
-                    noteLength.c_str()
-                );
-            }
-
-            void setNoteNumber(const std::string &noteNumber) {
-                parent->stringPropertyManager.setValue(
-                    parent->noteNumber,
-                    noteNumber.c_str()
-                );
-            }
-
-            void setNotelocationClock(const std::string &notelocationClock) {
-                parent->stringPropertyManager.setValue(
-                    parent->notelocationClock,
-                    notelocationClock.c_str()
-                );
-            }
-
-            void setNotelocationMeasure(const std::string &notelocationMeasure) {
-                parent->stringPropertyManager.setValue(
-                    parent->notelocationMeasure,
-                    notelocationMeasure.c_str()
-                );
-            }
-
-            void setNotelocationBeat(const std::string &notelocationBeat) {
-                parent->stringPropertyManager.setValue(
-                    parent->notelocationBeat,
-                    notelocationBeat.c_str()
-                );
-            }
-
-            void setNotelocationTick(const std::string &notelocationTick) {
-                parent->stringPropertyManager.setValue(
-                    parent->notelocationTick,
-                    notelocationTick.c_str()
-                );
-            }
-
-            void setVibratoType(int vibratoType) {
-                parent->enumPropertyManager.setValue(parent->vibratoType, vibratoType);
-            }
-
-            void setVibratoLength(const std::string &vibratoLength) {
-                parent->stringPropertyManager.setValue(
-                    parent->vibratoLength,
-                    vibratoLength.c_str()
-                );
-            }
-        };
+        friend class ConcretePropertyValueProxy;
 
     private:
-        Proxy proxy;
+        ConcretePropertyValueProxy proxy;
         ControllerAdapter *controllerAdapter;
 
         QtGroupPropertyManager groupManager;
