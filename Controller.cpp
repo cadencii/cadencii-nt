@@ -219,6 +219,7 @@ namespace cadencii {
         controlChangeView->setTrackIndex(index);
         trackListView->setTrackIndex(index);
         singerListView->setTrackIndex(index);
+        propertyView->setTrackIndex(index);
         itemSelectionManager.clear();
         if (mainView) mainView->notifyCommandHistoryChanged();
     }
@@ -422,5 +423,10 @@ namespace cadencii {
 
     void Controller::setApplicationShortcutEnabled(bool enabled) {
         if (mainView) mainView->setApplicationShortcutEnabled(enabled);
+    }
+
+    const VSQ_NS::PhoneticSymbolDictionary::Element *Controller::attachPhoneticSymbol(
+            const std::string &word) {
+        return VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
     }
 }

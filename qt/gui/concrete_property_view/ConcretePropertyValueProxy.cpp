@@ -26,6 +26,54 @@ namespace cadencii {
         this->parent = parent;
     }
 
+    std::string ConcretePropertyValueProxy::getLyricPhrase() {
+        return parent->stringPropertyManager.value(parent->lyricPhrase).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getLyricPhoneticSymbol() {
+        return parent->stringPropertyManager.value(parent->lyricPhoneticSymbol).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getLyricConsonantAdjustment() {
+        return parent->stringPropertyManager.value(parent->lyricConsonantAdjustment).toStdString();
+    }
+
+    int ConcretePropertyValueProxy::getLyricProtect() {
+        return parent->enumPropertyManager.value(parent->lyricProtect);
+    }
+
+    std::string ConcretePropertyValueProxy::getNoteLength() {
+        return parent->stringPropertyManager.value(parent->noteLength).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getNoteNumber() {
+        return parent->stringPropertyManager.value(parent->noteNumber).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getNotelocationClock() {
+        return parent->stringPropertyManager.value(parent->notelocationClock).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getNotelocationMeasure() {
+        return parent->stringPropertyManager.value(parent->notelocationMeasure).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getNotelocationBeat() {
+        return parent->stringPropertyManager.value(parent->notelocationBeat).toStdString();
+    }
+
+    std::string ConcretePropertyValueProxy::getNotelocationTick() {
+        return parent->stringPropertyManager.value(parent->notelocationTick).toStdString();
+    }
+
+    int ConcretePropertyValueProxy::getVibratoType() {
+        return parent->enumPropertyManager.value(parent->vibratoType);
+    }
+
+    std::string ConcretePropertyValueProxy::getVibratoLength() {
+        return parent->stringPropertyManager.value(parent->vibratoLength).toStdString();
+    }
+
     void ConcretePropertyValueProxy::setLyricPhrase(const std::string &lyricPhrase) {
         parent->stringPropertyManager.setValue(
             parent->lyricPhrase, lyricPhrase.c_str());
@@ -39,8 +87,10 @@ namespace cadencii {
 
     void ConcretePropertyValueProxy::setLyricConsonantAdjustment(
             const std::string &lyricConsonantAdjustment) {
+        std::string formattedAdjustment
+                = StringUtil::replace(lyricConsonantAdjustment, ",", " ");
         parent->stringPropertyManager.setValue(
-            parent->lyricConsonantAdjustment, lyricConsonantAdjustment.c_str());
+            parent->lyricConsonantAdjustment, formattedAdjustment.c_str());
     }
 
     void ConcretePropertyValueProxy::setLyricProtect(int lyricProtect) {

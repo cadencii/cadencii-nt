@@ -674,7 +674,7 @@ namespace cadencii {
             } else {
                 symbol = "a";
                 const VSQ_NS::PhoneticSymbolDictionary::Element *element
-                        = VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+                        = controllerAdapter->attachPhoneticSymbol(word);
                 if (element) symbol = element->symbol();
             }
         }

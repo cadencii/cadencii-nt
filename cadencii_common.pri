@@ -26,7 +26,8 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.cpp \
     $$PWD/qt/gui/ConcreteSingerListView.cpp \
     $$PWD/qt/gui/ConcreteTrackListView.cpp \
-    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
+    $$PWD/gui/PropertyValueProxy.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
