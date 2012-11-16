@@ -31,6 +31,30 @@ namespace cadencii {
 
         void setParent(ConcretePropertyView *parent);
 
+        std::string getLyricPhrase();
+
+        std::string getLyricPhoneticSymbol();
+
+        std::string getLyricConsonantAdjustment();
+
+        int getLyricProtect();
+
+        std::string getNoteNumber();
+
+        std::string getNoteLength();
+
+        std::string getNotelocationClock();
+
+        std::string getNotelocationMeasure();
+
+        std::string getNotelocationBeat();
+
+        std::string getNotelocationTick();
+
+        int getVibratoType();
+
+        std::string getVibratoLength();
+
         void setLyricPhrase(const std::string &lyricPhrase);
 
         void setLyricPhoneticSymbol(const std::string &lyricPhoneticSymbol);

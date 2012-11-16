@@ -50,3 +50,4 @@ int main( int argc, char* argv[] )
 #include "../command/AddEventCommand.cpp"
 #include "../command/DeleteEventCommand.cpp"
 #include "../command/AbstractCommand.cpp"
+#include "../gui/PropertyValueProxy.cpp"

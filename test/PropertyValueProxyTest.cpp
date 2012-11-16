@@ -21,6 +21,18 @@ public:
     string _vibratoLength;
 
 public:
+    string getLyricPhrase() { return _lyricPhrase; }
+    string getLyricPhoneticSymbol() { return _lyricPhoneticSymbol; }
+    string getLyricConsonantAdjustment() { return _lyricConsonantAdjustment; }
+    int getLyricProtect() { return _lyricProtect; }
+    string getNoteLength() { return _noteLength; }
+    string getNoteNumber() { return _noteNumber; }
+    string getNotelocationClock() { return _notelocationClock; }
+    string getNotelocationMeasure() { return _notelocationMeasure; }
+    string getNotelocationBeat() { return _notelocationBeat; }
+    string getNotelocationTick() { return _notelocationTick; }
+    int getVibratoType() { return _vibratoType; }
+    string getVibratoLength() { return _vibratoLength; }
     void setLyricPhrase(const string &lyricPhrase) { _lyricPhrase = lyricPhrase; }
     void setLyricPhoneticSymbol(const string &lyricPhoneticSymbol) { _lyricPhoneticSymbol = lyricPhoneticSymbol; }
     void setLyricConsonantAdjustment(const string &lyricConsonantAdjustment) { _lyricConsonantAdjustment = lyricConsonantAdjustment; }
@@ -244,128 +256,6 @@ public:
         assertEqualToDefault(&stub, 0);
     }
 
-    void testFetchPropertyAll() {
-        Event noteA = note;
-        Lyric l = noteA.lyricHandle.getLyricAt(0);
-        l.isProtected = true;
-        noteA.lyricHandle.setLyricAt(0, l);
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        stub.fetchProperty(&actual, &sequence);
-
-        Lyric actualLyric = actual.lyricHandle.getLyricAt(0);
-        CPPUNIT_ASSERT_EQUAL(string("ra"), actualLyric.phrase);
-        CPPUNIT_ASSERT_EQUAL(string("4 a"), actualLyric.getPhoneticSymbol());
-        CPPUNIT_ASSERT_EQUAL(string("64,0"), actualLyric.getConsonantAdjustment());
-        CPPUNIT_ASSERT_EQUAL(true, actualLyric.isProtected);
-    }
-
-    void testFetchPropertyPhrase() {
-        Event noteA = note;
-        Event noteB = note1;
-        Lyric l("wa", "w a");
-        l.isProtected = true;
-        noteA.lyricHandle.setLyricAt(0, l);
-        noteB.lyricHandle.setLyricAt(0, l);
-
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        stub.fetchProperty(&actual, &sequence);
-
-        CPPUNIT_ASSERT_EQUAL(string("wa"), actual.lyricHandle.getLyricAt(0).phrase);
-        CPPUNIT_ASSERT_EQUAL(string("w a"), actual.lyricHandle.getLyricAt(0).getPhoneticSymbol());
-        CPPUNIT_ASSERT_EQUAL(string("64,0"), actual.lyricHandle.getLyricAt(0).getConsonantAdjustment());
-        CPPUNIT_ASSERT_EQUAL(true, actual.lyricHandle.getLyricAt(0).isProtected);
-    }
-
-    void testFetchPropertyNote() {
-        Event noteA = note;
-        Event noteB = note1;
-
-        noteA.note = 67;
-        noteB.note = 67;
-        noteA.setLength(2);
-        noteB.setLength(2);
-
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        stub.fetchProperty(&actual, &sequence);
-
-        CPPUNIT_ASSERT_EQUAL(67, actual.note);
-        CPPUNIT_ASSERT_EQUAL((tick_t)2, actual.getLength());
-    }
-
-    void testFetchPropertyModifiedNotelocation() {
-        Event noteA = note;
-        Event noteB = note1;
-
-        noteA.clock = 0;  // clock = 0, measure = 0, beat = 1, tick = 0
-        noteB.clock = 1;  // clock = 1, measure = 0, beat = 1, tick = 1
-                          // clock = -, measure = 0, beat = 1, tick = -
-
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        actual.clock = 2402;  // clock = 2402, measure = 1, beat = 2, tick = 2
-                              //                      -> 0,     -> 1,        2
-        stub.fetchProperty(&actual, &sequence);
-
-        CPPUNIT_ASSERT_EQUAL((tick_t)2, actual.clock);
-    }
-
-    void testFetchPropertyNotModifiedNotelocation() {
-        Event noteA = note;
-        Event noteB = note1;
-
-        noteA.clock = 13;
-        noteB.clock = 13;
-
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        actual.clock = 2402;
-        stub.fetchProperty(&actual, &sequence);
-
-        CPPUNIT_ASSERT_EQUAL((tick_t)13, actual.clock);
-    }
-
-    void testFetchPropertyVibrato() {
-        Event noteA = note;
-        Event noteB = note1;
-
-        Handle vibrato = noteB.vibratoHandle;
-        noteA.vibratoHandle = vibrato;
-
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        Event actual(0, EventType::NOTE);
-        stub.fetchProperty(&actual, &sequence);
-
-        CPPUNIT_ASSERT_EQUAL(HandleType::VIBRATO, actual.vibratoHandle.getHandleType());
-        CPPUNIT_ASSERT_EQUAL(string("$04040003"), actual.vibratoHandle.iconId);
-        CPPUNIT_ASSERT_EQUAL((tick_t)100, actual.vibratoHandle.getLength());
-    }
-
     CPPUNIT_TEST_SUITE(PropertyValueProxyTest);
     CPPUNIT_TEST(testCommitNoNote);
     CPPUNIT_TEST(testCommitOneNote);
@@ -379,12 +269,6 @@ public:
     CPPUNIT_TEST(testCommitTwoNotesVibratoTypeDifferers);
     CPPUNIT_TEST(testCommitTwoNotesVibratoLengthDiffers);
     CPPUNIT_TEST(testCommitAllPropertyDiffers);
-    CPPUNIT_TEST(testFetchPropertyAll);
-    CPPUNIT_TEST(testFetchPropertyPhrase);
-    CPPUNIT_TEST(testFetchPropertyNote);
-    CPPUNIT_TEST(testFetchPropertyModifiedNotelocation);
-    CPPUNIT_TEST(testFetchPropertyNotModifiedNotelocation);
-    CPPUNIT_TEST(testFetchPropertyVibrato);
     CPPUNIT_TEST_SUITE_END();
 
 private:

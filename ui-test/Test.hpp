@@ -46,4 +46,9 @@ private slots:
      * @brief トラックリストのクリックによって、トラックが切り替わること
      */
     void changeTrackIndex();
+
+    /**
+     * @brief A test for ConcretePropertyView::fetchProperty.
+     */
+    void propertyViewFetchProperty();
 };
