@@ -40,7 +40,7 @@ namespace cadencii {
     void ConcretePropertyValueProxy::setLyricConsonantAdjustment(
             const std::string &lyricConsonantAdjustment) {
         parent->stringPropertyManager.setValue(
-            parent->lyricConsonantAdjustment, lyricConsonantAdjustment.c_str());
+            parent->lyricConsonantAdjustment, StringUtil::replace(lyricConsonantAdjustment, ",", " ").c_str());
     }
 
     void ConcretePropertyValueProxy::setLyricProtect(int lyricProtect) {

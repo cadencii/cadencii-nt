@@ -23,9 +23,21 @@ namespace cadencii {
 
     /**
      * @brief Proxy class to (get/)set aggregated property of VSQ_NS::Event items.
+     *    Note: The vibrato length, Handle::getLength() is treated as in 'percentage' unit in Cadencii.
      */
     class PropertyValueProxy {
     private:
+        class HandleStub : public VSQ_NS::Handle {
+        public:
+            explicit HandleStub(const VSQ_NS::Handle handle) :
+                VSQ_NS::Handle(handle) {
+            }
+
+            void setHandleType(VSQ_NS::HandleType::HandleTypeEnum type) {
+                _type = type;
+            }
+        };
+
         std::map<void *, bool> isDefault;
         bool isFirst;
 
@@ -93,23 +105,16 @@ namespace cadencii {
             }
 
             VSQ_NS::tick_t clock = item->clock;
-            int premeasure = sequence->getPreMeasure();
-            int measure = sequence->timesigList.getBarCountFromClock(clock) - premeasure + 1;
-            int clock_bartop = sequence->timesigList.getClockFromBarCount(measure + premeasure - 1);
-            VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt(clock);
-            int den = timesig.denominator;
-            int dif = clock - clock_bartop;
-            int step = 480 * 4 / den;
-            int beat = dif / step + 1;
-            int tick = dif - (beat - 1) * step;
+            int measure, beat, tick;
+            getNotelocation(item->clock, &measure, &beat, &tick, sequence);
 
             int vibType = 0;
             int vibLength = 0;
             if (item->vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
                 if (item->vibratoHandle.iconId.length() == 9 && 0 < item->getLength()) {
                     std::string vibTypeString = item->vibratoHandle.iconId.substr(6);
-                    vibType = StringUtil::parseInt<int>(vibTypeString, 16);
-                    vibLength = item->vibratoHandle.getLength() * 100 / item->getLength();
+                    vibType = StringUtil::parseInt<int>(vibTypeString, 16) + 1;
+                    vibLength = item->vibratoHandle.getLength();
                 }
             }
 
@@ -156,6 +161,63 @@ namespace cadencii {
 
             setVibratoType(isDefault[&vibratoType] ? 0 : vibratoType);
             setVibratoLength(isDefault[&vibratoLength] ? "" : StringUtil::toString(vibratoLength));
+        }
+
+        /**
+         * @brief Get property values from property view.
+         */
+        void fetchProperty(VSQ_NS::Event *event, const VSQ_NS::Sequence *sequence) {
+            std::map<void *, bool>::iterator i = isDefault.begin();
+            for (; i != isDefault.end(); ++i) {
+                void *property = i->first;
+                if (isDefault[property]) continue;
+
+                VSQ_NS::Lyric lyric = event->lyricHandle.getLyricAt(0);
+                if (property == &lyricPhrase) {
+                    lyric.phrase = lyricPhrase;
+                    event->lyricHandle.setLyricAt(0, lyric);
+                } else if (property == &lyricPhoneticSymbol) {
+                    lyric.setPhoneticSymbol(lyricPhoneticSymbol);
+                    event->lyricHandle.setLyricAt(0, lyric);
+                } else if (property == &lyricConsonantAdjustment) {
+                    lyric.setConsonantAdjustment(lyricConsonantAdjustment);
+                    event->lyricHandle.setLyricAt(0, lyric);
+                } else if (property == &lyricProtect) {
+                    lyric.isProtected = lyricProtect == 2;
+                    event->lyricHandle.setLyricAt(0, lyric);
+                } else if (property == &noteLength) {
+                    event->setLength(noteLength);
+                } else if (property == &noteNumber) {
+                    event->note = noteNumber;
+                } else if (property == &vibratoType) {
+                    if (vibratoType == 0) {
+                        event->vibratoHandle = VSQ_NS::Handle(VSQ_NS::HandleType::UNKNOWN);
+                    } else {
+                        HandleStub handle = static_cast<HandleStub>(event->vibratoHandle);
+                        handle.setHandleType(VSQ_NS::HandleType::VIBRATO);
+                        handle.iconId = "$0404" + StringUtil::toString(vibratoType - 1, "%04x");
+                        event->vibratoHandle = handle;
+                    }
+                } else if (property == &vibratoLength) {
+                    event->vibratoHandle.setLength(vibratoLength);
+                }
+            }
+
+            if (!isDefault[&notelocationClock]) {
+                event->clock = notelocationClock;
+            } else {
+                int measure, beat, tick;
+                getNotelocation(event->clock, &measure, &beat, &tick, sequence);
+                if (!isDefault[&notelocationMeasure]) measure = notelocationMeasure;
+                if (!isDefault[&notelocationBeat]) beat = notelocationBeat;
+                if (!isDefault[&notelocationTick]) tick = notelocationTick;
+                int premeasure = sequence->getPreMeasure();
+                VSQ_NS::tick_t clock = sequence->timesigList.getClockFromBarCount(measure + premeasure - 1);
+                VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt(clock);
+                int step = 480 * 4 / timesig.denominator;
+                clock += (beat - 1) * step + tick;
+                event->clock = clock;
+            }
         }
 
     protected:
@@ -235,6 +297,18 @@ namespace cadencii {
                     isDefault[property] = true;
                 }
             }
+        }
+
+        void getNotelocation(VSQ_NS::tick_t clock, int *measure, int *beat, int *tick, const VSQ_NS::Sequence *sequence) {
+            int premeasure = sequence->getPreMeasure();
+            *measure = sequence->timesigList.getBarCountFromClock(clock) - premeasure + 1;
+            int clock_bartop = sequence->timesigList.getClockFromBarCount(*measure + premeasure - 1);
+            VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt(clock);
+            int den = timesig.denominator;
+            int dif = clock - clock_bartop;
+            int step = 480 * 4 / den;
+            *beat = dif / step + 1;
+            *tick = dif - (*beat - 1) * step;
         }
     };
 }
