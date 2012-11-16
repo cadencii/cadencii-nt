@@ -1460,7 +1460,7 @@
   <customwidget>
    <class>cadencii::PianorollTrackView</class>
    <extends>QWidget</extends>
-   <header>qt/gui/PianorollTrackView.hpp</header>
+   <header>qt/gui/pianoroll_track_view/PianorollTrackView.hpp</header>
   </customwidget>
   <customwidget>
    <class>cadencii::CurveControlChangeView</class>
