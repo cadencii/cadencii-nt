@@ -67,6 +67,8 @@ namespace cadencii {
                 emit onHide();
             } else if (Qt::Key_Alt == key) {
                 flipSymbolEditMode();
+            } else if (Qt::Key_Escape == key) {
+                emit onHide();
             } else {
                 QLineEdit::keyPressEvent(event);
             }
@@ -86,7 +88,7 @@ namespace cadencii {
                 word = lyric.phrase;
                 phoneticSymbol = lyric.getPhoneticSymbol();
             }
-            setText(QString::fromStdString(symbolEditMode ? phoneticSymbol :word));
+            setText(QString::fromStdString(symbolEditMode ? phoneticSymbol : word));
             selectAll();
         }
 
@@ -115,24 +117,19 @@ namespace cadencii {
 
     private:
         void flipSymbolEditMode() {
-            static QPalette normal;
-            static QPalette symbolMode;
+            static QPalette normalPalette;
+            static QPalette symbolModePalette;
             static bool isInitialized = false;
             if (!isInitialized) {
-                symbolMode.setColor(QPalette::Base, QColor::fromRgb(192, 192, 192));
+                symbolModePalette.setColor(QPalette::Base, QColor::fromRgb(192, 192, 192));
                 isInitialized = true;
             }
 
             symbolEditMode = !symbolEditMode;
-            if (symbolEditMode) {
-                phoneticSymbol = text().toStdString();
-                setText(QString::fromStdString(word));
-                setPalette(symbolMode);
-            } else {
-                word = text().toStdString();
-                setText(QString::fromStdString(phoneticSymbol));
-                setPalette(normal);
-            }
+
+            (!symbolEditMode) ? phoneticSymbol : word = text().toStdString();
+            setText(QString::fromStdString(symbolEditMode ? phoneticSymbol : word));
+            setPalette(symbolEditMode ? symbolModePalette : normalPalette);
             selectAll();
         }
     };

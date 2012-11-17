@@ -10,7 +10,8 @@ SOURCES += \
     command/EditEventCommandTest.cpp \
     SequenceModelTest.cpp \
     command/AddEventCommandTest.cpp \
-    command/DeleteEventCommandTest.cpp
+    command/DeleteEventCommandTest.cpp \
+    PropertyValueProxyTest.cpp
 
 HEADERS += \
     Util.hpp \

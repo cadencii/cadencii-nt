@@ -14,18 +14,20 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/EditorWidgetBaseMainContent.cpp \
     $$PWD/qt/gui/EditorWidgetBaseSubContent.cpp \
     $$PWD/qt/gui/CurveControlChangeView.cpp \
-    $$PWD/qt/gui/PianorollTrackView.cpp \
+    $$PWD/qt/gui/pianoroll_track_view/PianorollTrackView.cpp \
     $$PWD/qt/gui/ConcreteBarCountView.cpp \
     $$PWD/qt/gui/ConcreteTempoView.cpp \
     $$PWD/qt/gui/ConcreteTimesigView.cpp \
     $$PWD/qt/ConcreteSettings.cpp \
-    $$PWD/qt/gui/ConcretePropertyView.cpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyView.cpp \
     $$PWD/command/DeleteEventCommand.cpp \
     $$PWD/command/AddEventCommand.cpp \
     $$PWD/command/AbstractCommand.cpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.cpp \
+    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.cpp \
     $$PWD/qt/gui/ConcreteSingerListView.cpp \
-    $$PWD/qt/gui/ConcreteTrackListView.cpp
+    $$PWD/qt/gui/ConcreteTrackListView.cpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
+    $$PWD/gui/PropertyValueProxy.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -38,7 +40,7 @@ HEADERS  += \
     $$PWD/qt/gui/EditorWidgetBaseMainContent.hpp \
     $$PWD/qt/gui/EditorWidgetBaseSubContent.hpp \
     $$PWD/qt/gui/CurveControlChangeView.hpp \
-    $$PWD/qt/gui/PianorollTrackView.hpp \
+    $$PWD/qt/gui/pianoroll_track_view/PianorollTrackView.hpp \
     $$PWD/gui/BarCountView.hpp \
     $$PWD/qt/gui/ConcreteBarCountView.hpp \
     $$PWD/gui/TempoView.hpp \
@@ -63,7 +65,7 @@ HEADERS  += \
     $$PWD/enum/ToolKind.hpp \
     $$PWD/ItemSelectionManager.hpp \
     $$PWD/gui/PropertyView.hpp \
-    $$PWD/qt/gui/ConcretePropertyView.hpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyView.hpp \
     $$PWD/ItemSelectionStatusListener.hpp \
     $$PWD/command/AbstractCommand.hpp \
     $$PWD/command/EditEventCommand.hpp \
@@ -71,12 +73,14 @@ HEADERS  += \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
-    $$PWD/qt/gui/PropertyTreeUpdateWorker.hpp \
+    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.hpp \
     $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp \
     $$PWD/gui/SingerListView.hpp \
     $$PWD/qt/gui/ConcreteSingerListView.hpp \
     $$PWD/gui/TrackListView.hpp \
-    $$PWD/qt/gui/ConcreteTrackListView.hpp
+    $$PWD/qt/gui/ConcreteTrackListView.hpp \
+    $$PWD/gui/PropertyValueProxy.hpp \
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

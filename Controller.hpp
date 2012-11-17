@@ -112,6 +112,8 @@ namespace cadencii {
 
         void notifyItemSelectionChange()throw();
 
+        const VSQ_NS::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(const string &word);
+
         /**
          * @brief トラックのビューを設定する
          * @param[in] trackView ビュー

@@ -20,7 +20,9 @@
 #include <QThread>
 #include <QMutex>
 #include "../../gui/PropertyView.hpp"
+#include "../../gui/PropertyValueProxy.hpp"
 #include "../../vsq/Sequence.hpp"
+#include "ConcretePropertyValueProxy.hpp"
 
 namespace cadencii {
 
@@ -30,21 +32,20 @@ namespace cadencii {
         Q_OBJECT
 
         friend class PropertyTreeUpdateWorker;
+        friend class ConcretePropertyValueProxy;
 
-    private:
-        ControllerAdapter *controllerAdapter;
+        class HandleStub : public VSQ_NS::Handle {
+        public:
+            explicit HandleStub(const VSQ_NS::Handle handle) :
+                VSQ_NS::Handle(handle) {
+            }
 
-        QtGroupPropertyManager groupManager;
+            void setHandleType(VSQ_NS::HandleType::HandleTypeEnum type) {
+                _type = type;
+            }
+        };
 
-        /**
-         * @brief 汎用文字列プロパティマネージャ
-         */
-        QtStringPropertyManager stringPropertyManager;
-        /**
-         * @brief 列挙子のプロパティ用マネージャ
-         */
-        QtEnumPropertyManager enumPropertyManager;
-
+    protected:
         // Lyric
         QtProperty *lyric;
         QtProperty *lyricPhrase;
@@ -69,7 +70,24 @@ namespace cadencii {
         QtProperty *vibratoType;
         QtProperty *vibratoLength;
 
+        ConcretePropertyValueProxy proxy;
+
+    private:
+        ControllerAdapter *controllerAdapter;
+
+        QtGroupPropertyManager groupManager;
+
+        /**
+         * @brief 汎用文字列プロパティマネージャ
+         */
+        QtStringPropertyManager stringPropertyManager;
+        /**
+         * @brief 列挙子のプロパティ用マネージャ
+         */
+        QtEnumPropertyManager enumPropertyManager;
+
         PropertyTreeUpdateWorker *treeUpdateWorker;
+        int trackIndex;
 
     public:
         explicit ConcretePropertyView(QWidget *parent = 0);
@@ -84,11 +102,26 @@ namespace cadencii {
 
         void statusChanged();
 
+        void setTrackIndex(int trackIndex);
+
     public slots:
         /**
          * @brief 音符・歌手変更イベントを表示するために、プロパティツリーを更新する
          */
         void updateTree();
+
+        /**
+         * @brief Receive valueChanged signal from QtTreePropertyBrowser.
+         */
+        void onValueChangedSlot(const QtProperty *property);
+
+    protected:
+        /**
+         * @brief Get property values from property view.
+         */
+        void fetchProperty(
+                const QtProperty *property,
+                VSQ_NS::Event *event, const VSQ_NS::Sequence *sequence);
 
     private:
         /**

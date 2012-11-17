@@ -12,16 +12,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef __cadencii_AppContainer_hpp__
-#define __cadencii_AppContainer_hpp__
+#ifndef CADENCII_QT_APPCONTAINER_HPP_
+#define CADENCII_QT_APPCONTAINER_HPP_
 
 #include "qt/gui/WindowMainView.hpp"
-#include "qt/gui/PianorollTrackView.hpp"
+#include "qt/gui/pianoroll_track_view/PianorollTrackView.hpp"
 #include "qt/gui/CurveControlChangeView.hpp"
 #include "qt/gui/ConcreteBarCountView.hpp"
 #include "qt/gui/ConcreteTempoView.hpp"
 #include "qt/gui/ConcreteTimesigView.hpp"
-#include "qt/gui/ConcretePropertyView.hpp"
+#include "qt/gui/concrete_property_view/ConcretePropertyView.hpp"
 #include "qt/gui/ConcreteSingerListView.hpp"
 #include "qt/gui/ConcreteTrackListView.hpp"
 #include "Controller.hpp"

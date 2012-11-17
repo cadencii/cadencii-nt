@@ -34,6 +34,8 @@ namespace cadencii {
         virtual void updateWidget() = 0;
 
         virtual void *getWidget() = 0;
+
+        virtual void setTrackIndex(int trackIndex) = 0;
     };
 }
 

@@ -20,6 +20,7 @@
 #include "ItemSelectionManager.hpp"
 #include "command/AbstractCommand.hpp"
 #include "vsq/Sequence.hpp"
+#include "vsq/PhoneticSymbolDictionary.hpp"
 
 namespace cadencii {
 
@@ -153,6 +154,12 @@ namespace cadencii {
          * @brief Set whether or not to activate the shortcut for the entire application.
          */
         virtual void setApplicationShortcutEnabled(bool enabled) = 0;
+
+        /**
+         * @brief Get phonetic symbol from a word.
+         */
+        virtual const VSQ_NS::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(
+                const std::string &word) = 0;
     };
 }
 

@@ -453,6 +453,10 @@ namespace cadencii {
         Qt::MouseButton button = event->button();
 
         if (button == Qt::LeftButton) {
+            if (lyricEdit->isVisible()) {
+                hideLyricEdit();
+            }
+
             if (tool == ToolKind::POINTER) {
                 handleMouseLeftButtonPressByPointer(event);
             } else if (tool == ToolKind::ERASER) {
@@ -549,6 +553,11 @@ namespace cadencii {
     void PianorollTrackView::onMouseDoubleClickSlot(QMouseEvent *event) {
         const VSQ_NS::Event *noteOnMouse = findNoteEventAt(event->pos());
         if (noteOnMouse) {
+            ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
+            if (!manager->isContains(noteOnMouse) || manager->getEventItemList()->size() != 1) {
+                manager->clear();
+                manager->add(noteOnMouse);
+            }
             showLyricEdit(noteOnMouse);
         }
     }
@@ -665,7 +674,7 @@ namespace cadencii {
             } else {
                 symbol = "a";
                 const VSQ_NS::PhoneticSymbolDictionary::Element *element
-                        = VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+                        = controllerAdapter->attachPhoneticSymbol(word);
                 if (element) symbol = element->symbol();
             }
         }
