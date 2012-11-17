@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function run_cppcheck { (
+    echo "---------------------------------------------------------"
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 start"
     local workspace=$(cd $(dirname $0)/../; pwd)
     . ${workspace}/ci-tool/which_qmake.sh
     local qmake=$(which_qmake)
@@ -19,6 +21,7 @@ function run_cppcheck { (
     cd ${workspace}
     make clean
     rm -f Makefile
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 end"
 ) }
 
 run_cppcheck

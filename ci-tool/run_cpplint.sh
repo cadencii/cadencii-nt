@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function run_cpplint { (
+    echo "---------------------------------------------------------"
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 start"
     local workspace=$(cd $(dirname $0)/../; pwd)
     local result="${workspace}/cpplint_result.txt"
     rm -f ${result}
@@ -50,6 +52,7 @@ function run_cpplint { (
 
         rm -f ${tempFile}
     done
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 end"
 ) }
 
 run_cpplint
