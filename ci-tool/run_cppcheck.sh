@@ -15,7 +15,7 @@ function run_cppcheck { (
     for mocFile in $(find ${workspace} 2>&1 | grep moc_); do
         ignoreMocFileOption="${ignoreMocFileOption} -i ${mocFile}"
     done
-    cppcheck ${workspace} -i ${workspace}/qt-solutions -i ${workspace}/vsq ${ignoreMocFileOption} --enable=all -q --xml 2>&1 \
+    cppcheck ${workspace} -i ${workspace}/qt-solutions -i ${workspace}/vsq ${ignoreMocFileOption} --enable=performance,portability,information -q --xml 2>&1 \
         | sed "s:${workspace}/::g" \
         | tee ${workspace}/cppcheck-result.xml
     cd ${workspace}
