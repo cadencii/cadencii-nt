@@ -10,7 +10,7 @@ function run_ui_test { (
     cd ${workspace}/ui-test
     rm -f bin/*
     rm -f Makefile
-    ${qmake} ui-test.pro -o Makefile
+    ${qmake} CONFIG+=declarative_debug -o Makefile ui-test.pro
     make
     xterm -display localhost:1 -e ${workspace}/ui-test/bin/ui-test -xunitxml -o ${workspace}/ui-test/result.xml
     cd ${workspace}/ui-test
