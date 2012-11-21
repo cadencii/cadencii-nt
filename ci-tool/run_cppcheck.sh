@@ -36,7 +36,7 @@ function run_cppcheck { (
 
     for source in ${source_files}; do
         echo "$(get_cppcheck_result_path ${source}): ${source}" >> ${make_file}
-        echo "\tcppcheck \"\$<\" --enable=performance,portability,information -q --xml 2>&1 | grep -v '"missingInclude"' > \"\$@\"" >> ${make_file}
+        echo "	cppcheck \"\$<\" --enable=performance,portability,information -q --xml 2>&1 | grep -v '"missingInclude"' > \"\$@\"" >> ${make_file}
         echo "" >> ${make_file}
     done
     echo "all: \$(XML_FILES)" >> ${make_file}
