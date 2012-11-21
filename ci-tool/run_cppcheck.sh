@@ -13,7 +13,7 @@ function run_cppcheck { (
 
     ${qmake} ${workspace}/Cadencii.pro -o ${temporary_make_file}
     echo "prepare_cppcheck:" >> ${temporary_make_file}
-    echo "\techo \$(SOURCES) > ${workspace}/Makefile.cppcheck.conf" >> ${temporary_make_file}
+    echo "	echo \$(SOURCES) > ${workspace}/Makefile.cppcheck.conf" >> ${temporary_make_file}
     make -f ${temporary_make_file} prepare_cppcheck
 
     local source_files=""
