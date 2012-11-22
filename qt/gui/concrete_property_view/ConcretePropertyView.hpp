@@ -130,9 +130,9 @@ namespace cadencii {
         void initProperties();
 
         /**
-         * @brief Forbid focus on this widget.
+         * @brief Forbid focus recursively on specified widget.
          */
-        void setNoFocus();
+        void setNoFocus(QWidget *widget);
     };
 }
 

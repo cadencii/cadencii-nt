@@ -21,6 +21,8 @@
 namespace cadencii {
 
     class EditorWidgetBaseSubContent : public QGraphicsView {
+        friend class EditorWidgetBase;
+
         Q_OBJECT
 
     protected:

@@ -36,8 +36,7 @@ namespace cadencii {
     }
 
     void EditorWidgetBase::notifyVerticalScroll() {
-        QRect rect = ui->mainContent->getVisibleArea();
-        ui->subContent->update();
+        ui->subContent->repaint();
     }
 
     void EditorWidgetBase::notifyHorizontalScroll() {
@@ -50,6 +49,7 @@ namespace cadencii {
     void EditorWidgetBase::repaint() {
         ui->mainContent->scene->update();
         ui->mainContent->repaint();
+        ui->subContent->scene->update();
         ui->subContent->repaint();
         QWidget::repaint();
     }

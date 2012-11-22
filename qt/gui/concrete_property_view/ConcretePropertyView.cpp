@@ -34,19 +34,20 @@ namespace cadencii {
         treeUpdateWorker->start();
         trackIndex = 0;
 
-        setNoFocus();
+        setNoFocus(parent ? parent : this);
 
         connect(this, SIGNAL(valueChanged(const QtProperty*)),
                 this, SLOT(onValueChangedSlot(const QtProperty*)));
     }
 
-    void ConcretePropertyView::setNoFocus() {
-        const QObjectList children = this->children();
+    void ConcretePropertyView::setNoFocus(QWidget *widget) {
+        widget->setFocusPolicy(Qt::NoFocus);
+        const QObjectList children = widget->children();
         for (QObjectList::const_iterator i = children.begin(); i != children.end(); ++i) {
             QObject *child = *i;
             if (child->isWidgetType()) {
-                QWidget *widget = static_cast<QWidget *>(child);
-                widget->setFocusPolicy(Qt::NoFocus);
+                QWidget *childWidget = static_cast<QWidget *>(child);
+                setNoFocus(childWidget);
             }
         }
     }
