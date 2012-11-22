@@ -25,22 +25,27 @@ function run_cppcheck { (
     done
 
     local make_file="${workspace}/Makefile.cppcheck"
+    local make_file_temp="${make_file}.tmp"
     local result_files=""
-    echo "XML_FILES=" | tr -d '\n' > ${make_file}
+    echo "XML_FILES=" | tr -d '\n' > ${make_file_temp}
     for source in ${source_files}; do
         local result_path="$(get_cppcheck_result_path ${source})"
         result_files="${result_files} ${result_path}"
-        echo "${result_path} " | tr -d '\n' >> ${make_file}
+        echo "${result_path} " | tr -d '\n' >> ${make_file_temp}
     done
-    echo "" >> ${make_file}
-    echo "" >> ${make_file}
+    echo "" >> ${make_file_temp}
+    echo "" >> ${make_file_temp}
 
     for source in ${source_files}; do
-        echo "$(get_cppcheck_result_path ${source}): ${source}" >> ${make_file}
-        echo "	cppcheck \"\$<\" --enable=all -q --xml 2>&1 | grep -v '\"missingInclude\"' > \"\$@\"" >> ${make_file}
-        echo "" >> ${make_file}
+        echo "$(get_cppcheck_result_path ${source}): ${source} ${make_file}" >> ${make_file_temp}
+        echo "	cppcheck \"\$<\" --enable=all -q --xml 2>&1 | grep -v '\"missingInclude\"' > \"\$@\"" >> ${make_file_temp}
+        echo "" >> ${make_file_temp}
     done
-    echo "all: \$(XML_FILES)" >> ${make_file}
+    echo "all: \$(XML_FILES)" >> ${make_file_temp}
+
+    if ! (diff "${make_file_temp}" "${make_file}" >/dev/null 2>&1); then
+        mv ${make_file_temp} "${make_file}"
+    fi
 
     for file in $(ls -1 ${workspace}/cppcheck-result-*.xml); do
         local result_path="$(basename ${file})"
