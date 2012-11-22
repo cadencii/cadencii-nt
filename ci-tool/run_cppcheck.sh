@@ -36,24 +36,24 @@ function run_cppcheck { (
 
     for source in ${source_files}; do
         echo "$(get_cppcheck_result_path ${source}): ${source}" >> ${make_file}
-        echo "	cppcheck \"\$<\" --enable=performance,portability,information -q --xml 2>&1 | grep -v '"missingInclude"' > \"\$@\"" >> ${make_file}
+        echo "	cppcheck \"\$<\" --enable=performance,portability,information -q --xml 2>&1 | grep -v '\"missingInclude\"' > \"\$@\"" >> ${make_file}
         echo "" >> ${make_file}
     done
     echo "all: \$(XML_FILES)" >> ${make_file}
 
     for file in $(ls -1 ${workspace}/cppcheck-result-*.xml); do
-        local result_path="$(get_cppcheck_result_path ${file})"
+        local result_path="$(basename ${file})"
         if [ -z "$(echo ${result_files} | grep ${result_path})" ]; then
             rm ${file}
         fi
     done
-    make -f ${make_file} all
+    make -n -f ${make_file} all
 
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 end"
 ) }
 
 function get_cppcheck_result_path { (
-    echo "$(basename ${1})" | sed 's:^\(.*\)[.]cpp$:cppcheck-result-\1.xml:g' | tr / _ | tr -d '\n'
+    echo "cppcheck-result-$(basename ${1} | tr / _ | tr . _ ).xml" | tr -d '\n'
 ) }
 
 run_cppcheck
