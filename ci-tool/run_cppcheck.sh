@@ -2,24 +2,25 @@
 
 function run_cppcheck { (
     local workspace=$(cd $(dirname $0)/../; pwd)
-    . ${workspace}/ci-tool/which_qmake.sh
-    local qmake=$(which_qmake)
 
     echo "---------------------------------------------------------"
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 start"
     local workspace=$(cd $(dirname $0)/../; pwd)
 
-    local temporary_make_file="${workspace}/Makefile.cppcheck.tmp"
-
-    ${qmake} ${workspace}/Cadencii.pro -o ${temporary_make_file}
-    echo "prepare_cppcheck:" >> ${temporary_make_file}
-    echo "	echo \$(SOURCES) > ${workspace}/Makefile.cppcheck.conf" >> ${temporary_make_file}
-    make -f ${temporary_make_file} prepare_cppcheck
+    find ${workspace} 2>/dev/null \
+        | sed "s:^${workspace}/\\(.*\\)\$:\\1:g" \
+        | grep -v "^vsq/" \
+        | egrep '.hpp$|.cpp$' \
+        | grep -v '^qt-solutions/' \
+        | grep -v '^test/' \
+        | grep -v '^ui-test/' \
+        | grep -v '^bin/' \
+        > ${workspace}/Makefile.cppcheck.conf
 
     local source_files=""
     for source in $(cat ${workspace}/Makefile.cppcheck.conf); do
-        if [ -n "$(echo ${source} | grep -v '/qrc_' | grep -v '/moc_')" ]; then
-            source_files="${source_files} ${source}"
+        if [ -f "${workspace}/${source}" ]; then
+            source_files="${source_files} ${workspace}/${source}"
         fi
     done
 
@@ -47,7 +48,7 @@ function run_cppcheck { (
             rm ${file}
         fi
     done
-    make -n -f ${make_file} all
+    make -j 2 -f ${make_file} all
 
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 end"
 ) }
