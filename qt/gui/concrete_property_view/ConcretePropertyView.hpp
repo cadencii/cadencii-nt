@@ -26,7 +26,7 @@
 
 namespace cadencii {
 
-    class PropertyTreeUpdateWorker;
+    class SignalEmitWorker;
 
     class ConcretePropertyView : public QtTreePropertyBrowser, public PropertyView {
         Q_OBJECT
@@ -86,7 +86,7 @@ namespace cadencii {
          */
         QtEnumPropertyManager enumPropertyManager;
 
-        PropertyTreeUpdateWorker *treeUpdateWorker;
+        SignalEmitWorker *treeUpdateWorker;
         int trackIndex;
 
     public:

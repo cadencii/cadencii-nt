@@ -47,10 +47,13 @@ namespace cadencii {
     }
 
     void EditorWidgetBase::repaint() {
+#ifdef Q_OS_WIN
         ui->mainContent->scene->update();
-        ui->mainContent->repaint();
         ui->subContent->scene->update();
+#else
+        ui->mainContent->repaint();
         ui->subContent->repaint();
+#endif
         QWidget::repaint();
     }
 

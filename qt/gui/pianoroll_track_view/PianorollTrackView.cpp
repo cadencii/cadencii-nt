@@ -735,6 +735,7 @@ namespace cadencii {
 
     void PianorollTrackView::showLyricEdit(const VSQ_NS::Event *note) {
         controllerAdapter->setApplicationShortcutEnabled(false);
+        lyricEdit->setEnabled(true);
         lyricEdit->setupText(note);
         lyricEdit->setVisible(true);
         lyricEdit->setFocus();
@@ -745,6 +746,7 @@ namespace cadencii {
     void PianorollTrackView::hideLyricEdit() {
         lyricEdit->setVisible(false);
         lyricEdit->setupText(0);
+        lyricEdit->setEnabled(false);
         controllerAdapter->setApplicationShortcutEnabled(true);
     }
 

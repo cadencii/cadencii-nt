@@ -23,7 +23,6 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/command/DeleteEventCommand.cpp \
     $$PWD/command/AddEventCommand.cpp \
     $$PWD/command/AbstractCommand.cpp \
-    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.cpp \
     $$PWD/qt/gui/ConcreteSingerListView.cpp \
     $$PWD/qt/gui/ConcreteTrackListView.cpp \
     $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
@@ -73,14 +72,14 @@ HEADERS  += \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
-    $$PWD/qt/gui/concrete_property_view/PropertyTreeUpdateWorker.hpp \
     $$PWD/qt/gui/pianoroll_track_view/LyricEditWidget.hpp \
     $$PWD/gui/SingerListView.hpp \
     $$PWD/qt/gui/ConcreteSingerListView.hpp \
     $$PWD/gui/TrackListView.hpp \
     $$PWD/qt/gui/ConcreteTrackListView.hpp \
     $$PWD/gui/PropertyValueProxy.hpp \
-    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp \
+    $$PWD/qt/SignalEmitWorker.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

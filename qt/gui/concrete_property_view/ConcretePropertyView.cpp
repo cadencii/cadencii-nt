@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 #include "ConcretePropertyView.hpp"
-#include "PropertyTreeUpdateWorker.hpp"
+#include "../../SignalEmitWorker.hpp"
 
 namespace cadencii {
 
@@ -29,8 +29,8 @@ namespace cadencii {
         setIndentation(10);
         proxy.setParent(this);
         initProperties();
-        treeUpdateWorker = new PropertyTreeUpdateWorker(this);
-        connect(treeUpdateWorker, SIGNAL(callUpdateTree()), this, SLOT(updateTree()));
+        treeUpdateWorker = new SignalEmitWorker();
+        connect(treeUpdateWorker, SIGNAL(signal()), this, SLOT(updateTree()));
         treeUpdateWorker->start();
         trackIndex = 0;
 
@@ -57,12 +57,11 @@ namespace cadencii {
     }
 
     void ConcretePropertyView::statusChanged() {
-        treeUpdateWorker->enqueueTreeUpdate();
+        treeUpdateWorker->enqueue();
     }
 
     void ConcretePropertyView::setControllerAdapter(ControllerAdapter *adapter) {
         controllerAdapter = adapter;
-        treeUpdateWorker->setControllerAdapter(adapter);
     }
 
     void *ConcretePropertyView::getWidget() {
