@@ -80,7 +80,8 @@ HEADERS  += \
     $$PWD/gui/TrackListView.hpp \
     $$PWD/qt/gui/ConcreteTrackListView.hpp \
     $$PWD/gui/PropertyValueProxy.hpp \
-    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp
+    $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp \
+    $$PWD/qt/SignalEmitWorker.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \
