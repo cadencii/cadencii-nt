@@ -28,16 +28,21 @@ function run_cppcheck { (
     local result_files=""
     echo "XML_FILES=" | tr -d '\n' > ${make_file}
     for source in ${source_files}; do
-        local result_path="$(get_cppcheck_result_path ${source})"
+        local result_path="$(get_cppcheck_result_path ${source} ${workspace})"
         result_files="${result_files} ${result_path}"
         echo "${result_path} " | tr -d '\n' >> ${make_file}
     done
     echo "" >> ${make_file}
     echo "" >> ${make_file}
 
+    local suppress_list='missingInclude unusedFunction'
     for source in ${source_files}; do
-        echo "$(get_cppcheck_result_path ${source}): ${source}" >> ${make_file}
-        echo "	cppcheck \"\$<\" --enable=all -q --xml 2>&1 | grep -v '\"missingInclude\"' > \"\$@\"" >> ${make_file}
+        echo "$(get_cppcheck_result_path ${source} ${workspace}): ${source}" >> ${make_file}
+        echo "	cppcheck \"\$<\" --enable=all -q --xml 2>&1 \\" >> ${make_file}
+        for suppress in ${suppress_list}; do
+            echo "	    | grep -v '\"${suppress}\"' \\" >> ${make_file}
+        done
+        echo "	    > \"\$@\"" >> ${make_file}
         echo "" >> ${make_file}
     done
     echo "all: \$(XML_FILES)" >> ${make_file}
@@ -54,7 +59,8 @@ function run_cppcheck { (
 ) }
 
 function get_cppcheck_result_path { (
-    echo "cppcheck-result-$(basename ${1} | tr / _ | tr . _ ).xml" | tr -d '\n'
+    local relative_path=$(echo ${1} | sed "s:^${2}/\\(.*\\)\$:\\1:g")
+    echo "cppcheck-result-$(echo ${relative_path} | tr / _ | tr . _ ).xml" | tr -d '\n'
 ) }
 
 run_cppcheck
