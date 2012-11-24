@@ -270,7 +270,7 @@ namespace cadencii {
         if (!sequence) {
             return;
         }
-        const VSQ_NS::Event::List *list = sequence->track[trackIndex].events();
+        const VSQ_NS::Event::List *list = sequence->track(trackIndex)->events();
         int count = list->size();
 
         static QColor fillColor = QColor(181, 220, 86);
@@ -420,7 +420,7 @@ namespace cadencii {
 
     const VSQ_NS::Event *PianorollTrackView::findNoteEventAt(const QPoint &mousePosition) {
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-        const VSQ_NS::Event::List *list = sequence->track[trackIndex].events();
+        const VSQ_NS::Event::List *list = sequence->track(trackIndex)->events();
         int count = list->size();
         QPoint sceneMousePos = mapToScene(mousePosition);
 
@@ -580,7 +580,7 @@ namespace cadencii {
         // 矩形に入っているアイテムを、選択状態とする。
         // ただし、矩形選択直前に選択状態となっているものは選択状態を解除する
         QRect rect = mouseStatus.rect();
-        const VSQ_NS::Event::List *list = sequence->track[trackIndex].events();
+        const VSQ_NS::Event::List *list = sequence->track(trackIndex)->events();
         int count = list->size();
         std::set<const VSQ_NS::Event *> add;
         std::set<const VSQ_NS::Event *> remove;
@@ -706,7 +706,7 @@ namespace cadencii {
         if (!lyricEdit->event()) return;
 
         int id = lyricEdit->event()->id;
-        const VSQ_NS::Track *track = &controllerAdapter->getSequence()->track[trackIndex];
+        const VSQ_NS::Track *track = controllerAdapter->getSequence()->track(trackIndex);
         const VSQ_NS::Event::List *events = track->events();
         int index = events->findIndexFromId(id);
 

@@ -28,7 +28,7 @@ namespace cadencii {
         EditorWidgetBase(parent) {
         trackIndex = 0;
         controlChangeName = "dyn";
-        front = defaultSequence.track[0].getCurve(controlChangeName);
+        front = defaultSequence.track(0)->curve(controlChangeName);
         ui->mainContent->setBackgroundBrush(QBrush(Qt::darkGray));
         ui->subContent->setBackgroundBrush(QBrush(Qt::lightGray));
         ui->subContent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -124,8 +124,8 @@ namespace cadencii {
         controlChangeName = name;
         if (controllerAdapter) {
             const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-            if (0 <= trackIndex && trackIndex < sequence->track.size()) {
-                front = sequence->track[trackIndex].getConstCurve(controlChangeName);
+            if (0 <= trackIndex && trackIndex < sequence->tracks()->size()) {
+                front = sequence->track(trackIndex)->curve(controlChangeName);
             } else {
                 front = 0;
             }
@@ -240,7 +240,7 @@ namespace cadencii {
 
     const std::vector<std::string> *CurveControlChangeView::getCurrentCurveNameList() {
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-        const VSQ_NS::Track *track = &sequence->track[trackIndex];
+        const VSQ_NS::Track *track = sequence->track(trackIndex);
         return track->curveNameList();
     }
 

@@ -52,7 +52,7 @@ namespace cadencii {
         }
 
         AbstractCommand *execute(VSQ_NS::Sequence *sequence)  {
-            VSQ_NS::Track *target = &sequence->track[track];
+            VSQ_NS::Track *target = sequence->track(track);
             std::map<int, VSQ_NS::Event>::iterator i
                     = itemList.begin();
             std::map<int, VSQ_NS::Event> originalItemList;

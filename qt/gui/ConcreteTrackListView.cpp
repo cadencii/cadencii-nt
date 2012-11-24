@@ -106,8 +106,8 @@ namespace cadencii {
             int selector_width = getTrackTabWidth();
             for (int i = 0; i < 16; i++) {
                 int x = i * selector_width + visibleArea.left();
-                std::string name = (i < sequence->track.size())
-                        ? StringUtil::toString(i + 1) + " " + sequence->track[i].getName()
+                std::string name = (i < sequence->tracks()->size())
+                        ? StringUtil::toString(i + 1) + " " + sequence->track(i)->getName()
                         : "";
                 paintTrackTab(painter,
                               QRect(x, height - laneHeight + 1, selector_width, laneHeight - 1),
@@ -146,7 +146,7 @@ namespace cadencii {
         int numTrack = 1;
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
-            numTrack = sequence->track.size();
+            numTrack = sequence->tracks()->size();
         }
         if (draft * (numTrack - 1) <= maxTotalWidth) {
             return draft;
@@ -225,7 +225,7 @@ namespace cadencii {
         if (sequence) {
             if (trackIndex != this->trackIndex &&
                     0 <= trackIndex &&
-                    trackIndex < sequence->track.size()) {
+                    trackIndex < sequence->tracks()->size()) {
                 controllerAdapter->setTrackIndex(0, trackIndex);
             }
         }

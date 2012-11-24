@@ -208,7 +208,7 @@ namespace cadencii {
          * @param sequence An instance of Sequence.
          */
         void updateSelectedContents(int trackIndex, const VSQ_NS::Sequence *sequence) {
-            const VSQ_NS::Track *track = &sequence->track[trackIndex];
+            const VSQ_NS::Track *track = sequence->track(trackIndex);
             const VSQ_NS::Event::List *list = track->events();
             std::map<const VSQ_NS::Event *, VSQ_NS::Event>::iterator i
                     = eventItemList.begin();
