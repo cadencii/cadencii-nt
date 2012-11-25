@@ -1,6 +1,6 @@
 [submodule "vsq"]
 	path = vsq
 	url = https://github.com/kbinani/libvsq.git
-[submodule "qtpropertybrowser"]
-	path = qtpropertybrowser
+[submodule "qt-property-browser"]
+	path = qt-property-browser
 	url = https://github.com/kbinani/qtpropertybrowser.git
