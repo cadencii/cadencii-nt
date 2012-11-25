@@ -23,7 +23,8 @@ function run_cpplint { (
     do
 
         local tempFile=$(mktemp /tmp/cpplint_XXXXXXXXXXXXX)
-        python ${workspace}/ci-tool/cpplint.py ${file} 2>&1 \
+        cat ${file} | cpplint - 2>&1 \
+            | sed "s:^-\:\(.*\)\$:${file}\:\1:g" \
             | grep -v '^Done processing ' \
             | grep -v '^Total errors found: ' \
             | grep -v 'Lines should be <= 80 characters long ' \
