@@ -15,6 +15,7 @@ function run_cpplint { (
             find ${workspace} -name '*.cpp' -or -name '*.hpp' 2>&1 \
             | grep -v "^${workspace}/vsq/" \
             | grep -v "^${workspace}/qt-solutions/" \
+            | grep -v "^${workspace}/qt-property-browser/" \
             | grep -v "^${workspace}/test/" \
             | grep -v "^${workspace}/ui-test/" \
             | grep -v "^${workspace}/bin/" \
