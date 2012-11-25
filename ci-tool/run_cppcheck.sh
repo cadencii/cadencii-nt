@@ -12,6 +12,7 @@ function run_cppcheck { (
         | grep -v "^vsq/" \
         | egrep '.hpp$|.cpp$' \
         | grep -v '^qt-solutions/' \
+        | grep -v '^qt-property-browser/' \
         | grep -v '^test/' \
         | grep -v '^ui-test/' \
         | grep -v '^bin/' \

@@ -59,11 +59,12 @@ namespace cadencii {
         const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
             const VSQ_NS::TimesigList *list = &sequence->timesigList;
+            const int DRAW_WIDTH = 100;
             int count = list->size();
             for (int i = 0; i < count; i++) {
                 const VSQ_NS::Timesig timesig = list->get(i);
                 int x = controllerAdapter->getXFromTick(timesig.getClock());
-                if (x + 5 < rect.left()) {
+                if (x + DRAW_WIDTH < rect.left()) {
                     continue;
                 }
                 std::string  text

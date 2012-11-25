@@ -51,12 +51,12 @@ void Test::removeSelectedEvents(){
 
         // デフォルトで追加されている歌手変更イベントと、追加した音符イベントで
         // 合計 3 つのイベントがあるはず
-        QCOMPARE( 3, container.controller.getSequence()->track[0].events()->size() );
+        QCOMPARE(3, container.controller.getSequence()->track(0)->events()->size());
     }
 
     // 今しがた追加した音符を選択状態にする
     {
-        const Event::List *events = container.controller.getSequence()->track[0].events();
+        const Event::List *events = container.controller.getSequence()->track(0)->events();
         for( int i = 0; i < events->size(); i++ ){
             const Event *item = events->get( i );
             if( 480 == item->clock ||
@@ -73,7 +73,7 @@ void Test::removeSelectedEvents(){
     container.controller.removeSelectedItems();
 
     // 音符が 1 個に減っていること
-    QCOMPARE( 1, container.controller.getSequence()->track[0].events()->size() );
+    QCOMPARE(1, container.controller.getSequence()->track(0)->events()->size());
 
     // 選択状態を管理するマネージャに、音符がもはや選択されていないこと
     QCOMPARE( (size_t)0, manager->getEventItemList()->size() );
@@ -100,7 +100,7 @@ void Test::avoidCrashByZeroLengthEvent(){
     container.controller.execute( &command );
 
     // 追加したイベントを取得
-    const Track *track = &container.controller.getSequence()->track[0];
+    const Track *track = container.controller.getSequence()->track(0);
     const Event *targetEvent = 0;
     for( int i = 0; i < track->events()->size(); i++ ){
         const Event *item = track->events()->get( i );
@@ -146,12 +146,12 @@ void Test::changeTrackIndex(){
     container.controller.openVSQFile( "./fixture/two-tracks.vsq" );
     int waitCount = 0;
     const int MAX_WAIT_COUNT = 20;
-    while( container.controller.getSequence()->track.size() != 2 ){
+    while (container.controller.getSequence()->tracks()->size() != 2) {
         QTestEventLoop::instance().enterLoop( 1 );
         waitCount++;
         QVERIFY( waitCount <= MAX_WAIT_COUNT );
     }
-    QCOMPARE( container.controller.getSequence()->track.size(), (size_t)2 );
+    QCOMPARE(container.controller.getSequence()->tracks()->size(), (size_t)2);
     QCOMPARE( stub->getTrackIndex(), 0 );
 
     // 2番目のトラックが表示されている領域をクリックしたことにする

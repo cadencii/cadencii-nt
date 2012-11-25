@@ -67,27 +67,24 @@ namespace cadencii {
         if (!sequence) {
             return;
         }
-        if (trackIndex < 0 || sequence->track.size() <= trackIndex) {
+        if (trackIndex < 0 || sequence->tracks()->size() <= trackIndex) {
             return;
         }
 
         // コンポーネントの左端位置での、歌手変更イベントを調べる
-        VSQ_NS::Track track = sequence->track[trackIndex];
+        const VSQ_NS::Track *track = sequence->track(trackIndex);
         int offset = controllerAdapter->getXFromTick(0);
         int xAtLeft = visibleArea.x() + offset;
         int clockAtLeft = controllerAdapter->getTickFromX(xAtLeft);
-        // TODO(kbinani): getSingerEventAt を const メソッドにしたうえで、
-        //     sequence->track[trackIndex].getSingerEventAt という書き方に変更する。
-        //     要は track のインスタンスのコピー回数をゼロにする
-        const VSQ_NS::Event *singerAtLeft = track.getSingerEventAt(clockAtLeft);
+        const VSQ_NS::Event *singerAtLeft = track->getSingerEventAt(clockAtLeft);
         if (singerAtLeft) {
             paintSinger(painter, singerAtLeft, xAtLeft, LEFT);
         }
 
         // 順に描画する
         VSQ_NS::EventListIndexIterator i =
-                track.getIndexIterator(VSQ_NS::EventListIndexIteratorKind::SINGER);
-        const VSQ_NS::Event::List *events = track.events();
+                track->getIndexIterator(VSQ_NS::EventListIndexIteratorKind::SINGER);
+        const VSQ_NS::Event::List *events = track->events();
         while (i.hasNext()) {
             int index = i.next();
             const VSQ_NS::Event *item = events->get(index);

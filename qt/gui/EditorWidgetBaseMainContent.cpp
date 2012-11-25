@@ -109,7 +109,8 @@ namespace cadencii {
     }
 
     void EditorWidgetBaseMainContent::paintMeasureLines(QPainter *g, QRect visibleArea) {
-        int left = visibleArea.left();
+        const int MARGIN = 100;
+        int left = visibleArea.left() - MARGIN;
         int right = visibleArea.right();
         VSQ_NS::tick_t tickAtScreenRight
                 = (VSQ_NS::tick_t)parentWidget->controllerAdapter->getTickFromX(right);

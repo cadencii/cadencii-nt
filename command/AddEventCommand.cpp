@@ -24,7 +24,7 @@ namespace cadencii {
     }
 
     AbstractCommand *AddEventCommand::execute(VSQ_NS::Sequence *sequence) {
-        VSQ_NS::Event::List *list = sequence->track[track].events();
+        VSQ_NS::Event::List *list = sequence->track(track)->events();
         std::vector<int> idList;
 
         std::vector<VSQ_NS::Event>::const_iterator i = eventList.begin();

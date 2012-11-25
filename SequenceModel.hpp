@@ -145,8 +145,8 @@ namespace cadencii {
         void sortAllItems(VSQ_NS::Sequence *sequence) {
             // 各トラックのカーブと、シーケンスのtimesigList はそれぞれ自動でソートされるので
             // 気にしなくてよい
-            std::vector<VSQ_NS::Track>::iterator i = sequence->track.begin();
-            for (; i != sequence->track.end(); ++i) {
+            std::vector<VSQ_NS::Track>::iterator i = sequence->tracks()->begin();
+            for (; i != sequence->tracks()->end(); ++i) {
                 VSQ_NS::Track *track = &(*i);
                 track->events()->sort();
             }

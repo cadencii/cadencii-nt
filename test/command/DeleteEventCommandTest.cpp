@@ -9,24 +9,24 @@ class DeleteEventCommandTest : public CppUnit::TestCase{
 public:
     void testExecute(){
         Sequence sequence( "foo", 1, 4, 4, 500000 );
-        sequence.track[0].events()->clear();
+        sequence.track(0)->events()->clear();
         Event singer( 0, EventType::SINGER );
         Event note( 480, EventType::NOTE );
-        int idSinger = sequence.track[0].events()->add( singer );
-        int idNote = sequence.track[0].events()->add( note );
+        int idSinger = sequence.track(0)->events()->add(singer);
+        int idNote = sequence.track(0)->events()->add(note);
 
         vector<int> idList;
         idList.push_back( idSinger );
         idList.push_back( idNote );
         DeleteEventCommand command( 0, idList );
 
-        CPPUNIT_ASSERT_EQUAL( 2, sequence.track[0].events()->size() );
+        CPPUNIT_ASSERT_EQUAL(2, sequence.track(0)->events()->size());
         AbstractCommand *reverseCommand = command.execute( &sequence );
-        CPPUNIT_ASSERT_EQUAL( 0, sequence.track[0].events()->size() );
+        CPPUNIT_ASSERT_EQUAL(0, sequence.track(0)->events()->size());
 
         AbstractCommand *trash = reverseCommand->execute( &sequence );
-        CPPUNIT_ASSERT_EQUAL( (tick_t)0, sequence.track[0].events()->get( 0 )->clock );
-        CPPUNIT_ASSERT_EQUAL( (tick_t)480, sequence.track[0].events()->get( 1 )->clock );
+        CPPUNIT_ASSERT_EQUAL((tick_t)0, sequence.track(0)->events()->get(0)->clock);
+        CPPUNIT_ASSERT_EQUAL((tick_t)480, sequence.track(0)->events()->get(1)->clock);
 
         delete reverseCommand;
         delete trash;
