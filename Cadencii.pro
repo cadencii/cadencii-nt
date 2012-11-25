@@ -9,7 +9,7 @@ QT       += core gui multimedia
 TARGET = Cadencii
 TEMPLATE = app
 
-include(qt-solutions/qtpropertybrowser/src/qtpropertybrowser.pri)
+include(qt-property-browser/src/qtpropertybrowser.pri)
 include(cadencii_common.pri)
 
 SOURCES += main.cpp
