@@ -25,7 +25,7 @@
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
-#include "SequenceModel.hpp"
+#include "sequence/SequenceModel.hpp"
 
 namespace cadencii {
 

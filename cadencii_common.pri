@@ -1,3 +1,5 @@
+QT += xml
+
 contains( CONFIG, declarative_debug ){
     DESTDIR = $$PWD/bin/debug
 }else{
@@ -26,7 +28,9 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/ConcreteSingerListView.cpp \
     $$PWD/qt/gui/ConcreteTrackListView.cpp \
     $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
-    $$PWD/gui/PropertyValueProxy.cpp
+    $$PWD/gui/PropertyValueProxy.cpp \
+    sequence/io/XVSQFileReader.cpp \
+    sequence/io/SAXAdapter.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -68,7 +72,7 @@ HEADERS  += \
     $$PWD/ItemSelectionStatusListener.hpp \
     $$PWD/command/AbstractCommand.hpp \
     $$PWD/command/EditEventCommand.hpp \
-    $$PWD/SequenceModel.hpp \
+    $$PWD/sequence/SequenceModel.hpp \
     $$PWD/command/DeleteEventCommand.hpp \
     $$PWD/command/AddEventCommand.hpp \
     $$PWD/qt/AppContainer.hpp \
@@ -79,7 +83,9 @@ HEADERS  += \
     $$PWD/qt/gui/ConcreteTrackListView.hpp \
     $$PWD/gui/PropertyValueProxy.hpp \
     $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.hpp \
-    $$PWD/qt/SignalEmitWorker.hpp
+    $$PWD/qt/SignalEmitWorker.hpp \
+    $$PWD/sequence/io/XVSQFileReader.hpp \
+    $$PWD/sequence/io/SAXAdapter.hpp \
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

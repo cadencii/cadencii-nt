@@ -1,6 +1,6 @@
-#include "Util.hpp"
-#include "../SequenceModel.hpp"
-#include "../command/EditEventCommand.hpp"
+#include "../Util.hpp"
+#include "../../sequence/SequenceModel.hpp"
+#include "../../command/EditEventCommand.hpp"
 
 using namespace VSQ_NS;
 using namespace cadencii;

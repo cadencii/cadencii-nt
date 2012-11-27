@@ -8,10 +8,11 @@ SOURCES += \
     audio/WavFileReaderTest.cpp \
     ItemSelectionManagerTest.cpp \
     command/EditEventCommandTest.cpp \
-    SequenceModelTest.cpp \
+    sequence/SequenceModelTest.cpp \
     command/AddEventCommandTest.cpp \
     command/DeleteEventCommandTest.cpp \
-    PropertyValueProxyTest.cpp
+    PropertyValueProxyTest.cpp \
+    sequence/io/XVSQFileReaderTest.cpp
 
 HEADERS += \
     Util.hpp \

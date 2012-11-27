@@ -51,3 +51,5 @@ int main( int argc, char* argv[] )
 #include "../command/DeleteEventCommand.cpp"
 #include "../command/AbstractCommand.cpp"
 #include "../gui/PropertyValueProxy.cpp"
+#include "../sequence/io/SAXAdapter.cpp"
+#include "../sequence/io/XVSQFileReader.cpp"
