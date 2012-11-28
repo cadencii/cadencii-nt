@@ -16,6 +16,7 @@
 #define CADENCII_SEQUENCE_IO_XVSQFILEREADER_HPP_
 
 #include <string>
+#include <stack>
 #include "../../vsq/Sequence.hpp"
 #include "SAXAdapter.hpp"
 
@@ -31,11 +32,17 @@ namespace cadencii {
         VSQ_NS::Sequence *sequence;
         VSQ_NS::Track currentTrack;
         int trackCount;
+        std::stack<std::string> tagNameStack;
+
+        std::map<std::string, VSQ_NS::DynamicsMode::DynamicsModeEnum> dynamicsModeValueMap;
+        std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
 
     protected:
         SAXAdapter *adapter;
 
     public:
+        XVSQFileReader();
+
         /**
          * @brief Read XVSQ from specified SAX(Simple API for XML) adapter.
          */
@@ -47,6 +54,10 @@ namespace cadencii {
         void endElement(const std::string &name);
 
         void characters(const std::string &ch);
+
+    private:
+        template<class T>
+        inline void insertEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
     };
 }
 

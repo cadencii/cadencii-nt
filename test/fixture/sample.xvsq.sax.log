@@ -1184,7 +1184,7 @@ startElement	VsqTrack
 startElement	MetaText
 startElement	Common
 startElement	Version
-characters	DSB301
+characters	DSB300
 endElement	Version
 startElement	Name
 characters	Voice2
@@ -1193,13 +1193,13 @@ startElement	Color
 characters	179,181,123
 endElement	Color
 startElement	DynamicsMode
-characters	1
+characters	0
 endElement	DynamicsMode
 startElement	PlayMode
-characters	1
+characters	-1
 endElement	PlayMode
 startElement	LastPlayMode
-characters	1
+characters	0
 endElement	LastPlayMode
 endElement	Common
 startElement	Events

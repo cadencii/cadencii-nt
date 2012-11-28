@@ -69,6 +69,28 @@ public:
 
         CPPUNIT_ASSERT_EQUAL((size_t)2, sequence.tracks()->size());
 
+        {
+            // 1st track
+            const Track *track = sequence.track(0);
+            CPPUNIT_ASSERT_EQUAL(string("DSB301"), track->common()->version);
+            CPPUNIT_ASSERT_EQUAL(string("Voice1"), track->common()->name);
+            CPPUNIT_ASSERT_EQUAL(string("179,181,123"), track->common()->color);
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::DynamicsMode::EXPERT, track->common()->dynamicsMode);
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, track->common()->playMode());
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, track->common()->lastPlayMode());
+        }
+
+        {
+            // 2nd track
+            const Track *track = sequence.track(1);
+            CPPUNIT_ASSERT_EQUAL(string("DSB300"), track->common()->version);
+            CPPUNIT_ASSERT_EQUAL(string("Voice2"), track->common()->name);
+            CPPUNIT_ASSERT_EQUAL(string("179,181,123"), track->common()->color);
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::DynamicsMode::STANDARD, track->common()->dynamicsMode);
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::OFF, track->common()->playMode());
+            CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_AFTER_SYNTH, track->common()->lastPlayMode());
+        }
+
         //TODO(kbinani): more assertion
     }
 
