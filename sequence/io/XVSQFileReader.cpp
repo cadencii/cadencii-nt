@@ -19,12 +19,16 @@
 namespace cadencii {
 
     XVSQFileReader::XVSQFileReader() {
-        insertEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
-        insertEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
+        insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
+        insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
 
-        insertEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::OFF);
-        insertEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_AFTER_SYNTH);
-        insertEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_WITH_SYNTH);
+        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::OFF);
+        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_AFTER_SYNTH);
+        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_WITH_SYNTH);
+
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::ICON);
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::NOTE);
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::SINGER);
     }
 
     /**
@@ -57,7 +61,7 @@ namespace cadencii {
                 sequence->tracks()->push_back(currentTrack);
             }
         } else if ("VsqEvent" == name) {
-            currentTrack.events()->add(currentEvent);
+            currentTrack.events()->add(currentEvent, currentEvent.id);
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -71,8 +75,54 @@ namespace cadencii {
         std::string parentTagName = stack.top();
         if ("Common" == parentTagName) {
             charactersCommon(ch, tagName);
+        } else if ("VsqEvent" == parentTagName) {
+            charactersVsqEvent(ch, tagName);
+        } else if ("ID" == parentTagName) {
+            charactersID(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersID(const std::string &ch, const std::string &tagName) {
+        if ("type" == tagName) {
+            if (eventTypeValueMap.find(ch) != eventTypeValueMap.end()) {
+                currentEvent.type = eventTypeValueMap.at(ch);
+            }
+        } else if ("Note" == tagName) {
+            currentEvent.note = StringUtil::parseInt<int>(ch);
+        } else if ("Dynamics" == tagName) {
+            currentEvent.dynamics = StringUtil::parseInt<int>(ch);
+        } else if ("PMBendDepth" == tagName) {
+            currentEvent.pmBendDepth = StringUtil::parseInt<int>(ch);
+        } else if ("PMBendLength" == tagName) {
+            currentEvent.pmBendLength = StringUtil::parseInt<int>(ch);
+        } else if ("PMbPortamentoUse" == tagName) {
+            currentEvent.pmbPortamentoUse = StringUtil::parseInt<int>(ch);
+        } else if ("DEMdecGainRate" == tagName) {
+            currentEvent.demDecGainRate = StringUtil::parseInt<int>(ch);
+        } else if ("DEMaccent" == tagName) {
+            currentEvent.demAccent = StringUtil::parseInt<int>(ch);
+        } else if ("VibratoDelay" == tagName) {
+            currentEvent.vibratoDelay = StringUtil::parseInt<int>(ch);
+        } else if ("pMeanOnsetFirstNote" == tagName) {
+            currentEvent.pMeanOnsetFirstNote = StringUtil::parseInt<int>(ch);
+        } else if ("vMeanNoteTransition" == tagName) {
+            currentEvent.vMeanNoteTransition = StringUtil::parseInt<int>(ch);
+        } else if ("d4mean" == tagName) {
+            currentEvent.d4mean = StringUtil::parseInt<int>(ch);
+        } else if ("pMeanEndingNote" == tagName) {
+            currentEvent.pMeanEndingNote = StringUtil::parseInt<int>(ch);
+        } else if ("Length" == tagName) {
+            currentEvent.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+        }
+    }
+
+    void XVSQFileReader::charactersVsqEvent(const std::string &ch, const std::string &tagName) {
+        if ("InternalID" == tagName) {
+            currentEvent.id = StringUtil::parseInt<int>(ch);
+        } else if ("Clock" == tagName) {
+            currentEvent.clock = StringUtil::parseInt<VSQ_NS::tick_t>(ch);
+        }
     }
 
     void XVSQFileReader::charactersCommon(const std::string &ch, const std::string &tagName) {
@@ -101,7 +151,12 @@ namespace cadencii {
     }
 
     template<class T>
-    void XVSQFileReader::insertEnumValueMap(std::map<std::string, T> &result, const T &enumValue) {
+    void XVSQFileReader::insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue) {
         result.insert(std::make_pair(StringUtil::toString((int)enumValue), enumValue));
+    }
+
+    template<class classT, class enumT>
+    void XVSQFileReader::insertStringEnumValueMap(std::map<std::string, enumT> &result, const enumT &enumValue) {
+        result.insert(std::make_pair(classT::toString(enumValue), enumValue));
     }
 }

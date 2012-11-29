@@ -82,6 +82,44 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->lastPlayMode());
             }
             CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
+            {
+                const Event *item = track->events()->get(0);
+                CPPUNIT_ASSERT_EQUAL(0, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::SINGER, item->type);
+                CPPUNIT_ASSERT_EQUAL(0, item->note);
+                CPPUNIT_ASSERT_EQUAL(0, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(0, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(0, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(0, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+            }
+            {
+                const Event *item = track->events()->get(1);
+                CPPUNIT_ASSERT_EQUAL(1, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)1920, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::NOTE, item->type);
+                CPPUNIT_ASSERT_EQUAL(72, item->note);
+                CPPUNIT_ASSERT_EQUAL(64, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(8, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(3, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(50, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(50, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(320, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)960, item->getLength());
+            }
         }
 
         {
@@ -97,6 +135,44 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_AFTER_SYNTH, common->lastPlayMode());
             }
             CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
+            {
+                const Event *item = track->events()->get(0);
+                CPPUNIT_ASSERT_EQUAL(2, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::SINGER, item->type);
+                CPPUNIT_ASSERT_EQUAL(0, item->note);
+                CPPUNIT_ASSERT_EQUAL(0, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(1, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(0, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(0, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(0, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(11, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(13, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(23, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(11, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+            }
+            {
+                const Event *item = track->events()->get(1);
+                CPPUNIT_ASSERT_EQUAL(3, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)1921, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::NOTE, item->type);
+                CPPUNIT_ASSERT_EQUAL(76, item->note);
+                CPPUNIT_ASSERT_EQUAL(64, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(8, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(2, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(3, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(50, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(50, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(320, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(14, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(22, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)960, item->getLength());
+            }
         }
 
         //TODO(kbinani): more assertion

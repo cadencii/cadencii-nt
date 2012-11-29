@@ -37,6 +37,7 @@ namespace cadencii {
 
         std::map<std::string, VSQ_NS::DynamicsMode::DynamicsModeEnum> dynamicsModeValueMap;
         std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
+        std::map<std::string, VSQ_NS::EventType::EventTypeEnum> eventTypeValueMap;
 
     protected:
         SAXAdapter *adapter;
@@ -59,8 +60,15 @@ namespace cadencii {
     private:
         void charactersCommon(const std::string &ch, const std::string &tagName);
 
+        void charactersVsqEvent(const std::string &ch, const std::string &tagName);
+
+        void charactersID(const std::string &ch, const std::string &tagName);
+
         template<class T>
-        inline void insertEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
+        inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
+
+        template<class classT, class enumT>
+        inline void insertStringEnumValueMap(std::map<std::string, enumT> &result, const enumT &enumValue);
     };
 }
 
