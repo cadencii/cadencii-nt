@@ -56,6 +56,8 @@ namespace cadencii {
         void characters(const std::string &ch);
 
     private:
+        void charactersCommon(const std::string &ch, const std::string &tagName);
+
         template<class T>
         inline void insertEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
     };

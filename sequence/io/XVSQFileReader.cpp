@@ -64,12 +64,17 @@ namespace cadencii {
         std::string tagName = stack.top();
         stack.pop();
         std::string parentTagName = stack.top();
+        if ("Common" == parentTagName) {
+            charactersCommon(ch, tagName);
+        }
+        // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersCommon(const std::string &ch, const std::string &tagName) {
         if ("Version" == tagName) {
             currentTrack.common()->version = ch;
         } else if ("Name" == tagName) {
-            if ("Common" == parentTagName) {
-                currentTrack.common()->name = ch;
-            }
+            currentTrack.common()->name = ch;
         } else if ("Color" == tagName) {
             currentTrack.common()->color = ch;
         } else if ("DynamicsMode" == tagName) {
@@ -88,7 +93,6 @@ namespace cadencii {
                 currentTrack.common()->setPlayMode(current);
             }
         }
-        // TODO(kbinani):
     }
 
     template<class T>
