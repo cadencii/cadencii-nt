@@ -42,6 +42,9 @@ namespace cadencii {
         if ("VsqTrack" == name) {
             trackCount++;
             currentTrack = VSQ_NS::Track("", "");
+            currentTrack.events()->clear();
+        } else if ("VsqEvent" == name) {
+            currentEvent = VSQ_NS::Event();
         }
         // TODO(kbinani):
         tagNameStack.push(name);
@@ -53,6 +56,8 @@ namespace cadencii {
                 // first track is a 'Master' track. so, just skip it.
                 sequence->tracks()->push_back(currentTrack);
             }
+        } else if ("VsqEvent" == name) {
+            currentTrack.events()->add(currentEvent);
         }
         // TODO(kbinani):
         tagNameStack.pop();

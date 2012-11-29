@@ -31,6 +31,7 @@ namespace cadencii {
     private:
         VSQ_NS::Sequence *sequence;
         VSQ_NS::Track currentTrack;
+        VSQ_NS::Event currentEvent;
         int trackCount;
         std::stack<std::string> tagNameStack;
 

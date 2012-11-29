@@ -81,6 +81,7 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->playMode());
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->lastPlayMode());
             }
+            CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
         }
 
         {
@@ -95,6 +96,7 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::OFF, common->playMode());
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_AFTER_SYNTH, common->lastPlayMode());
             }
+            CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
         }
 
         //TODO(kbinani): more assertion
