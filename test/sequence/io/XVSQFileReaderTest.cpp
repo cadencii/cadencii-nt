@@ -100,6 +100,18 @@ public:
                 CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
                 CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
                 CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::SINGER, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string("hoge"), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL(string("$07010000"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("Miku"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->index);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)1, handle->getLength());
+                    CPPUNIT_ASSERT_EQUAL(0, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->program);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->language);
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -119,6 +131,10 @@ public:
                 CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
                 CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
                 CPPUNIT_ASSERT_EQUAL((tick_t)960, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 
@@ -153,6 +169,18 @@ public:
                 CPPUNIT_ASSERT_EQUAL(23, item->d4mean);
                 CPPUNIT_ASSERT_EQUAL(11, item->pMeanEndingNote);
                 CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::SINGER, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string(""), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL(string("$07010000"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("Mike"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(1, handle->index);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)1, handle->getLength());
+                    CPPUNIT_ASSERT_EQUAL(1, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(2, handle->program);
+                    CPPUNIT_ASSERT_EQUAL(1, handle->language);
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -172,6 +200,10 @@ public:
                 CPPUNIT_ASSERT_EQUAL(22, item->d4mean);
                 CPPUNIT_ASSERT_EQUAL(10, item->pMeanEndingNote);
                 CPPUNIT_ASSERT_EQUAL((tick_t)960, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 

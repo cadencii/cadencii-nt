@@ -54,6 +54,8 @@ namespace cadencii {
             currentTrack.events()->clear();
         } else if ("VsqEvent" == name) {
             currentEvent = VSQ_NS::Event();
+        } else if ("IconHandle" == name) {
+            currentEvent.singerHandle = VSQ_NS::Handle(VSQ_NS::HandleType::SINGER);
         }
         // TODO(kbinani):
         tagNameStack.push(name);
@@ -84,8 +86,30 @@ namespace cadencii {
             charactersVsqEvent(ch, tagName);
         } else if ("ID" == parentTagName) {
             charactersID(ch, tagName);
+        } else if ("IconHandle" == parentTagName) {
+            charactersIconHandle(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersIconHandle(const std::string &ch, const std::string &tagName) {
+        if ("Caption" == tagName) {
+            currentEvent.singerHandle.caption = ch;
+        } else if ("IconID" == tagName) {
+            currentEvent.singerHandle.iconId = ch;
+        } else if ("IDS" == tagName) {
+            currentEvent.singerHandle.ids = ch;
+        } else if ("Index" == tagName) {
+            currentEvent.singerHandle.index = StringUtil::parseInt<int>(ch);
+        } else if ("Length" == tagName) {
+            currentEvent.singerHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+        } else if ("Original" == tagName) {
+            currentEvent.singerHandle.original = StringUtil::parseInt<int>(ch);
+        } else if ("Program" == tagName) {
+            currentEvent.singerHandle.program = StringUtil::parseInt<int>(ch);
+        } else if ("Language" == tagName) {
+            currentEvent.singerHandle.language = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersID(const std::string &ch, const std::string &tagName) {
