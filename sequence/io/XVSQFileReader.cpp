@@ -13,6 +13,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include <string>
+#include <map>
+#include <stack>
 #include "XVSQFileReader.hpp"
 #include "SAXAdapter.hpp"
 
@@ -26,9 +28,12 @@ namespace cadencii {
         insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_AFTER_SYNTH);
         insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_WITH_SYNTH);
 
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::ICON);
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::NOTE);
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(eventTypeValueMap, VSQ_NS::EventType::SINGER);
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
+                    eventTypeValueMap, VSQ_NS::EventType::ICON);
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
+                    eventTypeValueMap, VSQ_NS::EventType::NOTE);
+        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
+                    eventTypeValueMap, VSQ_NS::EventType::SINGER);
     }
 
     /**
@@ -151,12 +156,16 @@ namespace cadencii {
     }
 
     template<class T>
-    void XVSQFileReader::insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue) {
-        result.insert(std::make_pair(StringUtil::toString((int)enumValue), enumValue));
+    void XVSQFileReader::insertIntegerEnumValueMap(
+        std::map<std::string, T> &result, const T &enumValue
+    ) {
+        result.insert(std::make_pair(StringUtil::toString(static_cast<int>(enumValue)), enumValue));
     }
 
     template<class classT, class enumT>
-    void XVSQFileReader::insertStringEnumValueMap(std::map<std::string, enumT> &result, const enumT &enumValue) {
+    void XVSQFileReader::insertStringEnumValueMap(
+        std::map<std::string, enumT> &result, const enumT &enumValue
+    ) {
         result.insert(std::make_pair(classT::toString(enumValue), enumValue));
     }
 }

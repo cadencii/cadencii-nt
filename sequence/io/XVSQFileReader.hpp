@@ -17,6 +17,7 @@
 
 #include <string>
 #include <stack>
+#include <map>
 #include "../../vsq/Sequence.hpp"
 #include "SAXAdapter.hpp"
 
@@ -68,7 +69,8 @@ namespace cadencii {
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 
         template<class classT, class enumT>
-        inline void insertStringEnumValueMap(std::map<std::string, enumT> &result, const enumT &enumValue);
+        inline void insertStringEnumValueMap(
+            std::map<std::string, enumT> &result, const enumT &enumValue);
     };
 }
 
