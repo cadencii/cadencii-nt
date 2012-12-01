@@ -20,7 +20,7 @@
 
 namespace cadencii {
 
-    XVSQFileReader::XVSQFileReader() {
+    XVSQFileReader::XVSQFileReader() : currentLyric(VSQ_NS::Lyric("", "")) {
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
 
@@ -34,6 +34,9 @@ namespace cadencii {
                     eventTypeValueMap, VSQ_NS::EventType::NOTE);
         insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
                     eventTypeValueMap, VSQ_NS::EventType::SINGER);
+
+        boolValueMap.insert(std::make_pair("true", true));
+        boolValueMap.insert(std::make_pair("false", false));
     }
 
     /**
@@ -48,6 +51,7 @@ namespace cadencii {
     }
 
     void XVSQFileReader::startElement(const std::string &name) {
+        tagNameStack.push(name);
         if ("VsqTrack" == name) {
             trackCount++;
             currentTrack = VSQ_NS::Track("", "");
@@ -56,9 +60,12 @@ namespace cadencii {
             currentEvent = VSQ_NS::Event();
         } else if ("IconHandle" == name) {
             currentEvent.singerHandle = VSQ_NS::Handle(VSQ_NS::HandleType::SINGER);
+        } else if ("LyricHandle" == name) {
+            currentEvent.lyricHandle = VSQ_NS::Handle(VSQ_NS::HandleType::LYRIC);
+        } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
+            currentLyric = VSQ_NS::Lyric("", "");
         }
         // TODO(kbinani):
-        tagNameStack.push(name);
     }
 
     void XVSQFileReader::endElement(const std::string &name) {
@@ -69,17 +76,18 @@ namespace cadencii {
             }
         } else if ("VsqEvent" == name) {
             currentTrack.events()->add(currentEvent, currentEvent.id);
+        } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
+            currentEvent.lyricHandle.addLyric(currentLyric);
         }
         // TODO(kbinani):
         tagNameStack.pop();
     }
 
     void XVSQFileReader::characters(const std::string &ch) {
-        std::stack<std::string> stack = tagNameStack;
+        std::string tagName = tagNameStack.top();
+        std::string parentTagName = getParentTag();
+        std::string grandParentTag = getParentTag(1);
 
-        std::string tagName = stack.top();
-        stack.pop();
-        std::string parentTagName = stack.top();
         if ("Common" == parentTagName) {
             charactersCommon(ch, tagName);
         } else if ("VsqEvent" == parentTagName) {
@@ -88,8 +96,27 @@ namespace cadencii {
             charactersID(ch, tagName);
         } else if ("IconHandle" == parentTagName) {
             charactersIconHandle(ch, tagName);
+        } else if ("L0" == parentTagName
+                   || ("Lyric" == parentTagName && "Trailing" == grandParentTag)) {
+            charactersLyric(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersLyric(const string &ch, const string &tagName) {
+        if ("Phrase" == tagName) {
+            currentLyric.phrase = ch;
+        } else if ("UnknownFloat" == tagName) {
+            currentLyric.lengthRatio = StringUtil::parseFloat<double>(ch);
+        } else if ("PhoneticSymbolProtected" == tagName) {
+            if (boolValueMap.find(ch) != boolValueMap.end()) {
+                currentLyric.isProtected = boolValueMap.at(ch);
+            }
+        } else if ("ConsonantAdjustment" == tagName) {
+            currentLyric.setConsonantAdjustment(StringUtil::replace(ch, " ", ","));
+        } else if ("PhoneticSymbol" == tagName) {
+            currentLyric.setPhoneticSymbol(ch);
+        }
     }
 
     void XVSQFileReader::charactersIconHandle(const std::string &ch, const std::string &tagName) {

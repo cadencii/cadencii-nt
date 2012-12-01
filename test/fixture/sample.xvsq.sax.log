@@ -1355,25 +1355,42 @@ endElement	DEMaccent
 startElement	LyricHandle
 startElement	L0
 startElement	Phrase
-characters	あ
+characters	は
 endElement	Phrase
 startElement	UnknownFloat
-characters	1
+characters	0.5
 endElement	UnknownFloat
 startElement	PhoneticSymbolProtected
-characters	false
+characters	true
 endElement	PhoneticSymbolProtected
 startElement	ConsonantAdjustment
-characters	0
+characters	64 0
 endElement	ConsonantAdjustment
 startElement	PhoneticSymbol
-characters	a
+characters	h a
 endElement	PhoneticSymbol
 endElement	L0
 startElement	Index
 characters	0
 endElement	Index
 startElement	Trailing
+startElement	Lyric
+startElement	Phrase
+characters	ほ
+endElement	Phrase
+startElement	UnknownFloat
+characters	0.5
+endElement	UnknownFloat
+startElement	PhoneticSymbolProtected
+characters	true
+endElement	PhoneticSymbolProtected
+startElement	ConsonantAdjustment
+characters	64 0
+endElement	ConsonantAdjustment
+startElement	PhoneticSymbol
+characters	h o
+endElement	PhoneticSymbol
+endElement	Lyric
 endElement	Trailing
 endElement	LyricHandle
 startElement	VibratoHandle

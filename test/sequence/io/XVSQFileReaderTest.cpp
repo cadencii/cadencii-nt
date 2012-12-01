@@ -112,6 +112,10 @@ public:
                     CPPUNIT_ASSERT_EQUAL(0, handle->program);
                     CPPUNIT_ASSERT_EQUAL(0, handle->language);
                 }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -134,6 +138,17 @@ public:
                 {
                     const Handle *handle = &item->singerHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::LYRIC, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(1, handle->getLyricCount());
+                    const Lyric lyric = item->lyricHandle.getLyricAt(0);
+                    CPPUNIT_ASSERT_EQUAL(string("あ"), lyric.phrase);
+                    CPPUNIT_ASSERT_EQUAL(1.0, lyric.lengthRatio);
+                    CPPUNIT_ASSERT_EQUAL(false, lyric.isProtected);
+                    CPPUNIT_ASSERT_EQUAL(string("0"), lyric.getConsonantAdjustment());
+                    CPPUNIT_ASSERT_EQUAL(string("a"), lyric.getPhoneticSymbol());
                 }
             }
         }
@@ -181,6 +196,10 @@ public:
                     CPPUNIT_ASSERT_EQUAL(2, handle->program);
                     CPPUNIT_ASSERT_EQUAL(1, handle->language);
                 }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -203,6 +222,27 @@ public:
                 {
                     const Handle *handle = &item->singerHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::LYRIC, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(2, handle->getLyricCount());
+                    {
+                        const Lyric lyric = item->lyricHandle.getLyricAt(0);
+                        CPPUNIT_ASSERT_EQUAL(string("は"), lyric.phrase);
+                        CPPUNIT_ASSERT_EQUAL(0.5, lyric.lengthRatio);
+                        CPPUNIT_ASSERT_EQUAL(true, lyric.isProtected);
+                        CPPUNIT_ASSERT_EQUAL(string("64,0"), lyric.getConsonantAdjustment());
+                        CPPUNIT_ASSERT_EQUAL(string("h a"), lyric.getPhoneticSymbol());
+                    }
+                    {
+                        const Lyric lyric = item->lyricHandle.getLyricAt(1);
+                        CPPUNIT_ASSERT_EQUAL(string("ほ"), lyric.phrase);
+                        CPPUNIT_ASSERT_EQUAL(0.5, lyric.lengthRatio);
+                        CPPUNIT_ASSERT_EQUAL(true, lyric.isProtected);
+                        CPPUNIT_ASSERT_EQUAL(string("64,0"), lyric.getConsonantAdjustment());
+                        CPPUNIT_ASSERT_EQUAL(string("h o"), lyric.getPhoneticSymbol());
+                    }
                 }
             }
         }

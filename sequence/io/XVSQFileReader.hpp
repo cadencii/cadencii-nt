@@ -33,12 +33,14 @@ namespace cadencii {
         VSQ_NS::Sequence *sequence;
         VSQ_NS::Track currentTrack;
         VSQ_NS::Event currentEvent;
+        VSQ_NS::Lyric currentLyric;
         int trackCount;
         std::stack<std::string> tagNameStack;
 
         std::map<std::string, VSQ_NS::DynamicsMode::DynamicsModeEnum> dynamicsModeValueMap;
         std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
         std::map<std::string, VSQ_NS::EventType::EventTypeEnum> eventTypeValueMap;
+        std::map<std::string, bool> boolValueMap;
 
     protected:
         SAXAdapter *adapter;
@@ -67,12 +69,23 @@ namespace cadencii {
 
         void charactersIconHandle(const std::string &ch, const std::string &tagName);
 
+        void charactersLyric(const std::string &ch, const std::string &tagName);
+
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 
         template<class classT, class enumT>
         inline void insertStringEnumValueMap(
             std::map<std::string, enumT> &result, const enumT &enumValue);
+
+        inline const std::string getParentTag(int goBackCount = 0)const {
+            std::stack<std::string> copy = tagNameStack;
+            for (int i = 0; i <= goBackCount; i++) {
+                if (copy.empty()) break;
+                copy.pop();
+            }
+            return copy.empty() ? "" : copy.top();
+        }
     };
 }
 
