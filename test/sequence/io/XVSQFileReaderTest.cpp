@@ -82,6 +82,8 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->lastPlayMode());
             }
             CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
+
+            // 1st event of 1st track
             {
                 const Event *item = track->events()->get(0);
                 CPPUNIT_ASSERT_EQUAL(0, item->id);
@@ -120,7 +122,13 @@ public:
                     const Handle *handle = &item->vibratoHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
+
+            // 2nd event of 1st track
             {
                 const Event *item = track->events()->get(1);
                 CPPUNIT_ASSERT_EQUAL(1, item->id);
@@ -215,6 +223,10 @@ public:
                         CPPUNIT_ASSERT_EQUAL(0.9984375, list.get(20).x); CPPUNIT_ASSERT_EQUAL(78, list.get(20).y);
                     }
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 
@@ -231,6 +243,8 @@ public:
                 CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_AFTER_SYNTH, common->lastPlayMode());
             }
             CPPUNIT_ASSERT_EQUAL(2, track->events()->size());
+
+            // 1st event of 2nd track
             {
                 const Event *item = track->events()->get(0);
                 CPPUNIT_ASSERT_EQUAL(2, item->id);
@@ -269,7 +283,13 @@ public:
                     const Handle *handle = &item->vibratoHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
+
+            // 2nd event of 2nd track
             {
                 const Event *item = track->events()->get(1);
                 CPPUNIT_ASSERT_EQUAL(3, item->id);
@@ -326,6 +346,10 @@ public:
                     CPPUNIT_ASSERT_EQUAL(63, handle->startDepth);
                     CPPUNIT_ASSERT_EQUAL((tick_t)66, handle->getLength());
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 
@@ -381,6 +405,10 @@ public:
                     const Handle *handle = &item->vibratoHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
 
             // 2nd event of 3rd track
@@ -423,6 +451,17 @@ public:
                     const Handle *handle = &item->vibratoHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::NOTE_HEAD, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string("$01010008"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("trill_whole"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(8, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(64, handle->depth);
+                    CPPUNIT_ASSERT_EQUAL(64, handle->duration);
+                    CPPUNIT_ASSERT_EQUAL(string("Trill Wholetone"), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)120, handle->getLength());
+                }
             }
 
             // 3rd event of 3rd track
@@ -454,6 +493,10 @@ public:
                 }
                 {
                     const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
             }
