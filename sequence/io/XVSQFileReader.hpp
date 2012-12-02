@@ -35,6 +35,8 @@ namespace cadencii {
         VSQ_NS::Event currentEvent;
         VSQ_NS::Lyric currentLyric;
         VSQ_NS::Handle currentHandle;
+        VSQ_NS::BPList currentBPList;
+
         int trackCount;
         std::stack<std::string> tagNameStack;
 
@@ -42,6 +44,11 @@ namespace cadencii {
         std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
         std::map<std::string, VSQ_NS::EventType::EventTypeEnum> eventTypeValueMap;
         std::map<std::string, bool> boolValueMap;
+
+        /**
+         * @brief A default instance of Track, to get default property of BPList.
+         */
+        VSQ_NS::Track defaultTrack;
 
     protected:
         SAXAdapter *adapter;
@@ -72,6 +79,8 @@ namespace cadencii {
 
         void charactersLyric(const std::string &ch, const std::string &tagName);
 
+        void charactersBPList(const std::string &ch, const std::string &tagName);
+
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 
@@ -86,6 +95,12 @@ namespace cadencii {
                 copy.pop();
             }
             return copy.empty() ? "" : copy.top();
+        }
+
+        inline bool isControlCurveTagName(const std::string &name) {
+            return "PIT" == name || "PBS" == name || "DYN" == name || "BRE" == name
+                    || "BRI" == name || "CLE" == name || "GEN" == name || "POR" == name
+                    || "OPE" == name;
         }
     };
 }

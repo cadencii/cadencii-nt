@@ -71,6 +71,8 @@ namespace cadencii {
             currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::NOTE_HEAD);
         } else if ("IconDynamicsHandle" == name) {
             currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
+        } else if (isControlCurveTagName(name)) {
+            currentBPList = *defaultTrack.curve(name);
         }
         // TODO(kbinani):
     }
@@ -100,6 +102,8 @@ namespace cadencii {
             currentEvent.noteHeadHandle = currentHandle;
         } else if ("IconDynamicsHandle" == name) {
             currentEvent.iconDynamicsHandle = currentHandle;
+        } else if (isControlCurveTagName(name)) {
+            *currentTrack.curve(name) = currentBPList;
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -131,9 +135,25 @@ namespace cadencii {
                 currentHandle.depthBP.setData(ch);
             } else if ("DynBP" == parentTagName) {
                 currentHandle.dynBP.setData(ch);
+            } else if (isControlCurveTagName(parentTagName)) {
+                currentBPList.setData(ch);
             }
+        } else if (isControlCurveTagName(parentTagName)) {
+            charactersBPList(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersBPList(const string &ch, const string &tagName) {
+        if ("Default" == tagName) {
+            currentBPList.setDefault(StringUtil::parseInt<int>(ch));
+        } else if ("Name" == tagName) {
+            currentBPList.setName(ch);
+        } else if ("Maximum" == tagName) {
+            currentBPList.setMaximum(StringUtil::parseInt<int>(ch));
+        } else if ("Minimum" == tagName) {
+            currentBPList.setMinimum(StringUtil::parseInt<int>(ch));
+        }
     }
 
     void XVSQFileReader::charactersHandle(const string &ch, const string &tagName) {
