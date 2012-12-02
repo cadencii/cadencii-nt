@@ -67,7 +67,7 @@ public:
         SAXAdapterStub adapter(TestUtil::getFixtureRootPath() + "/fixture/sample.xvsq.sax.log");
         reader.read(&sequence, &adapter);
 
-        CPPUNIT_ASSERT_EQUAL((size_t)2, sequence.tracks()->size());
+        CPPUNIT_ASSERT_EQUAL((size_t)3, sequence.tracks()->size());
 
         {
             // 1st track
@@ -329,6 +329,135 @@ public:
             }
         }
 
+        // 3rd track
+        {
+            const Track *track = sequence.track(2);
+            {
+                const Common *common = track->common();
+                CPPUNIT_ASSERT_EQUAL(string("DSB202"), common->version);
+                CPPUNIT_ASSERT_EQUAL(string("Voice1"), common->name);
+                CPPUNIT_ASSERT_EQUAL(string("181,162,123"), common->color);
+                CPPUNIT_ASSERT_EQUAL(VSQ_NS::DynamicsMode::STANDARD, common->dynamicsMode);
+                CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->playMode());
+                CPPUNIT_ASSERT_EQUAL(VSQ_NS::PlayMode::PLAY_WITH_SYNTH, common->lastPlayMode());
+            }
+            CPPUNIT_ASSERT_EQUAL(3, track->events()->size());
+            // 1st event of 3rd track
+            {
+                const Event *item = track->events()->get(0);
+                CPPUNIT_ASSERT_EQUAL(1, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::SINGER, item->type);
+                CPPUNIT_ASSERT_EQUAL(0, item->note);
+                CPPUNIT_ASSERT_EQUAL(64, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(8, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(50, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(50, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(0, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::SINGER, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string(""), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL(string("$07010000"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("MEIKO"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->index);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)1, handle->getLength());
+                    CPPUNIT_ASSERT_EQUAL(0, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->program);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->language);
+                }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+            }
+
+            // 2nd event of 3rd track
+            {
+                const Event *item = track->events()->get(1);
+                CPPUNIT_ASSERT_EQUAL(2, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)1920, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::NOTE, item->type);
+                CPPUNIT_ASSERT_EQUAL(63, item->note);
+                CPPUNIT_ASSERT_EQUAL(72, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(8, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(50, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(50, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(960, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)960, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::LYRIC, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(1, handle->getLyricCount());
+                    {
+                        const Lyric lyric = item->lyricHandle.getLyricAt(0);
+                        CPPUNIT_ASSERT_EQUAL(string("a"), lyric.phrase);
+                        CPPUNIT_ASSERT_EQUAL(1.0, lyric.lengthRatio);
+                        CPPUNIT_ASSERT_EQUAL(false, lyric.isProtected);
+                        CPPUNIT_ASSERT_EQUAL(string("0"), lyric.getConsonantAdjustment());
+                        CPPUNIT_ASSERT_EQUAL(string("a"), lyric.getPhoneticSymbol());
+                    }
+                }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+            }
+
+            // 3rd event of 3rd track
+            {
+                const Event *item = track->events()->get(2);
+                CPPUNIT_ASSERT_EQUAL(3, item->id);
+                CPPUNIT_ASSERT_EQUAL((tick_t)3360, item->clock);
+                CPPUNIT_ASSERT_EQUAL(EventType::ICON, item->type);
+                CPPUNIT_ASSERT_EQUAL(68, item->note);
+                CPPUNIT_ASSERT_EQUAL(64, item->dynamics);
+                CPPUNIT_ASSERT_EQUAL(8, item->pmBendDepth);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmBendLength);
+                CPPUNIT_ASSERT_EQUAL(0, item->pmbPortamentoUse);
+                CPPUNIT_ASSERT_EQUAL(50, item->demDecGainRate);
+                CPPUNIT_ASSERT_EQUAL(50, item->demAccent);
+                CPPUNIT_ASSERT_EQUAL(0, item->vibratoDelay);
+                CPPUNIT_ASSERT_EQUAL(10, item->pMeanOnsetFirstNote);
+                CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
+                CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
+                CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+                {
+                    const Handle *handle = &item->singerHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->lyricHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+            }
+        }
         //TODO(kbinani): more assertion
     }
 
