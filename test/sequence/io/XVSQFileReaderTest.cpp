@@ -116,6 +116,10 @@ public:
                     const Handle *handle = &item->lyricHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -149,6 +153,67 @@ public:
                     CPPUNIT_ASSERT_EQUAL(false, lyric.isProtected);
                     CPPUNIT_ASSERT_EQUAL(string("0"), lyric.getConsonantAdjustment());
                     CPPUNIT_ASSERT_EQUAL(string("a"), lyric.getPhoneticSymbol());
+                }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::VIBRATO, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string("$04040001"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string(""), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(1, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(string("[Normal] Type 1"), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL(50, handle->startRate);
+                    CPPUNIT_ASSERT_EQUAL(64, handle->startDepth);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)66, handle->getLength());
+                    {
+                        const VibratoBPList list = handle->rateBP;
+                        CPPUNIT_ASSERT_EQUAL(21, list.size());
+                        CPPUNIT_ASSERT_EQUAL(0.0, list.get(0).x); CPPUNIT_ASSERT_EQUAL(104, list.get(0).y);
+                        CPPUNIT_ASSERT_EQUAL(0.0421875, list.get(1).x); CPPUNIT_ASSERT_EQUAL(101, list.get(1).y);
+                        CPPUNIT_ASSERT_EQUAL(0.0984375, list.get(2).x); CPPUNIT_ASSERT_EQUAL(99, list.get(2).y);
+                        CPPUNIT_ASSERT_EQUAL(0.1453125, list.get(3).x); CPPUNIT_ASSERT_EQUAL(97, list.get(3).y);
+                        CPPUNIT_ASSERT_EQUAL(0.1921875, list.get(4).x); CPPUNIT_ASSERT_EQUAL(95, list.get(4).y);
+                        CPPUNIT_ASSERT_EQUAL(0.2484375, list.get(5).x); CPPUNIT_ASSERT_EQUAL(92, list.get(5).y);
+                        CPPUNIT_ASSERT_EQUAL(0.2953125, list.get(6).x); CPPUNIT_ASSERT_EQUAL(89, list.get(6).y);
+                        CPPUNIT_ASSERT_EQUAL(0.3421875, list.get(7).x); CPPUNIT_ASSERT_EQUAL(87, list.get(7).y);
+                        CPPUNIT_ASSERT_EQUAL(0.3984375, list.get(8).x); CPPUNIT_ASSERT_EQUAL(83, list.get(8).y);
+                        CPPUNIT_ASSERT_EQUAL(0.4453125, list.get(9).x); CPPUNIT_ASSERT_EQUAL(80, list.get(9).y);
+                        CPPUNIT_ASSERT_EQUAL(0.4921875, list.get(10).x); CPPUNIT_ASSERT_EQUAL(77, list.get(10).y);
+                        CPPUNIT_ASSERT_EQUAL(0.5484375, list.get(11).x); CPPUNIT_ASSERT_EQUAL(75, list.get(11).y);
+                        CPPUNIT_ASSERT_EQUAL(0.5953125, list.get(12).x); CPPUNIT_ASSERT_EQUAL(73, list.get(12).y);
+                        CPPUNIT_ASSERT_EQUAL(0.6421875, list.get(13).x); CPPUNIT_ASSERT_EQUAL(70, list.get(13).y);
+                        CPPUNIT_ASSERT_EQUAL(0.6984375, list.get(14).x); CPPUNIT_ASSERT_EQUAL(68, list.get(14).y);
+                        CPPUNIT_ASSERT_EQUAL(0.7453125, list.get(15).x); CPPUNIT_ASSERT_EQUAL(65, list.get(15).y);
+                        CPPUNIT_ASSERT_EQUAL(0.7921875, list.get(16).x); CPPUNIT_ASSERT_EQUAL(61, list.get(16).y);
+                        CPPUNIT_ASSERT_EQUAL(0.8484375, list.get(17).x); CPPUNIT_ASSERT_EQUAL(58, list.get(17).y);
+                        CPPUNIT_ASSERT_EQUAL(0.8953125, list.get(18).x); CPPUNIT_ASSERT_EQUAL(55, list.get(18).y);
+                        CPPUNIT_ASSERT_EQUAL(0.9421875, list.get(19).x); CPPUNIT_ASSERT_EQUAL(51, list.get(19).y);
+                        CPPUNIT_ASSERT_EQUAL(0.9984375, list.get(20).x); CPPUNIT_ASSERT_EQUAL(46, list.get(20).y);
+                    }
+                    {
+                        const VibratoBPList list = handle->depthBP;
+                        CPPUNIT_ASSERT_EQUAL(21, list.size());
+                        CPPUNIT_ASSERT_EQUAL(0.0000000, list.get(0).x); CPPUNIT_ASSERT_EQUAL(25, list.get(0).y);
+                        CPPUNIT_ASSERT_EQUAL(0.0421875, list.get(1).x); CPPUNIT_ASSERT_EQUAL(27, list.get(1).y);
+                        CPPUNIT_ASSERT_EQUAL(0.0984375, list.get(2).x); CPPUNIT_ASSERT_EQUAL(29, list.get(2).y);
+                        CPPUNIT_ASSERT_EQUAL(0.1453125, list.get(3).x); CPPUNIT_ASSERT_EQUAL(32, list.get(3).y);
+                        CPPUNIT_ASSERT_EQUAL(0.1921875, list.get(4).x); CPPUNIT_ASSERT_EQUAL(34, list.get(4).y);
+                        CPPUNIT_ASSERT_EQUAL(0.2484375, list.get(5).x); CPPUNIT_ASSERT_EQUAL(36, list.get(5).y);
+                        CPPUNIT_ASSERT_EQUAL(0.2953125, list.get(6).x); CPPUNIT_ASSERT_EQUAL(38, list.get(6).y);
+                        CPPUNIT_ASSERT_EQUAL(0.3421875, list.get(7).x); CPPUNIT_ASSERT_EQUAL(41, list.get(7).y);
+                        CPPUNIT_ASSERT_EQUAL(0.3984375, list.get(8).x); CPPUNIT_ASSERT_EQUAL(45, list.get(8).y);
+                        CPPUNIT_ASSERT_EQUAL(0.4453125, list.get(9).x); CPPUNIT_ASSERT_EQUAL(47, list.get(9).y);
+                        CPPUNIT_ASSERT_EQUAL(0.4921875, list.get(10).x); CPPUNIT_ASSERT_EQUAL(50, list.get(10).y);
+                        CPPUNIT_ASSERT_EQUAL(0.5484375, list.get(11).x); CPPUNIT_ASSERT_EQUAL(52, list.get(11).y);
+                        CPPUNIT_ASSERT_EQUAL(0.5953125, list.get(12).x); CPPUNIT_ASSERT_EQUAL(55, list.get(12).y);
+                        CPPUNIT_ASSERT_EQUAL(0.6421875, list.get(13).x); CPPUNIT_ASSERT_EQUAL(58, list.get(13).y);
+                        CPPUNIT_ASSERT_EQUAL(0.6984375, list.get(14).x); CPPUNIT_ASSERT_EQUAL(61, list.get(14).y);
+                        CPPUNIT_ASSERT_EQUAL(0.7453125, list.get(15).x); CPPUNIT_ASSERT_EQUAL(64, list.get(15).y);
+                        CPPUNIT_ASSERT_EQUAL(0.7921875, list.get(16).x); CPPUNIT_ASSERT_EQUAL(68, list.get(16).y);
+                        CPPUNIT_ASSERT_EQUAL(0.8484375, list.get(17).x); CPPUNIT_ASSERT_EQUAL(71, list.get(17).y);
+                        CPPUNIT_ASSERT_EQUAL(0.8953125, list.get(18).x); CPPUNIT_ASSERT_EQUAL(73, list.get(18).y);
+                        CPPUNIT_ASSERT_EQUAL(0.9421875, list.get(19).x); CPPUNIT_ASSERT_EQUAL(76, list.get(19).y);
+                        CPPUNIT_ASSERT_EQUAL(0.9984375, list.get(20).x); CPPUNIT_ASSERT_EQUAL(78, list.get(20).y);
+                    }
                 }
             }
         }
@@ -200,6 +265,10 @@ public:
                     const Handle *handle = &item->lyricHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
             {
                 const Event *item = track->events()->get(1);
@@ -243,6 +312,19 @@ public:
                         CPPUNIT_ASSERT_EQUAL(string("64,0"), lyric.getConsonantAdjustment());
                         CPPUNIT_ASSERT_EQUAL(string("h o"), lyric.getPhoneticSymbol());
                     }
+                }
+                {
+                    const Handle *handle = &item->vibratoHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::VIBRATO, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string("$04040001"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("a"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(string("[Normal] Type 1"), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL(0, handle->rateBP.size());
+                    CPPUNIT_ASSERT_EQUAL(0, handle->depthBP.size());
+                    CPPUNIT_ASSERT_EQUAL(50, handle->startRate);
+                    CPPUNIT_ASSERT_EQUAL(63, handle->startDepth);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)66, handle->getLength());
                 }
             }
         }

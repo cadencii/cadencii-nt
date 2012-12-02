@@ -717,7 +717,7 @@ endElement	IconID
 startElement	IDS
 endElement	IDS
 startElement	Original
-characters	0
+characters	1
 endElement	Original
 startElement	Caption
 characters	[Normal] Type 1
@@ -1401,6 +1401,7 @@ startElement	IconID
 characters	$04040001
 endElement	IconID
 startElement	IDS
+characters	a
 endElement	IDS
 startElement	Original
 characters	0
@@ -1420,7 +1421,7 @@ startElement	Data
 endElement	Data
 endElement	DepthBP
 startElement	StartDepth
-characters	64
+characters	63
 endElement	StartDepth
 startElement	Length
 characters	640

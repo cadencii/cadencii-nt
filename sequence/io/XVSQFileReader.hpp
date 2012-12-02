@@ -71,6 +71,8 @@ namespace cadencii {
 
         void charactersLyric(const std::string &ch, const std::string &tagName);
 
+        void charactersVibratoHandle(const std::string &ch, const std::string &tagName);
+
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 

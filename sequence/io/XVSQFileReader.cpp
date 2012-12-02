@@ -64,6 +64,8 @@ namespace cadencii {
             currentEvent.lyricHandle = VSQ_NS::Handle(VSQ_NS::HandleType::LYRIC);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
             currentLyric = VSQ_NS::Lyric("", "");
+        } else if ("VibratoHandle" == name) {
+            currentEvent.vibratoHandle = VSQ_NS::Handle(VSQ_NS::HandleType::VIBRATO);
         }
         // TODO(kbinani):
     }
@@ -75,6 +77,11 @@ namespace cadencii {
                 sequence->tracks()->push_back(currentTrack);
             }
         } else if ("VsqEvent" == name) {
+            if (currentEvent.vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
+                int length = currentEvent.getLength();
+                int vibratoLength = length - currentEvent.vibratoDelay;
+                currentEvent.vibratoHandle.setLength(vibratoLength * 100 / length);
+            }
             currentTrack.events()->add(currentEvent, currentEvent.id);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
             currentEvent.lyricHandle.addLyric(currentLyric);
@@ -99,8 +106,34 @@ namespace cadencii {
         } else if ("L0" == parentTagName
                    || ("Lyric" == parentTagName && "Trailing" == grandParentTag)) {
             charactersLyric(ch, tagName);
+        } else if ("VibratoHandle" == parentTagName) {
+            charactersVibratoHandle(ch, tagName);
+        } else if ("Data" == tagName) {
+            if ("RateBP" == parentTagName) {
+                currentEvent.vibratoHandle.rateBP.setData(ch);
+            } else if ("DepthBP" == parentTagName) {
+                currentEvent.vibratoHandle.depthBP.setData(ch);
+            }
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersVibratoHandle(const string &ch, const string &tagName) {
+        if ("IconID" == tagName) {
+            currentEvent.vibratoHandle.iconId = ch;
+        } else if ("IDS" == tagName) {
+            currentEvent.vibratoHandle.ids = ch;
+        } else if ("Original" == tagName) {
+            currentEvent.vibratoHandle.original = StringUtil::parseInt<int>(ch);
+        } else if ("Caption" == tagName) {
+            currentEvent.vibratoHandle.caption = ch;
+        } else if ("StartRate" == tagName) {
+            currentEvent.vibratoHandle.startRate = StringUtil::parseInt<int>(ch);
+        } else if ("StartDepth" == tagName) {
+            currentEvent.vibratoHandle.startDepth = StringUtil::parseInt<int>(ch);
+        } else if ("Length" == tagName) {
+            currentEvent.vibratoHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+        }
     }
 
     void XVSQFileReader::charactersLyric(const string &ch, const string &tagName) {
