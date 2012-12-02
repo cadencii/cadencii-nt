@@ -126,6 +126,10 @@ public:
                     const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
 
             // 2nd event of 1st track
@@ -227,6 +231,10 @@ public:
                     const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 
@@ -285,6 +293,10 @@ public:
                 }
                 {
                     const Handle *handle = &item->noteHeadHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
             }
@@ -350,6 +362,10 @@ public:
                     const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
         }
 
@@ -409,6 +425,10 @@ public:
                     const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
                 }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
 
             // 2nd event of 3rd track
@@ -462,6 +482,10 @@ public:
                     CPPUNIT_ASSERT_EQUAL(string("Trill Wholetone"), handle->caption);
                     CPPUNIT_ASSERT_EQUAL((tick_t)120, handle->getLength());
                 }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
             }
 
             // 3rd event of 3rd track
@@ -482,7 +506,7 @@ public:
                 CPPUNIT_ASSERT_EQUAL(12, item->vMeanNoteTransition);
                 CPPUNIT_ASSERT_EQUAL(24, item->d4mean);
                 CPPUNIT_ASSERT_EQUAL(12, item->pMeanEndingNote);
-                CPPUNIT_ASSERT_EQUAL((tick_t)0, item->getLength());
+                CPPUNIT_ASSERT_EQUAL((tick_t)480, item->getLength());
                 {
                     const Handle *handle = &item->singerHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
@@ -498,6 +522,20 @@ public:
                 {
                     const Handle *handle = &item->noteHeadHandle;
                     CPPUNIT_ASSERT_EQUAL(HandleType::UNKNOWN, handle->getHandleType());
+                }
+                {
+                    const Handle *handle = &item->iconDynamicsHandle;
+                    CPPUNIT_ASSERT_EQUAL(HandleType::DYNAMICS, handle->getHandleType());
+                    CPPUNIT_ASSERT_EQUAL(string("$05020005"), handle->iconId);
+                    CPPUNIT_ASSERT_EQUAL(string("cresc_5"), handle->ids);
+                    CPPUNIT_ASSERT_EQUAL(5, handle->original);
+                    CPPUNIT_ASSERT_EQUAL(string("Zero Crescendo Curve"), handle->caption);
+                    CPPUNIT_ASSERT_EQUAL((tick_t)480, handle->getLength());
+                    CPPUNIT_ASSERT_EQUAL(0, handle->startDyn);
+                    CPPUNIT_ASSERT_EQUAL(102, handle->endDyn);
+                    CPPUNIT_ASSERT_EQUAL(1, handle->dynBP.size());
+                    CPPUNIT_ASSERT_EQUAL(0.5, handle->dynBP.get(0).x);
+                    CPPUNIT_ASSERT_EQUAL(40, handle->dynBP.get(0).y);
                 }
             }
         }

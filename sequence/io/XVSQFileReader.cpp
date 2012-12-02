@@ -68,6 +68,8 @@ namespace cadencii {
             currentEvent.vibratoHandle = VSQ_NS::Handle(VSQ_NS::HandleType::VIBRATO);
         } else if ("NoteHeadHandle" == name) {
             currentEvent.noteHeadHandle = VSQ_NS::Handle(VSQ_NS::HandleType::NOTE_HEAD);
+        } else if ("IconDynamicsHandle" == name) {
+            currentEvent.iconDynamicsHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
         }
         // TODO(kbinani):
     }
@@ -115,11 +117,33 @@ namespace cadencii {
                 currentEvent.vibratoHandle.rateBP.setData(ch);
             } else if ("DepthBP" == parentTagName) {
                 currentEvent.vibratoHandle.depthBP.setData(ch);
+            } else if ("DynBP" == parentTagName) {
+                currentEvent.iconDynamicsHandle.dynBP.setData(ch);
             }
         } else if ("NoteHeadHandle" == parentTagName) {
             charactersNoteHeadHandle(ch, tagName);
+        } else if ("IconDynamicsHandle" == parentTagName) {
+            charactersIconDynamicsHandle(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersIconDynamicsHandle(const string &ch, const string &tagName) {
+        if ("IconID" == tagName) {
+            currentEvent.iconDynamicsHandle.iconId = ch;
+        } else if ("IDS" == tagName) {
+            currentEvent.iconDynamicsHandle.ids = ch;
+        } else if ("Original" == tagName) {
+            currentEvent.iconDynamicsHandle.original = StringUtil::parseInt<int>(ch);
+        } else if ("Caption" == tagName) {
+            currentEvent.iconDynamicsHandle.caption = ch;
+        } else if ("Length" == tagName) {
+            currentEvent.iconDynamicsHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+        } else if ("StartDyn" == tagName) {
+            currentEvent.iconDynamicsHandle.startDyn = StringUtil::parseInt<int>(ch);
+        } else if ("EndDyn" == tagName) {
+            currentEvent.iconDynamicsHandle.endDyn = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersNoteHeadHandle(const string &ch, const string &tagName) {
