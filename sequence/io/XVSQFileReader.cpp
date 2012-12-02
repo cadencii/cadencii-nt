@@ -20,7 +20,8 @@
 
 namespace cadencii {
 
-    XVSQFileReader::XVSQFileReader() : currentLyric(VSQ_NS::Lyric("", "")) {
+    XVSQFileReader::XVSQFileReader() :
+        currentLyric(VSQ_NS::Lyric("", "")) {
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
 
@@ -59,17 +60,17 @@ namespace cadencii {
         } else if ("VsqEvent" == name) {
             currentEvent = VSQ_NS::Event();
         } else if ("IconHandle" == name) {
-            currentEvent.singerHandle = VSQ_NS::Handle(VSQ_NS::HandleType::SINGER);
+            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::SINGER);
         } else if ("LyricHandle" == name) {
-            currentEvent.lyricHandle = VSQ_NS::Handle(VSQ_NS::HandleType::LYRIC);
+            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::LYRIC);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
             currentLyric = VSQ_NS::Lyric("", "");
         } else if ("VibratoHandle" == name) {
-            currentEvent.vibratoHandle = VSQ_NS::Handle(VSQ_NS::HandleType::VIBRATO);
+            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::VIBRATO);
         } else if ("NoteHeadHandle" == name) {
-            currentEvent.noteHeadHandle = VSQ_NS::Handle(VSQ_NS::HandleType::NOTE_HEAD);
+            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::NOTE_HEAD);
         } else if ("IconDynamicsHandle" == name) {
-            currentEvent.iconDynamicsHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
+            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
         }
         // TODO(kbinani):
     }
@@ -88,7 +89,17 @@ namespace cadencii {
             }
             currentTrack.events()->add(currentEvent, currentEvent.id);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
-            currentEvent.lyricHandle.addLyric(currentLyric);
+            currentHandle.addLyric(currentLyric);
+        } else if ("IconHandle" == name) {
+            currentEvent.singerHandle = currentHandle;
+        } else if ("LyricHandle" == name) {
+            currentEvent.lyricHandle = currentHandle;
+        } else if ("VibratoHandle" == name) {
+            currentEvent.vibratoHandle = currentHandle;
+        } else if ("NoteHeadHandle" == name) {
+            currentEvent.noteHeadHandle = currentHandle;
+        } else if ("IconDynamicsHandle" == name) {
+            currentEvent.iconDynamicsHandle = currentHandle;
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -105,80 +116,55 @@ namespace cadencii {
             charactersVsqEvent(ch, tagName);
         } else if ("ID" == parentTagName) {
             charactersID(ch, tagName);
-        } else if ("IconHandle" == parentTagName) {
-            charactersIconHandle(ch, tagName);
+        } else if ("IconHandle" == parentTagName
+                   || "VibratoHandle" == parentTagName
+                   || "NoteHeadHandle" == parentTagName
+                   || "IconDynamicsHandle" == parentTagName) {
+            charactersHandle(ch, tagName);
         } else if ("L0" == parentTagName
                    || ("Lyric" == parentTagName && "Trailing" == grandParentTag)) {
             charactersLyric(ch, tagName);
-        } else if ("VibratoHandle" == parentTagName) {
-            charactersVibratoHandle(ch, tagName);
         } else if ("Data" == tagName) {
             if ("RateBP" == parentTagName) {
-                currentEvent.vibratoHandle.rateBP.setData(ch);
+                currentHandle.rateBP.setData(ch);
             } else if ("DepthBP" == parentTagName) {
-                currentEvent.vibratoHandle.depthBP.setData(ch);
+                currentHandle.depthBP.setData(ch);
             } else if ("DynBP" == parentTagName) {
-                currentEvent.iconDynamicsHandle.dynBP.setData(ch);
+                currentHandle.dynBP.setData(ch);
             }
-        } else if ("NoteHeadHandle" == parentTagName) {
-            charactersNoteHeadHandle(ch, tagName);
-        } else if ("IconDynamicsHandle" == parentTagName) {
-            charactersIconDynamicsHandle(ch, tagName);
         }
         // TODO(kbinani):
     }
 
-    void XVSQFileReader::charactersIconDynamicsHandle(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersHandle(const string &ch, const string &tagName) {
         if ("IconID" == tagName) {
-            currentEvent.iconDynamicsHandle.iconId = ch;
+            currentHandle.iconId = ch;
         } else if ("IDS" == tagName) {
-            currentEvent.iconDynamicsHandle.ids = ch;
+            currentHandle.ids = ch;
         } else if ("Original" == tagName) {
-            currentEvent.iconDynamicsHandle.original = StringUtil::parseInt<int>(ch);
+            currentHandle.original = StringUtil::parseInt<int>(ch);
         } else if ("Caption" == tagName) {
-            currentEvent.iconDynamicsHandle.caption = ch;
+            currentHandle.caption = ch;
         } else if ("Length" == tagName) {
-            currentEvent.iconDynamicsHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+            currentHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
         } else if ("StartDyn" == tagName) {
-            currentEvent.iconDynamicsHandle.startDyn = StringUtil::parseInt<int>(ch);
+            currentHandle.startDyn = StringUtil::parseInt<int>(ch);
         } else if ("EndDyn" == tagName) {
-            currentEvent.iconDynamicsHandle.endDyn = StringUtil::parseInt<int>(ch);
-        }
-    }
-
-    void XVSQFileReader::charactersNoteHeadHandle(const string &ch, const string &tagName) {
-        if ("IconID" == tagName) {
-            currentEvent.noteHeadHandle.iconId = ch;
-        } else if ("IDS" == tagName) {
-            currentEvent.noteHeadHandle.ids = ch;
-        } else if ("Original" == tagName) {
-            currentEvent.noteHeadHandle.original = StringUtil::parseInt<int>(ch);
+            currentHandle.endDyn = StringUtil::parseInt<int>(ch);
         } else if ("Depth" == tagName) {
-            currentEvent.noteHeadHandle.depth = StringUtil::parseInt<int>(ch);
+            currentHandle.depth = StringUtil::parseInt<int>(ch);
         } else if ("Duration" == tagName) {
-            currentEvent.noteHeadHandle.duration = StringUtil::parseInt<int>(ch);
-        } else if ("Caption" == tagName) {
-            currentEvent.noteHeadHandle.caption = ch;
-        } else if ("Length" == tagName) {
-            currentEvent.noteHeadHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
-        }
-    }
-
-    void XVSQFileReader::charactersVibratoHandle(const string &ch, const string &tagName) {
-        if ("IconID" == tagName) {
-            currentEvent.vibratoHandle.iconId = ch;
-        } else if ("IDS" == tagName) {
-            currentEvent.vibratoHandle.ids = ch;
-        } else if ("Original" == tagName) {
-            currentEvent.vibratoHandle.original = StringUtil::parseInt<int>(ch);
-        } else if ("Caption" == tagName) {
-            currentEvent.vibratoHandle.caption = ch;
+            currentHandle.duration = StringUtil::parseInt<int>(ch);
         } else if ("StartRate" == tagName) {
-            currentEvent.vibratoHandle.startRate = StringUtil::parseInt<int>(ch);
+            currentHandle.startRate = StringUtil::parseInt<int>(ch);
         } else if ("StartDepth" == tagName) {
-            currentEvent.vibratoHandle.startDepth = StringUtil::parseInt<int>(ch);
-        } else if ("Length" == tagName) {
-            currentEvent.vibratoHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+            currentHandle.startDepth = StringUtil::parseInt<int>(ch);
+        } else if ("Index" == tagName) {
+            currentHandle.index = StringUtil::parseInt<int>(ch);
+        } else if ("Program" == tagName) {
+            currentHandle.program = StringUtil::parseInt<int>(ch);
+        } else if ("Language" == tagName) {
+            currentHandle.language = StringUtil::parseInt<int>(ch);
         }
     }
 
@@ -195,26 +181,6 @@ namespace cadencii {
             currentLyric.setConsonantAdjustment(StringUtil::replace(ch, " ", ","));
         } else if ("PhoneticSymbol" == tagName) {
             currentLyric.setPhoneticSymbol(ch);
-        }
-    }
-
-    void XVSQFileReader::charactersIconHandle(const std::string &ch, const std::string &tagName) {
-        if ("Caption" == tagName) {
-            currentEvent.singerHandle.caption = ch;
-        } else if ("IconID" == tagName) {
-            currentEvent.singerHandle.iconId = ch;
-        } else if ("IDS" == tagName) {
-            currentEvent.singerHandle.ids = ch;
-        } else if ("Index" == tagName) {
-            currentEvent.singerHandle.index = StringUtil::parseInt<int>(ch);
-        } else if ("Length" == tagName) {
-            currentEvent.singerHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
-        } else if ("Original" == tagName) {
-            currentEvent.singerHandle.original = StringUtil::parseInt<int>(ch);
-        } else if ("Program" == tagName) {
-            currentEvent.singerHandle.program = StringUtil::parseInt<int>(ch);
-        } else if ("Language" == tagName) {
-            currentEvent.singerHandle.language = StringUtil::parseInt<int>(ch);
         }
     }
 

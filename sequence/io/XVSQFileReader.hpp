@@ -34,6 +34,7 @@ namespace cadencii {
         VSQ_NS::Track currentTrack;
         VSQ_NS::Event currentEvent;
         VSQ_NS::Lyric currentLyric;
+        VSQ_NS::Handle currentHandle;
         int trackCount;
         std::stack<std::string> tagNameStack;
 
@@ -67,15 +68,9 @@ namespace cadencii {
 
         void charactersID(const std::string &ch, const std::string &tagName);
 
-        void charactersIconHandle(const std::string &ch, const std::string &tagName);
+        void charactersHandle(const std::string &ch, const std::string &tagName);
 
         void charactersLyric(const std::string &ch, const std::string &tagName);
-
-        void charactersVibratoHandle(const std::string &ch, const std::string &tagName);
-
-        void charactersNoteHeadHandle(const std::string &ch, const std::string &tagName);
-
-        void charactersIconDynamicsHandle(const std::string &ch, const std::string &tagName);
 
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
