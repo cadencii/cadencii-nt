@@ -105,6 +105,12 @@ public:
             }
         }
 
+        // master
+        {
+            CPPUNIT_ASSERT_EQUAL(0, sequence.master.preMeasure);
+            CPPUNIT_ASSERT_EQUAL(0, sequence.getPreMeasure());
+        }
+
         // 1st track
         {
             const Track *track = sequence.track(0);

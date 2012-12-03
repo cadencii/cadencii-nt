@@ -184,8 +184,16 @@ namespace cadencii {
             charactersTempo(ch, tagName);
         } else if ("TimeSigTableEntry" == parentTagName) {
             charactersTimesig(ch, tagName);
+        } else if ("Master" == parentTagName) {
+            charactersMaster(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersMaster(const string &ch, const string &tagName) {
+        if ("PreMeasure" == tagName) {
+            sequence->master.preMeasure = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersTimesig(const string &ch, const string &tagName) {

@@ -2700,7 +2700,7 @@ characters	7650
 endElement	TotalClocks
 startElement	Master
 startElement	PreMeasure
-characters	1
+characters	0
 endElement	PreMeasure
 endElement	Master
 startElement	Mixer

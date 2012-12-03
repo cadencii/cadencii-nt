@@ -88,6 +88,8 @@ namespace cadencii {
 
         void charactersTimesig(const std::string &ch, const std::string &tagName);
 
+        void charactersMaster(const std::string &ch, const std::string &tagName);
+
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 
