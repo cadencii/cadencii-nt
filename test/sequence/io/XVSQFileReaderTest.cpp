@@ -69,6 +69,23 @@ public:
 
         CPPUNIT_ASSERT_EQUAL((size_t)3, sequence.tracks()->size());
 
+        // tempo table
+        {
+            CPPUNIT_ASSERT_EQUAL(2, sequence.tempoList.size());
+            {
+                const Tempo tempo = sequence.tempoList.get(0);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, tempo.clock);
+                CPPUNIT_ASSERT_EQUAL(500000, tempo.tempo);
+                CPPUNIT_ASSERT_EQUAL(0.0, tempo.getTime());
+            }
+            {
+                const Tempo tempo = sequence.tempoList.get(1);
+                CPPUNIT_ASSERT_EQUAL((tick_t)1920, tempo.clock);
+                CPPUNIT_ASSERT_EQUAL(250000, tempo.tempo);
+                CPPUNIT_ASSERT_EQUAL(2.0, tempo.getTime());
+            }
+        }
+
         // 1st track
         {
             const Track *track = sequence.track(0);

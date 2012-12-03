@@ -98,6 +98,10 @@ namespace cadencii {
         } else if (isControlCurveTagName(name)) {
             std::string curveName = getCurveNameFrom(name);
             currentBPList = *defaultTrack.curve(curveName);
+        } else if ("TempoTable" == name) {
+            sequence->tempoList.clear();
+        } else if ("TempoTableEntry" == name) {
+            currentTempo = VSQ_NS::Tempo();
         }
         // TODO(kbinani):
     }
@@ -130,6 +134,10 @@ namespace cadencii {
         } else if (isControlCurveTagName(name)) {
             std::string curveName = getCurveNameFrom(name);
             *currentTrack.curve(curveName) = currentBPList;
+        } else if ("TempoTable" == name) {
+            sequence->tempoList.updateTempoInfo();
+        } else if ("TempoTableEntry" == name) {
+            sequence->tempoList.push(currentTempo);
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -166,8 +174,18 @@ namespace cadencii {
             }
         } else if (isControlCurveTagName(parentTagName)) {
             charactersBPList(ch, tagName);
+        } else if ("TempoTableEntry" == parentTagName) {
+            charactersTempo(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersTempo(const string &ch, const string &tagName) {
+        if ("Clock" == tagName) {
+            currentTempo.clock = StringUtil::parseInt<VSQ_NS::tick_t>(ch);
+        } else if ("Tempo" == tagName) {
+            currentTempo.tempo = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersBPList(const string &ch, const string &tagName) {

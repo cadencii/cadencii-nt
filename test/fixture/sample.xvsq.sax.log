@@ -2653,6 +2653,17 @@ startElement	Time
 characters	0
 endElement	Time
 endElement	TempoTableEntry
+startElement	TempoTableEntry
+startElement	Clock
+characters	1920
+endElement	Clock
+startElement	Tempo
+characters	250000
+endElement	Tempo
+startElement	Time
+characters	2
+endElement	Time
+endElement	TempoTableEntry
 endElement	TempoTable
 startElement	TimesigTable
 startElement	TimeSigTableEntry
