@@ -37,6 +37,7 @@ namespace cadencii {
         VSQ_NS::Handle currentHandle;
         VSQ_NS::BPList currentBPList;
         VSQ_NS::Tempo currentTempo;
+        VSQ_NS::Timesig currentTimesig;
 
         int trackCount;
         std::stack<std::string> tagNameStack;
@@ -84,6 +85,8 @@ namespace cadencii {
         void charactersBPList(const std::string &ch, const std::string &tagName);
 
         void charactersTempo(const std::string &ch, const std::string &tagName);
+
+        void charactersTimesig(const std::string &ch, const std::string &tagName);
 
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);

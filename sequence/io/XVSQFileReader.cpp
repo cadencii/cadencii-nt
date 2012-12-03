@@ -102,6 +102,10 @@ namespace cadencii {
             sequence->tempoList.clear();
         } else if ("TempoTableEntry" == name) {
             currentTempo = VSQ_NS::Tempo();
+        } else if ("TimesigTable" == name) {
+            sequence->timesigList.clear();
+        } else if ("TimeSigTableEntry" == name) {
+            currentTimesig = VSQ_NS::Timesig();
         }
         // TODO(kbinani):
     }
@@ -138,6 +142,8 @@ namespace cadencii {
             sequence->tempoList.updateTempoInfo();
         } else if ("TempoTableEntry" == name) {
             sequence->tempoList.push(currentTempo);
+        } else if ("TimeSigTableEntry" == name) {
+            sequence->timesigList.push(currentTimesig);
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -176,8 +182,20 @@ namespace cadencii {
             charactersBPList(ch, tagName);
         } else if ("TempoTableEntry" == parentTagName) {
             charactersTempo(ch, tagName);
+        } else if ("TimeSigTableEntry" == parentTagName) {
+            charactersTimesig(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersTimesig(const string &ch, const string &tagName) {
+        if ("Numerator" == tagName) {
+            currentTimesig.numerator = StringUtil::parseInt<int>(ch);
+        } else if ("Denominator" == tagName) {
+            currentTimesig.denominator = StringUtil::parseInt<int>(ch);
+        } else if ("BarCount" == tagName) {
+            currentTimesig.barCount = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersTempo(const string &ch, const string &tagName) {

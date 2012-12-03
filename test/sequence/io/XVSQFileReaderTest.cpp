@@ -86,6 +86,25 @@ public:
             }
         }
 
+        // timesig table
+        {
+            CPPUNIT_ASSERT_EQUAL(2, sequence.timesigList.size());
+            {
+                const Timesig timesig = sequence.timesigList.get(0);
+                CPPUNIT_ASSERT_EQUAL(4, timesig.numerator);
+                CPPUNIT_ASSERT_EQUAL(4, timesig.denominator);
+                CPPUNIT_ASSERT_EQUAL(0, timesig.barCount);
+                CPPUNIT_ASSERT_EQUAL((tick_t)0, timesig.getClock());
+            }
+            {
+                const Timesig timesig = sequence.timesigList.get(1);
+                CPPUNIT_ASSERT_EQUAL(3, timesig.numerator);
+                CPPUNIT_ASSERT_EQUAL(4, timesig.denominator);
+                CPPUNIT_ASSERT_EQUAL(1, timesig.barCount);
+                CPPUNIT_ASSERT_EQUAL((tick_t)1920, timesig.getClock());
+            }
+        }
+
         // 1st track
         {
             const Track *track = sequence.track(0);
