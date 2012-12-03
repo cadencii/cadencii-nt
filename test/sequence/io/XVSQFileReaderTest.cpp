@@ -338,6 +338,146 @@ public:
                     CPPUNIT_ASSERT_EQUAL(string("4740=64,4770=63,4800=63,4830=63,4860=63,4890=62,4920=62,4950=61,4980=61,5010=60,5040=60,5070=59,5100=59,5130=58,5160=57,5190=57,5220=56,5250=55,5280=55,5310=54,5340=53,5370=53,5400=52,5430=51,5460=50,5490=50,5520=49,5550=48,5580=47,5610=47,5640=46,5670=45,5700=45,5730=44,5760=43,5790=42,5820=42,5850=41,5880=41,5910=40,5940=39,5970=39,6000=38,6030=38,6060=38,6090=37,6120=37,6150=37,6180=37,6210=37,6240=37,6270=37,6300=37,6330=38,6360=39,6390=40,6420=41,6450=44,6480=47,6510=51,6540=54,6570=56,6600=59,6630=61,6660=63,6690=64,6720=66,6750=68,6780=69,6810=70,6840=72,6870=73,6900=74,6930=75,6960=76,6990=77,7020=78,7050=78,7080=79,7110=80,7140=80,7170=81,7200=81,7230=82,7260=82,7290=83,7320=83,7350=83,7380=83,7410=83,7440=83,7470=83,7500=83,7530=82,7560=82,7590=81,7620=80,7650=79"),
                                          curve->getData());
                 }
+                // reso1Freq
+                {
+                    const BPList *curve = track->curve("reso1freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2Freq
+                {
+                    const BPList *curve = track->curve("reso2freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3Freq
+                {
+                    const BPList *curve = track->curve("reso3freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4Freq
+                {
+                    const BPList *curve = track->curve("reso4freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1bw
+                {
+                    const BPList *curve = track->curve("reso1bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2bw
+                {
+                    const BPList *curve = track->curve("reso2bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3bw
+                {
+                    const BPList *curve = track->curve("reso3bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4bw
+                {
+                    const BPList *curve = track->curve("reso4bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1amp
+                {
+                    const BPList *curve = track->curve("reso1amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2amp
+                {
+                    const BPList *curve = track->curve("reso2amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3amp
+                {
+                    const BPList *curve = track->curve("reso3amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4amp
+                {
+                    const BPList *curve = track->curve("reso4amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // harmonics
+                {
+                    const BPList *curve = track->curve("harmonics");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("harmonics"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // fx2depth
+                {
+                    const BPList *curve = track->curve("fx2depth");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("fx2depth"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
             }
         }
 
@@ -558,6 +698,146 @@ public:
                     const BPList *curve = track->curve("OPE");
                     CPPUNIT_ASSERT_EQUAL(127, curve->getDefault());
                     CPPUNIT_ASSERT_EQUAL(string("ope"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1Freq
+                {
+                    const BPList *curve = track->curve("reso1freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2Freq
+                {
+                    const BPList *curve = track->curve("reso2freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3Freq
+                {
+                    const BPList *curve = track->curve("reso3freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4Freq
+                {
+                    const BPList *curve = track->curve("reso4freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1bw
+                {
+                    const BPList *curve = track->curve("reso1bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2bw
+                {
+                    const BPList *curve = track->curve("reso2bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3bw
+                {
+                    const BPList *curve = track->curve("reso3bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4bw
+                {
+                    const BPList *curve = track->curve("reso4bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1amp
+                {
+                    const BPList *curve = track->curve("reso1amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso2amp
+                {
+                    const BPList *curve = track->curve("reso2amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso3amp
+                {
+                    const BPList *curve = track->curve("reso3amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso4amp
+                {
+                    const BPList *curve = track->curve("reso4amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // harmonics
+                {
+                    const BPList *curve = track->curve("harmonics");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("harmonics"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // fx2depth
+                {
+                    const BPList *curve = track->curve("fx2depth");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("fx2depth"), curve->getName());
                     CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
                     CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
                     CPPUNIT_ASSERT_EQUAL(0, curve->size());
@@ -827,6 +1107,146 @@ public:
                     CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
                     CPPUNIT_ASSERT_EQUAL(0, curve->size());
                     CPPUNIT_ASSERT_EQUAL(string(""), curve->getData());
+                }
+                // reso1Freq
+                {
+                    const BPList *curve = track->curve("reso1freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2000=1"), curve->getData());
+                }
+                // reso2Freq
+                {
+                    const BPList *curve = track->curve("reso2freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2001=2"), curve->getData());
+                }
+                // reso3Freq
+                {
+                    const BPList *curve = track->curve("reso3freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2002=3"), curve->getData());
+                }
+                // reso4Freq
+                {
+                    const BPList *curve = track->curve("reso4freq");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4freq"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2003=4"), curve->getData());
+                }
+                // reso1bw
+                {
+                    const BPList *curve = track->curve("reso1bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2004=5"), curve->getData());
+                }
+                // reso2bw
+                {
+                    const BPList *curve = track->curve("reso2bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2006=7"), curve->getData());
+                }
+                // reso3bw
+                {
+                    const BPList *curve = track->curve("reso3bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2007=8"), curve->getData());
+                }
+                // reso4bw
+                {
+                    const BPList *curve = track->curve("reso4bw");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4bw"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2008=9"), curve->getData());
+                }
+                // reso1amp
+                {
+                    const BPList *curve = track->curve("reso1amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso1amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2009=10"), curve->getData());
+                }
+                // reso2amp
+                {
+                    const BPList *curve = track->curve("reso2amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso2amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2010=11"), curve->getData());
+                }
+                // reso3amp
+                {
+                    const BPList *curve = track->curve("reso3amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso3amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2011=12"), curve->getData());
+                }
+                // reso4amp
+                {
+                    const BPList *curve = track->curve("reso4amp");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("reso4amp"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2012=13"), curve->getData());
+                }
+                // harmonics
+                {
+                    const BPList *curve = track->curve("harmonics");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("harmonics"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2013=14"), curve->getData());
+                }
+                // fx2depth
+                {
+                    const BPList *curve = track->curve("fx2depth");
+                    CPPUNIT_ASSERT_EQUAL(64, curve->getDefault());
+                    CPPUNIT_ASSERT_EQUAL(string("fx2depth"), curve->getName());
+                    CPPUNIT_ASSERT_EQUAL(127, curve->getMaximum());
+                    CPPUNIT_ASSERT_EQUAL(0, curve->getMinimum());
+                    CPPUNIT_ASSERT_EQUAL(1, curve->size());
+                    CPPUNIT_ASSERT_EQUAL(string("2014=15"), curve->getData());
                 }
             }
         }

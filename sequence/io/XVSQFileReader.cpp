@@ -38,6 +38,30 @@ namespace cadencii {
 
         boolValueMap.insert(std::make_pair("true", true));
         boolValueMap.insert(std::make_pair("false", false));
+
+        tagNameMap.insert(make_pair("PIT", "PIT"));
+        tagNameMap.insert(make_pair("PBS", "PBS"));
+        tagNameMap.insert(make_pair("DYN", "DYN"));
+        tagNameMap.insert(make_pair("BRE", "BRE"));
+        tagNameMap.insert(make_pair("BRI", "BRI"));
+        tagNameMap.insert(make_pair("CLE", "CLE"));
+        tagNameMap.insert(make_pair("GEN", "GEN"));
+        tagNameMap.insert(make_pair("POR", "POR"));
+        tagNameMap.insert(make_pair("OPE", "OPE"));
+        tagNameMap.insert(make_pair("harmonics", "harmonics"));
+        tagNameMap.insert(make_pair("fx2depth", "fx2depth"));
+        tagNameMap.insert(make_pair("reso1FreqBPList", "reso1freq"));
+        tagNameMap.insert(make_pair("reso2FreqBPList", "reso2freq"));
+        tagNameMap.insert(make_pair("reso3FreqBPList", "reso3freq"));
+        tagNameMap.insert(make_pair("reso4FreqBPList", "reso4freq"));
+        tagNameMap.insert(make_pair("reso1BWBPList", "reso1bw"));
+        tagNameMap.insert(make_pair("reso2BWBPList", "reso2bw"));
+        tagNameMap.insert(make_pair("reso3BWBPList", "reso3bw"));
+        tagNameMap.insert(make_pair("reso4BWBPList", "reso4bw"));
+        tagNameMap.insert(make_pair("reso1AmpBPList", "reso1amp"));
+        tagNameMap.insert(make_pair("reso2AmpBPList", "reso2amp"));
+        tagNameMap.insert(make_pair("reso3AmpBPList", "reso3amp"));
+        tagNameMap.insert(make_pair("reso4AmpBPList", "reso4amp"));
     }
 
     /**
@@ -72,7 +96,8 @@ namespace cadencii {
         } else if ("IconDynamicsHandle" == name) {
             currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
         } else if (isControlCurveTagName(name)) {
-            currentBPList = *defaultTrack.curve(name);
+            std::string curveName = getCurveNameFrom(name);
+            currentBPList = *defaultTrack.curve(curveName);
         }
         // TODO(kbinani):
     }
@@ -103,7 +128,8 @@ namespace cadencii {
         } else if ("IconDynamicsHandle" == name) {
             currentEvent.iconDynamicsHandle = currentHandle;
         } else if (isControlCurveTagName(name)) {
-            *currentTrack.curve(name) = currentBPList;
+            std::string curveName = getCurveNameFrom(name);
+            *currentTrack.curve(curveName) = currentBPList;
         }
         // TODO(kbinani):
         tagNameStack.pop();

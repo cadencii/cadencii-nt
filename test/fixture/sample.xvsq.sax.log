@@ -2360,6 +2360,7 @@ startElement	Name
 characters	reso1freq
 endElement	Name
 startElement	Data
+characters	2000=1
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2376,6 +2377,7 @@ startElement	Name
 characters	reso2freq
 endElement	Name
 startElement	Data
+characters	2001=2
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2392,6 +2394,7 @@ startElement	Name
 characters	reso3freq
 endElement	Name
 startElement	Data
+characters	2002=3
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2408,6 +2411,7 @@ startElement	Name
 characters	reso4freq
 endElement	Name
 startElement	Data
+characters	2003=4
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2424,6 +2428,7 @@ startElement	Name
 characters	reso1bw
 endElement	Name
 startElement	Data
+characters	2004=5
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2440,6 +2445,7 @@ startElement	Name
 characters	reso2bw
 endElement	Name
 startElement	Data
+characters	2006=7
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2456,6 +2462,7 @@ startElement	Name
 characters	reso3bw
 endElement	Name
 startElement	Data
+characters	2007=8
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2472,6 +2479,7 @@ startElement	Name
 characters	reso4bw
 endElement	Name
 startElement	Data
+characters	2008=9
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2488,6 +2496,7 @@ startElement	Name
 characters	reso1amp
 endElement	Name
 startElement	Data
+characters	2009=10
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2504,6 +2513,7 @@ startElement	Name
 characters	reso2amp
 endElement	Name
 startElement	Data
+characters	2010=11
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2520,6 +2530,7 @@ startElement	Name
 characters	reso3amp
 endElement	Name
 startElement	Data
+characters	2011=12
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2536,6 +2547,7 @@ startElement	Name
 characters	reso4amp
 endElement	Name
 startElement	Data
+characters	2012=13
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2552,6 +2564,7 @@ startElement	Name
 characters	harmonics
 endElement	Name
 startElement	Data
+characters	2013=14
 endElement	Data
 startElement	Maximum
 characters	127
@@ -2568,6 +2581,7 @@ startElement	Name
 characters	fx2depth
 endElement	Name
 startElement	Data
+characters	2014=15
 endElement	Data
 startElement	Maximum
 characters	127

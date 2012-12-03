@@ -44,6 +44,7 @@ namespace cadencii {
         std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
         std::map<std::string, VSQ_NS::EventType::EventTypeEnum> eventTypeValueMap;
         std::map<std::string, bool> boolValueMap;
+        std::map<std::string, std::string> tagNameMap;
 
         /**
          * @brief A default instance of Track, to get default property of BPList.
@@ -98,9 +99,11 @@ namespace cadencii {
         }
 
         inline bool isControlCurveTagName(const std::string &name) {
-            return "PIT" == name || "PBS" == name || "DYN" == name || "BRE" == name
-                    || "BRI" == name || "CLE" == name || "GEN" == name || "POR" == name
-                    || "OPE" == name;
+            return tagNameMap.find(name) != tagNameMap.end();
+        }
+
+        inline std::string getCurveNameFrom(const std::string &name) {
+            return tagNameMap.at(name);
         }
     };
 }
