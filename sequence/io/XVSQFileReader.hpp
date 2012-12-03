@@ -25,6 +25,11 @@ namespace cadencii {
 
     /**
      * @brief A parser class for XVSQ file.
+     * @todo parse <UstEvent>
+     * @todo parse <AttachedCurves>
+     * @todo parse <BgmFiles>
+     * @todo parse <cacheDir>
+     * @todo parse config
      */
     class XVSQFileReader {
         friend class SAXAdapter;

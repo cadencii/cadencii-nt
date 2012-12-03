@@ -112,7 +112,6 @@ namespace cadencii {
         } else if ("VsqMixerEntry" == name) {
             currentMixerItem = VSQ_NS::MixerItem(0, 0, 0, 0);
         }
-        // TODO(kbinani):
     }
 
     void XVSQFileReader::endElement(const std::string &name) {
@@ -152,7 +151,6 @@ namespace cadencii {
         } else if ("VsqMixerEntry" == name) {
             sequence->mixer.slave.push_back(currentMixerItem);
         }
-        // TODO(kbinani):
         tagNameStack.pop();
     }
 
@@ -198,7 +196,6 @@ namespace cadencii {
         } else if ("VsqMixerEntry" == parentTagName) {
             charactersMixerItem(ch, tagName);
         }
-        // TODO(kbinani):
     }
 
     void XVSQFileReader::charactersMixerItem(const string &ch, const string &tagName) {
