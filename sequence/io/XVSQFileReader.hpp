@@ -38,6 +38,7 @@ namespace cadencii {
         VSQ_NS::BPList currentBPList;
         VSQ_NS::Tempo currentTempo;
         VSQ_NS::Timesig currentTimesig;
+        VSQ_NS::MixerItem currentMixerItem;
 
         int trackCount;
         std::stack<std::string> tagNameStack;
@@ -89,6 +90,10 @@ namespace cadencii {
         void charactersTimesig(const std::string &ch, const std::string &tagName);
 
         void charactersMaster(const std::string &ch, const std::string &tagName);
+
+        void charactersMixer(const std::string &ch, const std::string &tagName);
+
+        void charactersMixerItem(const std::string &ch, const std::string &tagName);
 
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);

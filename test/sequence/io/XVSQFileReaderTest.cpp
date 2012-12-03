@@ -111,6 +111,36 @@ public:
             CPPUNIT_ASSERT_EQUAL(0, sequence.getPreMeasure());
         }
 
+        // mixer
+        {
+            CPPUNIT_ASSERT_EQUAL(2, sequence.mixer.masterPanpot);
+            CPPUNIT_ASSERT_EQUAL(1, sequence.mixer.masterMute);
+            CPPUNIT_ASSERT_EQUAL(3, sequence.mixer.masterFeder);
+            CPPUNIT_ASSERT_EQUAL(0, sequence.mixer.outputMode);
+            CPPUNIT_ASSERT_EQUAL((size_t)3, sequence.mixer.slave.size());
+            {
+                const MixerItem mixerItem = sequence.mixer.slave[0];
+                CPPUNIT_ASSERT_EQUAL(0, mixerItem.solo);
+                CPPUNIT_ASSERT_EQUAL(2, mixerItem.feder);
+                CPPUNIT_ASSERT_EQUAL(1, mixerItem.mute);
+                CPPUNIT_ASSERT_EQUAL(5, mixerItem.panpot);
+            }
+            {
+                const MixerItem mixerItem = sequence.mixer.slave[1];
+                CPPUNIT_ASSERT_EQUAL(1, mixerItem.solo);
+                CPPUNIT_ASSERT_EQUAL(3, mixerItem.feder);
+                CPPUNIT_ASSERT_EQUAL(0, mixerItem.mute);
+                CPPUNIT_ASSERT_EQUAL(6, mixerItem.panpot);
+            }
+            {
+                const MixerItem mixerItem = sequence.mixer.slave[2];
+                CPPUNIT_ASSERT_EQUAL(0, mixerItem.solo);
+                CPPUNIT_ASSERT_EQUAL(4, mixerItem.feder);
+                CPPUNIT_ASSERT_EQUAL(1, mixerItem.mute);
+                CPPUNIT_ASSERT_EQUAL(7, mixerItem.panpot);
+            }
+        }
+
         // 1st track
         {
             const Track *track = sequence.track(0);

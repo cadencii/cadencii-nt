@@ -21,7 +21,8 @@
 namespace cadencii {
 
     XVSQFileReader::XVSQFileReader() :
-        currentLyric(VSQ_NS::Lyric("", "")) {
+        currentLyric(VSQ_NS::Lyric("", "")),
+        currentMixerItem(VSQ_NS::MixerItem(0, 0, 0, 0)) {
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
         insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
 
@@ -106,6 +107,10 @@ namespace cadencii {
             sequence->timesigList.clear();
         } else if ("TimeSigTableEntry" == name) {
             currentTimesig = VSQ_NS::Timesig();
+        } else if ("Slave" == name) {
+            sequence->mixer.slave.clear();
+        } else if ("VsqMixerEntry" == name) {
+            currentMixerItem = VSQ_NS::MixerItem(0, 0, 0, 0);
         }
         // TODO(kbinani):
     }
@@ -144,6 +149,8 @@ namespace cadencii {
             sequence->tempoList.push(currentTempo);
         } else if ("TimeSigTableEntry" == name) {
             sequence->timesigList.push(currentTimesig);
+        } else if ("VsqMixerEntry" == name) {
+            sequence->mixer.slave.push_back(currentMixerItem);
         }
         // TODO(kbinani):
         tagNameStack.pop();
@@ -186,8 +193,36 @@ namespace cadencii {
             charactersTimesig(ch, tagName);
         } else if ("Master" == parentTagName) {
             charactersMaster(ch, tagName);
+        } else if ("Mixer" == parentTagName) {
+            charactersMixer(ch, tagName);
+        } else if ("VsqMixerEntry" == parentTagName) {
+            charactersMixerItem(ch, tagName);
         }
         // TODO(kbinani):
+    }
+
+    void XVSQFileReader::charactersMixerItem(const string &ch, const string &tagName) {
+        if ("Solo" == tagName) {
+            currentMixerItem.solo = StringUtil::parseInt<int>(ch);
+        } else if ("Feder" == tagName) {
+            currentMixerItem.feder = StringUtil::parseInt<int>(ch);
+        } else if ("Mute" == tagName) {
+            currentMixerItem.mute = StringUtil::parseInt<int>(ch);
+        } else if ("Panpot" == tagName) {
+            currentMixerItem.panpot = StringUtil::parseInt<int>(ch);
+        }
+    }
+
+    void XVSQFileReader::charactersMixer(const string &ch, const string &tagName) {
+        if ("MasterFeder" == tagName) {
+            sequence->mixer.masterFeder = StringUtil::parseInt<int>(ch);
+        } else if ("MasterPanpot" == tagName) {
+            sequence->mixer.masterPanpot = StringUtil::parseInt<int>(ch);
+        } else if ("MasterMute" == tagName) {
+            sequence->mixer.masterMute = StringUtil::parseInt<int>(ch);
+        } else if ("OutputMode" == tagName) {
+            sequence->mixer.outputMode = StringUtil::parseInt<int>(ch);
+        }
     }
 
     void XVSQFileReader::charactersMaster(const string &ch, const string &tagName) {
