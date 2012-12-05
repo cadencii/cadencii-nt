@@ -29,8 +29,8 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/ConcreteTrackListView.cpp \
     $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
     $$PWD/gui/PropertyValueProxy.cpp \
-    sequence/io/XVSQFileReader.cpp \
-    sequence/io/SAXAdapter.cpp
+    $$PWD/sequence/io/XVSQFileReader.cpp \
+    $$PWD/sequence/io/SAXAdapter.cpp
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
