@@ -128,6 +128,7 @@ namespace cadencii {
         void on_menu_action_export_as_vsq_file_triggered();
         void on_menu_action_toggle_grid_visible_toggled(bool arg1);
         void on_tool_action_toggle_grid_visible_toggled(bool arg1);
+        void on_menu_action_open_triggered();
     };
 }
 

@@ -64,6 +64,8 @@ namespace cadencii {
 
         void openVSQFile(const string &filePath)throw();
 
+        void openXVSQFile(const std::string &filePath)throw();
+
         void drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw();
 
         /**

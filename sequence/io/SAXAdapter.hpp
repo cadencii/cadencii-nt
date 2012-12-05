@@ -31,11 +31,8 @@ namespace cadencii {
     private:
         XVSQFileReader *reader;
 
-    protected:
-        VSQ_NS::InputStream *stream;
-
     public:
-        explicit SAXAdapter(VSQ_NS::InputStream *stream);
+        explicit SAXAdapter();
 
         virtual ~SAXAdapter();
 
@@ -61,8 +58,6 @@ namespace cadencii {
         void onCharacters(const std::string &ch);
 
     private:
-        SAXAdapter();
-
         void setReader(XVSQFileReader *reader);
     };
 }

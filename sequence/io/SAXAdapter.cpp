@@ -18,11 +18,8 @@
 
 namespace cadencii {
 
-    SAXAdapter::SAXAdapter(VSQ_NS::InputStream *stream) :
-        stream(stream), reader(0) {
-    }
-
-    SAXAdapter::SAXAdapter() {
+    SAXAdapter::SAXAdapter() :
+        reader(0) {
     }
 
     SAXAdapter::~SAXAdapter() {

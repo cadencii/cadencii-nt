@@ -86,6 +86,7 @@ HEADERS  += \
     $$PWD/qt/SignalEmitWorker.hpp \
     $$PWD/sequence/io/XVSQFileReader.hpp \
     $$PWD/sequence/io/SAXAdapter.hpp \
+    $$PWD/qt/sequence/io/ConcreteSAXAdapter.hpp
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

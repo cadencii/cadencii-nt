@@ -180,7 +180,7 @@
      <addaction name="menu_action_export_as_musicxml"/>
     </widget>
     <addaction name="actionNew"/>
-    <addaction name="actionOpen_2"/>
+    <addaction name="menu_action_open"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="separator"/>
@@ -408,10 +408,7 @@
     <string notr="true"/>
    </property>
   </action>
-  <action name="actionOpen_2">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
+  <action name="menu_action_open">
    <property name="text">
     <string>Open</string>
    </property>

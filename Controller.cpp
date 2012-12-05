@@ -25,6 +25,8 @@
 #include "vsq/MusicXmlWriter.hpp"
 #include "Settings.hpp"
 #include "command/DeleteEventCommand.hpp"
+#include "sequence/io/XVSQFileReader.hpp"
+#include "qt/sequence/io/ConcreteSAXAdapter.hpp"
 
 namespace cadencii {
 
@@ -155,6 +157,22 @@ namespace cadencii {
                 QMessageBox::information(
                     0, QObject::tr("Error"),
                     QObject::tr("Invalid VSQ/VOCALOID MIDI file"), Qt::NoButton);
+            }
+        }
+    }
+
+    void Controller::openXVSQFile(const std::string &filePath)throw() {
+        XVSQFileReader reader;
+        VSQ_NS::Sequence sequence;
+        try {
+            ConcreteSAXAdapter adapter(filePath);
+            reader.read(&sequence, &adapter);
+            setupSequence(sequence);
+        } catch(std::exception &) {
+            if (!Settings::instance()->isUnderUnitTest()) {
+                QMessageBox::information(
+                    0, QObject::tr("Error"),
+                    QObject::tr("Invalid XVSQ file"), Qt::NoButton);
             }
         }
     }
