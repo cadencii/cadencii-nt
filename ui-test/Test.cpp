@@ -314,3 +314,23 @@ void Test::propertyViewFetchProperty() {
         QCOMPARE(actual.vibratoHandle.getLength(), (tick_t)100);
     }
 }
+
+void Test::openXvsq() {
+    SettingsStub settings;
+    cadencii::Settings::instance( &settings );
+
+    cadencii::AppContainer container;
+    container.controller.showMainView();
+
+    container.controller.openVSQFile( "./fixture/valid.xvsq" );
+}
+
+void Test::openXvsqWithException() {
+    SettingsStub settings;
+    cadencii::Settings::instance( &settings );
+
+    cadencii::AppContainer container;
+    container.controller.showMainView();
+
+    container.controller.openVSQFile( "./fixture/invalid.xvsq" );
+}
