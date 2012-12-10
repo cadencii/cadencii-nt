@@ -6,26 +6,26 @@ fi
 
 fileName=$1
 
+function get_real_path {
+  local path=$1
+  echo -n $(cd $(dirname $path); pwd)/$(basename $path)
+}
+
 if [ -e $fileName ]; then
   isMatch=$(echo "${fileName}" | sed 's:^\(.*Test\.cpp\)$::g')
   if [ -z $isMatch ]; then
     fileName=$(echo "${fileName}" | sed 's:^\(.*\)Test\.cpp$:\1:g')Test.exe
-  else
-    fileName=""
   fi
 else
-  isMatch=$(echo "${fileName}" | sed 's:^\(.*Test\.\)$::g')
+  isMatch=$(echo "${fileName}" | sed 's:^\(.*Test[.]\)$::g')
   if [ -z $isMatch ]; then
     fileName=$(echo "${fileName}" | sed 's:^\(.*\)Test\.$:\1:g')Test.exe
-  else
-    fileName=""
   fi
 fi
 
 if [ ! -z $fileName ]; then
-  rm -f ${fileName}; make ${fileName}
-else
-  exit 1
+  if [ "$(make --dry-run $(get_real_path ${fileName}) >/dev/null 2>&1; echo $?)" = "0" ]; then
+    rm -f ${fileName}; make $(get_real_path ${fileName})
+  fi
 fi
-
 
