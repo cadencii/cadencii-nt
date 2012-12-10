@@ -23,7 +23,7 @@ private:
 
 public:
     explicit SAXAdapterStub(const string &fixturePath) :
-        SAXAdapter(0), fixturePath(fixturePath) {
+        fixturePath(fixturePath) {
     }
 
     void start() {
@@ -1322,11 +1322,18 @@ public:
                 }
             }
         }
-        //TODO(kbinani): more assertion
+    }
+
+    void readWithException() {
+        XVSQFileReader reader;
+        SAXAdapterStub adapter("");
+        Sequence sequence;
+        CPPUNIT_ASSERT_THROW(reader.read(&sequence, &adapter), XVSQFileReader::ParseException);
     }
 
     CPPUNIT_TEST_SUITE(XVSQFileReaderTest);
     CPPUNIT_TEST(read);
+    CPPUNIT_TEST(readWithException);
     CPPUNIT_TEST_SUITE_END();
 };
 

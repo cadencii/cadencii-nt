@@ -74,6 +74,8 @@ namespace cadencii {
         this->sequence->tracks()->clear();
         trackCount = 0;
         adapter->start();
+
+        validate();
     }
 
     void XVSQFileReader::startElement(const std::string &name) {
@@ -370,6 +372,12 @@ namespace cadencii {
                 currentTrack.common()->setPlayMode(playModeValueMap.at(ch));
                 currentTrack.common()->setPlayMode(current);
             }
+        }
+    }
+
+    void XVSQFileReader::validate() {
+        if (sequence->tracks()->size() < 1) {
+            throw XVSQFileReader::ParseException();
         }
     }
 

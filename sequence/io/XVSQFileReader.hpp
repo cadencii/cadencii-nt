@@ -34,6 +34,10 @@ namespace cadencii {
     class XVSQFileReader {
         friend class SAXAdapter;
 
+    public:
+        class ParseException : public std::exception {
+        };
+
     private:
         VSQ_NS::Sequence *sequence;
         VSQ_NS::Track currentTrack;
@@ -99,6 +103,8 @@ namespace cadencii {
         void charactersMixer(const std::string &ch, const std::string &tagName);
 
         void charactersMixerItem(const std::string &ch, const std::string &tagName);
+
+        void validate();
 
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
