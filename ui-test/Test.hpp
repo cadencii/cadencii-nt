@@ -51,4 +51,14 @@ private slots:
      * @brief A test for ConcretePropertyView::fetchProperty.
      */
     void propertyViewFetchProperty();
+
+    /**
+     * @brief Can open xvsq file.
+     */
+    void openXvsq();
+
+    /**
+     * @brief Should not crash when invalid xvsq file was opened.
+     */
+    void openXvsqWithException();
 };

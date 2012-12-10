@@ -377,3 +377,12 @@ void cadencii::WindowMainView::on_tool_action_toggle_grid_visible_toggled(bool a
         updateWidget();
     }
 }
+
+void cadencii::WindowMainView::on_menu_action_open_triggered() {
+    QString filePath = QFileDialog::getOpenFileName(this);
+    QFile file(filePath);
+    if (file.exists() && controllerAdapter) {
+        controllerAdapter->openXVSQFile(std::string(filePath.toLocal8Bit().data()));
+    }
+    activateWindow();
+}

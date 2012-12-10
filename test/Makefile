@@ -1,11 +1,12 @@
-TEST_FILES=$(shell ls *Test.cpp **/*Test.cpp 2>/dev/null)
+ROOT_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+TEST_FILES=$(shell find $(ROOT_DIR) | grep Test.cpp 2>/dev/null)
 TARGETS=$(TEST_FILES:.cpp=.exe)
 
 all: $(TARGETS)
 
 $(TARGETS): %.exe: %.cpp
-	g++ -g main.cpp $< -w -ldl -lcppunit -o $@
-	./$@
+	g++ -g $(ROOT_DIR)/main.cpp $< -w -ldl -lcppunit -o $@
+	$@
 
 run: $(TARGETS)
 	for TARGET in $(TARGETS); do \
@@ -13,5 +14,10 @@ run: $(TARGETS)
 	done
 
 clean:
-	rm -rf *.exe *.exe.dSYM **/*.exe **/*.exe.dSYM
+	rm -rf $(TARGETS)
+
+#**/*.exe.dSYM
+
+test.exe: main.cpp $(TEST_FILES)
+	g++ main.cpp $(TEST_FILES) -w -coverage -ldl -lcppunit -o test.exe
 

@@ -16,8 +16,8 @@
 #define __cadencii_SequenceModel_hpp__
 
 #include <vector>
-#include "vsq/Sequence.hpp"
-#include "command/AbstractCommand.hpp"
+#include "../vsq/Sequence.hpp"
+#include "../command/AbstractCommand.hpp"
 
 namespace cadencii {
 

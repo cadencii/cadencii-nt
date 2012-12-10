@@ -25,7 +25,7 @@
 #include "ControllerAdapter.hpp"
 #include "vsq/Sequence.hpp"
 #include "enum/QuantizeMode.hpp"
-#include "SequenceModel.hpp"
+#include "sequence/SequenceModel.hpp"
 
 namespace cadencii {
 
@@ -63,6 +63,8 @@ namespace cadencii {
         explicit Controller();
 
         void openVSQFile(const string &filePath)throw();
+
+        void openXVSQFile(const std::string &filePath)throw();
 
         void drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw();
 

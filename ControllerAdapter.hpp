@@ -36,6 +36,12 @@ namespace cadencii {
         virtual void openVSQFile(const std::string &filePath)throw() = 0;
 
         /**
+         * @brief  Opens XVSQ file.
+         * @param  [in]  filePath  A file path.
+         */
+        virtual void openXVSQFile(const std::string &filePath)throw() = 0;
+
+        /**
          * @brief Music Xml として出力する
          * @param filePath 保存するファイルパス
          */

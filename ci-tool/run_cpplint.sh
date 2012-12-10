@@ -4,6 +4,9 @@ function run_cpplint { (
     echo "---------------------------------------------------------"
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] $0 start"
     local workspace=$(cd $(dirname $0)/../; pwd)
+    . ${workspace}/ci-tool/which_cpplint.sh
+    local cpplint=$(which_cpplint)
+
     local result="${workspace}/cpplint_result.txt"
     rm -f ${result}
     touch ${result}
@@ -23,7 +26,8 @@ function run_cpplint { (
     do
 
         local tempFile=$(mktemp /tmp/cpplint_XXXXXXXXXXXXX)
-        python ${workspace}/ci-tool/cpplint.py ${file} 2>&1 \
+        cat ${file} | $cpplint - 2>&1 \
+            | sed "s:^-\:\(.*\)\$:${file}\:\1:g" \
             | grep -v '^Done processing ' \
             | grep -v '^Total errors found: ' \
             | grep -v 'Lines should be <= 80 characters long ' \
