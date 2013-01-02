@@ -101,7 +101,8 @@ HEADERS  += \
     $$PWD/singing/IWaveformReceiver.hpp \
     $$PWD/singing/cadencii_singing_plugin_sdk.h \
     $$PWD/vsq/include/libvsq/*.* \
-    $$PWD/sequence/io/XVSQSpec.hpp
+    $$PWD/sequence/io/XVSQFileWriter.hpp \
+    $$PWD/sequence/io/XVSQSpec.hpp \
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

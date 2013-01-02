@@ -15,9 +15,9 @@
 #ifndef CADENCII_SEQUENCE_IO_XVSQSPEC_HPP_
 #define CADENCII_SEQUENCE_IO_XVSQSPEC_HPP_
 
-#include "../../vsq/StringUtil.hpp"
 #include <string>
 #include <map>
+#include "../../vsq/StringUtil.hpp"
 
 namespace cadencii {
 
