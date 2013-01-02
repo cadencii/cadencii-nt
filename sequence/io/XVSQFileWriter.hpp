@@ -53,6 +53,7 @@ namespace cadencii {
             writeMaster(sequence->master, writer);
             writeMixer(sequence->mixer, writer);
             writeFooter(writer);
+            writer->close();
         }
 
     protected:
@@ -284,8 +285,16 @@ namespace cadencii {
                 writer->writeLine("<Events>");
                 int size = track->events()->size();
                 for (int i = 0; i < size; i++) {
+                    VSQ_NS::Event event = track->events()->get(i)->clone();
+                    if (event.vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
+                        // length property is treated as percentage.
+                        int percent = event.vibratoHandle.getLength();
+                        int clockLength = event.getLength() * percent / 100;
+                        event.vibratoHandle.setLength(clockLength);
+                        event.vibratoDelay = event.getLength() - clockLength;
+                    }
                     writer->writeLine("<VsqEvent>");
-                    writeEvent(track->events()->get(i), writer);
+                    writeEvent(&event, writer);
                     writer->writeLine("</VsqEvent>");
                 }
                 writer->writeLine("</Events>");
@@ -334,6 +343,25 @@ namespace cadencii {
                 if (event->vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
                     writeVibratoHandle(event->vibratoHandle, writer);
                 }
+
+                writer->writeLine("<VibratoDelay>"
+                                  + StringUtil::toString(event->vibratoDelay)
+                                  + "</VibratoDelay>");
+                writer->writeLine("<pMeanOnsetFirstNote>"
+                                  + StringUtil::toString(event->pMeanOnsetFirstNote)
+                                  + "</pMeanOnsetFirstNote>");
+                writer->writeLine("<vMeanNoteTransition>"
+                                  + StringUtil::toString(event->vMeanNoteTransition)
+                                  + "</vMeanNoteTransition>");
+                writer->writeLine("<d4mean>"
+                                  + StringUtil::toString(event->d4mean)
+                                  + "</d4mean>");
+                writer->writeLine("<pMeanEndingNote>"
+                                  + StringUtil::toString(event->pMeanEndingNote)
+                                  + "</pMeanEndingNote>");
+                writer->writeLine("<Length>"
+                                  + StringUtil::toString(event->getLength())
+                                  + "</Length>");
             }
             writer->writeLine("</ID>");
         }
