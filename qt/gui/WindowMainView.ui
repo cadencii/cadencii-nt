@@ -181,8 +181,8 @@
     </widget>
     <addaction name="actionNew"/>
     <addaction name="menu_action_open"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
+    <addaction name="menu_action_save"/>
+    <addaction name="menu_action_save_as"/>
     <addaction name="separator"/>
     <addaction name="menu_action_open_vsq_vocaloid_midi"/>
     <addaction name="actionOpen_UTAU_project_file"/>
@@ -354,7 +354,7 @@
    </attribute>
    <addaction name="action_16"/>
    <addaction name="action_17"/>
-   <addaction name="action_18"/>
+   <addaction name="tool_action_save"/>
    <addaction name="action_19"/>
    <addaction name="action_20"/>
    <addaction name="action_21"/>
@@ -416,21 +416,15 @@
     <string notr="true"/>
    </property>
   </action>
-  <action name="actionSave">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
+  <action name="menu_action_save">
    <property name="text">
     <string>Save</string>
    </property>
    <property name="shortcut">
-    <string notr="true"/>
+    <string notr="true">Ctrl+S</string>
    </property>
   </action>
-  <action name="actionSave_as">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
+  <action name="menu_action_save_as">
    <property name="text">
     <string>Save as</string>
    </property>
@@ -1159,10 +1153,7 @@
     <string notr="true"/>
    </property>
   </action>
-  <action name="action_18">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
+  <action name="tool_action_save">
    <property name="icon">
     <iconset resource="../Cadencii.qrc">
      <normaloff>:/icons/resource/disk.png</normaloff>:/icons/resource/disk.png</iconset>

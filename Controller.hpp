@@ -43,6 +43,7 @@ namespace cadencii {
         SequenceModel model;
         VSQ_NS::tick_t songPosition;
         int trackIndex;
+        std::string saveFilePath;
 
         /**
          * @brief 1 tick 時刻を何ピクセルで描画するか
@@ -111,6 +112,10 @@ namespace cadencii {
         void removeSelectedItems();
 
         void setApplicationShortcutEnabled(bool enabled);
+
+        std::string getSaveFilePath()const;
+
+        void saveAsXVSQFile(const string &filePath);
 
         void notifyItemSelectionChange()throw();
 

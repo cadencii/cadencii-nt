@@ -12,7 +12,9 @@ SOURCES += \
     command/AddEventCommandTest.cpp \
     command/DeleteEventCommandTest.cpp \
     PropertyValueProxyTest.cpp \
-    sequence/io/XVSQFileReaderTest.cpp
+    sequence/io/XVSQFileReaderTest.cpp \
+    sequence/io/XVSQFileWriterTest.cpp \
+    sequence/io/XVSQSpecTest.cpp
 
 HEADERS += \
     Util.hpp \
