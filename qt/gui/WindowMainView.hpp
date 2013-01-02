@@ -129,6 +129,9 @@ namespace cadencii {
         void on_menu_action_toggle_grid_visible_toggled(bool arg1);
         void on_tool_action_toggle_grid_visible_toggled(bool arg1);
         void on_menu_action_open_triggered();
+        void on_menu_action_save_triggered();
+        void on_menu_action_save_as_triggered();
+        void on_tool_action_save_triggered();
     };
 }
 

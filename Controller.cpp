@@ -22,13 +22,14 @@
 #include "command/DeleteEventCommand.hpp"
 #include "sequence/io/XVSQFileReader.hpp"
 #include "qt/sequence/io/ConcreteSAXAdapter.hpp"
+#include "sequence/io/XVSQFileWriter.hpp"
 
 namespace cadencii {
 
     Controller::Controller()
         : trackView(0), mainView(0), controlChangeView(0), barCountView(0),
           tempoView(0), timesigView(0), propertyView(0), singerListView(0),
-          trackListView(0), songPosition(0), pixelPerTick(0.2) {
+          trackListView(0), songPosition(0), pixelPerTick(0.2), saveFilePath("") {
         model.reset(vsq::Sequence("Miku", 1, 4, 4, 500000));
         toolKind = ToolKind::POINTER;
         trackIndex = 0;
@@ -439,5 +440,16 @@ namespace cadencii {
     const vsq::PhoneticSymbolDictionary::Element *Controller::attachPhoneticSymbol(
             const std::string &word) {
         return vsq::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+    }
+
+    std::string Controller::getSaveFilePath()const {
+        return saveFilePath;
+    }
+
+    void Controller::saveAsXVSQFile(const string &filePath) {
+        saveFilePath = filePath;
+        XVSQFileWriter writer;
+        VSQ_NS::FileOutputStream stream(filePath);
+        writer.write(model.getSequence(), &stream);
     }
 }

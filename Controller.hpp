@@ -43,6 +43,7 @@ namespace cadencii {
         SequenceModel model;
         vsq::tick_t songPosition;
         int trackIndex;
+        std::string saveFilePath;
 
         /**
          * @brief 1 tick 時刻を何ピクセルで描画するか.
@@ -113,6 +114,12 @@ namespace cadencii {
         void setApplicationShortcutEnabled(bool enabled) override;
 
         void notifyItemSelectionChange() throw();
+
+        std::string getSaveFilePath()const;
+
+        void saveAsXVSQFile(const string &filePath);
+
+        void notifyItemSelectionChange()throw();
 
         vsq::PhoneticSymbolDictionary::Element const* attachPhoneticSymbol(std::string const& word) override;
 

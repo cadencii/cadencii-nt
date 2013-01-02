@@ -386,3 +386,31 @@ void cadencii::WindowMainView::on_menu_action_open_triggered() {
     }
     activateWindow();
 }
+
+void cadencii::WindowMainView::on_menu_action_save_triggered() {
+    std::string filePath = controllerAdapter->getSaveFilePath();
+    if (filePath.empty()) {
+        QString fileName = QFileDialog::getSaveFileName(this);
+        if (!fileName.isEmpty()) {
+            filePath = std::string(fileName.toLocal8Bit());
+        }
+        activateWindow();
+    }
+
+    if (!filePath.empty()) {
+        controllerAdapter->saveAsXVSQFile(filePath);
+    }
+}
+
+void cadencii::WindowMainView::on_menu_action_save_as_triggered() {
+    QString fileName = QFileDialog::getSaveFileName(this);
+    if (!fileName.isEmpty()) {
+        std::string filePath(fileName.toLocal8Bit());
+        controllerAdapter->saveAsXVSQFile(filePath);
+    }
+    activateWindow();
+}
+
+void cadencii::WindowMainView::on_tool_action_save_triggered() {
+    on_menu_action_save_triggered();
+}

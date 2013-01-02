@@ -165,6 +165,18 @@ namespace cadencii {
          */
         virtual const vsq::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(
                 const std::string &word) = 0;
+
+        /**
+         * @brief Get file path to save the sequence.
+         * @return A file path, or empty string.
+         */
+        virtual std::string getSaveFilePath()const = 0;
+
+        /**
+         * @brief Save sequence as XVSQ file.
+         * @param  filePath  A file path.
+         */
+        virtual void saveAsXVSQFile(const std::string &filePath) = 0;
     };
 }
 
