@@ -87,6 +87,7 @@ HEADERS  += \
     $$PWD/sequence/io/XVSQFileReader.hpp \
     $$PWD/sequence/io/SAXAdapter.hpp \
     $$PWD/qt/sequence/io/ConcreteSAXAdapter.hpp \
+    $$PWD/sequence/io/XVSQFileWriter.hpp \
     $$PWD/sequence/io/XVSQSpec.hpp
 
 FORMS    += \
