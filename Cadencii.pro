@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core widgets multimedia
 
 TARGET = Cadencii
 TEMPLATE = app
