@@ -12,17 +12,13 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QTextCodec>
 #include "qt/ConcreteSettings.hpp"
 #include "qt/AppContainer.hpp"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-
-    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForTr(codec);
 
     cadencii::ConcreteSettings settings;
     cadencii::Settings::instance(&settings);
