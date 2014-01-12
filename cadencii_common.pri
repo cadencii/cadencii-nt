@@ -30,7 +30,8 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/qt/gui/concrete_property_view/ConcretePropertyValueProxy.cpp \
     $$PWD/gui/PropertyValueProxy.cpp \
     $$PWD/sequence/io/XVSQFileReader.cpp \
-    $$PWD/sequence/io/SAXAdapter.cpp
+    $$PWD/sequence/io/SAXAdapter.cpp \
+    $$PWD/qt/plugin/SingingSynthesizerLoader.cpp \
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -86,7 +87,18 @@ HEADERS  += \
     $$PWD/qt/SignalEmitWorker.hpp \
     $$PWD/sequence/io/XVSQFileReader.hpp \
     $$PWD/sequence/io/SAXAdapter.hpp \
-    $$PWD/qt/sequence/io/ConcreteSAXAdapter.hpp
+    $$PWD/qt/sequence/io/ConcreteSAXAdapter.hpp \
+    $$PWD/singing/ISingingSynthesizer.hpp \
+    $$PWD/qt/plugin/SingingSynthesizerLoader.hpp \
+    $$PWD/singing/IScoreProvider.hpp \
+    $$PWD/singing/IScoreEvent.hpp \
+    $$PWD/singing/SingerChangeEvent.hpp \
+    $$PWD/singing/TempoEvent.hpp \
+    $$PWD/singing/AutomationEvent.hpp \
+    $$PWD/singing/NoteEvent.hpp \
+    $$PWD/singing/Automation.hpp \
+    $$PWD/singing/IWaveformReceiver.hpp \
+    $$PWD/singing/cadencii_singing_plugin_sdk.h \
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \
