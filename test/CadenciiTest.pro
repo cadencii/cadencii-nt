@@ -1,3 +1,5 @@
+mac:INCLUDEPATH += /usr/local/include
+
 SOURCES += \
     enum/QuantizeModeTest.cpp \
     main.cpp \

@@ -140,7 +140,7 @@ namespace cadencii {
         list.push_back(ui->timesigView);
         list.push_back(ui->pianoRoll);
 
-        // verticalLayout1 にぶら下がっているコンポーネントをすべて取り除く
+        // verticalLayout1 にぶら下がっているコンポーネントをすべて取り除く.
         QObjectList children = ui->verticalLayout1->children();
         for (QObjectList::iterator i = children.begin(); i != children.end(); ++i) {
             QObject *object = (*i);
@@ -150,7 +150,7 @@ namespace cadencii {
             }
         }
 
-        // 必要なコンポーネントを、順番に追加する
+        // 必要なコンポーネントを、順番に追加する.
         for (QWidgetList::iterator i = list.begin(); i != list.end(); ++i) {
             QWidget *widget = (*i);
             widget->setParent(ui->layoutWidget1);

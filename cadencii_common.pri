@@ -32,6 +32,7 @@ SOURCES += $$PWD/qt/gui/WindowMainView.cpp \
     $$PWD/sequence/io/XVSQFileReader.cpp \
     $$PWD/sequence/io/SAXAdapter.cpp \
     $$PWD/qt/plugin/SingingSynthesizerLoader.cpp \
+    $$PWD/vsq/src/*.cpp \
 
 HEADERS  += \
     $$PWD/gui/TrackView.hpp \
@@ -99,6 +100,7 @@ HEADERS  += \
     $$PWD/singing/Automation.hpp \
     $$PWD/singing/IWaveformReceiver.hpp \
     $$PWD/singing/cadencii_singing_plugin_sdk.h \
+    $$PWD/vsq/include/libvsq/*.* \
 
 FORMS    += \
     $$PWD/qt/gui/WindowMainView.ui \

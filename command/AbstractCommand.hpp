@@ -15,7 +15,7 @@
 #ifndef __cadencii_command_AbstractCommand_hpp__
 #define __cadencii_command_AbstractCommand_hpp__
 
-#include "../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -28,7 +28,7 @@ namespace cadencii {
          * @brief 編集操作を実行する
          * @return 操作を元に戻すコマンドを返す。戻り値のインスタンスは、SequenceModel が delete するので気にしなくてよい
          */
-        virtual AbstractCommand *execute(VSQ_NS::Sequence *sequence) = 0;
+        virtual AbstractCommand *execute(vsq::Sequence *sequence) = 0;
 
         virtual ~AbstractCommand() = 0;
     };

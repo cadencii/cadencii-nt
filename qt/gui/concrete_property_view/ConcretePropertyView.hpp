@@ -21,7 +21,7 @@
 #include <QMutex>
 #include "../../gui/PropertyView.hpp"
 #include "../../gui/PropertyValueProxy.hpp"
-#include "../../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 #include "ConcretePropertyValueProxy.hpp"
 
 namespace cadencii {
@@ -34,13 +34,13 @@ namespace cadencii {
         friend class PropertyTreeUpdateWorker;
         friend class ConcretePropertyValueProxy;
 
-        class HandleStub : public VSQ_NS::Handle {
+        class HandleStub : public vsq::Handle {
         public:
-            explicit HandleStub(const VSQ_NS::Handle handle) :
-                VSQ_NS::Handle(handle) {
+            explicit HandleStub(const vsq::Handle handle) :
+                vsq::Handle(handle) {
             }
 
-            void setHandleType(VSQ_NS::HandleType::HandleTypeEnum type) {
+            void setHandleType(vsq::HandleType type) {
                 _type = type;
             }
         };
@@ -121,7 +121,7 @@ namespace cadencii {
          */
         void fetchProperty(
                 const QtProperty *property,
-                VSQ_NS::Event *event, const VSQ_NS::Sequence *sequence);
+                vsq::Event *event, const vsq::Sequence *sequence);
 
     private:
         /**

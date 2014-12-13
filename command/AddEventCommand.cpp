@@ -18,18 +18,18 @@
 
 namespace cadencii {
 
-    AddEventCommand::AddEventCommand(int track, const std::vector<VSQ_NS::Event> &eventList) {
+    AddEventCommand::AddEventCommand(int track, const std::vector<vsq::Event> &eventList) {
         this->track = track;
         this->eventList = eventList;
     }
 
-    AbstractCommand *AddEventCommand::execute(VSQ_NS::Sequence *sequence) {
-        VSQ_NS::Event::List *list = sequence->track(track)->events();
+    AbstractCommand *AddEventCommand::execute(vsq::Sequence *sequence) {
+        vsq::Event::List &list = sequence->track(track).events();
         std::vector<int> idList;
 
-        std::vector<VSQ_NS::Event>::const_iterator i = eventList.begin();
+        auto i = eventList.begin();
         for (; i != eventList.end(); ++i) {
-            idList.push_back(list->add((*i)));
+            idList.push_back(list.add((*i)));
         }
         return new DeleteEventCommand(track, idList);
     }

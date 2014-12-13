@@ -51,25 +51,25 @@ namespace cadencii {
         ui->mainContent->paintSongPosition(painter, rect);
     }
 
-    void ConcreteBarCountView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
+    void ConcreteBarCountView::setDrawOffset(vsq::tick_t drawOffset) {
         setDrawOffsetInternal(drawOffset);
     }
 
     void ConcreteBarCountView::drawMeasureLine(
             QPainter *painter, const QRect &rect, int x,
-            const VSQ_NS::MeasureLine &measureLine) {
+            const vsq::MeasureLine &measureLine) {
         painter->setPen(lineColor);
         if (measureLine.isBorder) {
             painter->drawLine(x, rect.top(), x, rect.bottom());
 
             int preMeasure = 1;
-            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+            const vsq::Sequence *sequence = controllerAdapter->getSequence();
             if (sequence) {
-                preMeasure = sequence->getPreMeasure();
+                preMeasure = sequence->preMeasure();
             }
             int barCount = measureLine.barCount - preMeasure + 1;
             QRectF textRect(x + 5, rect.top(), 100, rect.height());
-            QString text(StringUtil::toString(barCount).c_str());
+            QString text(vsq::StringUtil::toString(barCount).c_str());
             static QTextOption option(Qt::AlignLeft | Qt::AlignVCenter);
             painter->setPen(Qt::black);
             painter->drawText(textRect, text, option);

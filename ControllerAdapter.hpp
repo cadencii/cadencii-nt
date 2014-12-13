@@ -19,8 +19,7 @@
 #include "enum/ToolKind.hpp"
 #include "ItemSelectionManager.hpp"
 #include "command/AbstractCommand.hpp"
-#include "vsq/Sequence.hpp"
-#include "vsq/PhoneticSymbolDictionary.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -58,7 +57,7 @@ namespace cadencii {
          * @param sender 描画範囲が変わったコンポーネント
          * @param offset tick 単位の描画オフセット
          */
-        virtual void drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw() = 0;
+        virtual void drawOffsetChanged(void *sender, vsq::tick_t offset)throw() = 0;
 
         /**
          * @brief 表示するトラックの番号が変更になった場合に、他のコンポーネントに対してそれを通知したい場合に呼び出す。
@@ -71,14 +70,14 @@ namespace cadencii {
          * @brief 現在のソングポジションを取得する
          * @return ソングポジション
          */
-        virtual VSQ_NS::tick_t getSongPosition()throw() = 0;
+        virtual vsq::tick_t getSongPosition()throw() = 0;
 
         /**
          * @brief tick 単位の時刻から、描画時の x 座標を取得する
          * @param tick 時刻
          * @return x 座標
          */
-        virtual int getXFromTick(VSQ_NS::tick_t tick)throw() = 0;
+        virtual int getXFromTick(vsq::tick_t tick)throw() = 0;
 
         /**
          * @brief x 座標から、tick 単位の時刻を取得する
@@ -116,7 +115,7 @@ namespace cadencii {
         /**
          * @brief シーケンスへのポインターを取得する
          */
-        virtual const VSQ_NS::Sequence *getSequence()throw() = 0;
+        virtual const vsq::Sequence *getSequence()throw() = 0;
 
         /**
          * @brief 編集操作を一つやり直す
@@ -149,7 +148,7 @@ namespace cadencii {
          * @param trackIndex トラックの番号
          * @param item 削除するイベント
          */
-        virtual void removeEvent(int trackIndex, const VSQ_NS::Event *item) = 0;
+        virtual void removeEvent(int trackIndex, const vsq::Event *item) = 0;
 
         /**
          * @brief 選択されたアイテムを削除する
@@ -164,7 +163,7 @@ namespace cadencii {
         /**
          * @brief Get phonetic symbol from a word.
          */
-        virtual const VSQ_NS::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(
+        virtual const vsq::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(
                 const std::string &word) = 0;
     };
 }

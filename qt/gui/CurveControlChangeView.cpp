@@ -20,7 +20,7 @@
 #include <vector>
 #include "ui_EditorWidgetBase.h"
 #include "CurveControlChangeView.hpp"
-#include "../../vsq/Track.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -28,7 +28,7 @@ namespace cadencii {
         EditorWidgetBase(parent) {
         trackIndex = 0;
         controlChangeName = "dyn";
-        front = defaultSequence.track(0)->curve(controlChangeName);
+        front = defaultSequence.track(0).curve(controlChangeName);
         ui->mainContent->setBackgroundBrush(QBrush(Qt::darkGray));
         ui->subContent->setBackgroundBrush(QBrush(Qt::lightGray));
         ui->subContent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -47,7 +47,7 @@ namespace cadencii {
         return static_cast<void *>(this);
     }
 
-    void CurveControlChangeView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
+    void CurveControlChangeView::setDrawOffset(vsq::tick_t drawOffset) {
         setDrawOffsetInternal(drawOffset);
     }
 
@@ -100,7 +100,7 @@ namespace cadencii {
                             borderRect.y() + boxPadding,
                             borderRect.width() - 2 * boxPadding,
                             borderRect.height() - 2 * boxPadding);
-            bool isSelected = StringUtil::toLower(name) == StringUtil::toLower(controlChangeName);
+            bool isSelected = vsq::StringUtil::toLower(name) == vsq::StringUtil::toLower(controlChangeName);
             if (isSelected) {
                 painter->fillRect(borderRect, hilightBackgroundColor);
             }
@@ -114,7 +114,7 @@ namespace cadencii {
     void CurveControlChangeView::setTrackIndex(int index) {
         trackIndex = index;
         if (front) {
-            std::string name = front->getName();
+            std::string name = front->name();
             setControlChangeName(name);
         }
         updateWidget();
@@ -123,9 +123,9 @@ namespace cadencii {
     void CurveControlChangeView::setControlChangeName(const std::string &name) {
         controlChangeName = name;
         if (controllerAdapter) {
-            const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-            if (0 <= trackIndex && trackIndex < sequence->tracks()->size()) {
-                front = sequence->track(trackIndex)->curve(controlChangeName);
+            const vsq::Sequence *sequence = controllerAdapter->getSequence();
+            if (0 <= trackIndex && trackIndex < sequence->tracks().size()) {
+                front = sequence->track(trackIndex).curve(controlChangeName);
             } else {
                 front = 0;
             }
@@ -136,11 +136,11 @@ namespace cadencii {
 
     // TODO(kbinani): 効率よく描画するようリファクタする
     void CurveControlChangeView::paintBPList(
-            QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect) {
-        int max = list->getMaximum();
-        int min = list->getMinimum();
+            QPainter *painter, const vsq::BPList *list, const QRect &rect) {
+        int max = list->maximum();
+        int min = list->minimum();
         int height = this->height();
-        int y = getYFromValue(max, min, list->getDefault());
+        int y = getYFromValue(max, min, list->defaultValue());
 
         QPainterPath path;
         path.moveTo(-1, height - MARGIN_BOTTOM);
@@ -148,8 +148,8 @@ namespace cadencii {
 
         int size = list->size();
         for (int i = 0; i < size; i++) {
-            VSQ_NS::BP point = list->get(i);
-            VSQ_NS::tick_t clock = list->getKeyClock(i);
+            vsq::BP point = list->get(i);
+            vsq::tick_t clock = list->keyTickAt(i);
             int x = controllerAdapter->getXFromTick(clock);
             path.lineTo(x, y);
             y = getYFromValue(max, min, point.value);
@@ -157,7 +157,7 @@ namespace cadencii {
         }
 
         // スクリーンのサイズが、コンポーネントのサイズよりも小さい場合を考慮し、
-        // 大きい方を左端の座標とする。
+        // 大きい方を左端の座標とする.
         int width = std::max(ui->mainContent->getSceneWidth(), ui->mainContent->width());
         path.lineTo(width, y);
         path.lineTo(width, height - MARGIN_BOTTOM);
@@ -166,7 +166,7 @@ namespace cadencii {
         painter->setPen(QColor(255, 255, 255));
         painter->drawPath(path);
 
-        // カーソルが描画範囲に入っていれば、カーソル位置での値を描く。
+        // カーソルが描画範囲に入っていれば、カーソル位置での値を描く.
         QPoint globalCursorPos = QCursor::pos();
         QPoint globalTopLeftCornerPos = ui->mainContent->mapToGlobal(QPoint(0, 0));
         QPoint viewportCursorPos = QPoint(globalCursorPos.x() - globalTopLeftCornerPos.x(),
@@ -178,13 +178,13 @@ namespace cadencii {
             static QTextOption textOption(Qt::AlignRight | Qt::AlignBottom);
             int value = getValueFromY(max, min, sceneCursorPos.y());
             painter->drawText(QRectF(sceneCursorPos.x() - 100, sceneCursorPos.y() - 100, 100, 100),
-                              QString(StringUtil::toString(value).c_str()),
+                              QString(vsq::StringUtil::toString(value).c_str()),
                               textOption);
         }
     }
 
     void CurveControlChangeView::drawMeasureLine(
-            QPainter *painter, const QRect &rect, int x, const VSQ_NS::MeasureLine &measureLine) {
+            QPainter *painter, const QRect &rect, int x, const vsq::MeasureLine &measureLine) {
         static QColor white100(0, 0, 0, 100);
         static QColor pen(12, 12, 12);
         if (measureLine.isBorder) {
@@ -239,9 +239,9 @@ namespace cadencii {
     }
 
     const std::vector<std::string> *CurveControlChangeView::getCurrentCurveNameList() {
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-        const VSQ_NS::Track *track = sequence->track(trackIndex);
-        return track->curveNameList();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
+        vsq::Track const& track = sequence->track(trackIndex);
+        return track.curveNameList();
     }
 
     void CurveControlChangeView::onSubContentMousePressSlot(QMouseEvent *event) {

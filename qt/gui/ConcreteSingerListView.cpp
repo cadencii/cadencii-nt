@@ -44,7 +44,7 @@ namespace cadencii {
         return static_cast<SingerListView *>(this);
     }
 
-    void ConcreteSingerListView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
+    void ConcreteSingerListView::setDrawOffset(vsq::tick_t drawOffset) {
         setDrawOffsetInternal(drawOffset);
     }
 
@@ -55,7 +55,7 @@ namespace cadencii {
             width = this->width();
         }
 
-        // 背景と境界線
+        // 背景と境界線.
         static QColor borderColor = QColor::fromRgb(118, 123, 138);
         painter->setPen(borderColor);
         painter->drawLine(visibleArea.left(), 0,
@@ -63,32 +63,32 @@ namespace cadencii {
         painter->drawLine(visibleArea.left(), 0,
                           visibleArea.left(), this->height());
 
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        vsq::Sequence const* sequence = controllerAdapter->getSequence();
         if (!sequence) {
             return;
         }
-        if (trackIndex < 0 || sequence->tracks()->size() <= trackIndex) {
+        if (trackIndex < 0 || sequence->tracks().size() <= trackIndex) {
             return;
         }
 
-        // コンポーネントの左端位置での、歌手変更イベントを調べる
-        const VSQ_NS::Track *track = sequence->track(trackIndex);
+        // コンポーネントの左端位置での、歌手変更イベントを調べる.
+        vsq::Track const& track = sequence->track(trackIndex);
         int offset = controllerAdapter->getXFromTick(0);
         int xAtLeft = visibleArea.x() + offset;
         int clockAtLeft = controllerAdapter->getTickFromX(xAtLeft);
-        const VSQ_NS::Event *singerAtLeft = track->getSingerEventAt(clockAtLeft);
+        vsq::Event const* singerAtLeft = track.singerEventAt(clockAtLeft);
         if (singerAtLeft) {
             paintSinger(painter, singerAtLeft, xAtLeft, LEFT);
         }
 
         // 順に描画する
-        VSQ_NS::EventListIndexIterator i =
-                track->getIndexIterator(VSQ_NS::EventListIndexIteratorKind::SINGER);
-        const VSQ_NS::Event::List *events = track->events();
+        vsq::EventListIndexIterator i =
+                track.getIndexIterator(vsq::EventListIndexIteratorKind::SINGER);
+        vsq::Event::List const& events = track.events();
         while (i.hasNext()) {
             int index = i.next();
-            const VSQ_NS::Event *item = events->get(index);
-            int x = controllerAdapter->getXFromTick(item->clock);
+            vsq::Event const* item = events.get(index);
+            int x = controllerAdapter->getXFromTick(item->tick);
             if (x < xAtLeft) {
                 continue;
             }
@@ -115,7 +115,7 @@ namespace cadencii {
     }
 
     void ConcreteSingerListView::paintSinger(
-            QPainter *painter, const VSQ_NS::Event *singerEvent,
+            QPainter *painter, const vsq::Event *singerEvent,
             int x, SingerItemState state) {
         static QColor singerEventBorderColor = QColor::fromRgb(182, 182, 182);
         int height = this->height();

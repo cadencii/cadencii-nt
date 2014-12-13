@@ -20,9 +20,7 @@
 #include <QGraphicsView>
 #include <map>
 #include "../../ControllerAdapter.hpp"
-#include "../../vsq/TimesigList.hpp"
-#include "../../vsq/MeasureLineIterator.hpp"
-#include "../../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -69,12 +67,12 @@ namespace cadencii {
         /**
          * @brief ソングポジションを設定する
          */
-        void setSongPosition(VSQ_NS::tick_t songPosition);
+        void setSongPosition(vsq::tick_t songPosition);
 
         /**
          * @brief ソングポジションを取得する
          */
-        VSQ_NS::tick_t getSongPosition();
+        vsq::tick_t getSongPosition();
 
         /**
          * @brief ミューテックスを設定する

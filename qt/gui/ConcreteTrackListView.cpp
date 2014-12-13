@@ -101,13 +101,13 @@ namespace cadencii {
         int laneHeight = this->height();
         QRect visibleArea = ui->mainContent->getVisibleArea();
         painter->drawLine(0, 0, width, 0);
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
             int selector_width = getTrackTabWidth();
             for (int i = 0; i < 16; i++) {
                 int x = i * selector_width + visibleArea.left();
-                std::string name = (i < sequence->tracks()->size())
-                        ? StringUtil::toString(i + 1) + " " + sequence->track(i)->getName()
+                std::string name = (i < sequence->tracks().size())
+                        ? vsq::StringUtil::toString(i + 1) + " " + sequence->track(i).name()
                         : "";
                 paintTrackTab(painter,
                               QRect(x, height - laneHeight + 1, selector_width, laneHeight - 1),
@@ -141,12 +141,12 @@ namespace cadencii {
      */
     int ConcreteTrackListView::getTrackTabWidth() {
         int draft = TRACK_TAB_MAX_WIDTH;
-        // トラックの一覧を表示するのに利用できる最大の描画幅
+        // トラックの一覧を表示するのに利用できる最大の描画幅.
         int maxTotalWidth = width();
         int numTrack = 1;
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
-            numTrack = sequence->tracks()->size();
+            numTrack = sequence->tracks().size();
         }
         if (draft * (numTrack - 1) <= maxTotalWidth) {
             return draft;
@@ -221,11 +221,11 @@ namespace cadencii {
         QPoint mousePos = event->pos();
         int trackTabWidth = getTrackTabWidth();
         int trackIndex = mousePos.x() / trackTabWidth;
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
             if (trackIndex != this->trackIndex &&
                     0 <= trackIndex &&
-                    trackIndex < sequence->tracks()->size()) {
+                    trackIndex < sequence->tracks().size()) {
                 controllerAdapter->setTrackIndex(0, trackIndex);
             }
         }

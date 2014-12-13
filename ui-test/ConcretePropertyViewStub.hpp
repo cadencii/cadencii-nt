@@ -6,7 +6,7 @@ public:
 
     void fetchProperty(
             const QtProperty *property,
-            VSQ_NS::Event *event, const VSQ_NS::Sequence *sequence) {
+            vsq::Event *event, const vsq::Sequence *sequence) {
         cadencii::ConcretePropertyView::fetchProperty(property, event, sequence);
     }
 

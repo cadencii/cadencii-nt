@@ -17,12 +17,12 @@
 
 #include <map>
 #include <string>
-#include "../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
     /**
-     * @brief Proxy class to (get/)set aggregated property of VSQ_NS::Event items.
+     * @brief Proxy class to (get/)set aggregated property of vsq::Event items.
      *    Note: The vibrato length, Handle::getLength() is treated as in 'percentage' unit in Cadencii.
      */
     class PropertyValueProxy {
@@ -40,9 +40,9 @@ namespace cadencii {
          *     2: On(protected)
          */
         int lyricProtect;
-        VSQ_NS::tick_t noteLength;
+        vsq::tick_t noteLength;
         int noteNumber;
-        VSQ_NS::tick_t notelocationClock;
+        vsq::tick_t notelocationClock;
         int notelocationMeasure;
         int notelocationBeat;
         int notelocationTick;
@@ -62,7 +62,7 @@ namespace cadencii {
         /**
          * @brief Add property value of \a item into property tree.
          */
-        void add(const VSQ_NS::Event *item, const VSQ_NS::Sequence *sequence);
+        void add(const vsq::Event *item, const vsq::Sequence *sequence);
 
         /**
          * @brief Finish setting up property tree.
@@ -70,13 +70,13 @@ namespace cadencii {
         void commit();
 
         void getNotelocation(
-                VSQ_NS::tick_t clock, int *measure, int *beat, int *tick,
-                const VSQ_NS::Sequence *sequence) {
-            int premeasure = sequence->getPreMeasure();
-            *measure = sequence->timesigList.getBarCountFromClock(clock) - premeasure + 1;
+                vsq::tick_t clock, int *measure, int *beat, int *tick,
+                const vsq::Sequence *sequence) {
+            int premeasure = sequence->preMeasure();
+            *measure = sequence->timesigList.barCountFromTick(clock) - premeasure + 1;
             int clock_bartop
-                = sequence->timesigList.getClockFromBarCount(*measure + premeasure - 1);
-            VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt(clock);
+                = sequence->timesigList.tickFromBarCount(*measure + premeasure - 1);
+            vsq::Timesig timesig = sequence->timesigList.timesigAt(clock);
             int den = timesig.denominator;
             int dif = clock - clock_bartop;
             int step = 480 * 4 / den;

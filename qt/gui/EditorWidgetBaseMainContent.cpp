@@ -17,7 +17,7 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <sstream>
-#include "../../vsq/Timesig.hpp"
+#include <libvsq/libvsq.h>
 #include "EditorWidgetBase.hpp"
 #include "EditorWidgetBaseMainContent.hpp"
 #include "../../Settings.hpp"
@@ -112,27 +112,27 @@ namespace cadencii {
         const int MARGIN = 100;
         int left = visibleArea.left() - MARGIN;
         int right = visibleArea.right();
-        VSQ_NS::tick_t tickAtScreenRight
-                = (VSQ_NS::tick_t)parentWidget->controllerAdapter->getTickFromX(right);
+        vsq::tick_t tickAtScreenRight
+                = (vsq::tick_t)parentWidget->controllerAdapter->getTickFromX(right);
 
-        const VSQ_NS::TimesigList *list = 0;
-        static VSQ_NS::TimesigList defaultList;
-        const VSQ_NS::Sequence *sequence = parentWidget->controllerAdapter->getSequence();
+        const vsq::TimesigList *list = 0;
+        static vsq::TimesigList defaultList;
+        const vsq::Sequence *sequence = parentWidget->controllerAdapter->getSequence();
         if (sequence) {
             list = &sequence->timesigList;
         } else {
             list = &defaultList;
         }
-        VSQ_NS::MeasureLineIterator i(list);
+        vsq::MeasureLineIterator i(list);
         QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
         if (Settings::instance()->isGridVisible() && mode != QuantizeMode::NONE) {
-            VSQ_NS::tick_t assistLineStep = QuantizeMode::getQuantizeUnitTick(mode);
-            i = VSQ_NS::MeasureLineIterator(list, assistLineStep);
+            vsq::tick_t assistLineStep = QuantizeMode::getQuantizeUnitTick(mode);
+            i = vsq::MeasureLineIterator(list, assistLineStep);
         }
         i.reset(tickAtScreenRight);
 
         while (i.hasNext()) {
-            VSQ_NS::MeasureLine line = i.next();
+            vsq::MeasureLine line = i.next();
             int x = parentWidget->controllerAdapter->getXFromTick(line.tick);
             if (x < left) {
                 continue;
@@ -144,7 +144,7 @@ namespace cadencii {
     }
 
     void EditorWidgetBaseMainContent::paintSongPosition(QPainter *g, QRect visibleArea) {
-        VSQ_NS::tick_t songPosition = parentWidget->controllerAdapter->getSongPosition();
+        vsq::tick_t songPosition = parentWidget->controllerAdapter->getSongPosition();
         int x = parentWidget->controllerAdapter->getXFromTick(songPosition);
         g->setPen(QColor(0, 0, 0));
         g->drawLine(x, visibleArea.top(), x, visibleArea.bottom());

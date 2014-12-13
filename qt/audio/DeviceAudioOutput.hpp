@@ -35,8 +35,8 @@ namespace audio {
     public:
         explicit DeviceAudioOutput(int sampleRate) :
             AudioOutput(sampleRate) {
-            format.setChannels(2);
-            format.setFrequency(sampleRate);
+            format.setChannelCount(2);
+            format.setSampleRate(sampleRate);
             format.setSampleSize(16);
             format.setCodec("audio/pcm");
             format.setSampleType(QAudioFormat::SignedInt);
@@ -61,10 +61,10 @@ namespace audio {
                 for (int i = 0; i < amount; i++) {
                     int16_t leftData = (int16_t)(left[i + finished + offset] * 32767);
                     int16_t rightData = (int16_t)(right[i + finished + offset] * 32767);
-                    buffer[index++] = static_cast<uint8_t *>(&leftData)[0];
-                    buffer[index++] = static_cast<uint8_t *>(&leftData)[1];
-                    buffer[index++] = static_cast<uint8_t *>(&rightData)[0];
-                    buffer[index++] = static_cast<uint8_t *>(&rightData)[1];
+                    buffer[index++] = reinterpret_cast<uint8_t *>(&leftData)[0];
+                    buffer[index++] = reinterpret_cast<uint8_t *>(&leftData)[1];
+                    buffer[index++] = reinterpret_cast<uint8_t *>(&rightData)[0];
+                    buffer[index++] = reinterpret_cast<uint8_t *>(&rightData)[1];
                 }
                 int bytesToWrite = amount * 4;
                 int bytesWritten = 0;

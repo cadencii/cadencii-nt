@@ -33,7 +33,7 @@ namespace cadencii {
         /**
          * @brief 追加するイベントのリスト
          */
-        std::vector<VSQ_NS::Event> eventList;
+        std::vector<vsq::Event> eventList;
 
     public:
         /**
@@ -41,9 +41,9 @@ namespace cadencii {
          * @param track 追加先のトラック番号
          * @param eventList 追加するイベント乗り周防t
          */
-        explicit AddEventCommand(int track, const std::vector<VSQ_NS::Event> &eventList);
+        explicit AddEventCommand(int track, const std::vector<vsq::Event> &eventList);
 
-        AbstractCommand *execute(VSQ_NS::Sequence *sequence);
+        AbstractCommand *execute(vsq::Sequence *sequence);
     };
 }
 

@@ -44,7 +44,7 @@ namespace cadencii {
          */
         explicit DeleteEventCommand(int track, const std::vector<int> &idList);
 
-        AbstractCommand *execute(VSQ_NS::Sequence *sequence);
+        AbstractCommand *execute(vsq::Sequence *sequence);
     };
 }
 

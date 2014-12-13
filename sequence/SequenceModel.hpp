@@ -16,7 +16,7 @@
 #define __cadencii_SequenceModel_hpp__
 
 #include <vector>
-#include "../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 #include "../command/AbstractCommand.hpp"
 
 namespace cadencii {
@@ -24,25 +24,29 @@ namespace cadencii {
     /**
      * @brief Sequence の操作を仲介するモデル
      */
-    class SequenceModel {
+    class SequenceModel
+    {
     protected:
-        VSQ_NS::Sequence sequence;
+        vsq::Sequence sequence;
         std::vector<AbstractCommand *> commandHistory;
         int currentHistoryIndex;
 
     public:
-        SequenceModel() {
+        SequenceModel()
+        {
             currentHistoryIndex = -1;
         }
 
-        ~SequenceModel() {
+        ~SequenceModel()
+        {
             clear();
         }
 
         /**
          * @brief シーケンスのインスタンスへのポインターを取得する
          */
-        const VSQ_NS::Sequence *getSequence()const {
+        vsq::Sequence const* getSequence() const
+        {
             return &sequence;
         }
 
@@ -50,15 +54,16 @@ namespace cadencii {
          * @brief シーケンスを操作するコマンドを実行し、操作履歴を登録する
          * @param command 実行するコマンド。command はこのメソッド内では delete されない
          */
-        void execute(AbstractCommand *command) {
+        void execute(AbstractCommand *command)
+        {
             AbstractCommand *inverseCommand = command->execute(&sequence);
             sortAllItems(&sequence);
             if (currentHistoryIndex == commandHistory.size() - 1) {
-                // 新しいコマンドバッファを追加する場合
+                // 新しいコマンドバッファを追加する場合.
                 commandHistory.push_back(inverseCommand);
                 currentHistoryIndex = commandHistory.size() - 1;
             } else {
-                // 既にあるコマンドバッファを上書きする場合
+                // 既にあるコマンドバッファを上書きする場合.
                 {
                     const AbstractCommand *oldCommand = commandHistory[currentHistoryIndex + 1];
                     commandHistory[currentHistoryIndex + 1] = inverseCommand;
@@ -78,7 +83,8 @@ namespace cadencii {
         /**
          * @brief undo できるかどうかを取得する
          */
-        bool canUndo() {
+        bool canUndo()
+        {
             return (!commandHistory.empty()) &&
                     0 <= currentHistoryIndex &&
                     currentHistoryIndex < commandHistory.size();
@@ -87,7 +93,8 @@ namespace cadencii {
         /**
          * @brief redo できるかどうかを取得する
          */
-        bool canRedo() {
+        bool canRedo()
+        {
             return (!commandHistory.empty()) &&
                     0 <= currentHistoryIndex + 1 &&
                     currentHistoryIndex + 1 < commandHistory.size();
@@ -96,7 +103,8 @@ namespace cadencii {
         /**
          * @brief 編集操作を一つ元に戻す
          */
-        void undo() {
+        void undo()
+        {
             AbstractCommand *undoCommand = commandHistory[currentHistoryIndex];
             AbstractCommand *reverseCommand = undoCommand->execute(&sequence);
 
@@ -108,7 +116,8 @@ namespace cadencii {
         /**
          * @brief 編集操作を一つやり直す
          */
-        void redo() {
+        void redo()
+        {
             AbstractCommand *redoCommand = commandHistory[currentHistoryIndex + 1];
             AbstractCommand *reverseCommand = redoCommand->execute(&sequence);
 
@@ -120,7 +129,8 @@ namespace cadencii {
         /**
          * @brief 操作履歴を初期化し、シーケンスを設定する
          */
-        void reset(const VSQ_NS::Sequence &sequence) {
+        void reset(vsq::Sequence const& sequence)
+        {
             clear();
             this->sequence = sequence;
         }
@@ -142,16 +152,14 @@ namespace cadencii {
          * @brief シーケンス中の、時系列順に並べ替えが必要なすべての項目の並べ替えを行う
          * @param sequence 編集対象のシーケンス
          */
-        void sortAllItems(VSQ_NS::Sequence *sequence) {
+        void sortAllItems(vsq::Sequence *sequence) {
             // 各トラックのカーブと、シーケンスのtimesigList はそれぞれ自動でソートされるので
-            // 気にしなくてよい
-            std::vector<VSQ_NS::Track>::iterator i = sequence->tracks()->begin();
-            for (; i != sequence->tracks()->end(); ++i) {
-                VSQ_NS::Track *track = &(*i);
-                track->events()->sort();
+            // 気にしなくてよい.
+            for (vsq::Track &track : sequence->tracks()) {
+                track.events().sort();
             }
             sequence->tempoList.updateTempoInfo();
-            sequence->updateTotalClocks();
+            sequence->updateTotalTicks();
         }
     };
 }

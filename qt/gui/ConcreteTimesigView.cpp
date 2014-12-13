@@ -35,7 +35,7 @@ namespace cadencii {
         this->controllerAdapter = controllerAdapter;
     }
 
-    void ConcreteTimesigView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
+    void ConcreteTimesigView::setDrawOffset(vsq::tick_t drawOffset) {
         setDrawOffsetInternal(drawOffset);
     }
 
@@ -56,20 +56,20 @@ namespace cadencii {
         painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 
         // 拍子変更
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
-            const VSQ_NS::TimesigList *list = &sequence->timesigList;
+            vsq::TimesigList const* list = &sequence->timesigList;
             const int DRAW_WIDTH = 100;
             int count = list->size();
             for (int i = 0; i < count; i++) {
-                const VSQ_NS::Timesig timesig = list->get(i);
-                int x = controllerAdapter->getXFromTick(timesig.getClock());
+                const vsq::Timesig timesig = list->get(i);
+                int x = controllerAdapter->getXFromTick(timesig.tick());
                 if (x + DRAW_WIDTH < rect.left()) {
                     continue;
                 }
                 std::string  text
-                        = StringUtil::toString(timesig.numerator) + "/"
-                        + StringUtil::toString(timesig.denominator);
+                        = vsq::StringUtil::toString(timesig.numerator) + "/"
+                        + vsq::StringUtil::toString(timesig.denominator);
                 QString qText(text.c_str());
                 static QTextOption option(Qt::AlignLeft | Qt::AlignVCenter);
                 const int drawWidth = 200;
@@ -85,7 +85,7 @@ namespace cadencii {
 
     void ConcreteTimesigView::drawMeasureLine(
             QPainter *painter, const QRect &rect, int x,
-            const VSQ_NS::MeasureLine &measureLine) {
+            const vsq::MeasureLine &measureLine) {
         painter->setPen(lineColor);
         if (measureLine.isBorder) {
             painter->drawLine(x, rect.top(), x, rect.bottom());

@@ -16,4 +16,6 @@ SOURCES += main.cpp
 
 HEADERS +=
 
-INCLUDEPATH += .
+INCLUDEPATH += . /usr/local/include ./vsq/include
+
+CONFIG += c++11

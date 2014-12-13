@@ -36,7 +36,7 @@ namespace cadencii {
 
         void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
-        void setDrawOffset(VSQ_NS::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset);
 
         void paintMainContent(QPainter *painter, const QRect &rect);
 
@@ -44,7 +44,7 @@ namespace cadencii {
 
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const VSQ_NS::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine);
 
         void updateWidget();
     };

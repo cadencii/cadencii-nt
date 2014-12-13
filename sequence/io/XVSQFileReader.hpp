@@ -18,7 +18,7 @@
 #include <string>
 #include <stack>
 #include <map>
-#include "../../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 #include "SAXAdapter.hpp"
 
 namespace cadencii {
@@ -39,29 +39,29 @@ namespace cadencii {
         };
 
     private:
-        VSQ_NS::Sequence *sequence;
-        VSQ_NS::Track currentTrack;
-        VSQ_NS::Event currentEvent;
-        VSQ_NS::Lyric currentLyric;
-        VSQ_NS::Handle currentHandle;
-        VSQ_NS::BPList currentBPList;
-        VSQ_NS::Tempo currentTempo;
-        VSQ_NS::Timesig currentTimesig;
-        VSQ_NS::MixerItem currentMixerItem;
+        vsq::Sequence *sequence;
+        vsq::Track currentTrack;
+        vsq::Event currentEvent;
+        vsq::Lyric currentLyric;
+        vsq::Handle currentHandle;
+        vsq::BPList currentBPList;
+        vsq::Tempo currentTempo;
+        vsq::Timesig currentTimesig;
+        vsq::MixerItem currentMixerItem;
 
         int trackCount;
         std::stack<std::string> tagNameStack;
 
-        std::map<std::string, VSQ_NS::DynamicsMode::DynamicsModeEnum> dynamicsModeValueMap;
-        std::map<std::string, VSQ_NS::PlayMode::PlayModeEnum> playModeValueMap;
-        std::map<std::string, VSQ_NS::EventType::EventTypeEnum> eventTypeValueMap;
+        std::map<std::string, vsq::DynamicsMode> dynamicsModeValueMap;
+        std::map<std::string, vsq::PlayMode> playModeValueMap;
+        std::map<std::string, vsq::EventType> eventTypeValueMap;
         std::map<std::string, bool> boolValueMap;
         std::map<std::string, std::string> tagNameMap;
 
         /**
          * @brief A default instance of Track, to get default property of BPList.
          */
-        VSQ_NS::Track defaultTrack;
+        vsq::Track defaultTrack;
 
     protected:
         SAXAdapter *adapter;
@@ -72,7 +72,7 @@ namespace cadencii {
         /**
          * @brief Read XVSQ from specified SAX(Simple API for XML) adapter.
          */
-        void read(VSQ_NS::Sequence *sequence, SAXAdapter *adapter);
+        void read(vsq::Sequence *sequence, SAXAdapter *adapter);
 
     protected:
         void startElement(const std::string &name);
@@ -109,9 +109,7 @@ namespace cadencii {
         template<class T>
         inline void insertIntegerEnumValueMap(std::map<std::string, T> &result, const T &enumValue);
 
-        template<class classT, class enumT>
-        inline void insertStringEnumValueMap(
-            std::map<std::string, enumT> &result, const enumT &enumValue);
+        inline void insertStringEnumValueMap(std::map<std::string, vsq::EventType> &result, vsq::EventType type);
 
         inline const std::string getParentTag(int goBackCount = 0)const {
             std::stack<std::string> copy = tagNameStack;

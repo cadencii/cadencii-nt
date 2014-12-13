@@ -38,11 +38,11 @@ namespace cadencii {
 
         void paintMainContent(QPainter *painter, const QRect &rect);
 
-        void setDrawOffset(VSQ_NS::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset);
 
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const VSQ_NS::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine);
 
         void paintSubContent(QPainter *painter, const QRect &rect);
 

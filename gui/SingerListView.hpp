@@ -46,7 +46,7 @@ namespace cadencii {
          * @brief Set time-position of component's left edge.
          * @param drawOffset [in] Time-position in tick unit.
          */
-        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
+        virtual void setDrawOffset(vsq::tick_t drawOffset) = 0;
 
         /**
          * @brief Set track index.

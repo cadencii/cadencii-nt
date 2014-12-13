@@ -18,7 +18,7 @@
 #include <QLineEdit>
 #include <QKeyEvent>
 #include <string>
-#include "../../../vsq/Event.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -43,7 +43,7 @@ namespace cadencii {
         /**
          * @brief Note event corresponding lyric.
          */
-        const VSQ_NS::Event *_event;
+        const vsq::Event *_event;
 
         std::string word;
 
@@ -77,16 +77,18 @@ namespace cadencii {
         /**
          * @brief Setup text from specified note event.
          */
-        void setupText(const VSQ_NS::Event *event) {
+        void setupText(const vsq::Event *event) {
             _event = event;
-            if (!_event) return;
+            if (!_event) {
+                return;
+            }
 
             word = "a";
             phoneticSymbol = "a";
-            if (event->lyricHandle.getLyricCount() > 0) {
-                VSQ_NS::Lyric lyric = event->lyricHandle.getLyricAt(0);
+            if (event->lyricHandle.size() > 0) {
+                vsq::Lyric const& lyric = event->lyricHandle.get(0);
                 word = lyric.phrase;
-                phoneticSymbol = lyric.getPhoneticSymbol();
+                phoneticSymbol = lyric.phoneticSymbol();
             }
             setText(QString::fromStdString(symbolEditMode ? phoneticSymbol : word));
             selectAll();
@@ -95,7 +97,7 @@ namespace cadencii {
         /**
          * @brief Get a instance of note event, associated to this widget.
          */
-        const VSQ_NS::Event *event() {
+        const vsq::Event *event() {
             return _event;
         }
 

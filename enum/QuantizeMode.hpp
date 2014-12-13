@@ -16,8 +16,7 @@
 #define __QuantizeMode_hpp__
 
 #include <string>
-#include "../vsq/StringUtil.hpp"
-#include "../vsq/vsqglobal.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -96,7 +95,7 @@ namespace cadencii {
          * @return 文字列に該当する QuantizeModeEnum の値。該当するものがない場合は、NONE を返す
          */
         static QuantizeModeEnum fromString(const std::string &text) {
-            std::string lower = StringUtil::toLower(text);
+            std::string lower = vsq::StringUtil::toLower(text);
             if (lower == "none") {
                 return QuantizeMode::NONE;
             } else if (lower == "quarter") {
@@ -121,8 +120,8 @@ namespace cadencii {
          * @param mode クオンタイズ
          * @return 単位時間
          */
-        static VSQ_NS::tick_t getQuantizeUnitTick(QuantizeModeEnum mode) {
-            VSQ_NS::tick_t result;
+        static vsq::tick_t getQuantizeUnitTick(QuantizeModeEnum mode) {
+            vsq::tick_t result;
             switch (mode) {
                 case NONE: {
                     result = 1;

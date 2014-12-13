@@ -17,7 +17,7 @@
 
 #include <string>
 #include "../ControllerAdapter.hpp"
-#include "../vsq/TimesigList.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -39,7 +39,7 @@ namespace cadencii {
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
+        virtual void setDrawOffset(vsq::tick_t drawOffset) = 0;
 
         /**
          * @brief 表示するトラックの番号を指定する

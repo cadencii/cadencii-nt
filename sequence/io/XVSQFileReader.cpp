@@ -20,58 +20,58 @@
 
 namespace cadencii {
 
-    XVSQFileReader::XVSQFileReader() :
-        currentLyric(VSQ_NS::Lyric("", "")),
-        currentMixerItem(VSQ_NS::MixerItem(0, 0, 0, 0)) {
-        insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::STANDARD);
-        insertIntegerEnumValueMap(dynamicsModeValueMap, VSQ_NS::DynamicsMode::EXPERT);
+    XVSQFileReader::XVSQFileReader()
+        : currentLyric(vsq::Lyric("", ""))
+        , currentMixerItem(vsq::MixerItem(0, 0, 0, 0))
+        , currentEvent(vsq::Event::eos())
+        , currentBPList(vsq::BPList("", 0, 0, 127))
+    {
+        insertIntegerEnumValueMap(dynamicsModeValueMap, vsq::DynamicsMode::STANDARD);
+        insertIntegerEnumValueMap(dynamicsModeValueMap, vsq::DynamicsMode::EXPERT);
 
-        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::OFF);
-        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_AFTER_SYNTH);
-        insertIntegerEnumValueMap(playModeValueMap, VSQ_NS::PlayMode::PLAY_WITH_SYNTH);
+        insertIntegerEnumValueMap(playModeValueMap, vsq::PlayMode::OFF);
+        insertIntegerEnumValueMap(playModeValueMap, vsq::PlayMode::PLAY_AFTER_SYNTH);
+        insertIntegerEnumValueMap(playModeValueMap, vsq::PlayMode::PLAY_WITH_SYNTH);
 
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
-                    eventTypeValueMap, VSQ_NS::EventType::ICON);
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
-                    eventTypeValueMap, VSQ_NS::EventType::NOTE);
-        insertStringEnumValueMap<VSQ_NS::EventType, VSQ_NS::EventType::EventTypeEnum>(
-                    eventTypeValueMap, VSQ_NS::EventType::SINGER);
+        insertStringEnumValueMap(eventTypeValueMap, vsq::EventType::ICON);
+        insertStringEnumValueMap(eventTypeValueMap, vsq::EventType::NOTE);
+        insertStringEnumValueMap(eventTypeValueMap, vsq::EventType::SINGER);
 
         boolValueMap.insert(std::make_pair("true", true));
         boolValueMap.insert(std::make_pair("false", false));
 
-        tagNameMap.insert(make_pair("PIT", "PIT"));
-        tagNameMap.insert(make_pair("PBS", "PBS"));
-        tagNameMap.insert(make_pair("DYN", "DYN"));
-        tagNameMap.insert(make_pair("BRE", "BRE"));
-        tagNameMap.insert(make_pair("BRI", "BRI"));
-        tagNameMap.insert(make_pair("CLE", "CLE"));
-        tagNameMap.insert(make_pair("GEN", "GEN"));
-        tagNameMap.insert(make_pair("POR", "POR"));
-        tagNameMap.insert(make_pair("OPE", "OPE"));
-        tagNameMap.insert(make_pair("harmonics", "harmonics"));
-        tagNameMap.insert(make_pair("fx2depth", "fx2depth"));
-        tagNameMap.insert(make_pair("reso1FreqBPList", "reso1freq"));
-        tagNameMap.insert(make_pair("reso2FreqBPList", "reso2freq"));
-        tagNameMap.insert(make_pair("reso3FreqBPList", "reso3freq"));
-        tagNameMap.insert(make_pair("reso4FreqBPList", "reso4freq"));
-        tagNameMap.insert(make_pair("reso1BWBPList", "reso1bw"));
-        tagNameMap.insert(make_pair("reso2BWBPList", "reso2bw"));
-        tagNameMap.insert(make_pair("reso3BWBPList", "reso3bw"));
-        tagNameMap.insert(make_pair("reso4BWBPList", "reso4bw"));
-        tagNameMap.insert(make_pair("reso1AmpBPList", "reso1amp"));
-        tagNameMap.insert(make_pair("reso2AmpBPList", "reso2amp"));
-        tagNameMap.insert(make_pair("reso3AmpBPList", "reso3amp"));
-        tagNameMap.insert(make_pair("reso4AmpBPList", "reso4amp"));
+        tagNameMap.insert(std::make_pair("PIT", "PIT"));
+        tagNameMap.insert(std::make_pair("PBS", "PBS"));
+        tagNameMap.insert(std::make_pair("DYN", "DYN"));
+        tagNameMap.insert(std::make_pair("BRE", "BRE"));
+        tagNameMap.insert(std::make_pair("BRI", "BRI"));
+        tagNameMap.insert(std::make_pair("CLE", "CLE"));
+        tagNameMap.insert(std::make_pair("GEN", "GEN"));
+        tagNameMap.insert(std::make_pair("POR", "POR"));
+        tagNameMap.insert(std::make_pair("OPE", "OPE"));
+        tagNameMap.insert(std::make_pair("harmonics", "harmonics"));
+        tagNameMap.insert(std::make_pair("fx2depth", "fx2depth"));
+        tagNameMap.insert(std::make_pair("reso1FreqBPList", "reso1freq"));
+        tagNameMap.insert(std::make_pair("reso2FreqBPList", "reso2freq"));
+        tagNameMap.insert(std::make_pair("reso3FreqBPList", "reso3freq"));
+        tagNameMap.insert(std::make_pair("reso4FreqBPList", "reso4freq"));
+        tagNameMap.insert(std::make_pair("reso1BWBPList", "reso1bw"));
+        tagNameMap.insert(std::make_pair("reso2BWBPList", "reso2bw"));
+        tagNameMap.insert(std::make_pair("reso3BWBPList", "reso3bw"));
+        tagNameMap.insert(std::make_pair("reso4BWBPList", "reso4bw"));
+        tagNameMap.insert(std::make_pair("reso1AmpBPList", "reso1amp"));
+        tagNameMap.insert(std::make_pair("reso2AmpBPList", "reso2amp"));
+        tagNameMap.insert(std::make_pair("reso3AmpBPList", "reso3amp"));
+        tagNameMap.insert(std::make_pair("reso4AmpBPList", "reso4amp"));
     }
 
     /**
      * @brief Read XVSQ from specified SAX(Simple API for XML) adapter.
      */
-    void XVSQFileReader::read(VSQ_NS::Sequence *sequence, SAXAdapter *adapter) {
+    void XVSQFileReader::read(vsq::Sequence *sequence, SAXAdapter *adapter) {
         adapter->setReader(this);
         this->sequence = sequence;
-        this->sequence->tracks()->clear();
+        this->sequence->tracks().clear();
         trackCount = 0;
         adapter->start();
 
@@ -82,37 +82,37 @@ namespace cadencii {
         tagNameStack.push(name);
         if ("VsqTrack" == name) {
             trackCount++;
-            currentTrack = VSQ_NS::Track("", "");
-            currentTrack.events()->clear();
+            currentTrack = vsq::Track("", "");
+            currentTrack.events().clear();
         } else if ("VsqEvent" == name) {
-            currentEvent = VSQ_NS::Event();
+            currentEvent = vsq::Event::eos();
         } else if ("IconHandle" == name) {
-            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::SINGER);
+            currentHandle = vsq::Handle(vsq::HandleType::SINGER);
         } else if ("LyricHandle" == name) {
-            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::LYRIC);
+            currentHandle = vsq::Handle(vsq::HandleType::LYRIC);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
-            currentLyric = VSQ_NS::Lyric("", "");
+            currentLyric = vsq::Lyric("", "");
         } else if ("VibratoHandle" == name) {
-            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::VIBRATO);
+            currentHandle = vsq::Handle(vsq::HandleType::VIBRATO);
         } else if ("NoteHeadHandle" == name) {
-            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::NOTE_HEAD);
+            currentHandle = vsq::Handle(vsq::HandleType::NOTE_HEAD);
         } else if ("IconDynamicsHandle" == name) {
-            currentHandle = VSQ_NS::Handle(VSQ_NS::HandleType::DYNAMICS);
+            currentHandle = vsq::Handle(vsq::HandleType::DYNAMICS);
         } else if (isControlCurveTagName(name)) {
             std::string curveName = getCurveNameFrom(name);
             currentBPList = *defaultTrack.curve(curveName);
         } else if ("TempoTable" == name) {
             sequence->tempoList.clear();
         } else if ("TempoTableEntry" == name) {
-            currentTempo = VSQ_NS::Tempo();
+            currentTempo = vsq::Tempo();
         } else if ("TimesigTable" == name) {
             sequence->timesigList.clear();
         } else if ("TimeSigTableEntry" == name) {
-            currentTimesig = VSQ_NS::Timesig();
+            currentTimesig = vsq::Timesig();
         } else if ("Slave" == name) {
             sequence->mixer.slave.clear();
         } else if ("VsqMixerEntry" == name) {
-            currentMixerItem = VSQ_NS::MixerItem(0, 0, 0, 0);
+            currentMixerItem = vsq::MixerItem(0, 0, 0, 0);
         }
     }
 
@@ -120,17 +120,17 @@ namespace cadencii {
         if ("VsqTrack" == name) {
             if (1 < trackCount) {
                 // first track is a 'Master' track. so, just skip it.
-                sequence->tracks()->push_back(currentTrack);
+                sequence->tracks().push_back(currentTrack);
             }
         } else if ("VsqEvent" == name) {
-            if (currentEvent.vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
-                int length = currentEvent.getLength();
+            if (currentEvent.vibratoHandle.type() == vsq::HandleType::VIBRATO) {
+                int length = currentEvent.length();
                 int vibratoLength = length - currentEvent.vibratoDelay;
-                currentEvent.vibratoHandle.setLength(vibratoLength * 100 / length);
+                currentEvent.vibratoHandle.length(vibratoLength * 100 / length);
             }
-            currentTrack.events()->add(currentEvent, currentEvent.id);
+            currentTrack.events().add(currentEvent, currentEvent.id);
         } else if ("L0" == name || ("Trailing" == getParentTag() && "Lyric" == name)) {
-            currentHandle.addLyric(currentLyric);
+            currentHandle.add(currentLyric);
         } else if ("IconHandle" == name) {
             currentEvent.singerHandle = currentHandle;
         } else if ("LyricHandle" == name) {
@@ -177,13 +177,13 @@ namespace cadencii {
             charactersLyric(ch, tagName);
         } else if ("Data" == tagName) {
             if ("RateBP" == parentTagName) {
-                currentHandle.rateBP.setData(ch);
+                currentHandle.rateBP.data(ch);
             } else if ("DepthBP" == parentTagName) {
-                currentHandle.depthBP.setData(ch);
+                currentHandle.depthBP.data(ch);
             } else if ("DynBP" == parentTagName) {
-                currentHandle.dynBP.setData(ch);
+                currentHandle.dynBP.data(ch);
             } else if (isControlCurveTagName(parentTagName)) {
-                currentBPList.setData(ch);
+                currentBPList.data(ch);
             }
         } else if (isControlCurveTagName(parentTagName)) {
             charactersBPList(ch, tagName);
@@ -200,183 +200,183 @@ namespace cadencii {
         }
     }
 
-    void XVSQFileReader::charactersMixerItem(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersMixerItem(std::string const& ch, std::string const& tagName) {
         if ("Solo" == tagName) {
-            currentMixerItem.solo = StringUtil::parseInt<int>(ch);
+            currentMixerItem.solo = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Feder" == tagName) {
-            currentMixerItem.feder = StringUtil::parseInt<int>(ch);
+            currentMixerItem.feder = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Mute" == tagName) {
-            currentMixerItem.mute = StringUtil::parseInt<int>(ch);
+            currentMixerItem.mute = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Panpot" == tagName) {
-            currentMixerItem.panpot = StringUtil::parseInt<int>(ch);
+            currentMixerItem.panpot = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersMixer(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersMixer(const std::string &ch, const std::string &tagName) {
         if ("MasterFeder" == tagName) {
-            sequence->mixer.masterFeder = StringUtil::parseInt<int>(ch);
+            sequence->mixer.masterFeder = vsq::StringUtil::parseInt<int>(ch);
         } else if ("MasterPanpot" == tagName) {
-            sequence->mixer.masterPanpot = StringUtil::parseInt<int>(ch);
+            sequence->mixer.masterPanpot = vsq::StringUtil::parseInt<int>(ch);
         } else if ("MasterMute" == tagName) {
-            sequence->mixer.masterMute = StringUtil::parseInt<int>(ch);
+            sequence->mixer.masterMute = vsq::StringUtil::parseInt<int>(ch);
         } else if ("OutputMode" == tagName) {
-            sequence->mixer.outputMode = StringUtil::parseInt<int>(ch);
+            sequence->mixer.outputMode = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersMaster(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersMaster(const std::string &ch, const std::string &tagName) {
         if ("PreMeasure" == tagName) {
-            sequence->master.preMeasure = StringUtil::parseInt<int>(ch);
+            sequence->master.preMeasure = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersTimesig(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersTimesig(const std::string &ch, const std::string &tagName) {
         if ("Numerator" == tagName) {
-            currentTimesig.numerator = StringUtil::parseInt<int>(ch);
+            currentTimesig.numerator = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Denominator" == tagName) {
-            currentTimesig.denominator = StringUtil::parseInt<int>(ch);
+            currentTimesig.denominator = vsq::StringUtil::parseInt<int>(ch);
         } else if ("BarCount" == tagName) {
-            currentTimesig.barCount = StringUtil::parseInt<int>(ch);
+            currentTimesig.barCount = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersTempo(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersTempo(const std::string &ch, const std::string &tagName) {
         if ("Clock" == tagName) {
-            currentTempo.clock = StringUtil::parseInt<VSQ_NS::tick_t>(ch);
+            currentTempo.tick = vsq::StringUtil::parseInt<vsq::tick_t>(ch);
         } else if ("Tempo" == tagName) {
-            currentTempo.tempo = StringUtil::parseInt<int>(ch);
+            currentTempo.tempo = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersBPList(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersBPList(const std::string &ch, const std::string &tagName) {
         if ("Default" == tagName) {
-            currentBPList.setDefault(StringUtil::parseInt<int>(ch));
+            currentBPList.defaultValue(vsq::StringUtil::parseInt<int>(ch));
         } else if ("Name" == tagName) {
-            currentBPList.setName(ch);
+            currentBPList.name(ch);
         } else if ("Maximum" == tagName) {
-            currentBPList.setMaximum(StringUtil::parseInt<int>(ch));
+            currentBPList.maximum(vsq::StringUtil::parseInt<int>(ch));
         } else if ("Minimum" == tagName) {
-            currentBPList.setMinimum(StringUtil::parseInt<int>(ch));
+            currentBPList.minimum(vsq::StringUtil::parseInt<int>(ch));
         }
     }
 
-    void XVSQFileReader::charactersHandle(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersHandle(const std::string &ch, const std::string &tagName) {
         if ("IconID" == tagName) {
             currentHandle.iconId = ch;
         } else if ("IDS" == tagName) {
             currentHandle.ids = ch;
         } else if ("Original" == tagName) {
-            currentHandle.original = StringUtil::parseInt<int>(ch);
+            currentHandle.original = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Caption" == tagName) {
             currentHandle.caption = ch;
         } else if ("Length" == tagName) {
-            currentHandle.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+            currentHandle.length(vsq::StringUtil::parseInt<vsq::tick_t>(ch));
         } else if ("StartDyn" == tagName) {
-            currentHandle.startDyn = StringUtil::parseInt<int>(ch);
+            currentHandle.startDyn = vsq::StringUtil::parseInt<int>(ch);
         } else if ("EndDyn" == tagName) {
-            currentHandle.endDyn = StringUtil::parseInt<int>(ch);
+            currentHandle.endDyn = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Depth" == tagName) {
-            currentHandle.depth = StringUtil::parseInt<int>(ch);
+            currentHandle.depth = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Duration" == tagName) {
-            currentHandle.duration = StringUtil::parseInt<int>(ch);
+            currentHandle.duration = vsq::StringUtil::parseInt<int>(ch);
         } else if ("StartRate" == tagName) {
-            currentHandle.startRate = StringUtil::parseInt<int>(ch);
+            currentHandle.startRate = vsq::StringUtil::parseInt<int>(ch);
         } else if ("StartDepth" == tagName) {
-            currentHandle.startDepth = StringUtil::parseInt<int>(ch);
+            currentHandle.startDepth = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Index" == tagName) {
-            currentHandle.index = StringUtil::parseInt<int>(ch);
+            currentHandle.index = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Program" == tagName) {
-            currentHandle.program = StringUtil::parseInt<int>(ch);
+            currentHandle.program = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Language" == tagName) {
-            currentHandle.language = StringUtil::parseInt<int>(ch);
+            currentHandle.language = vsq::StringUtil::parseInt<int>(ch);
         }
     }
 
-    void XVSQFileReader::charactersLyric(const string &ch, const string &tagName) {
+    void XVSQFileReader::charactersLyric(const std::string &ch, const std::string &tagName) {
         if ("Phrase" == tagName) {
             currentLyric.phrase = ch;
         } else if ("UnknownFloat" == tagName) {
-            currentLyric.lengthRatio = StringUtil::parseFloat<double>(ch);
+            currentLyric.lengthRatio = vsq::StringUtil::parseFloat<double>(ch);
         } else if ("PhoneticSymbolProtected" == tagName) {
             if (boolValueMap.find(ch) != boolValueMap.end()) {
                 currentLyric.isProtected = boolValueMap.at(ch);
             }
         } else if ("ConsonantAdjustment" == tagName) {
-            currentLyric.setConsonantAdjustment(StringUtil::replace(ch, " ", ","));
+            currentLyric.consonantAdjustment(vsq::StringUtil::replace(ch, " ", ","));
         } else if ("PhoneticSymbol" == tagName) {
-            currentLyric.setPhoneticSymbol(ch);
+            currentLyric.phoneticSymbol(ch);
         }
     }
 
     void XVSQFileReader::charactersID(const std::string &ch, const std::string &tagName) {
         if ("type" == tagName) {
             if (eventTypeValueMap.find(ch) != eventTypeValueMap.end()) {
-                currentEvent.type = eventTypeValueMap.at(ch);
+                currentEvent.type(eventTypeValueMap.at(ch));
             }
         } else if ("Note" == tagName) {
-            currentEvent.note = StringUtil::parseInt<int>(ch);
+            currentEvent.note = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Dynamics" == tagName) {
-            currentEvent.dynamics = StringUtil::parseInt<int>(ch);
+            currentEvent.dynamics = vsq::StringUtil::parseInt<int>(ch);
         } else if ("PMBendDepth" == tagName) {
-            currentEvent.pmBendDepth = StringUtil::parseInt<int>(ch);
+            currentEvent.pmBendDepth = vsq::StringUtil::parseInt<int>(ch);
         } else if ("PMBendLength" == tagName) {
-            currentEvent.pmBendLength = StringUtil::parseInt<int>(ch);
+            currentEvent.pmBendLength = vsq::StringUtil::parseInt<int>(ch);
         } else if ("PMbPortamentoUse" == tagName) {
-            currentEvent.pmbPortamentoUse = StringUtil::parseInt<int>(ch);
+            currentEvent.pmbPortamentoUse = vsq::StringUtil::parseInt<int>(ch);
         } else if ("DEMdecGainRate" == tagName) {
-            currentEvent.demDecGainRate = StringUtil::parseInt<int>(ch);
+            currentEvent.demDecGainRate = vsq::StringUtil::parseInt<int>(ch);
         } else if ("DEMaccent" == tagName) {
-            currentEvent.demAccent = StringUtil::parseInt<int>(ch);
+            currentEvent.demAccent = vsq::StringUtil::parseInt<int>(ch);
         } else if ("VibratoDelay" == tagName) {
-            currentEvent.vibratoDelay = StringUtil::parseInt<int>(ch);
+            currentEvent.vibratoDelay = vsq::StringUtil::parseInt<int>(ch);
         } else if ("pMeanOnsetFirstNote" == tagName) {
-            currentEvent.pMeanOnsetFirstNote = StringUtil::parseInt<int>(ch);
+            currentEvent.pMeanOnsetFirstNote = vsq::StringUtil::parseInt<int>(ch);
         } else if ("vMeanNoteTransition" == tagName) {
-            currentEvent.vMeanNoteTransition = StringUtil::parseInt<int>(ch);
+            currentEvent.vMeanNoteTransition = vsq::StringUtil::parseInt<int>(ch);
         } else if ("d4mean" == tagName) {
-            currentEvent.d4mean = StringUtil::parseInt<int>(ch);
+            currentEvent.d4mean = vsq::StringUtil::parseInt<int>(ch);
         } else if ("pMeanEndingNote" == tagName) {
-            currentEvent.pMeanEndingNote = StringUtil::parseInt<int>(ch);
+            currentEvent.pMeanEndingNote = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Length" == tagName) {
-            currentEvent.setLength(StringUtil::parseInt<VSQ_NS::tick_t>(ch));
+            currentEvent.length(vsq::StringUtil::parseInt<vsq::tick_t>(ch));
         }
     }
 
     void XVSQFileReader::charactersVsqEvent(const std::string &ch, const std::string &tagName) {
         if ("InternalID" == tagName) {
-            currentEvent.id = StringUtil::parseInt<int>(ch);
+            currentEvent.id = vsq::StringUtil::parseInt<int>(ch);
         } else if ("Clock" == tagName) {
-            currentEvent.clock = StringUtil::parseInt<VSQ_NS::tick_t>(ch);
+            currentEvent.tick = vsq::StringUtil::parseInt<vsq::tick_t>(ch);
         }
     }
 
     void XVSQFileReader::charactersCommon(const std::string &ch, const std::string &tagName) {
         if ("Version" == tagName) {
-            currentTrack.common()->version = ch;
+            currentTrack.common().version = ch;
         } else if ("Name" == tagName) {
-            currentTrack.common()->name = ch;
+            currentTrack.common().name = ch;
         } else if ("Color" == tagName) {
-            currentTrack.common()->color = ch;
+            currentTrack.common().color = ch;
         } else if ("DynamicsMode" == tagName) {
             if (dynamicsModeValueMap.find(ch) != dynamicsModeValueMap.end()) {
-                currentTrack.common()->dynamicsMode = dynamicsModeValueMap.at(ch);
+                currentTrack.common().dynamicsMode = dynamicsModeValueMap.at(ch);
             }
         } else if ("PlayMode" == tagName) {
             if (playModeValueMap.find(ch) != playModeValueMap.end()) {
-                currentTrack.common()->setPlayMode(currentTrack.common()->lastPlayMode());
-                currentTrack.common()->setPlayMode(playModeValueMap.at(ch));
+                currentTrack.common().playMode(currentTrack.common().lastPlayMode());
+                currentTrack.common().playMode(playModeValueMap.at(ch));
             }
         } else if ("LastPlayMode" == tagName) {
             if (playModeValueMap.find(ch) != playModeValueMap.end()) {
-                VSQ_NS::PlayMode::PlayModeEnum current = currentTrack.common()->playMode();
-                currentTrack.common()->setPlayMode(playModeValueMap.at(ch));
-                currentTrack.common()->setPlayMode(current);
+                vsq::PlayMode current = currentTrack.common().playMode();
+                currentTrack.common().playMode(playModeValueMap.at(ch));
+                currentTrack.common().playMode(current);
             }
         }
     }
 
     void XVSQFileReader::validate() {
-        if (sequence->tracks()->size() < 1) {
+        if (sequence->tracks().size() < 1) {
             throw XVSQFileReader::ParseException();
         }
     }
@@ -385,13 +385,10 @@ namespace cadencii {
     void XVSQFileReader::insertIntegerEnumValueMap(
         std::map<std::string, T> &result, const T &enumValue
     ) {
-        result.insert(std::make_pair(StringUtil::toString(static_cast<int>(enumValue)), enumValue));
+        result.insert(std::make_pair(vsq::StringUtil::toString(static_cast<int>(enumValue)), enumValue));
     }
 
-    template<class classT, class enumT>
-    void XVSQFileReader::insertStringEnumValueMap(
-        std::map<std::string, enumT> &result, const enumT &enumValue
-    ) {
-        result.insert(std::make_pair(classT::toString(enumValue), enumValue));
+    void XVSQFileReader::insertStringEnumValueMap(std::map<std::string, vsq::EventType> &result, vsq::EventType type) {
+        result.insert(std::make_pair(vsq::EventTypeUtil::toString(type), type));
     }
 }

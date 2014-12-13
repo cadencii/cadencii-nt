@@ -25,15 +25,15 @@ namespace cadencii {
     SAXAdapter::~SAXAdapter() {
     }
 
-    void SAXAdapter::onStartElement(const std::string &name) {
+    void SAXAdapter::onStartElement(std::string const& name) {
         reader->startElement(name);
     }
 
-    void SAXAdapter::onEndElement(const string &name) {
+    void SAXAdapter::onEndElement(std::string const& name) {
         reader->endElement(name);
     }
 
-    void SAXAdapter::onCharacters(const std::string &ch) {
+    void SAXAdapter::onCharacters(std::string const& ch) {
         reader->characters(ch);
     }
 

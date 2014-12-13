@@ -17,12 +17,7 @@
 #include <map>
 #include <string>
 #include "Controller.hpp"
-#include "vsq/VSQFileReader.hpp"
-#include "vsq/VSQFileWriter.hpp"
-#include "vsq/FileInputStream.hpp"
-#include "vsq/FileOutputStream.hpp"
-#include "vsq/StreamWriter.hpp"
-#include "vsq/MusicXmlWriter.hpp"
+#include <libvsq/libvsq.h>
 #include "Settings.hpp"
 #include "command/DeleteEventCommand.hpp"
 #include "sequence/io/XVSQFileReader.hpp"
@@ -34,7 +29,7 @@ namespace cadencii {
         : trackView(0), mainView(0), controlChangeView(0), barCountView(0),
           tempoView(0), timesigView(0), propertyView(0), singerListView(0),
           trackListView(0), songPosition(0), pixelPerTick(0.2) {
-        model.reset(VSQ_NS::Sequence("Miku", 1, 4, 4, 500000));
+        model.reset(vsq::Sequence("Miku", 1, 4, 4, 500000));
         toolKind = ToolKind::POINTER;
         trackIndex = 0;
     }
@@ -145,11 +140,11 @@ namespace cadencii {
     }
 
     void Controller::openVSQFile(const std::string &filePath)throw() {
-        VSQ_NS::VSQFileReader reader;
-        VSQ_NS::FileInputStream stream(filePath);
-        VSQ_NS::Sequence sequence;
+        vsq::VSQFileReader reader;
+        vsq::FileInputStream stream(filePath);
+        vsq::Sequence sequence;
         try {
-            reader.read(sequence, &stream, "Shift_JIS");
+            reader.read(sequence, stream, "Shift_JIS");
             stream.close();
             setupSequence(sequence);
         } catch(std::exception &) {
@@ -163,7 +158,7 @@ namespace cadencii {
 
     void Controller::openXVSQFile(const std::string &filePath)throw() {
         XVSQFileReader reader;
-        VSQ_NS::Sequence sequence;
+        vsq::Sequence sequence;
         try {
             ConcreteSAXAdapter adapter(filePath);
             reader.read(&sequence, &adapter);
@@ -177,7 +172,7 @@ namespace cadencii {
         }
     }
 
-    void Controller::drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw() {
+    void Controller::drawOffsetChanged(void *sender, vsq::tick_t offset)throw() {
         if (sender == static_cast<void *>(trackView)) {
             if (controlChangeView) controlChangeView->setDrawOffset(offset);
             if (barCountView) barCountView->setDrawOffset(offset);
@@ -217,11 +212,11 @@ namespace cadencii {
         }
     }
 
-    VSQ_NS::tick_t Controller::getSongPosition()throw() {
+    vsq::tick_t Controller::getSongPosition()throw() {
         return songPosition;
     }
 
-    int Controller::getXFromTick(VSQ_NS::tick_t tick)throw() {
+    int Controller::getXFromTick(vsq::tick_t tick)throw() {
         return static_cast<int>(tick * pixelPerTick) + 5;
     }
 
@@ -229,7 +224,7 @@ namespace cadencii {
         return (x - 5) / pixelPerTick;
     }
 
-    void Controller::setTrackIndex(void *sender, int index)throw() {
+    void Controller::setTrackIndex(void *, int index) throw() {
         trackIndex = index;
         // TODO(kbinani): senderの値によって、どのコンポーネントに
         //                setTrackIndexを呼ぶか振り分ける処理が必要
@@ -239,10 +234,12 @@ namespace cadencii {
         singerListView->setTrackIndex(index);
         propertyView->setTrackIndex(index);
         itemSelectionManager.clear();
-        if (mainView) mainView->notifyCommandHistoryChanged();
+        if (mainView) {
+            mainView->notifyCommandHistoryChanged();
+        }
     }
 
-    void Controller::setupSequence(const VSQ_NS::Sequence &sequence) {
+    void Controller::setupSequence(const vsq::Sequence &sequence) {
         model.reset(sequence);
         setTrackIndex(this, 0);
         controlChangeView->setControlChangeName("pit");
@@ -250,8 +247,8 @@ namespace cadencii {
 
     void Controller::moveSongPositionStepped(bool isBackward)throw() {
         QuantizeMode::QuantizeModeEnum mode = Settings::instance()->getQuantizeMode();
-        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick(mode);
-        VSQ_NS::tick_t newSongPosition
+        vsq::tick_t unit = QuantizeMode::getQuantizeUnitTick(mode);
+        vsq::tick_t newSongPosition
                 = getQuantizedTick(songPosition + (isBackward ? -unit : unit), mode);
         int minX = getXFromTick(0);
         int x = getXFromTick(newSongPosition);
@@ -267,12 +264,12 @@ namespace cadencii {
         }
     }
 
-    VSQ_NS::tick_t Controller::getQuantizedTick(
-            VSQ_NS::tick_t before,
+    vsq::tick_t Controller::getQuantizedTick(
+            vsq::tick_t before,
             QuantizeMode::QuantizeModeEnum mode) {
-        VSQ_NS::tick_t unit = QuantizeMode::getQuantizeUnitTick(mode);
-        VSQ_NS::tick_t odd = before % unit;
-        VSQ_NS::tick_t result = before - odd;
+        vsq::tick_t unit = QuantizeMode::getQuantizeUnitTick(mode);
+        vsq::tick_t odd = before % unit;
+        vsq::tick_t result = before - odd;
         if (odd > unit / 2) {
             result += unit;
         }
@@ -291,8 +288,8 @@ namespace cadencii {
         if (trackListView) trackListView->updateWidget();
     }
 
-    int Controller::getPreferredComponentWidth()throw() {
-        VSQ_NS::tick_t totalClocks = model.getSequence()->getTotalClocks();
+    int Controller::getPreferredComponentWidth() throw() {
+        vsq::tick_t totalClocks = model.getSequence()->totalTicks();
         int result = getXFromTick(totalClocks);
         if (trackView) {
             result += trackView->getTrackViewWidth();
@@ -300,7 +297,7 @@ namespace cadencii {
         return result;
     }
 
-    void Controller::setSongPosition(VSQ_NS::tick_t songPosition) {
+    void Controller::setSongPosition(vsq::tick_t songPosition) {
         this->songPosition = songPosition;
         if (Settings::instance()->isAutoScroll()) {
             trackView->ensureNoteVisible(songPosition, 0);
@@ -309,12 +306,12 @@ namespace cadencii {
     }
 
     void Controller::exportAsMusicXml(const std::string &filePath)throw() {
-        VSQ_NS::MusicXmlWriter writer;
+        vsq::MusicXmlWriter writer;
         try {
-            VSQ_NS::StreamWriter stream(filePath);
-            writer.write(model.getSequence(), &stream, "cadencii");
+            vsq::StreamWriter stream(filePath);
+            writer.write(*model.getSequence(), stream, "cadencii");
             stream.close();
-        } catch(VSQ_NS::StreamWriter::IOException &) {
+        } catch(vsq::StreamWriter::IOException const&) {
             if (!Settings::instance()->isUnderUnitTest()) {
                 QMessageBox::information(
                     0, QObject::tr("Error"),
@@ -324,13 +321,13 @@ namespace cadencii {
         }
     }
 
-    void Controller::exportAsVSQFile(const string &filePath)throw() {
-        VSQ_NS::VSQFileWriter writer;
+    void Controller::exportAsVSQFile(const std::string &filePath)throw() {
+        vsq::VSQFileWriter writer;
         try {
-            VSQ_NS::FileOutputStream stream(filePath);
-            writer.write(model.getSequence(), &stream, 500, "Shift_JIS", false);
+            vsq::FileOutputStream stream(filePath);
+            writer.write(*model.getSequence(), stream, 500, "Shift_JIS", false);
             stream.close();
-        } catch(VSQ_NS::FileOutputStream::IOException &) {
+        } catch(vsq::FileOutputStream::IOException const&) {
             if (!Settings::instance()->isUnderUnitTest()) {
                 QMessageBox::information(
                     0, QObject::tr("Error"),
@@ -353,7 +350,7 @@ namespace cadencii {
         return &itemSelectionManager;
     }
 
-    const VSQ_NS::Sequence *Controller::getSequence()throw() {
+    const vsq::Sequence *Controller::getSequence()throw() {
         return model.getSequence();
     }
 
@@ -393,23 +390,20 @@ namespace cadencii {
         if (mainView) mainView->showWidget();
     }
 
-    void Controller::removeEvent(int trackIndex, const VSQ_NS::Event *item) {
+    void Controller::removeEvent(int trackIndex, const vsq::Event *item) {
         if (item) {
-            // マウスの位置にイベントがあった場合
+            // マウスの位置にイベントがあった場合.
             std::vector<int> idList;
-            const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *selectedItemList
-                    = itemSelectionManager.getEventItemList();
-            std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator index
-                    = selectedItemList->find(item);
+            auto const* selectedItemList = itemSelectionManager.getEventItemList();
+            auto index = selectedItemList->find(item);
             if (index == selectedItemList->end()) {
-                // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合、
-                // マウス位置のイベントのみ削除する
+                // マウスの位置のイベントが、選択されたイベントに含まれていなかった場合,
+                // マウス位置のイベントのみ削除する.
                 idList.push_back(item->id);
             } else {
                 // マウスの位置のイベントが、選択されたイベントに含まれていた場合、
-                // 選択されたイベントを全て削除する
-                std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
-                        = selectedItemList->begin();
+                // 選択されたイベントを全て削除する.
+                auto i = selectedItemList->begin();
                 for (; i != selectedItemList->end(); ++i) {
                     idList.push_back(i->first->id);
                 }
@@ -425,10 +419,9 @@ namespace cadencii {
     }
 
     void Controller::removeSelectedItems() {
-        // TODO(kbinani): 音符・歌手イベント以外の選択ができるようになったら対応する
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList
-                = itemSelectionManager.getEventItemList();
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i = itemList->begin();
+        // TODO(kbinani): 音符・歌手イベント以外の選択ができるようになったら対応する.
+        auto const* itemList = itemSelectionManager.getEventItemList();
+        auto i = itemList->begin();
         std::vector<int> idList;
         for (; i != itemList->end(); ++i) {
             idList.push_back(i->first->id);
@@ -443,8 +436,8 @@ namespace cadencii {
         if (mainView) mainView->setApplicationShortcutEnabled(enabled);
     }
 
-    const VSQ_NS::PhoneticSymbolDictionary::Element *Controller::attachPhoneticSymbol(
+    const vsq::PhoneticSymbolDictionary::Element *Controller::attachPhoneticSymbol(
             const std::string &word) {
-        return VSQ_NS::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
+        return vsq::PhoneticSymbolDictionary::vocaloidJpDictionary()->attach(word);
     }
 }

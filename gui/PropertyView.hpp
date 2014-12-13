@@ -17,7 +17,7 @@
 
 #include "../ControllerAdapter.hpp"
 #include "../ItemSelectionStatusListener.hpp"
-#include "../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 

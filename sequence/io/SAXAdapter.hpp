@@ -16,7 +16,7 @@
 #define CADENCII_SEQUENCE_IO_SAXADAPTER_HPP_
 
 #include <string>
-#include "../../vsq/InputStream.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 

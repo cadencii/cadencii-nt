@@ -23,6 +23,9 @@ int main(int argc, char *argv[]) {
     cadencii::ConcreteSettings settings;
     cadencii::Settings::instance(&settings);
 
+    QTextCodec *codec = QTextCodec::codecForName( "UTF-8" );
+    QTextCodec::setCodecForLocale( codec );
+
     cadencii::AppContainer container;
     container.controller.showMainView();
 

@@ -16,8 +16,7 @@
 #define __TrackView_hpp__
 
 #include "../ControllerAdapter.hpp"
-#include "../vsq/TimesigList.hpp"
-#include "../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -36,7 +35,7 @@ namespace cadencii {
          * @param noteNumber ノート番号。負の値が指定された場合、縦方向のスクロールは行わない
          */
         virtual void ensureNoteVisible(
-            VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1) = 0;
+            vsq::tick_t tick, vsq::tick_t length, int noteNumber = -1) = 0;
 
         /**
          * @brief ウィジェットの実体を返す
@@ -48,7 +47,7 @@ namespace cadencii {
          * @brief 描画範囲の左端の、tick 単位の時刻を設定する
          * @param drawOffset 描画範囲の左端の時刻
          */
-        virtual void setDrawOffset(VSQ_NS::tick_t drawOffset) = 0;
+        virtual void setDrawOffset(vsq::tick_t drawOffset) = 0;
 
         /**
          * @brief 表示するトラックの番号を指定する

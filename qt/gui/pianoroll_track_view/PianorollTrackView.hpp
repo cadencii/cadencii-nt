@@ -91,14 +91,14 @@ namespace cadencii {
             /**
              * @brief Note item status, adding by mouse dragging.
              */
-            VSQ_NS::Event addingNoteItem;
+            vsq::Event addingNoteItem;
             /**
              * @brief Note item at mouse pressed position.
              */
-            const VSQ_NS::Event *noteOnMouse;
+            const vsq::Event *noteOnMouse;
 
         public:
-            explicit MouseStatus();
+            MouseStatus();
 
             /**
              * @brief startPosition と endPosition が成す矩形を取得する
@@ -141,11 +141,11 @@ namespace cadencii {
 
         ~PianorollTrackView();
 
-        void setTimesigList(VSQ_NS::TimesigList *timesigList);
+        void setTimesigList(vsq::TimesigList *timesigList);
 
         void *getWidget();
 
-        void setDrawOffset(VSQ_NS::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset);
 
         void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
@@ -157,7 +157,7 @@ namespace cadencii {
 
         QSize getPreferredMainContentSceneSize();
 
-        void ensureNoteVisible(VSQ_NS::tick_t tick, VSQ_NS::tick_t length, int noteNumber = -1);
+        void ensureNoteVisible(vsq::tick_t tick, vsq::tick_t length, int noteNumber = -1);
 
         void setTrackIndex(int index);
 
@@ -242,14 +242,14 @@ namespace cadencii {
          * @param mousePosition このウィジェットローカル座標基準の位置
          * @return 音符イベント。見つからなければ null を返す
          */
-        const VSQ_NS::Event *findNoteEventAt(const QPoint &mousePosition);
+        const vsq::Event *findNoteEventAt(const QPoint &mousePosition);
 
         /**
          * @brief 指定された音符イベントの、描画の際の形状を取得する。
          * @param 形状を取得する音符イベント
          * @return 形状。座標は、QGraphicsScene の座標を用いる
          */
-        QRect getNoteItemRect(const VSQ_NS::Event *item);
+        QRect getNoteItemRect(const vsq::Event *item);
 
         /**
          * @brief ui->scrollArea 基準の座標を、scene の座標に変換する
@@ -269,12 +269,12 @@ namespace cadencii {
          */
         void initMouseStatus(
                 MouseStatus::MouseStatusEnum status, const QMouseEvent *event,
-                const VSQ_NS::Event *noteOnMouse);
+                const vsq::Event *noteOnMouse);
 
         /**
          * @brief Show lyricEdit widget on the pianoroll.
          */
-        void showLyricEdit(const VSQ_NS::Event *note);
+        void showLyricEdit(const vsq::Event *note);
 
         /**
          * @brief Hide lyricEdit widget.
@@ -285,13 +285,13 @@ namespace cadencii {
          * @brief Draw a note item.
          */
         inline void paintItem(
-                QPainter *g, const VSQ_NS::Event *item, const QRect &itemRect,
+                QPainter *g, const vsq::Event *item, const QRect &itemRect,
                 const QColor &color, const QColor &borderColor);
 
         /**
          * @brief Quantize specified tick.
          */
-        inline VSQ_NS::tick_t quantize(VSQ_NS::tick_t tick);
+        inline vsq::tick_t quantize(vsq::tick_t tick);
 
         /**
          * @brief Update 'lyricEdit' component position.
@@ -303,7 +303,7 @@ namespace cadencii {
          * @param noteEvent A note event.
          * @return Component position.
          */
-        inline QPoint getLyricEditPosition(const VSQ_NS::Event *noteEvent);
+        inline QPoint getLyricEditPosition(const vsq::Event *noteEvent);
 
         /**
          * @brief y 座標からノート番号を取得する

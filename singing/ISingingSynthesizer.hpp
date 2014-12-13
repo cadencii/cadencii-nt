@@ -19,7 +19,7 @@ public:
     virtual ~ISingingSynthesizer()
     {}
 
-    void bind(std::shared_ptr<cadencii::singing::IScoreProvider> provider)
+    void bind(std::shared_ptr<cadencii::singing::IScoreProvider> const& provider)
     {
         provider_ = provider;
         processed_samles_ = 0;

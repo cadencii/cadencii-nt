@@ -33,7 +33,7 @@ namespace cadencii {
         /**
          * @brief 手前に表示している BPList
          */
-        const VSQ_NS::BPList *front;
+        const vsq::BPList *front;
         /**
          * @brief コンポーネントの上端と、グラフの最大値の位置の距離
          */
@@ -58,7 +58,7 @@ namespace cadencii {
         /**
          * @brief デフォルトで描画するシーケンス
          */
-        VSQ_NS::Sequence defaultSequence;
+        vsq::Sequence defaultSequence;
         /**
          * @brief 表示中のコントロールチェンジの名前
          */
@@ -75,7 +75,7 @@ namespace cadencii {
 
         void *getWidget();
 
-        void setDrawOffset(VSQ_NS::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset);
 
         void setControllerAdapter(ControllerAdapter *controllerAdapter);
 
@@ -94,7 +94,7 @@ namespace cadencii {
     protected:
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const VSQ_NS::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine);
 
     protected slots:
         /**
@@ -103,7 +103,7 @@ namespace cadencii {
         void onSubContentMousePressSlot(QMouseEvent *event);
 
     private:
-        void paintBPList(QPainter *painter, const VSQ_NS::BPList *list, const QRect &rect);
+        void paintBPList(QPainter *painter, const vsq::BPList *list, const QRect &rect);
 
         /**
          * @brief コントロールチェンジの値から、描画するY座標を取得する

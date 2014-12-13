@@ -26,7 +26,7 @@ namespace cadencii {
     class EditEventCommand : public AbstractCommand {
     private:
         int track;
-        std::map<int, VSQ_NS::Event> itemList;
+        std::map<int, std::shared_ptr<vsq::Event>> itemList;
 
     public:
         /**
@@ -35,36 +35,35 @@ namespace cadencii {
          * @param eventId 編集対象のイベントID(=Event::id)
          * @param item 編集後のイベント
          */
-        explicit EditEventCommand(int track, int eventId, const VSQ_NS::Event &item) {
+        EditEventCommand(int track, int eventId, vsq::Event const& item) {
             this->track = track;
-            itemList.insert(std::make_pair(eventId, item));
+            itemList[eventId] = std::make_shared<vsq::Event>(item);
         }
 
         /**
          * @brief 初期化する
          * @todo public に昇格する
          * @param track 編集対象のトラック
-         * @param itemList アイテムIDとVSQ_NS::Eventのインスタンスのマップ
+         * @param itemList アイテムIDとvsq::Eventのインスタンスのマップ
          */
-        explicit EditEventCommand(int track, const std::map<int, VSQ_NS::Event> &itemList) {
+        EditEventCommand(int track, std::map<int, std::shared_ptr<vsq::Event>> const& itemList) {
             this->track = track;
             this->itemList = itemList;
         }
 
-        AbstractCommand *execute(VSQ_NS::Sequence *sequence)  {
-            VSQ_NS::Track *target = sequence->track(track);
-            std::map<int, VSQ_NS::Event>::iterator i
-                    = itemList.begin();
-            std::map<int, VSQ_NS::Event> originalItemList;
+        AbstractCommand *execute(vsq::Sequence *sequence) override {
+            vsq::Track & target = sequence->track(track);
+            auto i = itemList.begin();
+            std::map<int, std::shared_ptr<vsq::Event>> originalItemList;
             for (; i != itemList.end(); ++i) {
                 int eventId = i->first;
-                VSQ_NS::Event item = i->second;
-                int index = target->events()->findIndexFromId(eventId);
-                const VSQ_NS::Event original = *(target->events()->get(index));
-                originalItemList.insert(std::make_pair(eventId, original));
-                VSQ_NS::Event replace = item;
+                std::shared_ptr<vsq::Event> const& item = i->second;
+                int index = target.events().findIndexFromId(eventId);
+                vsq::Event original = *target.events().get(index);
+                originalItemList[eventId] = std::make_shared<vsq::Event>(original);
+                vsq::Event replace = *item;
                 replace.id = eventId;
-                target->events()->set(index, replace);
+                target.events().set(index, replace);
             }
             return new EditEventCommand(track, originalItemList);
         }

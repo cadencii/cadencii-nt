@@ -88,7 +88,7 @@ namespace cadencii {
     void ConcretePropertyValueProxy::setLyricConsonantAdjustment(
             const std::string &lyricConsonantAdjustment) {
         std::string formattedAdjustment
-                = StringUtil::replace(lyricConsonantAdjustment, ",", " ");
+                = vsq::StringUtil::replace(lyricConsonantAdjustment, ",", " ");
         parent->stringPropertyManager.setValue(
             parent->lyricConsonantAdjustment, formattedAdjustment.c_str());
     }

@@ -41,23 +41,18 @@ namespace cadencii {
 
     void EditorWidgetBase::notifyHorizontalScroll() {
         QRect visibleRect = ui->mainContent->getVisibleArea();
-        VSQ_NS::tick_t drawOffset
-                = (VSQ_NS::tick_t)controllerAdapter->getTickFromX(visibleRect.x());
+        vsq::tick_t drawOffset
+                = (vsq::tick_t)controllerAdapter->getTickFromX(visibleRect.x());
         controllerAdapter->drawOffsetChanged(getScrollEventSender(), drawOffset);
     }
 
     void EditorWidgetBase::repaint() {
-#ifdef Q_OS_WIN
         ui->mainContent->scene->update();
         ui->subContent->scene->update();
-#else
-        ui->mainContent->repaint();
-        ui->subContent->repaint();
-#endif
         QWidget::repaint();
     }
 
-    void EditorWidgetBase::setDrawOffsetInternal(VSQ_NS::tick_t drawOffset) {
+    void EditorWidgetBase::setDrawOffsetInternal(vsq::tick_t drawOffset) {
         static QMutex mutex;
         if (mutex.tryLock()) {
             int xScrollTo = -controllerAdapter->getXFromTick(drawOffset);
@@ -74,7 +69,7 @@ namespace cadencii {
 
     void EditorWidgetBase::drawMeasureLine(
             QPainter *painter, const QRect &rect, int x,
-            const VSQ_NS::MeasureLine &measureLine) {
+            const vsq::MeasureLine &measureLine) {
         static QBrush barBrush(QColor::fromRgb(161, 157, 136), Qt::SolidPattern);
         static QBrush beatBrush(QColor::fromRgb(209, 204, 172), Qt::SolidPattern);
         QBrush brush = measureLine.isBorder ? barBrush : beatBrush;

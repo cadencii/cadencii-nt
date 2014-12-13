@@ -18,9 +18,7 @@
 #include <QScrollArea>
 #include <QMutex>
 #include <map>
-#include "../../vsq/MeasureLineIterator.hpp"
-#include "../../vsq/TimesigList.hpp"
-#include "../../vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 #include "../../qt/gui/EditorWidgetBaseMainContent.hpp"
 #include "../../gui/TrackView.hpp"
 
@@ -57,7 +55,7 @@ namespace cadencii {
          */
         bool isAutoScroll();
 
-        void setDrawOffsetInternal(VSQ_NS::tick_t drawOffset);
+        void setDrawOffsetInternal(vsq::tick_t drawOffset);
 
     protected:
         virtual void paintSubContent(QPainter *painter, const QRect &rect) {
@@ -103,7 +101,7 @@ namespace cadencii {
          */
         virtual void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const VSQ_NS::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine);
     };
 }
 #endif

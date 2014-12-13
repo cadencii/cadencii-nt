@@ -43,29 +43,29 @@ namespace cadencii {
         this->controllerAdapter = controllerAdapter;
     }
 
-    void ConcreteTempoView::setDrawOffset(VSQ_NS::tick_t drawOffset) {
+    void ConcreteTempoView::setDrawOffset(vsq::tick_t drawOffset) {
         setDrawOffsetInternal(drawOffset);
     }
 
     void ConcreteTempoView::paintMainContent(QPainter *painter, const QRect &rect) {
-        // 小節ごとの線
+        // 小節ごとの線.
         ui->mainContent->paintMeasureLines(painter, rect);
 
-        // 直下のコンポーネントとの区切り線
+        // 直下のコンポーネントとの区切り線.
         painter->setPen(lineColor);
         painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 
-        // テンポ変更イベント
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        // テンポ変更イベント.
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         if (sequence) {
-            // テンポ値の描かれる幅は drawWindow ピクセル以下と見なす
+            // テンポ値の描かれる幅は drawWindow ピクセル以下と見なす.
             const int drawWindow = 200;
             painter->setPen(Qt::black);
-            const VSQ_NS::TempoList *tempoList = &sequence->tempoList;
-            VSQ_NS::TempoList::Iterator i = tempoList->iterator();
+            const vsq::TempoList *tempoList = &sequence->tempoList;
+            vsq::TempoList::Iterator i = tempoList->iterator();
             while (i.hasNext()) {
-                VSQ_NS::Tempo tempo = i.next();
-                int x = controllerAdapter->getXFromTick(tempo.clock) + 5;
+                vsq::Tempo tempo = i.next();
+                int x = controllerAdapter->getXFromTick(tempo.tick) + 5;
                 if (x + drawWindow < rect.left()) {
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace cadencii {
                     break;
                 }
                 float value = 60e6 / tempo.tempo;
-                QString text(StringUtil::toString(value, "%.2f").c_str());
+                QString text(vsq::StringUtil::toString(value, "%.2f").c_str());
                 QRectF textRect(x, rect.top(), drawWindow, rect.height());
                 static QTextOption option(Qt::AlignLeft | Qt::AlignVCenter);
                 painter->drawText(textRect, text, option);
@@ -99,7 +99,7 @@ namespace cadencii {
 
     void ConcreteTempoView::drawMeasureLine(
             QPainter *painter, const QRect &rect, int x,
-            const VSQ_NS::MeasureLine &measureLine) {
+            const vsq::MeasureLine &measureLine) {
         painter->setPen(lineColor);
         if (measureLine.isBorder) {
             painter->drawLine(x, rect.top(), x, rect.bottom());

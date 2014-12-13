@@ -23,18 +23,18 @@ namespace cadencii {
         this->idList = idList;
     }
 
-    AbstractCommand *DeleteEventCommand::execute(VSQ_NS::Sequence *sequence) {
-        VSQ_NS::Event::List *list = sequence->track(track)->events();
-        std::vector<VSQ_NS::Event> eventList;
+    AbstractCommand *DeleteEventCommand::execute(vsq::Sequence *sequence) {
+        vsq::Event::List &list = sequence->track(track).events();
+        std::vector<vsq::Event> eventList;
 
-        std::vector<int>::const_iterator i = idList.begin();
+        auto i = idList.begin();
         for (; i != idList.end(); ++i) {
             int id = (*i);
-            int index = list->findIndexFromId(id);
+            int index = list.findIndexFromId(id);
             if (0 <= index) {
-                const VSQ_NS::Event *item = list->get(index);
+                vsq::Event const* item = list.get(index);
                 eventList.push_back(*item);
-                list->removeAt(index);
+                list.removeAt(index);
             }
         }
 

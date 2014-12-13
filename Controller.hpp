@@ -23,7 +23,7 @@
 #include "gui/SingerListView.hpp"
 #include "gui/TrackListView.hpp"
 #include "ControllerAdapter.hpp"
-#include "vsq/Sequence.hpp"
+#include <libvsq/libvsq.h>
 #include "enum/QuantizeMode.hpp"
 #include "sequence/SequenceModel.hpp"
 
@@ -41,80 +41,80 @@ namespace cadencii {
         SingerListView *singerListView;
         TrackListView *trackListView;
         SequenceModel model;
-        VSQ_NS::tick_t songPosition;
+        vsq::tick_t songPosition;
         int trackIndex;
 
         /**
-         * @brief 1 tick 時刻を何ピクセルで描画するか
+         * @brief 1 tick 時刻を何ピクセルで描画するか.
          */
         double pixelPerTick;
 
         /**
-         * @brief 選択されているツールの種類
+         * @brief 選択されているツールの種類.
          */
         ToolKind::ToolKindEnum toolKind;
 
         /**
-         * @brief アイテムの選択状態を管理するマネージャオブジェクト
+         * @brief アイテムの選択状態を管理するマネージャオブジェクト.
          */
         ItemSelectionManager itemSelectionManager;
 
     public:
         explicit Controller();
 
-        void openVSQFile(const string &filePath)throw();
+        void openVSQFile(std::string const& filePath) throw() override;
 
-        void openXVSQFile(const std::string &filePath)throw();
+        void openXVSQFile(std::string const& filePath) throw() override;
 
-        void drawOffsetChanged(void *sender, VSQ_NS::tick_t offset)throw();
+        void drawOffsetChanged(void *sender, vsq::tick_t offset) throw() override;
 
         /**
          * @brief 表示するトラックのインデックスを設定する
          * @param トラックのインデックス
          */
-        void setTrackIndex(void *sender, int index)throw();
+        void setTrackIndex(void *sender, int index) throw() override;
 
-        VSQ_NS::tick_t getSongPosition()throw();
+        vsq::tick_t getSongPosition() throw() override;
 
-        int getXFromTick(VSQ_NS::tick_t tick)throw();
+        int getXFromTick(vsq::tick_t tick) throw() override;
 
-        double getTickFromX(int x)throw();
+        double getTickFromX(int x) throw() override;
 
-        void moveSongPositionStepped(bool isBackward)throw();
+        void moveSongPositionStepped(bool isBackward) throw() override;
 
-        int getPreferredComponentWidth()throw();
+        int getPreferredComponentWidth() throw() override;
 
-        void exportAsMusicXml(const std::string &filePath)throw();
+        void exportAsMusicXml(std::string const& filePath) throw() override;
 
-        void exportAsVSQFile(const string &filePath)throw();
+        void exportAsVSQFile(std::string const& filePath) throw() override;
 
-        void setToolKind(ToolKind::ToolKindEnum kind)throw();
+        void setToolKind(ToolKind::ToolKindEnum kind) throw() override;
 
-        ToolKind::ToolKindEnum getToolKind()throw();
+        ToolKind::ToolKindEnum getToolKind() throw() override;
 
-        ItemSelectionManager *getItemSelectionManager()throw();
+        ItemSelectionManager* getItemSelectionManager() throw() override;
 
-        const VSQ_NS::Sequence *getSequence()throw();
+        vsq::Sequence const* getSequence() throw() override;
 
-        void undo();
+        void undo() override;
 
-        void redo();
+        void redo() override;
 
-        bool canUndo();
+        bool canUndo() override;
 
-        bool canRedo();
+        bool canRedo() override;
 
-        void execute(AbstractCommand *command);
+        void execute(AbstractCommand *command) override;
 
-        void removeEvent(int trackIndex, const VSQ_NS::Event *item);
+        void removeEvent(int trackIndex, vsq::Event const* item) override;
 
-        void removeSelectedItems();
+        void removeSelectedItems() override;
 
-        void setApplicationShortcutEnabled(bool enabled);
+        void setApplicationShortcutEnabled(bool enabled) override;
 
-        void notifyItemSelectionChange()throw();
+        void notifyItemSelectionChange() throw();
 
-        const VSQ_NS::PhoneticSymbolDictionary::Element *attachPhoneticSymbol(const string &word);
+        vsq::PhoneticSymbolDictionary::Element const* attachPhoneticSymbol(std::string const& word) override;
 
         /**
          * @brief トラックのビューを設定する
@@ -181,14 +181,14 @@ namespace cadencii {
          * @todo 三連符かどうかのフラグを渡せるようにする
          * @todo テスト
          */
-        VSQ_NS::tick_t getQuantizedTick(VSQ_NS::tick_t before, QuantizeMode::QuantizeModeEnum mode);
+        vsq::tick_t getQuantizedTick(vsq::tick_t before, QuantizeMode::QuantizeModeEnum mode);
 
     private:
         /**
          * @brief sequence のインスタンスを置き換えたのち、各コンポーネントに sequence のインスタンスが置き換わったことを通知する
          * @param sequence 置き換わるインスタンス
          */
-        void setupSequence(const VSQ_NS::Sequence &sequence);
+        void setupSequence(const vsq::Sequence &sequence);
 
         /**
          * @brief すべてのウィジェットを再描画する
@@ -199,7 +199,7 @@ namespace cadencii {
          * @brief ソングポジションを設定する
          * @param songPosition ソングポジション
          */
-        void setSongPosition(VSQ_NS::tick_t songPosition);
+        void setSongPosition(vsq::tick_t songPosition);
     };
 }
 

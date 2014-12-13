@@ -20,7 +20,7 @@
 #include <cstdio>
 #include <string>
 #include "AudioSender.hpp"
-#include "../vsq/BitConverter.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 namespace audio {
@@ -215,7 +215,7 @@ namespace audio {
                 return false;
             }
             uint64_t chunksize
-                    = (uint64_t)VSQ_NS::BitConverter::makeUInt32LE(buf);
+                    = (uint64_t)vsq::BitConverter::makeUInt32LE(buf);
             uint64_t fmt_chunk_end_location
                     = (uint64_t)ftell(stream) + chunksize;
 
@@ -241,7 +241,7 @@ namespace audio {
                 return false;
             }
             sampleRate = static_cast<int>(
-                        VSQ_NS::BitConverter::makeUInt32LE(buf));
+                        vsq::BitConverter::makeUInt32LE(buf));
 
             // データ速度
             readCount = fread(buf, sizeof(char), 4, stream);
@@ -284,7 +284,7 @@ namespace audio {
                 return false;
             }
             uint32_t size = static_cast<uint32_t>(
-                        VSQ_NS::BitConverter::makeUInt32LE(buf));
+                        vsq::BitConverter::makeUInt32LE(buf));
             totalSamples = size / (channels * bytesPerSample);
 
             isReady = true;
@@ -317,18 +317,18 @@ namespace audio {
             if (channels == 2) {
                 for (int i = 0; i < actualBufferLegnth; i++) {
                     bufferLeft[i]
-                        = VSQ_NS::BitConverter::makeInt16LE(temporaryBufferIndex)
+                        = vsq::BitConverter::makeInt16LE(temporaryBufferIndex)
                             * coeff;
                     temporaryBufferIndex += bytesPerSample;
                     bufferRight[i]
-                        = VSQ_NS::BitConverter::makeInt16LE(temporaryBufferIndex)
+                        = vsq::BitConverter::makeInt16LE(temporaryBufferIndex)
                             * coeff;
                     temporaryBufferIndex += bytesPerSample;
                 }
             } else {
                 for (int i = 0; i < actualBufferLegnth; i++) {
                     double value
-                        = VSQ_NS::BitConverter::makeInt16LE(temporaryBufferIndex)
+                        = vsq::BitConverter::makeInt16LE(temporaryBufferIndex)
                             * coeff;
                     temporaryBufferIndex += bytesPerSample;
                     bufferRight[i] = value;

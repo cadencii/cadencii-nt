@@ -57,7 +57,7 @@ namespace cadencii {
 
         void *getScrollEventSender();
 
-        void setDrawOffset(VSQ_NS::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset);
 
         void paintMainContent(QPainter *painter, const QRect &rect);
 
@@ -75,7 +75,7 @@ namespace cadencii {
          * @brief 歌手変更イベントを指定された位置に描画する
          */
         void paintSinger(
-                QPainter *painter, const VSQ_NS::Event *singerEvent,
+                QPainter *painter, const vsq::Event *singerEvent,
                 int x, SingerItemState state);
     };
 }

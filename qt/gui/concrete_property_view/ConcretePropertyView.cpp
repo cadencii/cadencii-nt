@@ -17,6 +17,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <sstream>
 #include "ConcretePropertyView.hpp"
 #include "../../SignalEmitWorker.hpp"
 
@@ -137,7 +138,7 @@ namespace cadencii {
     void ConcretePropertyView::updateTree() {
         ConcretePropertyView *parent = this;
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *list = manager->getEventItemList();
+        auto const* list = manager->getEventItemList();
 
         if (list->empty()) {
             parent->clear();
@@ -149,16 +150,15 @@ namespace cadencii {
         parent->addProperty(parent->notelocation);
         parent->addProperty(parent->vibrato);
 
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
-                = list->begin();
+        auto i = list->begin();
 
         // 複数のイベントのプロパティを表示する場合、すべてのイベントのプロパティが同じもののみ、
         // 値を表示する。イベント同士で値が違うものは、空欄とする
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
+        const vsq::Sequence *sequence = controllerAdapter->getSequence();
         blockSignals(true);
         proxy.begin();
         for (; i != list->end(); ++i) {
-            const VSQ_NS::Event *item = i->first;
+            vsq::Event const* item = i->first;
             proxy.add(item, sequence);
         }
         proxy.commit();
@@ -171,17 +171,15 @@ namespace cadencii {
 
     void ConcretePropertyView::onValueChangedSlot(const QtProperty *property) {
         ItemSelectionManager *manager = controllerAdapter->getItemSelectionManager();
-        const std::map<const VSQ_NS::Event *, VSQ_NS::Event> *itemList
-                = manager->getEventItemList();
-        std::map<const VSQ_NS::Event *, VSQ_NS::Event>::const_iterator i
-                = itemList->begin();
+        auto const* itemList = manager->getEventItemList();
+        auto i = itemList->begin();
 
-        const VSQ_NS::Sequence *sequence = controllerAdapter->getSequence();
-        std::map<int, VSQ_NS::Event> editedItemList;
+        vsq::Sequence const* sequence = controllerAdapter->getSequence();
+        std::map<int, std::shared_ptr<vsq::Event>> editedItemList;
         for (; i != itemList->end(); ++i) {
-            VSQ_NS::Event item = *(i->first);
+            vsq::Event item = *(i->first);
             fetchProperty(property, &item, sequence);
-            editedItemList.insert(std::make_pair(item.id, item));
+            editedItemList[item.id] = std::make_shared<vsq::Event>(item);
         }
 
         EditEventCommand command(trackIndex, editedItemList);
@@ -190,66 +188,66 @@ namespace cadencii {
 
     void ConcretePropertyView::fetchProperty(
             const QtProperty *property,
-            VSQ_NS::Event *event, const VSQ_NS::Sequence *sequence) {
-        VSQ_NS::Lyric lyric = event->lyricHandle.getLyricAt(0);
+            vsq::Event *event, const vsq::Sequence *sequence) {
+        vsq::Lyric lyric = event->lyricHandle.get(0);
         if (property == lyricPhrase) {
             lyric.phrase = proxy.getLyricPhrase();
             if (!lyric.isProtected) {
-                const VSQ_NS::PhoneticSymbolDictionary::Element *element
+                const vsq::PhoneticSymbolDictionary::Element *element
                         = controllerAdapter->attachPhoneticSymbol(lyric.phrase);
-                if (element) lyric.setPhoneticSymbol(element->symbol());
+                if (element) lyric.phoneticSymbol(element->symbol());
             }
-            event->lyricHandle.setLyricAt(0, lyric);
+            event->lyricHandle.set(0, lyric);
         } else if (property == lyricPhoneticSymbol) {
-            lyric.setPhoneticSymbol(proxy.getLyricPhoneticSymbol());
-            event->lyricHandle.setLyricAt(0, lyric);
+            lyric.phoneticSymbol(proxy.getLyricPhoneticSymbol());
+            event->lyricHandle.set(0, lyric);
         } else if (property == lyricConsonantAdjustment) {
             std::string adjustment
-                    = StringUtil::replace(proxy.getLyricConsonantAdjustment(), " ", ",");
-            lyric.setConsonantAdjustment(adjustment);
-            event->lyricHandle.setLyricAt(0, lyric);
+                    = vsq::StringUtil::replace(proxy.getLyricConsonantAdjustment(), " ", ",");
+            lyric.consonantAdjustment(adjustment);
+            event->lyricHandle.set(0, lyric);
         } else if (property == lyricProtect) {
             lyric.isProtected = proxy.getLyricProtect() == 2;
-            event->lyricHandle.setLyricAt(0, lyric);
+            event->lyricHandle.set(0, lyric);
         } else if (property == noteLength) {
-            event->setLength(StringUtil::parseInt<VSQ_NS::tick_t>(proxy.getNoteLength()));
+            event->length(vsq::StringUtil::parseInt<vsq::tick_t>(proxy.getNoteLength()));
         } else if (property == noteNumber) {
-            event->note = StringUtil::parseInt<int>(proxy.getNoteNumber());
+            event->note = vsq::StringUtil::parseInt<int>(proxy.getNoteNumber());
         } else if (property == vibratoType) {
             if (proxy.getVibratoType() == 0) {
-                event->vibratoHandle = VSQ_NS::Handle(VSQ_NS::HandleType::UNKNOWN);
+                event->vibratoHandle = vsq::Handle(vsq::HandleType::UNKNOWN);
             } else {
                 HandleStub handle = static_cast<HandleStub>(event->vibratoHandle);
-                handle.setHandleType(VSQ_NS::HandleType::VIBRATO);
-                handle.iconId = "$0404" + StringUtil::toString(proxy.getVibratoType() - 1, "%04x");
+                handle.setHandleType(vsq::HandleType::VIBRATO);
+                handle.iconId = "$0404" + vsq::StringUtil::toString(proxy.getVibratoType() - 1, "%04x");
                 event->vibratoHandle = handle;
             }
         } else if (property == vibratoLength) {
-            event->vibratoHandle.setLength(StringUtil::parseInt<int>(proxy.getVibratoLength()));
+            event->vibratoHandle.length(vsq::StringUtil::parseInt<int>(proxy.getVibratoLength()));
         } else if (property == notelocationClock) {
             try {
-                event->clock = StringUtil::parseInt<VSQ_NS::tick_t>(proxy.getNotelocationClock());
-            } catch(StringUtil::IntegerParseException &) {}
+                event->tick = vsq::StringUtil::parseInt<vsq::tick_t>(proxy.getNotelocationClock());
+            } catch(vsq::StringUtil::IntegerParseException &) {}
         } else {
             int measure, beat, tick;
-            proxy.getNotelocation(event->clock, &measure, &beat, &tick, sequence);
+            proxy.getNotelocation(event->tick, &measure, &beat, &tick, sequence);
             if (property == notelocationMeasure) {
                 measure
-                    = StringUtil::parseInt<int>(proxy.getNotelocationMeasure());
+                    = vsq::StringUtil::parseInt<int>(proxy.getNotelocationMeasure());
             }
             if (property == notelocationBeat) {
-                beat = StringUtil::parseInt<int>(proxy.getNotelocationBeat());
+                beat = vsq::StringUtil::parseInt<int>(proxy.getNotelocationBeat());
             }
             if (property == notelocationTick) {
-                tick = StringUtil::parseInt<int>(proxy.getNotelocationTick());
+                tick = vsq::StringUtil::parseInt<int>(proxy.getNotelocationTick());
             }
-            int premeasure = sequence->getPreMeasure();
-            VSQ_NS::tick_t clock
-                    = sequence->timesigList.getClockFromBarCount(measure + premeasure - 1);
-            VSQ_NS::Timesig timesig = sequence->timesigList.getTimesigAt(clock);
+            int premeasure = sequence->preMeasure();
+            vsq::tick_t clock
+                    = sequence->timesigList.tickFromBarCount(measure + premeasure - 1);
+            vsq::Timesig timesig = sequence->timesigList.timesigAt(clock);
             int step = 480 * 4 / timesig.denominator;
             clock += (beat - 1) * step + tick;
-            event->clock = clock;
+            event->tick = clock;
         }
     }
 }

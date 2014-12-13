@@ -49,32 +49,32 @@ namespace cadencii {
         isFirst = true;
     }
 
-    void PropertyValueProxy::add(const VSQ_NS::Event *item, const VSQ_NS::Sequence *sequence) {
-        VSQ_NS::Lyric lyric("a", "a");
-        if (0 < item->lyricHandle.getLyricCount()) {
-            lyric = item->lyricHandle.getLyricAt(0);
+    void PropertyValueProxy::add(const vsq::Event *item, const vsq::Sequence *sequence) {
+        vsq::Lyric lyric("a", "a");
+        if (0 < item->lyricHandle.size()) {
+            lyric = item->lyricHandle.get(0);
         }
 
-        VSQ_NS::tick_t clock = item->clock;
+        vsq::tick_t clock = item->tick;
         int measure, beat, tick;
-        getNotelocation(item->clock, &measure, &beat, &tick, sequence);
+        getNotelocation(item->tick, &measure, &beat, &tick, sequence);
 
         int vibType = 0;
         int vibLength = 0;
-        if (item->vibratoHandle.getHandleType() == VSQ_NS::HandleType::VIBRATO) {
-            if (item->vibratoHandle.iconId.length() == 9 && 0 < item->getLength()) {
+        if (item->vibratoHandle.type() == vsq::HandleType::VIBRATO) {
+            if (item->vibratoHandle.iconId.length() == 9 && 0 < item->length()) {
                 std::string vibTypeString = item->vibratoHandle.iconId.substr(6);
-                vibType = StringUtil::parseInt<int>(vibTypeString, 16) + 1;
-                vibLength = item->vibratoHandle.getLength();
+                vibType = vsq::StringUtil::parseInt<int>(vibTypeString, 16) + 1;
+                vibLength = item->vibratoHandle.length();
             }
         }
 
         setValue(&lyricPhrase, lyric.phrase);
-        setValue(&lyricPhoneticSymbol, lyric.getPhoneticSymbol());
-        setValue(&lyricConsonantAdjustment, lyric.getConsonantAdjustment());
+        setValue(&lyricPhoneticSymbol, lyric.phoneticSymbol());
+        setValue(&lyricConsonantAdjustment, lyric.consonantAdjustment());
         setValue(&lyricProtect, lyric.isProtected ? 2 : 1);
 
-        setValue(&noteLength, item->getLength());
+        setValue(&noteLength, item->length());
         setValue(&noteNumber, item->note);
 
         setValue(&notelocationClock, clock);
@@ -95,19 +95,19 @@ namespace cadencii {
             isDefault[&lyricConsonantAdjustment] ? "" : lyricConsonantAdjustment);
         setLyricProtect(isDefault[&lyricProtect] ? 0 : lyricProtect);
 
-        setNoteLength(isDefault[&noteLength] ? "" : StringUtil::toString(noteLength));
-        setNoteNumber(isDefault[&noteNumber] ? "" : StringUtil::toString(noteNumber));
+        setNoteLength(isDefault[&noteLength] ? "" : vsq::StringUtil::toString(noteLength));
+        setNoteNumber(isDefault[&noteNumber] ? "" : vsq::StringUtil::toString(noteNumber));
 
         setNotelocationClock(
-            isDefault[&notelocationClock] ? "" : StringUtil::toString(notelocationClock));
+            isDefault[&notelocationClock] ? "" : vsq::StringUtil::toString(notelocationClock));
         setNotelocationMeasure(
-            isDefault[&notelocationMeasure] ? "" : StringUtil::toString(notelocationMeasure));
+            isDefault[&notelocationMeasure] ? "" : vsq::StringUtil::toString(notelocationMeasure));
         setNotelocationBeat(
-            isDefault[&notelocationBeat] ? "" : StringUtil::toString(notelocationBeat));
+            isDefault[&notelocationBeat] ? "" : vsq::StringUtil::toString(notelocationBeat));
         setNotelocationTick(
-            isDefault[&notelocationTick] ? "" : StringUtil::toString(notelocationTick));
+            isDefault[&notelocationTick] ? "" : vsq::StringUtil::toString(notelocationTick));
 
         setVibratoType(isDefault[&vibratoType] ? 0 : vibratoType);
-        setVibratoLength(isDefault[&vibratoLength] ? "" : StringUtil::toString(vibratoLength));
+        setVibratoLength(isDefault[&vibratoLength] ? "" : vsq::StringUtil::toString(vibratoLength));
     }
 }
