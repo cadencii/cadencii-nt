@@ -115,11 +115,9 @@ namespace cadencii {
 
         void notifyItemSelectionChange() throw();
 
-        std::string getSaveFilePath()const;
+        std::string getSaveFilePath() const override;
 
-        void saveAsXVSQFile(const string &filePath);
-
-        void notifyItemSelectionChange()throw();
+        void saveAsXVSQFile(std::string const& filePath) override;
 
         vsq::PhoneticSymbolDictionary::Element const* attachPhoneticSymbol(std::string const& word) override;
 

@@ -17,7 +17,7 @@
 
 #include <string>
 #include <map>
-#include "../../vsq/StringUtil.hpp"
+#include <libvsq/libvsq.h>
 
 namespace cadencii {
 
@@ -63,7 +63,7 @@ namespace cadencii {
         std::string getElementName(const std::string &curveName)const {
             std::map<std::string, std::string>::const_iterator i
                     = tagNameMap.begin();
-            std::string lowerCurveName = StringUtil::toLower(curveName);
+            std::string lowerCurveName = vsq::StringUtil::toLower(curveName);
             for (; i != tagNameMap.end(); ++i) {
                 std::string elementName = i->first;
                 if (i->second == lowerCurveName) {

@@ -446,10 +446,10 @@ namespace cadencii {
         return saveFilePath;
     }
 
-    void Controller::saveAsXVSQFile(const string &filePath) {
+    void Controller::saveAsXVSQFile(std::string const& filePath) {
         saveFilePath = filePath;
         XVSQFileWriter writer;
-        VSQ_NS::FileOutputStream stream(filePath);
+        vsq::FileOutputStream stream(filePath);
         writer.write(model.getSequence(), &stream);
     }
 }

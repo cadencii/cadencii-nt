@@ -7,6 +7,7 @@ TEMPLATE = app
 TARGET = ui-test
 DEPENDPATH += .
 INCLUDEPATH += . ../ /usr/local/include ../vsq/include
+CONFIG += c++11
 
 include(../qt-property-browser/src/qtpropertybrowser.pri)
 include(../cadencii_common.pri)

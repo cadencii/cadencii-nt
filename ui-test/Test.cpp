@@ -50,7 +50,7 @@ void Test::removeSelectedEvents(){
 
         // デフォルトで追加されている歌手変更イベントと、追加した音符イベントで
         // 合計 3 つのイベントがあるはず
-        QCOMPARE(3, container.controller.getSequence()->track(0)->events()->size());
+        QCOMPARE(3, container.controller.getSequence()->track(0).events().size());
     }
 
     // 今しがた追加した音符を選択状態にする
@@ -141,16 +141,7 @@ void Test::changeTrackIndex(){
     container.controller.showMainView();
 
     // トラックが 2 つある VSQ ファイルを読み込ませる。
-    // 読み込みに時間かかるかもしれないので、適当に待つ.
     container.controller.openVSQFile( "./fixture/two-tracks.vsq" );
-    int waitCount = 0;
-    const int MAX_WAIT_COUNT = 20;
-
-    while (container.controller.getSequence()->tracks().size() != 2) {
-        QTestEventLoop::instance().enterLoop( 1 );
-        waitCount++;
-        QVERIFY( waitCount <= MAX_WAIT_COUNT );
-    }
     QCOMPARE(container.controller.getSequence()->tracks().size(), (size_t)2);
     QCOMPARE( stub->getTrackIndex(), 0 );
 
