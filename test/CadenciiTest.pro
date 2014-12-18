@@ -1,4 +1,6 @@
+INCLUDEPATH += ../vsq/include ext/gtest/include ext/gtest
 mac:INCLUDEPATH += /usr/local/include
+CONFIG += c++11
 
 SOURCES += \
     enum/QuantizeModeTest.cpp \
@@ -16,7 +18,10 @@ SOURCES += \
     PropertyValueProxyTest.cpp \
     sequence/io/XVSQFileReaderTest.cpp \
     sequence/io/XVSQFileWriterTest.cpp \
-    sequence/io/XVSQSpecTest.cpp
+    sequence/io/XVSQSpecTest.cpp \
+    ext/gtest/src/gtest_main.cc \
+    ext/gtest/src/gtest-all.cc \
+    ../vsq/src/*.cpp \
 
 HEADERS += \
     Util.hpp \

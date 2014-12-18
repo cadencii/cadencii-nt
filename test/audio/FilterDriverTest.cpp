@@ -3,6 +3,7 @@
 #include "MemoryAudioOutput.hpp"
 #include "AudioSenderStub.hpp"
 #include <stdint.h>
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace cadencii::audio;
@@ -10,7 +11,7 @@ using namespace cadencii::audio;
 class AmplifierStub : public AudioFilter{
 private:
     double amplify;
-    AudioReceiver *receiver;
+    std::shared_ptr<AudioReceiver> receiver;
 
 public:
     explicit AmplifierStub( int sampleRate, double amplify ) :
@@ -19,7 +20,7 @@ public:
         this->amplify = amplify;
     }
 
-    void setReceiver( AudioReceiver *receiver ){
+    void setReceiver(std::shared_ptr<AudioReceiver> const& receiver) override {
         this->receiver = receiver;
     }
 
@@ -40,7 +41,7 @@ class ReduceSampleFilter : public AudioFilter{
 private:
     uint64_t outgoingLength;
     uint64_t incomingLength;
-    AudioReceiver *receiver;
+    std::shared_ptr<AudioReceiver> receiver;
 
 public:
     explicit ReduceSampleFilter( int sampleRate ) :
@@ -71,14 +72,15 @@ public:
     void flush(){
     }
 
-    void setReceiver( AudioReceiver *receiver ){
+    void setReceiver(std::shared_ptr<AudioReceiver> const& receiver) override
+    {
         this->receiver = receiver;
     }
 };
 
 class AddSampleFilter : public AudioFilter{
 private:
-    AudioReceiver *receiver;
+    std::shared_ptr<AudioReceiver> receiver;
 
 public:
     explicit AddSampleFilter( int sampleRate ) :
@@ -96,89 +98,78 @@ public:
         receiver->flush();
     }
 
-    void setReceiver( AudioReceiver *receiver ){
+    void setReceiver(std::shared_ptr<AudioReceiver> const& receiver) override
+    {
         this->receiver = receiver;
     }
 };
 
-class FilterDriverTest : public CppUnit::TestCase{
-public:
-    void test(){
-        const int sampleRate = 44100;
-        const double value = 1.0;
-        const double amplify = 2.0;
-        AudioSenderStub input( sampleRate, value );
-        AmplifierStub filter( sampleRate, amplify );
-        FilterDriver driver( sampleRate, &filter );
-        driver.setSender( &input );
+TEST(FilterDriverTest, test)
+{
+    const int sampleRate = 44100;
+    const double value = 1.0;
+    const double amplify = 2.0;
+    AudioSenderStub input( sampleRate, value );
+    AmplifierStub filter( sampleRate, amplify );
+    FilterDriver driver( sampleRate, &filter );
+    driver.setSender( &input );
 
-        const int length = 23;
-        double *left = new double[length];
-        double *right = new double[length];
-        driver.pull( left, right, length );
+    const int length = 23;
+    double *left = new double[length];
+    double *right = new double[length];
+    driver.pull( left, right, length );
 
-        for( int i = 0; i < length; i++ ){
-            CPPUNIT_ASSERT_EQUAL( value * amplify, left[i] );
-            CPPUNIT_ASSERT_EQUAL( value * amplify, right[i] );
-        }
-
-        delete [] left;
-        delete [] right;
+    for( int i = 0; i < length; i++ ){
+        EXPECT_EQ( value * amplify, left[i] );
+        EXPECT_EQ( value * amplify, right[i] );
     }
 
-    void testWhenFilterDecreaseSampleRate(){
-        const int sampleRate = 44100;
-        const double value = 1.0;
-        AudioSenderStub input( sampleRate, value );
-        ReduceSampleFilter filter( sampleRate );
-        FilterDriver driver( sampleRate, &filter );
-        driver.setSender( &input );
+    delete [] left;
+    delete [] right;
+}
 
-        const int length = 23;
-        double *left = new double[length];
-        double *right = new double[length];
-        driver.pull( left, right, length );
+TEST(FilterDriverTest, testWhenFilterDecreaseSampleRate)
+{
+    const int sampleRate = 44100;
+    const double value = 1.0;
+    AudioSenderStub input( sampleRate, value );
+    ReduceSampleFilter filter( sampleRate );
+    FilterDriver driver( sampleRate, &filter );
+    driver.setSender( &input );
 
-        for( int i = 0; i < length; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), value, left[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), value, right[i] );
-        }
+    const int length = 23;
+    double *left = new double[length];
+    double *right = new double[length];
+    driver.pull( left, right, length );
 
-        delete [] left;
-        delete [] right;
+    for( int i = 0; i < length; i++ ){
+        EXPECT_EQ(value, left[i]);
+        EXPECT_EQ(value, right[i]);
     }
 
-    void testWhenFilterIncreaseSampleRate(){
-        const int sampleRate = 44100;
-        const double value = 1.0;
-        AudioSenderStub input( sampleRate, value );
-        AddSampleFilter filter( sampleRate );
-        FilterDriver driver( sampleRate, &filter );
-        driver.setSender( &input );
+    delete [] left;
+    delete [] right;
+}
 
-        const int length = 29;
-        double *left = new double[length];
-        double *right = new double[length];
+TEST(FilterDriverTest, testWhenFilterIncreaseSampleRate)
+{
+    const int sampleRate = 44100;
+    const double value = 1.0;
+    AudioSenderStub input( sampleRate, value );
+    AddSampleFilter filter( sampleRate );
+    FilterDriver driver( sampleRate, &filter );
+    driver.setSender( &input );
 
-        driver.pull( left, right, length );
-        for( int i = 0; i < length; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), value, left[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), value, right[i] );
-        }
+    const int length = 29;
+    double *left = new double[length];
+    double *right = new double[length];
 
-        delete [] left;
-        delete [] right;
+    driver.pull( left, right, length );
+    for( int i = 0; i < length; i++ ){
+        EXPECT_EQ(value, left[i]);
+        EXPECT_EQ(value, right[i]);
     }
 
-    CPPUNIT_TEST_SUITE( FilterDriverTest );
-    CPPUNIT_TEST( test );
-    CPPUNIT_TEST( testWhenFilterDecreaseSampleRate );
-    CPPUNIT_TEST( testWhenFilterIncreaseSampleRate );
-    CPPUNIT_TEST_SUITE_END();
-};
-
-REGISTER_TEST_SUITE( FilterDriverTest );
+    delete [] left;
+    delete [] right;
+}

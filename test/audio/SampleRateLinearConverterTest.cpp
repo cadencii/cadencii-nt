@@ -4,6 +4,7 @@
 #include "../../audio/SampleRateLinearConverter.hpp"
 #include "AudioGeneratorStub.hpp"
 #include "MemoryAudioOutput.hpp"
+#include <gtest/gtest.h>
 
 using namespace std;
 
@@ -20,255 +21,239 @@ public:
     }
 };
 
-class SampleRateLinearConverterTest : public CppUnit::TestCase{
-public:
-    void testIncreaseSampleRate(){
-        const int convertFrom = 4;
-        const int convertTo = 13;
+TEST(SampleRateLinearConverterTest, testIncreaseSampleRate)
+{
+    const int convertFrom = 4;
+    const int convertTo = 13;
 
-        const int length = 6;
-        double fixture[length];
-        fixture[0] = -0.2; // 0.0 sec
-        fixture[1] = 0.0; // 0.25 sec
-        fixture[2] = 0.4; // 0.5 sec
-        fixture[3] = 0.6; // 0.75 sec
-        fixture[4] = 0.7; // 1.0 sec
-        fixture[5] = 0.1; // 1.25 sec
-        AudioGeneratorStub input( convertFrom, fixture, length );
+    const int length = 6;
+    double fixture[length];
+    fixture[0] = -0.2; // 0.0 sec
+    fixture[1] = 0.0; // 0.25 sec
+    fixture[2] = 0.4; // 0.5 sec
+    fixture[3] = 0.6; // 0.75 sec
+    fixture[4] = 0.7; // 1.0 sec
+    fixture[5] = 0.1; // 1.25 sec
+    AudioGeneratorStub input( convertFrom, fixture, length );
 
-        MemoryAudioOutput out( convertTo );
+    auto out = std::make_shared<MemoryAudioOutput>(convertTo);
 
-        SampleRateLinearConverterStub filter( convertFrom, convertTo, 10 );
+    auto filter = std::make_shared<SampleRateLinearConverterStub>(convertFrom, convertTo, 10);
 
-        input.setReceiver( &filter );
-        filter.setReceiver( &out );
-        input.start( length );
+    input.setReceiver(filter);
+    filter->setReceiver(out);
+    input.start( length );
 
-        int expectedLength = 17; // = convertTo * (length - 1) / convertFrom + 1;
-        CPPUNIT_ASSERT_EQUAL( (uint64_t)expectedLength, out.getBufferLength() );
+    int expectedLength = 17; // = convertTo * (length - 1) / convertFrom + 1;
+    EXPECT_EQ( (uint64_t)expectedLength, out->getBufferLength() );
 
-        double *expected = new double[expectedLength];
-        expected[0] = /* 0 sec */ fixture[0];
+    double *expected = new double[expectedLength];
+    expected[0] = /* 0 sec */ fixture[0];
 
-        expected[1] = /* 0.0769230769230769 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (1.0 / convertTo - 0.0 / convertFrom);
-        expected[2] = /* 0.153846153846154 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (2.0 / convertTo - 0.0 / convertFrom);
-        expected[3] = /* 0.230769230769231 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (3.0 / convertTo - 0.0 / convertFrom);
+    expected[1] = /* 0.0769230769230769 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (1.0 / convertTo - 0.0 / convertFrom);
+    expected[2] = /* 0.153846153846154 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (2.0 / convertTo - 0.0 / convertFrom);
+    expected[3] = /* 0.230769230769231 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (3.0 / convertTo - 0.0 / convertFrom);
 
-        expected[4] = /* 0.307692307692308 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (4.0 / convertTo - 1.0 / convertFrom);
-        expected[5] = /* 0.384615384615385 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (5.0 / convertTo - 1.0 / convertFrom);
-        expected[6] = /* 0.461538461538462 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (6.0 / convertTo - 1.0 / convertFrom);
+    expected[4] = /* 0.307692307692308 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (4.0 / convertTo - 1.0 / convertFrom);
+    expected[5] = /* 0.384615384615385 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (5.0 / convertTo - 1.0 / convertFrom);
+    expected[6] = /* 0.461538461538462 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (6.0 / convertTo - 1.0 / convertFrom);
 
-        expected[7] = /* 0.538461538461538 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (7.0 / convertTo - 2.0 / convertFrom);
-        expected[8] = /* 0.615384615384615 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (8.0 / convertTo - 2.0 / convertFrom);
-        expected[9] = /* 0.692307692307692 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (9.0 / convertTo - 2.0 / convertFrom);
+    expected[7] = /* 0.538461538461538 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (7.0 / convertTo - 2.0 / convertFrom);
+    expected[8] = /* 0.615384615384615 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (8.0 / convertTo - 2.0 / convertFrom);
+    expected[9] = /* 0.692307692307692 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (9.0 / convertTo - 2.0 / convertFrom);
 
-        expected[10] = /* 0.769230769230769 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (10.0 / convertTo - 3.0 / convertFrom);
-        expected[11] = /* 0.846153846153846 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (11.0 / convertTo - 3.0 / convertFrom);
-        expected[12] = /* 0.923076923076923 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (12.0 / convertTo - 3.0 / convertFrom);
+    expected[10] = /* 0.769230769230769 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (10.0 / convertTo - 3.0 / convertFrom);
+    expected[11] = /* 0.846153846153846 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (11.0 / convertTo - 3.0 / convertFrom);
+    expected[12] = /* 0.923076923076923 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (12.0 / convertTo - 3.0 / convertFrom);
 
-        expected[13] = /* 1 sec */ fixture[4];
+    expected[13] = /* 1 sec */ fixture[4];
 
-        expected[14] = /* 1.07692307692308 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (14.0 / convertTo - 4.0 / convertFrom);
-        expected[15] = /* 1.15384615384615 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (15.0 / convertTo - 4.0 / convertFrom);
-        expected[16] = /* 1.23076923076923 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (16.0 / convertTo - 4.0 / convertFrom);
+    expected[14] = /* 1.07692307692308 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (14.0 / convertTo - 4.0 / convertFrom);
+    expected[15] = /* 1.15384615384615 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (15.0 / convertTo - 4.0 / convertFrom);
+    expected[16] = /* 1.23076923076923 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (16.0 / convertTo - 4.0 / convertFrom);
 
-        double *actualLeft = new double[expectedLength];
-        double *actualRight = new double[expectedLength];
-        out.getResult( actualLeft, actualRight, expectedLength );
+    double *actualLeft = new double[expectedLength];
+    double *actualRight = new double[expectedLength];
+    out->getResult( actualLeft, actualRight, expectedLength );
 
-        for( int i = 0; i < expectedLength; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), expected[i], actualLeft[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), expected[i], actualRight[i] );
-        }
-
-        delete [] expected;
-        delete [] actualLeft;
-        delete [] actualRight;
+    for( int i = 0; i < expectedLength; i++ ){
+        EXPECT_FLOAT_EQ(expected[i], actualLeft[i]);
+        EXPECT_FLOAT_EQ(expected[i], actualRight[i]);
     }
 
-    void testDecreaseSampleRate(){
-        const int convertFrom = 17;
-        const int convertTo = 4;
+    delete [] expected;
+    delete [] actualLeft;
+    delete [] actualRight;
+}
 
-        const int length = 6;
-        double fixture[length];
-        fixture[0] = 0.0;/* 0 sec */
-        fixture[1] = 0.5;/* 0.058823529 sec */
-        fixture[2] = 0.7;/* 0.117647059 sec */
-        fixture[3] = 0.6;/* 0.176470588 sec */
-        fixture[4] = -0.1;/* 0.235294118 sec */
-        fixture[5] = -0.3;/* 0.294117647 sec */
-        AudioGeneratorStub input( convertFrom, fixture, length );
+TEST(SampleRateLinearConverterTest, testDecreaseSampleRate)
+{
+    const int convertFrom = 17;
+    const int convertTo = 4;
 
-        MemoryAudioOutput out( convertTo );
+    const int length = 6;
+    double fixture[length];
+    fixture[0] = 0.0;/* 0 sec */
+    fixture[1] = 0.5;/* 0.058823529 sec */
+    fixture[2] = 0.7;/* 0.117647059 sec */
+    fixture[3] = 0.6;/* 0.176470588 sec */
+    fixture[4] = -0.1;/* 0.235294118 sec */
+    fixture[5] = -0.3;/* 0.294117647 sec */
+    AudioGeneratorStub input( convertFrom, fixture, length );
 
-        SampleRateLinearConverterStub filter( convertFrom, convertTo, 13 );
+    auto out = std::make_shared<MemoryAudioOutput>(convertTo);
 
-        input.setReceiver( &filter );
-        filter.setReceiver( &out );
-        input.start( length );
+    auto filter = std::make_shared<SampleRateLinearConverterStub>(convertFrom, convertTo, 13);
 
-        int expectedLength = 2; // = convertTo * (length - 1) / convertFrom + 1;
-        CPPUNIT_ASSERT_EQUAL( (uint64_t)expectedLength, out.getBufferLength() );
+    input.setReceiver(filter);
+    filter->setReceiver(out);
+    input.start( length );
 
-        double *expected = new double[expectedLength];
-        expected[0] = /* 0 sec */ fixture[0];
-        expected[1] = /* 0.25 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (1.0 / convertTo - 4.0 / convertFrom);
+    int expectedLength = 2; // = convertTo * (length - 1) / convertFrom + 1;
+    EXPECT_EQ( (uint64_t)expectedLength, out->getBufferLength() );
 
-        double *actualLeft = new double[expectedLength];
-        double *actualRight = new double[expectedLength];
-        out.getResult( actualLeft, actualRight, expectedLength );
+    double *expected = new double[expectedLength];
+    expected[0] = /* 0 sec */ fixture[0];
+    expected[1] = /* 0.25 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (1.0 / convertTo - 4.0 / convertFrom);
 
-        for( int i = 0; i < expectedLength; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), expected[i], actualLeft[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), expected[i], actualRight[i] );
-        }
+    double *actualLeft = new double[expectedLength];
+    double *actualRight = new double[expectedLength];
+    out->getResult( actualLeft, actualRight, expectedLength );
 
-        delete [] expected;
-        delete [] actualLeft;
-        delete [] actualRight;
+    for( int i = 0; i < expectedLength; i++ ){
+        EXPECT_FLOAT_EQ(expected[i], actualLeft[i]);
+        EXPECT_FLOAT_EQ(expected[i], actualRight[i]);
     }
 
-    void testIncreaseSampleRateByMinimumPushLength(){
-        const int convertFrom = 4;
-        const int convertTo = 13;
+    delete [] expected;
+    delete [] actualLeft;
+    delete [] actualRight;
+}
 
-        const int length = 6;
-        double fixture[length];
-        fixture[0] = -0.2; // 0.0 sec
-        fixture[1] = 0.0; // 0.25 sec
-        fixture[2] = 0.4; // 0.5 sec
-        fixture[3] = 0.6; // 0.75 sec
-        fixture[4] = 0.7; // 1.0 sec
-        fixture[5] = 0.1; // 1.25 sec
+TEST(SampleRateLinearConverterTest, testIncreaseSampleRateByMinimumPushLength)
+{
+    const int convertFrom = 4;
+    const int convertTo = 13;
 
-        MemoryAudioOutput out( convertTo );
-        SampleRateLinearConverterStub filter( convertFrom, convertTo, 10 );
+    const int length = 6;
+    double fixture[length];
+    fixture[0] = -0.2; // 0.0 sec
+    fixture[1] = 0.0; // 0.25 sec
+    fixture[2] = 0.4; // 0.5 sec
+    fixture[3] = 0.6; // 0.75 sec
+    fixture[4] = 0.7; // 1.0 sec
+    fixture[5] = 0.1; // 1.25 sec
 
-        double value;
-        filter.setReceiver( &out );
-        value = fixture[0];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[1];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[2];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[3];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[4];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[5];
-        filter.push( &value, &value, 1, 0 );
-        filter.flush();
+    auto out = std::make_shared<MemoryAudioOutput>(convertTo);
+    SampleRateLinearConverterStub filter( convertFrom, convertTo, 10 );
 
-        int expectedLength = 17; // = convertTo * (length - 1) / convertFrom + 1;
-        CPPUNIT_ASSERT_EQUAL( (uint64_t)expectedLength, out.getBufferLength() );
+    double value;
+    filter.setReceiver(out);
+    value = fixture[0];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[1];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[2];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[3];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[4];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[5];
+    filter.push( &value, &value, 1, 0 );
+    filter.flush();
 
-        double *expected = new double[expectedLength];
-        expected[0] = /* 0 sec */ fixture[0];
+    int expectedLength = 17; // = convertTo * (length - 1) / convertFrom + 1;
+    EXPECT_EQ( (uint64_t)expectedLength, out->getBufferLength() );
 
-        expected[1] = /* 0.0769230769230769 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (1.0 / convertTo - 0.0 / convertFrom);
-        expected[2] = /* 0.153846153846154 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (2.0 / convertTo - 0.0 / convertFrom);
-        expected[3] = /* 0.230769230769231 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (3.0 / convertTo - 0.0 / convertFrom);
+    double *expected = new double[expectedLength];
+    expected[0] = /* 0 sec */ fixture[0];
 
-        expected[4] = /* 0.307692307692308 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (4.0 / convertTo - 1.0 / convertFrom);
-        expected[5] = /* 0.384615384615385 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (5.0 / convertTo - 1.0 / convertFrom);
-        expected[6] = /* 0.461538461538462 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (6.0 / convertTo - 1.0 / convertFrom);
+    expected[1] = /* 0.0769230769230769 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (1.0 / convertTo - 0.0 / convertFrom);
+    expected[2] = /* 0.153846153846154 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (2.0 / convertTo - 0.0 / convertFrom);
+    expected[3] = /* 0.230769230769231 sec */ fixture[0] + convertFrom * (fixture[1] - fixture[0]) * (3.0 / convertTo - 0.0 / convertFrom);
 
-        expected[7] = /* 0.538461538461538 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (7.0 / convertTo - 2.0 / convertFrom);
-        expected[8] = /* 0.615384615384615 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (8.0 / convertTo - 2.0 / convertFrom);
-        expected[9] = /* 0.692307692307692 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (9.0 / convertTo - 2.0 / convertFrom);
+    expected[4] = /* 0.307692307692308 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (4.0 / convertTo - 1.0 / convertFrom);
+    expected[5] = /* 0.384615384615385 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (5.0 / convertTo - 1.0 / convertFrom);
+    expected[6] = /* 0.461538461538462 sec */ fixture[1] + convertFrom * (fixture[2] - fixture[1]) * (6.0 / convertTo - 1.0 / convertFrom);
 
-        expected[10] = /* 0.769230769230769 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (10.0 / convertTo - 3.0 / convertFrom);
-        expected[11] = /* 0.846153846153846 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (11.0 / convertTo - 3.0 / convertFrom);
-        expected[12] = /* 0.923076923076923 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (12.0 / convertTo - 3.0 / convertFrom);
+    expected[7] = /* 0.538461538461538 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (7.0 / convertTo - 2.0 / convertFrom);
+    expected[8] = /* 0.615384615384615 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (8.0 / convertTo - 2.0 / convertFrom);
+    expected[9] = /* 0.692307692307692 sec */ fixture[2] + convertFrom * (fixture[3] - fixture[2]) * (9.0 / convertTo - 2.0 / convertFrom);
 
-        expected[13] = /* 1 sec */ fixture[4];
+    expected[10] = /* 0.769230769230769 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (10.0 / convertTo - 3.0 / convertFrom);
+    expected[11] = /* 0.846153846153846 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (11.0 / convertTo - 3.0 / convertFrom);
+    expected[12] = /* 0.923076923076923 sec */ fixture[3] + convertFrom * (fixture[4] - fixture[3]) * (12.0 / convertTo - 3.0 / convertFrom);
 
-        expected[14] = /* 1.07692307692308 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (14.0 / convertTo - 4.0 / convertFrom);
-        expected[15] = /* 1.15384615384615 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (15.0 / convertTo - 4.0 / convertFrom);
-        expected[16] = /* 1.23076923076923 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (16.0 / convertTo - 4.0 / convertFrom);
+    expected[13] = /* 1 sec */ fixture[4];
 
-        double *actualLeft = new double[expectedLength];
-        double *actualRight = new double[expectedLength];
-        out.getResult( actualLeft, actualRight, expectedLength );
+    expected[14] = /* 1.07692307692308 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (14.0 / convertTo - 4.0 / convertFrom);
+    expected[15] = /* 1.15384615384615 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (15.0 / convertTo - 4.0 / convertFrom);
+    expected[16] = /* 1.23076923076923 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (16.0 / convertTo - 4.0 / convertFrom);
 
-        for( int i = 0; i < expectedLength; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), expected[i], actualLeft[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), expected[i], actualRight[i] );
-        }
+    double *actualLeft = new double[expectedLength];
+    double *actualRight = new double[expectedLength];
+    out->getResult( actualLeft, actualRight, expectedLength );
 
-        delete [] expected;
-        delete [] actualLeft;
-        delete [] actualRight;
+    for( int i = 0; i < expectedLength; i++ ){
+        EXPECT_FLOAT_EQ(expected[i], actualLeft[i]);
+        EXPECT_FLOAT_EQ(expected[i], actualRight[i]);
     }
 
-    void testDecreaseSampleRateByMinimumPushLength(){
-        const int convertFrom = 17;
-        const int convertTo = 4;
+    delete [] expected;
+    delete [] actualLeft;
+    delete [] actualRight;
+}
 
-        const int length = 6;
-        double fixture[length];
-        fixture[0] = 0.0;/* 0 sec */
-        fixture[1] = 0.5;/* 0.058823529 sec */
-        fixture[2] = 0.7;/* 0.117647059 sec */
-        fixture[3] = 0.6;/* 0.176470588 sec */
-        fixture[4] = -0.1;/* 0.235294118 sec */
-        fixture[5] = -0.3;/* 0.294117647 sec */
+TEST(SampleRateLinearConverterTest, testDecreaseSampleRateByMinimumPushLength)
+{
+    const int convertFrom = 17;
+    const int convertTo = 4;
 
-        MemoryAudioOutput out( convertTo );
-        SampleRateLinearConverterStub filter( convertFrom, convertTo, 13 );
-        filter.setReceiver( &out );
+    const int length = 6;
+    double fixture[length];
+    fixture[0] = 0.0;/* 0 sec */
+    fixture[1] = 0.5;/* 0.058823529 sec */
+    fixture[2] = 0.7;/* 0.117647059 sec */
+    fixture[3] = 0.6;/* 0.176470588 sec */
+    fixture[4] = -0.1;/* 0.235294118 sec */
+    fixture[5] = -0.3;/* 0.294117647 sec */
 
-        double value;
-        value = fixture[0];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[1];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[2];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[3];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[4];
-        filter.push( &value, &value, 1, 0 );
-        value = fixture[5];
-        filter.push( &value, &value, 1, 0 );
+    auto out = std::make_shared<MemoryAudioOutput>(convertTo);
+    SampleRateLinearConverterStub filter( convertFrom, convertTo, 13 );
+    filter.setReceiver(out);
 
-        int expectedLength = 2; // = convertTo * (length - 1) / convertFrom + 1;
-        CPPUNIT_ASSERT_EQUAL( (uint64_t)expectedLength, out.getBufferLength() );
+    double value;
+    value = fixture[0];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[1];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[2];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[3];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[4];
+    filter.push( &value, &value, 1, 0 );
+    value = fixture[5];
+    filter.push( &value, &value, 1, 0 );
 
-        double *expected = new double[expectedLength];
-        expected[0] = /* 0 sec */ fixture[0];
-        expected[1] = /* 0.25 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (1.0 / convertTo - 4.0 / convertFrom);
+    int expectedLength = 2; // = convertTo * (length - 1) / convertFrom + 1;
+    EXPECT_EQ( (uint64_t)expectedLength, out->getBufferLength() );
 
-        double *actualLeft = new double[expectedLength];
-        double *actualRight = new double[expectedLength];
-        out.getResult( actualLeft, actualRight, expectedLength );
+    double *expected = new double[expectedLength];
+    expected[0] = /* 0 sec */ fixture[0];
+    expected[1] = /* 0.25 sec */ fixture[4] + convertFrom * (fixture[5] - fixture[4]) * (1.0 / convertTo - 4.0 / convertFrom);
 
-        for( int i = 0; i < expectedLength; i++ ){
-            ostringstream os;
-            os << "#" << i;
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "left" + os.str(), expected[i], actualLeft[i] );
-            CPPUNIT_ASSERT_EQUAL_MESSAGE( "right" + os.str(), expected[i], actualRight[i] );
-        }
+    double *actualLeft = new double[expectedLength];
+    double *actualRight = new double[expectedLength];
+    out->getResult( actualLeft, actualRight, expectedLength );
 
-        delete [] expected;
-        delete [] actualLeft;
-        delete [] actualRight;
+    for( int i = 0; i < expectedLength; i++ ){
+        EXPECT_FLOAT_EQ(expected[i], actualLeft[i]);
+        EXPECT_FLOAT_EQ(expected[i], actualRight[i]);
     }
 
-    CPPUNIT_TEST_SUITE( SampleRateLinearConverterTest );
-    CPPUNIT_TEST( testIncreaseSampleRate );
-    CPPUNIT_TEST( testDecreaseSampleRate );
-    CPPUNIT_TEST( testIncreaseSampleRateByMinimumPushLength );
-    CPPUNIT_TEST( testDecreaseSampleRateByMinimumPushLength );
-    CPPUNIT_TEST_SUITE_END();
-};
-
-REGISTER_TEST_SUITE( SampleRateLinearConverterTest );
+    delete [] expected;
+    delete [] actualLeft;
+    delete [] actualRight;
+}

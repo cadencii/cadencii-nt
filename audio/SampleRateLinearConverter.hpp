@@ -27,7 +27,7 @@ namespace audio {
      */
     class SampleRateLinearConverter : public AudioFilter {
     protected:
-        AudioReceiver *receiver;
+        std::shared_ptr<AudioReceiver> receiver;
         /**
          * @brief 変換前のサンプリングレート
          */
@@ -71,8 +71,10 @@ namespace audio {
          * @param[in] convertFrom 変換前のサンプリングレート(sec^-1)
          * @param[in] convertTo 変換後のサンプリングレート(sec^-1)
          */
-        explicit SampleRateLinearConverter(int convertFrom, int convertTo) :
-            AudioFilter(convertTo), receiver(0) {
+        explicit SampleRateLinearConverter(int convertFrom, int convertTo)
+            : AudioFilter(convertTo)
+            , receiver(0)
+        {
             bRate = convertFrom;
             aRate = convertTo;
             bFinished = 0;
@@ -100,7 +102,7 @@ namespace audio {
             }
         }
 
-        void setReceiver(AudioReceiver *receiver) {
+        void setReceiver(std::shared_ptr<AudioReceiver> const& receiver) override {
             this->receiver = receiver;
         }
 

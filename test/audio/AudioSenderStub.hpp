@@ -17,7 +17,7 @@ public:
         this->value = value;
     }
 
-    void pull( double *left, double *right, int length ){
+    void pull( double *left, double *right, int length ) override {
         for( int i = 0; i < length; i++ ){
             left[i] = value;
             right[i] = value;

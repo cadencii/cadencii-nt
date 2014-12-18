@@ -12,22 +12,24 @@ class AudioGeneratorStub : public cadencii::audio::AudioGenerator{
 private:
     double *buffer;
     int length;
-    cadencii::audio::AudioReceiver *receiver;
+    std::shared_ptr<cadencii::audio::AudioReceiver> receiver_;
 
 public:
-    explicit AudioGeneratorStub( int sampleRate, double* buffer, int length ) :
-        AudioGenerator( sampleRate ), receiver( 0 )
+    explicit AudioGeneratorStub( int sampleRate, double* buffer, int length )
+        : AudioGenerator(sampleRate)
+        , receiver_(nullptr)
     {
         this->buffer = buffer;
         this->length = length;
     }
 
-    void setReceiver( cadencii::audio::AudioReceiver *receiver ){
-        this->receiver = receiver;
+    void setReceiver(std::shared_ptr<cadencii::audio::AudioReceiver> const& receiver) override
+    {
+        this->receiver_ = receiver;
     }
 
     void start( uint64_t length ){
-        if( !receiver ) return;
+        if( !receiver_ ) return;
         const int unitBufferLength = 2048;
         double *bufferLeft = new double[unitBufferLength];
         double *bufferRight = new double[unitBufferLength];
@@ -43,7 +45,7 @@ public:
                 bufferLeft[i] = this->buffer[finished + i];
                 bufferRight[i] = this->buffer[finished + i];
             }
-            receiver->push( bufferLeft, bufferRight, amount, 0 );
+            receiver_->push( bufferLeft, bufferRight, amount, 0 );
             remainFromBuffer -= amount;
             finished += amount;
         }
@@ -57,12 +59,12 @@ public:
                 bufferLeft[i] = 0.0;
                 bufferRight[i] = 0.0;
             }
-            receiver->push( bufferLeft, bufferRight, amount, 0 );
+            receiver_->push( bufferLeft, bufferRight, amount, 0 );
             remainSilence -= amount;
             finished += amount;
         }
 
-        receiver->flush();
+        receiver_->flush();
 
         delete [] bufferLeft;
         delete [] bufferRight;

@@ -4,3 +4,6 @@
 [submodule "qt-property-browser"]
 	path = qt-property-browser
 	url = https://github.com/kbinani/qtpropertybrowser.git
+[submodule "test/ext/gtest"]
+	path = test/ext/gtest
+	url = https://github.com/svn2github/googletest.git

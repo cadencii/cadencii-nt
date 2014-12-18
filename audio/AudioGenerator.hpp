@@ -15,7 +15,8 @@
 #ifndef __cadencii_audio_AudioGenerator_hpp__
 #define __cadencii_audio_AudioGenerator_hpp__
 
-#include <stdint.h>
+#include <cstdint>
+#include <memory>
 #include "AudioReceiver.hpp"
 
 namespace cadencii {

@@ -1,9 +1,10 @@
 #include "Util.hpp"
 #include "../gui/PropertyValueProxy.hpp"
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace cadencii;
-using namespace VSQ_NS;
+using namespace vsq;
 
 class PropertyValueProxyStub : public PropertyValueProxy {
 public:
@@ -50,228 +51,28 @@ public:
     void setVibratoLength(const string &vibratoLength) { _vibratoLength = vibratoLength; }
 };
 
-class PropertyValueProxyTest : public CppUnit::TestCase {
-private:
-    Sequence sequence;
-    Event note;
-    Event note1;
-    PropertyValueProxyStub stub;
-
-public:
-    void setUp() {
+class PropertyValueProxyTest : public testing::Test
+{
+protected:
+    void SetUp() override
+    {
         sequence = Sequence("hoge", 1, 4, 4, 500000);
         note = Event(480, EventType::NOTE);
-        note.lyricHandle.setLyricAt(0, Lyric("ra", "4 a"));
-        note.setLength(480);
+        note.lyricHandle.set(0, Lyric("ra", "4 a"));
+        note.length(480);
         note.note = 60;
 
         note1 = Event(2281, EventType::NOTE);
         Lyric l("i", "i");
         l.isProtected = true;
-        note1.lyricHandle.setLyricAt(0, l);
-        note1.setLength(481);
+        note1.lyricHandle.set(0, l);
+        note1.length(481);
         note1.note = 61;
         note1.vibratoHandle = Handle(HandleType::VIBRATO);
         note1.vibratoHandle.iconId = "$04040003";
-        note1.vibratoHandle.setLength(100);
+        note1.vibratoHandle.length(100);
     }
 
-    void testCommitNoNote() {
-        stub.begin();
-        stub.commit();
-
-        string stringPropertyDefault = "";
-        int enumPropertyDefault = 0;
-
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._lyricPhrase);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._lyricPhoneticSymbol);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._lyricConsonantAdjustment);
-        CPPUNIT_ASSERT_EQUAL(enumPropertyDefault, stub._lyricProtect);
-
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._noteLength);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._noteNumber);
-
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._notelocationClock);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._notelocationMeasure);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._notelocationBeat);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._notelocationTick);
-
-        CPPUNIT_ASSERT_EQUAL(enumPropertyDefault, stub._vibratoType);
-        CPPUNIT_ASSERT_EQUAL(stringPropertyDefault, stub._vibratoLength);
-    }
-
-    void testCommitOneNote() {
-        Event note = this->note;
-        stub.begin();
-        stub.add(&note, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, 0);
-    }
-
-    void testCommitTwoNotesWithSameProperties() {
-        Event noteA = note;
-        Event noteB = note;
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, 0);
-    }
-
-    void testCommitTwoNotesLyricPhraseDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.lyricHandle.setLyricAt(0, Lyric("wa", "4 a"));
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, &stub._lyricPhrase);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._lyricPhrase);
-    }
-
-    void testCommitTwoNotesLyricPhoneticSymbolDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.lyricHandle.setLyricAt(0, Lyric("ra", "a"));
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        vector<void *> exceptList;
-        exceptList.push_back(&stub._lyricPhoneticSymbol);
-        exceptList.push_back(&stub._lyricConsonantAdjustment);
-        assertEqualToNoteExcept(&stub, exceptList);
-
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._lyricPhoneticSymbol);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._lyricConsonantAdjustment);
-    }
-
-    void testCommitTwoNotesLyricProtectDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        Lyric lyric("ra", "4 a");
-        lyric.isProtected = true;
-        noteB.lyricHandle.setLyricAt(0, lyric);
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, &stub._lyricProtect);
-        CPPUNIT_ASSERT_EQUAL(0, stub._lyricProtect);
-    }
-
-    void testCommitTwoNotesNoteLengthDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.setLength(noteA.getLength() + 1);
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, &stub._noteLength);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._noteLength);
-    }
-
-    void testCommitTwoNotesNoteNumberDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.note = noteA.note + 1;
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, &stub._noteNumber);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._noteNumber);
-    }
-
-    void testCommitTwoNotesNotelocationClockDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.clock = 3361;
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        vector<void *> exceptList;
-        exceptList.push_back(&stub._notelocationClock);
-        exceptList.push_back(&stub._notelocationMeasure);
-        exceptList.push_back(&stub._notelocationBeat);
-        exceptList.push_back(&stub._notelocationTick);
-        assertEqualToNoteExcept(&stub, exceptList);
-
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._notelocationClock);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._notelocationMeasure);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._notelocationBeat);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._notelocationTick);
-    }
-
-    void testCommitTwoNotesVibratoTypeDifferers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.vibratoHandle = Handle(HandleType::VIBRATO);
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToNoteExcept(&stub, &stub._vibratoType);
-        CPPUNIT_ASSERT_EQUAL(0, stub._vibratoType);
-    }
-
-    void testCommitTwoNotesVibratoLengthDiffers() {
-        Event noteA = note;
-        Event noteB = note;
-        noteB.vibratoHandle = Handle(HandleType::VIBRATO);
-        noteB.vibratoHandle.setLength(120);
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        vector<void *> exceptList;
-        exceptList.push_back(&stub._vibratoType);
-        exceptList.push_back(&stub._vibratoLength);
-        assertEqualToNoteExcept(&stub, exceptList);
-        CPPUNIT_ASSERT_EQUAL(0, stub._vibratoType);
-        CPPUNIT_ASSERT_EQUAL(string(""), stub._vibratoLength);
-    }
-
-    void testCommitAllPropertyDiffers() {
-        Event noteA = note;
-        Event noteB = note1;
-        stub.begin();
-        stub.add(&noteA, &sequence);
-        stub.add(&noteB, &sequence);
-        stub.commit();
-
-        assertEqualToDefault(&stub, 0);
-    }
-
-    CPPUNIT_TEST_SUITE(PropertyValueProxyTest);
-    CPPUNIT_TEST(testCommitNoNote);
-    CPPUNIT_TEST(testCommitOneNote);
-    CPPUNIT_TEST(testCommitTwoNotesWithSameProperties);
-    CPPUNIT_TEST(testCommitTwoNotesLyricPhraseDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesLyricPhoneticSymbolDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesLyricProtectDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesNoteLengthDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesNoteNumberDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesNotelocationClockDiffers);
-    CPPUNIT_TEST(testCommitTwoNotesVibratoTypeDifferers);
-    CPPUNIT_TEST(testCommitTwoNotesVibratoLengthDiffers);
-    CPPUNIT_TEST(testCommitAllPropertyDiffers);
-    CPPUNIT_TEST_SUITE_END();
-
-private:
     void assertEqualToDefault(PropertyValueProxyStub *stub, void * except) {
         vector<void *> exceptList;
         exceptList.push_back(except);
@@ -279,21 +80,21 @@ private:
     }
 
     void assertEqualToDefault(PropertyValueProxyStub *stub, const vector<void *> &exceptList) {
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhrase) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_lyricPhrase);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhoneticSymbol) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_lyricPhoneticSymbol);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricConsonantAdjustment) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_lyricConsonantAdjustment);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricProtect) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(0, stub->_lyricProtect);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhrase) == exceptList.end()) EXPECT_EQ(string(""), stub->_lyricPhrase);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhoneticSymbol) == exceptList.end()) EXPECT_EQ(string(""), stub->_lyricPhoneticSymbol);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricConsonantAdjustment) == exceptList.end()) EXPECT_EQ(string(""), stub->_lyricConsonantAdjustment);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricProtect) == exceptList.end()) EXPECT_EQ(0, stub->_lyricProtect);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_noteLength) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_noteLength);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_noteNumber) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_noteNumber);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_noteLength) == exceptList.end()) EXPECT_EQ(string(""), stub->_noteLength);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_noteNumber) == exceptList.end()) EXPECT_EQ(string(""), stub->_noteNumber);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationClock) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_notelocationClock);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationMeasure) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_notelocationMeasure);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationBeat) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_notelocationBeat);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationTick) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_notelocationTick);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationClock) == exceptList.end()) EXPECT_EQ(string(""), stub->_notelocationClock);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationMeasure) == exceptList.end()) EXPECT_EQ(string(""), stub->_notelocationMeasure);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationBeat) == exceptList.end()) EXPECT_EQ(string(""), stub->_notelocationBeat);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationTick) == exceptList.end()) EXPECT_EQ(string(""), stub->_notelocationTick);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoType) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(0, stub->_vibratoType);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoLength) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string(""), stub->_vibratoLength);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoType) == exceptList.end()) EXPECT_EQ(0, stub->_vibratoType);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoLength) == exceptList.end()) EXPECT_EQ(string(""), stub->_vibratoLength);
     }
 
     void assertEqualToNoteExcept(PropertyValueProxyStub *stub, void *except) {
@@ -303,22 +104,218 @@ private:
     }
 
     void assertEqualToNoteExcept(PropertyValueProxyStub *stub, const vector<void *> &exceptList) {
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhrase) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("ra"), stub->_lyricPhrase);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhoneticSymbol) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("4 a"), stub->_lyricPhoneticSymbol);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricConsonantAdjustment) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("64,0"), stub->_lyricConsonantAdjustment);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricProtect) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(1, stub->_lyricProtect);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhrase) == exceptList.end()) EXPECT_EQ(string("ra"), stub->_lyricPhrase);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricPhoneticSymbol) == exceptList.end()) EXPECT_EQ(string("4 a"), stub->_lyricPhoneticSymbol);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricConsonantAdjustment) == exceptList.end()) EXPECT_EQ(string("64,0"), stub->_lyricConsonantAdjustment);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_lyricProtect) == exceptList.end()) EXPECT_EQ(1, stub->_lyricProtect);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_noteLength) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("480"), stub->_noteLength);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_noteNumber) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("60"), stub->_noteNumber);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_noteLength) == exceptList.end()) EXPECT_EQ(string("480"), stub->_noteLength);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_noteNumber) == exceptList.end()) EXPECT_EQ(string("60"), stub->_noteNumber);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationClock) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("480"), stub->_notelocationClock);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationMeasure) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("0"), stub->_notelocationMeasure);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationBeat) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("2"), stub->_notelocationBeat);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationTick) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("0"), stub->_notelocationTick);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationClock) == exceptList.end()) EXPECT_EQ(string("480"), stub->_notelocationClock);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationMeasure) == exceptList.end()) EXPECT_EQ(string("0"), stub->_notelocationMeasure);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationBeat) == exceptList.end()) EXPECT_EQ(string("2"), stub->_notelocationBeat);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_notelocationTick) == exceptList.end()) EXPECT_EQ(string("0"), stub->_notelocationTick);
 
-        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoType) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(0, stub->_vibratoType);
-        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoLength) == exceptList.end()) CPPUNIT_ASSERT_EQUAL(string("0"), stub->_vibratoLength);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoType) == exceptList.end()) EXPECT_EQ(0, stub->_vibratoType);
+        if (find(exceptList.begin(), exceptList.end(), &stub->_vibratoLength) == exceptList.end()) EXPECT_EQ(string("0"), stub->_vibratoLength);
     }
+
+protected:
+    Sequence sequence;
+    Event note;
+    Event note1;
+    PropertyValueProxyStub stub;
 };
 
-REGISTER_TEST_SUITE(PropertyValueProxyTest);
+TEST_F(PropertyValueProxyTest, testCommitNoNote)
+{
+    stub.begin();
+    stub.commit();
+
+    string stringPropertyDefault = "";
+    int enumPropertyDefault = 0;
+
+    EXPECT_EQ(stringPropertyDefault, stub._lyricPhrase);
+    EXPECT_EQ(stringPropertyDefault, stub._lyricPhoneticSymbol);
+    EXPECT_EQ(stringPropertyDefault, stub._lyricConsonantAdjustment);
+    EXPECT_EQ(enumPropertyDefault, stub._lyricProtect);
+
+    EXPECT_EQ(stringPropertyDefault, stub._noteLength);
+    EXPECT_EQ(stringPropertyDefault, stub._noteNumber);
+
+    EXPECT_EQ(stringPropertyDefault, stub._notelocationClock);
+    EXPECT_EQ(stringPropertyDefault, stub._notelocationMeasure);
+    EXPECT_EQ(stringPropertyDefault, stub._notelocationBeat);
+    EXPECT_EQ(stringPropertyDefault, stub._notelocationTick);
+
+    EXPECT_EQ(enumPropertyDefault, stub._vibratoType);
+    EXPECT_EQ(stringPropertyDefault, stub._vibratoLength);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitOneNote)
+{
+    Event note = this->note;
+    stub.begin();
+    stub.add(&note, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, 0);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesWithSameProperties)
+{
+    Event noteA = note;
+    Event noteB = note;
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, 0);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesLyricPhraseDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.lyricHandle.set(0, Lyric("wa", "4 a"));
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, &stub._lyricPhrase);
+    EXPECT_EQ(string(""), stub._lyricPhrase);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesLyricPhoneticSymbolDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.lyricHandle.set(0, Lyric("ra", "a"));
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    vector<void *> exceptList;
+    exceptList.push_back(&stub._lyricPhoneticSymbol);
+    exceptList.push_back(&stub._lyricConsonantAdjustment);
+    assertEqualToNoteExcept(&stub, exceptList);
+
+    EXPECT_EQ(string(""), stub._lyricPhoneticSymbol);
+    EXPECT_EQ(string(""), stub._lyricConsonantAdjustment);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesLyricProtectDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    Lyric lyric("ra", "4 a");
+    lyric.isProtected = true;
+    noteB.lyricHandle.set(0, lyric);
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, &stub._lyricProtect);
+    EXPECT_EQ(0, stub._lyricProtect);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesNoteLengthDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.length(noteA.length() + 1);
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, &stub._noteLength);
+    EXPECT_EQ(string(""), stub._noteLength);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesNoteNumberDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.note = noteA.note + 1;
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, &stub._noteNumber);
+    EXPECT_EQ(string(""), stub._noteNumber);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesNotelocationClockDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.tick = 3361;
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    vector<void *> exceptList;
+    exceptList.push_back(&stub._notelocationClock);
+    exceptList.push_back(&stub._notelocationMeasure);
+    exceptList.push_back(&stub._notelocationBeat);
+    exceptList.push_back(&stub._notelocationTick);
+    assertEqualToNoteExcept(&stub, exceptList);
+
+    EXPECT_EQ(string(""), stub._notelocationClock);
+    EXPECT_EQ(string(""), stub._notelocationMeasure);
+    EXPECT_EQ(string(""), stub._notelocationBeat);
+    EXPECT_EQ(string(""), stub._notelocationTick);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesVibratoTypeDifferers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.vibratoHandle = Handle(HandleType::VIBRATO);
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToNoteExcept(&stub, &stub._vibratoType);
+    EXPECT_EQ(0, stub._vibratoType);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitTwoNotesVibratoLengthDiffers)
+{
+    Event noteA = note;
+    Event noteB = note;
+    noteB.vibratoHandle = Handle(HandleType::VIBRATO);
+    noteB.vibratoHandle.length(120);
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    vector<void *> exceptList;
+    exceptList.push_back(&stub._vibratoType);
+    exceptList.push_back(&stub._vibratoLength);
+    assertEqualToNoteExcept(&stub, exceptList);
+    EXPECT_EQ(0, stub._vibratoType);
+    EXPECT_EQ(string(""), stub._vibratoLength);
+}
+
+TEST_F(PropertyValueProxyTest, testCommitAllPropertyDiffers)
+{
+    Event noteA = note;
+    Event noteB = note1;
+    stub.begin();
+    stub.add(&noteA, &sequence);
+    stub.add(&noteB, &sequence);
+    stub.commit();
+
+    assertEqualToDefault(&stub, 0);
+}

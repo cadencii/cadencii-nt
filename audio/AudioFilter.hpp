@@ -33,7 +33,7 @@ namespace audio {
          * @brief オーディオ波形の受け取り先を設定する
          * @param[in] receiver オーディオ波形の受け取り先
          */
-        virtual void setReceiver(AudioReceiver *receiver) = 0;
+        virtual void setReceiver(std::shared_ptr<AudioReceiver> const& receiver) = 0;
     };
 }
 }

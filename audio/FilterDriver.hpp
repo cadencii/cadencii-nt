@@ -73,7 +73,7 @@ namespace audio {
         };
 
         AudioFilter *filter;
-        MemoryReceiver receiver;
+        std::shared_ptr<MemoryReceiver> receiver;
         AudioSender *sender;
         double *bufferLeft;
         double *bufferRight;
@@ -82,10 +82,12 @@ namespace audio {
         double *temporaryBufferRight;
 
     public:
-        explicit FilterDriver(int sampleRate, AudioFilter *filter) :
-            AudioSender(sampleRate), receiver(sampleRate) {
+        FilterDriver(int sampleRate, AudioFilter *filter)
+            : AudioSender(sampleRate)
+            , receiver(std::make_shared<MemoryReceiver>(sampleRate))
+        {
             this->filter = filter;
-            this->filter->setReceiver(&receiver);
+            this->filter->setReceiver(receiver);
             unitBufferLength = 4096;
             bufferLeft = new double[unitBufferLength];
             bufferRight = new double[unitBufferLength];
@@ -116,8 +118,8 @@ namespace audio {
                 filter->push(bufferLeft, bufferRight, amount, 0);
 
                 int actualReceivedBufferLength
-                        = receiver.getBuffer(temporaryBufferLeft,
-                                             temporaryBufferRight, amount);
+                        = receiver->getBuffer(temporaryBufferLeft,
+                                              temporaryBufferRight, amount);
                 while (0 < actualReceivedBufferLength) {
                     for (int i = 0; i < actualReceivedBufferLength; i++) {
                         left[i + finished] = temporaryBufferLeft[i];
@@ -127,8 +129,8 @@ namespace audio {
                     finished += actualReceivedBufferLength;
                     amount -= actualReceivedBufferLength;
                     actualReceivedBufferLength
-                            = receiver.getBuffer(temporaryBufferLeft,
-                                                 temporaryBufferRight, amount);
+                            = receiver->getBuffer(temporaryBufferLeft,
+                                                  temporaryBufferRight, amount);
                 }
             }
         }

@@ -1,17 +1,6 @@
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
-#include <cppunit/TestRunner.h>
-#include <cppunit/TestResult.h>
-#include <cppunit/TestResultCollector.h>
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/XmlOutputter.h>
-#include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/BriefTestProgressListener.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-
-#define REGISTER_TEST_SUITE( ATestFixtureType )      \
-  static CppUnit::AutoRegisterSuite< ATestFixtureType > CPPUNIT_JOIN( testSuite, ATestFixtureType )
+#include <libvsq/libvsq.h>
 
 class TestUtil{
 private:
@@ -27,4 +16,32 @@ public:
     }
 };
 
-#endif // UTIL_H
+#define CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(ENUM_NAME) \
+    /**																											\
+     * @fn std::basic_ostream<char, Traits>& operator << (std::basic_ostream<char, Traits>& os, ENUM_NAME v)	\
+     * @brief ENUM_NAME をストリームに書き込む.																	\
+     * @param os 書き込み先のストリーム.																			\
+     * @param v 書き込む ENUM_NAME の値.																			\
+     * @return 書き込んだ後のストリーム @a os.																		\
+     */																											\
+    template<class Traits>																						\
+    inline std::basic_ostream<char, Traits>& operator << (std::basic_ostream<char, Traits>& os, ENUM_NAME v)	\
+    {																											\
+        os << static_cast<std::underlying_type<ENUM_NAME>::type>(v);											\
+        return os;																								\
+    }
+
+LIBVSQ_BEGIN_NAMESPACE
+
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(DynamicsMode)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(PlayMode)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(HandleType)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(ArticulationType)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(EventListIndexIteratorKind)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(MidiParameterType)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(VoiceLanguage)
+CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR(EventType)
+
+LIBVSQ_END_NAMESPACE
+
+#undef CADENCII_DECLARE_ENUM_TO_OSTREAM_OPERATOR
