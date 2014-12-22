@@ -40,26 +40,26 @@ namespace cadencii {
             delete source;
         }
 
-        void start() {
+        void start() override {
             reader.setContentHandler(this);
             reader.parse(source);
         }
 
         bool startElement(
                 const QString &namespaceURI, const QString &localName,
-                const QString &qName, const QXmlAttributes &atts) {
+                const QString &qName, const QXmlAttributes &atts) override {
             onStartElement(qName.toStdString());
             return true;
         }
 
         bool endElement(
                 const QString &namespaceURI,
-                const QString &localName,  const QString &qName) {
+                const QString &localName,  const QString &qName) override {
             onEndElement(qName.toStdString());
             return true;
         }
 
-        bool characters(const QString &ch) {
+        bool characters(const QString &ch) override {
             onCharacters(ch.toStdString());
             return true;
         }

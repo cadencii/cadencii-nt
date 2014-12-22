@@ -94,15 +94,15 @@ namespace cadencii {
 
         ~ConcretePropertyView();
 
-        void setControllerAdapter(ControllerAdapter *adapter);
+        void setControllerAdapter(ControllerAdapter *adapter) override;
 
-        void *getWidget();
+        void *getWidget() override;
 
-        void updateWidget();
+        void updateWidget() override;
 
-        void statusChanged();
+        void statusChanged() override;
 
-        void setTrackIndex(int trackIndex);
+        void setTrackIndex(int trackIndex) override;
 
     public slots:
         /**

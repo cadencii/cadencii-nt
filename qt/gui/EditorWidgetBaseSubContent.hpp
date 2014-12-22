@@ -38,11 +38,11 @@ namespace cadencii {
 
         ~EditorWidgetBaseSubContent();
 
-        void drawForeground(QPainter *painter, const QRectF &rect);
+        void drawForeground(QPainter *painter, const QRectF &rect) override;
 
         void setEditorWidgetBase(EditorWidgetBase *editorWidgetBase);
 
-        void mousePressEvent(QMouseEvent *event);
+        void mousePressEvent(QMouseEvent *event) override;
 
     signals:
         /**

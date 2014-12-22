@@ -44,7 +44,7 @@ namespace cadencii {
             wait();
         }
 
-        void run() {
+        void run() override {
             while (!stopRequested) {
                 mutex.lock();
                 if (updateRequested) {

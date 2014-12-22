@@ -52,17 +52,17 @@ namespace cadencii {
 
         ~ConcreteTrackListView();
 
-        void *getWidget();
+        void *getWidget() override;
 
-        void setControllerAdapter(ControllerAdapter *controllerAdapter);
+        void setControllerAdapter(ControllerAdapter *controllerAdapter) override;
 
-        void updateWidget();
+        void updateWidget() override;
 
-        void *getScrollEventSender();
+        void *getScrollEventSender() override;
 
-        void paintMainContent(QPainter *painter, const QRect &rect);
+        void paintMainContent(QPainter *painter, const QRect &rect) override;
 
-        void paintSubContent(QPainter *painter, const QRect &rect);
+        void paintSubContent(QPainter *painter, const QRect &rect) override;
 
         void setTrackIndex(int index);
 

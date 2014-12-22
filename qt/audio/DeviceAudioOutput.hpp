@@ -49,7 +49,7 @@ namespace audio {
             delete out;
         }
 
-        void push(double *left, double *right, int length, int offset) {
+        void push(double *left, double *right, int length, int offset) override {
             if (!device) {
                 device = out->start();
             }
@@ -79,7 +79,7 @@ namespace audio {
             }
         }
 
-        void flush() { /* do nothing */ }
+        void flush() override { /* do nothing */ }
     };
 }
 }

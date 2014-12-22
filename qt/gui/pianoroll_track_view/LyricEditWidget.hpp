@@ -54,7 +54,7 @@ namespace cadencii {
             QLineEdit(parent), _event(0), symbolEditMode(false) {
         }
 
-        void keyPressEvent(QKeyEvent *event) {
+        void keyPressEvent(QKeyEvent *event) override {
             int key = event->key();
             if (Qt::Key_Tab == key) {
                 emit onCommit();

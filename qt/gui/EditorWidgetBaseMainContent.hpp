@@ -46,18 +46,18 @@ namespace cadencii {
 
         void setEditorWidgetBase(EditorWidgetBase *editorWidgetBase);
 
-        void mousePressEvent(QMouseEvent *event);
+        void mousePressEvent(QMouseEvent *event) override;
 
         /**
          * オーバーライドする。再描画処理が追加される
          */
-        void mouseMoveEvent(QMouseEvent *e);
+        void mouseMoveEvent(QMouseEvent *e) override;
 
-        void mouseReleaseEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event) override;
 
-        void mouseDoubleClickEvent(QMouseEvent *event);
+        void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-        void drawForeground(QPainter *painter, const QRectF &rect);
+        void drawForeground(QPainter *painter, const QRectF &rect) override;
 
         /**
          * スクロールされた結果、可視状態となっている領域を取得する
@@ -80,7 +80,7 @@ namespace cadencii {
          */
         void setMutex(QMutex *mutex);
 
-        void scrollContentsBy(int dx, int dy);
+        void scrollContentsBy(int dx, int dy) override;
 
         /**
          * @brief 仮想スクリーンの幅を取得する

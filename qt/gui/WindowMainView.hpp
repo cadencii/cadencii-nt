@@ -37,33 +37,33 @@ namespace cadencii {
 
         ~WindowMainView();
 
-        void setTrackView(TrackView *trackView);
+        void setTrackView(TrackView *trackView) override;
 
-        void setControlChangeView(ControlChangeView *controlChangeView);
+        void setControlChangeView(ControlChangeView *controlChangeView) override;
 
-        void setBarCountView(BarCountView *barCountView);
+        void setBarCountView(BarCountView *barCountView) override;
 
-        void setTempoView(TempoView *tempoView);
+        void setTempoView(TempoView *tempoView) override;
 
-        void setTimesigView(TimesigView *timesigView);
+        void setTimesigView(TimesigView *timesigView) override;
 
-        void setPropertyView(PropertyView *propertyView);
+        void setPropertyView(PropertyView *propertyView) override;
 
-        void setSingerListView(SingerListView *singerListView);
+        void setSingerListView(SingerListView *singerListView) override;
 
-        void setTrackListView(TrackListView *trackListView);
+        void setTrackListView(TrackListView *trackListView) override;
 
-        void setControllerAdapter(ControllerAdapter *controllerAdapter);
+        void setControllerAdapter(ControllerAdapter *controllerAdapter) override;
 
-        void updateWidget();
+        void updateWidget() override;
 
-        void setToolKind(ToolKind::ToolKindEnum kind);
+        void setToolKind(ToolKind::ToolKindEnum kind) override;
 
-        void notifyCommandHistoryChanged();
+        void notifyCommandHistoryChanged() override;
 
-        void showWidget();
+        void showWidget() override;
 
-        void setApplicationShortcutEnabled(bool value);
+        void setApplicationShortcutEnabled(bool value) override;
 
     private:
         /**

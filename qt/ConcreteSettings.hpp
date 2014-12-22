@@ -33,21 +33,21 @@ namespace cadencii {
 
         ~ConcreteSettings();
 
-        QuantizeMode::QuantizeModeEnum getQuantizeMode();
+        QuantizeMode::QuantizeModeEnum getQuantizeMode() override;
 
-        void setQuantizeMode(QuantizeMode::QuantizeModeEnum mode);
+        void setQuantizeMode(QuantizeMode::QuantizeModeEnum mode) override;
 
-        bool isGridVisible();
+        bool isGridVisible() override;
 
-        void setGridVisible(bool isVisible);
+        void setGridVisible(bool isVisible) override;
 
-        bool isAutoScroll();
+        bool isAutoScroll() override;
 
-        void setAutoScroll(bool isAutoScroll);
+        void setAutoScroll(bool isAutoScroll) override;
 
-        void save();
+        void save() override;
 
-        bool isUnderUnitTest();
+        bool isUnderUnitTest() override;
     };
 }
 

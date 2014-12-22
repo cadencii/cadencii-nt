@@ -143,27 +143,27 @@ namespace cadencii {
 
         void setTimesigList(vsq::TimesigList *timesigList);
 
-        void *getWidget();
+        void *getWidget() override;
 
-        void setDrawOffset(vsq::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset) override;
 
-        void setControllerAdapter(ControllerAdapter *controllerAdapter);
+        void setControllerAdapter(ControllerAdapter *controllerAdapter) override;
 
-        void paintMainContent(QPainter *painter, const QRect &rect);
+        void paintMainContent(QPainter *painter, const QRect &rect) override;
 
-        void paintSubContent(QPainter *painter, const QRect &rect);
+        void paintSubContent(QPainter *painter, const QRect &rect) override;
 
-        void *getScrollEventSender();
+        void *getScrollEventSender() override;
 
-        QSize getPreferredMainContentSceneSize();
+        QSize getPreferredMainContentSceneSize() override;
 
-        void ensureNoteVisible(vsq::tick_t tick, vsq::tick_t length, int noteNumber = -1);
+        void ensureNoteVisible(vsq::tick_t tick, vsq::tick_t length, int noteNumber = -1) override;
 
-        void setTrackIndex(int index);
+        void setTrackIndex(int index) override;
 
-        void updateWidget();
+        void updateWidget() override;
 
-        int getTrackViewWidth();
+        int getTrackViewWidth() override;
 
         /**
          * @brief ピアノロールのレーン1本の高さ(ピクセル単位)を設定する

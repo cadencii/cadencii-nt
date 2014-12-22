@@ -31,53 +31,53 @@ namespace cadencii {
 
         void setParent(ConcretePropertyView *parent);
 
-        std::string getLyricPhrase();
+        std::string getLyricPhrase() override;
 
-        std::string getLyricPhoneticSymbol();
+        std::string getLyricPhoneticSymbol() override;
 
-        std::string getLyricConsonantAdjustment();
+        std::string getLyricConsonantAdjustment() override;
 
-        int getLyricProtect();
+        int getLyricProtect() override;
 
-        std::string getNoteNumber();
+        std::string getNoteNumber() override;
 
-        std::string getNoteLength();
+        std::string getNoteLength() override;
 
-        std::string getNotelocationClock();
+        std::string getNotelocationClock() override;
 
-        std::string getNotelocationMeasure();
+        std::string getNotelocationMeasure() override;
 
-        std::string getNotelocationBeat();
+        std::string getNotelocationBeat() override;
 
-        std::string getNotelocationTick();
+        std::string getNotelocationTick() override;
 
-        int getVibratoType();
+        int getVibratoType() override;
 
-        std::string getVibratoLength();
+        std::string getVibratoLength() override;
 
-        void setLyricPhrase(const std::string &lyricPhrase);
+        void setLyricPhrase(const std::string &lyricPhrase) override;
 
-        void setLyricPhoneticSymbol(const std::string &lyricPhoneticSymbol);
+        void setLyricPhoneticSymbol(const std::string &lyricPhoneticSymbol) override;
 
-        void setLyricConsonantAdjustment(const std::string &lyricConsonantAdjustment);
+        void setLyricConsonantAdjustment(const std::string &lyricConsonantAdjustment) override;
 
-        void setLyricProtect(int lyricProtect);
+        void setLyricProtect(int lyricProtect) override;
 
-        void setNoteLength(const std::string &noteLength);
+        void setNoteLength(const std::string &noteLength) override;
 
-        void setNoteNumber(const std::string &noteNumber);
+        void setNoteNumber(const std::string &noteNumber) override;
 
-        void setNotelocationClock(const std::string &notelocationClock);
+        void setNotelocationClock(const std::string &notelocationClock) override;
 
-        void setNotelocationMeasure(const std::string &notelocationMeasure);
+        void setNotelocationMeasure(const std::string &notelocationMeasure) override;
 
-        void setNotelocationBeat(const std::string &notelocationBeat);
+        void setNotelocationBeat(const std::string &notelocationBeat) override;
 
-        void setNotelocationTick(const std::string &notelocationTick);
+        void setNotelocationTick(const std::string &notelocationTick) override;
 
-        void setVibratoType(int vibratoType);
+        void setVibratoType(int vibratoType) override;
 
-        void setVibratoLength(const std::string &vibratoLength);
+        void setVibratoLength(const std::string &vibratoLength) override;
     };
 }
 

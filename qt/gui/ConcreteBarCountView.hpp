@@ -30,23 +30,23 @@ namespace cadencii {
 
         ~ConcreteBarCountView();
 
-        void *getScrollEventSender();
+        void *getScrollEventSender() override;
 
-        void setControllerAdapter(ControllerAdapter *controllerAdapter);
+        void setControllerAdapter(ControllerAdapter *controllerAdapter) override;
 
-        void *getWidget();
+        void *getWidget() override;
 
-        void paintMainContent(QPainter *painter, const QRect &rect);
+        void paintMainContent(QPainter *painter, const QRect &rect) override;
 
-        void setDrawOffset(vsq::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset) override;
 
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const vsq::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine) override;
 
-        void paintSubContent(QPainter *painter, const QRect &rect);
+        void paintSubContent(QPainter *painter, const QRect &rect) override;
 
-        void updateWidget();
+        void updateWidget() override;
     };
 }
 

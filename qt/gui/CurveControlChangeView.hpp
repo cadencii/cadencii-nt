@@ -73,28 +73,28 @@ namespace cadencii {
 
         ~CurveControlChangeView();
 
-        void *getWidget();
+        void *getWidget() override;
 
-        void setDrawOffset(vsq::tick_t drawOffset);
+        void setDrawOffset(vsq::tick_t drawOffset) override;
 
-        void setControllerAdapter(ControllerAdapter *controllerAdapter);
+        void setControllerAdapter(ControllerAdapter *controllerAdapter) override;
 
-        void paintMainContent(QPainter *painter, const QRect &rect);
+        void paintMainContent(QPainter *painter, const QRect &rect) override;
 
-        void paintSubContent(QPainter *painter, const QRect &rect);
+        void paintSubContent(QPainter *painter, const QRect &rect) override;
 
-        void *getScrollEventSender();
+        void *getScrollEventSender() override;
 
-        void setTrackIndex(int index);
+        void setTrackIndex(int index) override;
 
-        void setControlChangeName(const std::string &name);
+        void setControlChangeName(const std::string &name) override;
 
-        QSize getPreferredSubContentSceneSize();
+        QSize getPreferredSubContentSceneSize() override;
 
     protected:
         void drawMeasureLine(
                 QPainter *painter, const QRect &rect, int x,
-                const vsq::MeasureLine &measureLine);
+                const vsq::MeasureLine &measureLine) override;
 
     protected slots:
         /**
@@ -121,7 +121,7 @@ namespace cadencii {
          */
         int getValueFromY(int max, int min, int y);
 
-        void updateWidget();
+        void updateWidget() override;
 
         /**
          * @brief Get draw rectangle.
