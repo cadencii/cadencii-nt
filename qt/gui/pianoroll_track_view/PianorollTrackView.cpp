@@ -43,11 +43,24 @@ namespace cadencii {
 
         // キーボードのキーの音名を作成
         keyNames = new QString[NOTE_MAX - NOTE_MIN + 1];
-        char *names[] = { "C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B" };
+        std::vector<std::string> const names = {
+            std::string("C"),
+            std::string("C#"),
+            std::string("D"),
+            std::string("Eb"),
+            std::string("E"),
+            std::string("F"),
+            std::string("F#"),
+            std::string("G"),
+            std::string("G#"),
+            std::string("A"),
+            std::string("Bb"),
+            std::string("B")
+        };
         for (int noteNumber = NOTE_MIN; noteNumber <= NOTE_MAX; noteNumber++) {
             int modura = getNoteModuration(noteNumber);
             int order = getNoteOctave(noteNumber);
-            char *name = names[modura];
+            std::string name = names[modura];
             std::ostringstream oss;
             oss << name << order;
             keyNames[noteNumber - NOTE_MIN] = QString(oss.str().c_str());
