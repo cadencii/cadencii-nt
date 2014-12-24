@@ -99,7 +99,7 @@ HEADERS  += \
     $$PWD/singing/NoteEvent.hpp \
     $$PWD/singing/Automation.hpp \
     $$PWD/singing/IWaveformReceiver.hpp \
-    $$PWD/singing/cadencii_singing_plugin_sdk.h \
+    $$PWD/singing/cadencii_synth_api.h \
     $$PWD/vsq/include/libvsq/*.* \
     $$PWD/sequence/io/XVSQFileWriter.hpp \
     $$PWD/sequence/io/XVSQSpec.hpp \

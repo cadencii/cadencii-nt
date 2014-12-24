@@ -7,3 +7,6 @@
 [submodule "test/ext/gtest"]
 	path = test/ext/gtest
 	url = https://github.com/svn2github/googletest.git
+[submodule "singing"]
+	path = singing
+	url = https://github.com/cadencii/cadencii_synth_api.git
