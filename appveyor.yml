@@ -6,6 +6,9 @@ install:
   - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
 build_script:
   - git submodule update --init --recursive
+  - pushd qt-property-browser
+  - configure.bat
+  - popd
   - qmake Cadencii.pro
   - nmake
   - copy /y "%QTDIR%\bin\Qt5Widgets.dll" bin\release
