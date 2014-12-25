@@ -17,3 +17,4 @@ build_script:
 artifacts:
   - path: artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
     type: zip
+    name: Cadencii
