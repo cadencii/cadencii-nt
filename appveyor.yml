@@ -11,9 +11,9 @@ build_script:
   - cd ..\
   - qmake Cadencii.pro
   - nmake
-  - mkdir artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
+  - mkdir "artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%"
   - copy /y bin\release\Cadencii.exe artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
-  - "%QTDIR%\bin\windeployqt.exe" artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%\Cadencii.exe
+  - call "%QTDIR%\bin\windeployqt.exe" "artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%\Cadencii.exe"
 artifacts:
-  - path: artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
+  - path: "artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%"
     type: zip
