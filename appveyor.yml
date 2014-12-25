@@ -11,10 +11,9 @@ build_script:
   - cd ..\
   - qmake Cadencii.pro
   - nmake
-  - copy /y "%QTDIR%\bin\Qt5Widgets.dll" bin\release
-  - copy /y "%QTDIR%\bin\Qt5Gui.dll" bin\release
-  - copy /y "%QTDIR%\bin\Qt5Xml.dll" bin\release
-  - copy /y "%QTDIR%\bin\Qt5Core.dll" bin\release
+  - mkdir artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
+  - copy /y bin\release\Cadencii.exe artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
+  - "%QTDIR%\bin\windeployqt.exe" artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%\Cadencii.exe
 artifacts:
-  - path: bin/release/*.exe
-  - path: bin/release/*.dll
+  - path: artifacts\Cadencii-%APPVEYOR_BUILD_VERSION%
+    type: zip
