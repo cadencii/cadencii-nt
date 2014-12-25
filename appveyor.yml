@@ -15,3 +15,6 @@ build_script:
   - copy /y "%QTDIR%\bin\Qt5Gui.dll" bin\release
   - copy /y "%QTDIR%\bin\Qt5Xml.dll" bin\release
   - copy /y "%QTDIR%\bin\Qt5Core.dll" bin\release
+artifacts:
+  - path: bin/release/*.exe
+  - path: bin/release/*.dll
